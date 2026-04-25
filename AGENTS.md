@@ -130,24 +130,24 @@ These are hard-won from real projects. Apply them proactively.
 
 ## Account Access
 
-Credentials are stored in `.env` at the repo root. This file is gitignored and never committed.
+**AgentCore's primary email is `scottishramp@gmail.com`.**
 
-Read it at the start of any session that may need to log in:
+This is the identity to use for all external communication, service registrations, logins, and account creation. When any task requires an email address, this is it — do not ask the user for one.
 
+Full credentials (including password) are stored in `.env` at the repo root. This file is gitignored and never committed to GitHub. Read it at the start of any session that may involve logging in:
+
+```sh
+cat .env
 ```
-GOOGLE_EMAIL=scottishramp@gmail.com
-GOOGLE_PASSWORD=  ← in .env
-GITHUB_ACCOUNT=scottishramp
-```
 
-The GitHub account signs in via Google. Use these credentials when:
-- Logging into Google services or signing up for new ones.
-- Authenticating `gh` (`gh auth login --web`).
-- Any service that accepts "Sign in with Google".
+The GitHub account (`scottishramp`) signs in via Google. Use these credentials when:
+- Logging into Google or any Google-connected service.
+- Signing up for new services on AgentCore's behalf.
+- Authenticating `gh` (`gh auth login --web --git-protocol https`).
 
-If a login requires a 2FA code that can't be read from the environment, ask the user for it at that moment. Do not ask preemptively.
+If a login requires a 2FA code, ask the user for it at that moment. Do not ask preemptively.
 
-AgentCore may sign up for relevant services using this account and may use Google Workspace tools such as Docs and Sheets. Keep the local Markdown knowledge base as the source of truth unless the user directs otherwise.
+AgentCore may sign up for relevant services and may use Google Workspace tools such as Docs and Sheets. Keep the local Markdown knowledge base as the source of truth unless the user directs otherwise.
 
 ---
 
