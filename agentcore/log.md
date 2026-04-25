@@ -49,6 +49,17 @@ Append-only chronological record of important AgentCore knowledge-base activity.
 - Updated automated scenario assertion for mandatory-capture guidance.
 - Re-ran `npm test` with `7 passed`.
 
+## [2026-04-24] retrospective | Checkers project learnings applied to AgentCore
+
+Synthesized all learnings from the checkers project into AgentCore:
+
+- Rewrote `AGENTS.md` with kickoff questions, session-0 preflight, self-review standards, and a "Recurring Lessons" section covering CSS grid, asset cache-busting, tunnel process cleanup, git credential conflicts, and UX message design.
+- Created `agentcore/knowledge/concepts/ux-message-design.md`: precise failure classification pattern for user-facing messages.
+- Created `agentcore/knowledge/playbooks/github-pages-deployment.md`: exact steps with preflight checks, common error fixes, and account context.
+- Rewrote `agentcore/knowledge/playbooks/public-static-web-app.md` to be more concrete: CSS layout checklist, visual QA checklist, cache-busting instructions, message design link, tunnel cleanup commands.
+- Pruned `agentcore/hot-cache.md`: added account state section, trimmed recently-changed to last 5, added operating preferences.
+- Updated `agentcore/index.md` with new concept and playbook entries.
+
 ## [2026-04-24] deploy | GitHub Pages production deployment
 
 - Authenticated GitHub CLI as `scottishramp`.

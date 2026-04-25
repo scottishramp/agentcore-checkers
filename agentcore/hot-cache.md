@@ -1,6 +1,6 @@
 # AgentCore Hot Cache
 
-Compact current-state memory for future sessions. Keep this page short and update it after meaningful project changes.
+Compact current-state memory for future sessions. Keep this page short. Trim "Recently Changed" to the last 5–7 entries only.
 
 ## Identity
 
@@ -8,40 +8,32 @@ Compact current-state memory for future sessions. Keep this page short and updat
 - The user assigns projects and expects high-autonomy execution.
 - Durable memory lives in this repository under `agentcore/`.
 
+## Account State
+
+- Google account: `scottishramp@gmail.com`
+- GitHub account: `scottishramp` (signs in via Google)
+- GitHub CLI: authenticated as `scottishramp` (verify with `gh auth status`)
+- GitHub repo in use: `scottishramp/agentcore-checkers`
+
 ## Current State
 
-- Initial knowledge-base structure created on 2026-04-24.
-- Active project: `agentcore/knowledge/projects/checkers-web-game.md`.
-- Checkers game is built as a dependency-free static app at repo root.
-- Deployed to GitHub Pages: https://scottishramp.github.io/agentcore-checkers/
-- GitHub repo: https://github.com/scottishramp/agentcore-checkers
-- GitHub CLI authenticated as `scottishramp`.
-- QA update: desktop/mobile visual pass completed; interaction feedback polish added to `styles.css`.
-- Latest fix pass resolved board row squish and improved legal-move guidance messaging/highlighting.
-- User-test suite now exists with automated Playwright scenarios; latest run: `7 passed`.
+- One delivered project: checkers game, live at https://scottishramp.github.io/agentcore-checkers/
+- No open blockers.
+- No active projects beyond checkers.
 
 ## Operating Preferences
 
-- Use local Markdown files as the source of truth.
-- Preserve raw sources separately from synthesized knowledge.
-- Ask for 2FA or login help only when actually blocked.
-- Do not persist plaintext secrets in the repo.
-- On new projects: ask kickoff questions, prototype first, test local first, self-review, then ask the user to review.
-- Define prototype test scenarios up front and validate against them before user review.
-- Shut down temporary tunnels after review unless explicitly asked to keep them up.
+- Kickoff questions before building, always — even for "simple" projects.
+- Prototype first, local-first, test scenarios first.
+- Self-review must include real visual inspection of screenshots, not just capture.
+- Status messages are testable behavior — write assertions for them.
+- Shut down temporary tunnels after review unless user asks to keep them.
+- Keep recently-changed list short (last 5–7 only).
 
 ## Recently Changed
 
-- `AGENTS.md`
-- `README.md`
-- `index.html`
-- `styles.css`
-- `game.js`
-- `agentcore/README.md`
-- `agentcore/index.md`
-- `agentcore/log.md`
-- `agentcore/blockers.md`
-- `agentcore/hot-cache.md`
-- `agentcore/knowledge/projects/checkers-web-game.md`
-- `agentcore/knowledge/decisions/2026-04-24-static-first-web-apps.md`
-- `agentcore/knowledge/playbooks/public-static-web-app.md`
+- `AGENTS.md` — full rewrite with preflight, self-review, and gotchas
+- `agentcore/knowledge/concepts/ux-message-design.md` — new concept page
+- `agentcore/knowledge/playbooks/github-pages-deployment.md` — new playbook
+- `agentcore/knowledge/playbooks/public-static-web-app.md` — major update
+- `agentcore/hot-cache.md` — this file

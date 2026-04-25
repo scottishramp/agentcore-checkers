@@ -8,47 +8,124 @@ confidence: high
 related:
   - ../projects/checkers-web-game.md
   - ../decisions/2026-04-24-static-first-web-apps.md
+  - ./github-pages-deployment.md
+  - ../concepts/ux-message-design.md
 ---
 
 # Playbook: Public Static Web App
 
-Use this for small public web deliverables that do not need accounts, persistence, or a backend.
+Use this for small public web deliverables (games, tools, demos) that do not need accounts, persistence, or a backend.
 
-## Fast Path
+## Kickoff Questions
 
-1. Start with kickoff questions: acceptance criteria, design preferences, and deployment expectation (temporary preview vs durable hosting).
-2. Build a prototype first with `index.html`, `styles.css`, and focused JavaScript.
-3. Write a prototype test-scenarios list (happy path, edge cases, and obvious UX failure modes).
-4. Verify syntax with `node --check` when JavaScript is present.
-5. Serve locally with `python3 -m http.server PORT`.
-6. Verify local response with `curl -I http://localhost:PORT/index.html`.
-7. Perform a self-review pass (visual and interaction checks) against the scenarios before sharing.
-8. Build an executable user-test suite when feasible (for example Playwright scenarios) and run it.
-9. Ask the user to review local/prototype quality.
-10. Expose temporarily with `lt --port PORT` only when external access is needed.
-11. Verify the public URL with `curl -I`.
-12. Kill the tunnel after review unless the user explicitly wants it left on.
+Ask these before building:
 
-## Durable Publishing
+1. What does the user want to see and do? (acceptance criteria)
+2. How do you want to view the prototype? (local browser, shared URL)
+3. Where should the final version live? (local only, GitHub Pages, Netlify, other)
+4. Design preferences? (style, color scheme, layout)
 
-Use one of these when authentication is available:
+## Session-0 Preflight
 
-- GitHub Pages for repo-backed static sites.
-- Netlify, Vercel, or Cloudflare Pages for quick static deployments.
-- Object storage with website hosting for simple permanent URLs.
+Check before writing code:
 
-## AgentCore Improvement
+```sh
+git status          # is this already a git repo?
+gh auth status      # is gh authenticated as the right account?
+which gh netlify vercel surge   # what deploy tools are available?
+```
 
-At the start of public web projects, check whether:
+## Build Phase
 
-- The workspace is a git repo.
-- `gh` is authenticated if GitHub Pages is the likely target.
-- A preferred static host exists.
-- The user expects a durable URL or a temporary live preview is acceptable.
-- The prototype can be fully tested locally before any public exposure.
+1. `index.html`, `styles.css`, focused JavaScript — no framework unless clearly needed.
+2. Write a test-scenario list (happy path, edge cases, UX failure modes) before building UI interactions.
+3. Add `?v=BUILD-ID` to `<link>` and `<script>` tags so browser cache is invalidated on each fix:
+   ```html
+   <link rel="stylesheet" href="styles.css?v=20260424a">
+   <script src="game.js?v=20260424a"></script>
+   ```
+4. `node --check game.js` for syntax.
 
-During UX feedback passes:
+## CSS Layout Checklist
 
-- Treat status messages as testable behavior, not cosmetic text.
-- Prefer precise guidance that explains *why* an action is rejected (for example, blocked path vs mandatory capture rule).
-- Add or update automated assertions when message logic changes.
+- Set **both** `grid-template-columns` and `grid-template-rows` when using CSS Grid with equal cell sizing.
+- Use `aspect-ratio: 1` on square containers.
+- Use `min()` and `clamp()` for responsive sizing.
+
+## Local Verification
+
+```sh
+python3 -m http.server 4173
+curl -I http://localhost:4173/index.html
+```
+
+## Visual QA (do this, don't just take the screenshot)
+
+Take screenshots at:
+
+- Desktop (1280×900 or similar)
+- Mobile (390×844 or similar)
+
+Then **look at them** and check:
+
+- [ ] All rows and columns equal-sized
+- [ ] No clipped or overflowing content
+- [ ] Pieces/elements are correctly placed
+- [ ] Status messages are present and readable
+- [ ] Controls (buttons) are visible and reachable
+- [ ] Tip/hint text is not cut off
+
+## Automated Test Suite
+
+Install once per project:
+
+```sh
+npm install -D @playwright/test && npx playwright install chromium
+```
+
+Wire a test API into the page for state injection (board positions, game state) so scenarios can be set up without playing through full games.
+
+Run before every user review:
+
+```sh
+npm test
+```
+
+## Status Messages
+
+All user-facing messages must:
+
+- Classify the **exact** failure reason (not a catch-all).
+- Tell the user what to do next.
+- Have an automated assertion.
+
+See `agentcore/knowledge/concepts/ux-message-design.md`.
+
+## User Review
+
+- Tell the user the local URL and how to hard refresh.
+- Ask: "Does this look and feel right?"
+- When a bug is reported: reproduce it as a test scenario, fix it, run full suite, then report back.
+
+## Temporary Public Preview (if needed)
+
+```sh
+lt --port 4173   # localtunnel
+```
+
+After review, kill all tunnel processes:
+
+```sh
+# Kill parent and child
+ps -ax | awk '/lt --port/ { print $1 }' | xargs kill 2>/dev/null
+curl -I https://YOUR-URL.loca.lt   # should return 503
+```
+
+## Durable Deployment
+
+See `agentcore/knowledge/playbooks/github-pages-deployment.md` for GitHub Pages (preferred when `gh` is authenticated).
+
+Alternatives when `gh` is not available:
+- Netlify: `npx netlify-cli deploy --prod`
+- Surge: `npx surge ./`
+- Vercel: `npx vercel --prod`

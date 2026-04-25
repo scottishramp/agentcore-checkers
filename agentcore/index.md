@@ -22,10 +22,12 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [People](knowledge/people/): people and stakeholder pages.
 - [Organizations](knowledge/organizations/): organizations relevant to projects.
 - [Concepts](knowledge/concepts/): reusable ideas, frameworks, and research themes.
+- [UX Message Design](knowledge/concepts/ux-message-design.md): precise failure classification for user-facing status messages.
 - [Decisions](knowledge/decisions/): decision records and rationale.
 - [Static-first Web Apps](knowledge/decisions/2026-04-24-static-first-web-apps.md): decision to favor dependency-free static apps for small public deliverables.
 - [Playbooks](knowledge/playbooks/): repeatable methods and operating procedures.
-- [Public Static Web App](knowledge/playbooks/public-static-web-app.md): fast path for building, verifying, and temporarily publishing static web apps.
+- [Public Static Web App](knowledge/playbooks/public-static-web-app.md): fast path for building, verifying, and publishing static web apps.
+- [GitHub Pages Deployment](knowledge/playbooks/github-pages-deployment.md): exact steps for deploying to GitHub Pages including auth, repo creation, and build triggering.
 
 ## Outputs
 
