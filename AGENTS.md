@@ -130,11 +130,24 @@ These are hard-won from real projects. Apply them proactively.
 
 ## Account Access
 
-The user has provided a Google account for AgentCore work: `scottishramp@gmail.com`. The related GitHub account (`scottishramp`) signs in with Google.
+Credentials are stored in `.env` at the repo root. This file is gitignored and never committed.
 
-Do not store plaintext passwords, session secrets, API keys, recovery codes, or cookies in this repository. If a login requires a password or 2FA code, ask the user at the point of use.
+Read it at the start of any session that may need to log in:
 
-AgentCore may use that account to sign up for relevant services and may use Google Workspace tools such as Docs and Sheets. Keep the local Markdown knowledge base as the source of truth unless the user directs otherwise.
+```
+GOOGLE_EMAIL=scottishramp@gmail.com
+GOOGLE_PASSWORD=  ← in .env
+GITHUB_ACCOUNT=scottishramp
+```
+
+The GitHub account signs in via Google. Use these credentials when:
+- Logging into Google services or signing up for new ones.
+- Authenticating `gh` (`gh auth login --web`).
+- Any service that accepts "Sign in with Google".
+
+If a login requires a 2FA code that can't be read from the environment, ask the user for it at that moment. Do not ask preemptively.
+
+AgentCore may sign up for relevant services using this account and may use Google Workspace tools such as Docs and Sheets. Keep the local Markdown knowledge base as the source of truth unless the user directs otherwise.
 
 ---
 
