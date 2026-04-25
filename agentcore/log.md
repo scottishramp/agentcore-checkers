@@ -48,3 +48,11 @@ Append-only chronological record of important AgentCore knowledge-base activity.
   - mandatory capture with another piece
 - Updated automated scenario assertion for mandatory-capture guidance.
 - Re-ran `npm test` with `7 passed`.
+
+## [2026-04-24] deploy | GitHub Pages production deployment
+
+- Authenticated GitHub CLI as `scottishramp`.
+- Initialized git repo, created public repo `scottishramp/agentcore-checkers`, pushed to `main`.
+- Enabled GitHub Pages from `main` branch root.
+- Confirmed live at https://scottishramp.github.io/agentcore-checkers/ (HTTP 200).
+- Resolved durable hosting blocker.

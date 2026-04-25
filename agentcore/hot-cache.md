@@ -13,8 +13,9 @@ Compact current-state memory for future sessions. Keep this page short and updat
 - Initial knowledge-base structure created on 2026-04-24.
 - Active project: `agentcore/knowledge/projects/checkers-web-game.md`.
 - Checkers game is built as a dependency-free static app at repo root.
-- Prototype/review phase completed; tunnel was intentionally shut down.
-- Open blocker: durable hosting needs a git repo plus authenticated static hosting path.
+- Deployed to GitHub Pages: https://scottishramp.github.io/agentcore-checkers/
+- GitHub repo: https://github.com/scottishramp/agentcore-checkers
+- GitHub CLI authenticated as `scottishramp`.
 - QA update: desktop/mobile visual pass completed; interaction feedback polish added to `styles.css`.
 - Latest fix pass resolved board row squish and improved legal-move guidance messaging/highlighting.
 - User-test suite now exists with automated Playwright scenarios; latest run: `7 passed`.

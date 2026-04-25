@@ -4,14 +4,7 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ## Open Blockers
 
-### 2026-04-24 | Checkers web game | Durable public hosting
-
-- Status: open
-- Blocker: The game is currently local-only after the temporary tunnel was shut down, and the workspace is not a git repo while the GitHub CLI is unauthenticated for durable publishing.
-- Why it matters: The game is no longer publicly reachable until a durable host is configured.
-- Proposed default: Use GitHub Pages for durable hosting once GitHub authentication is available, unless the user prefers Netlify, Vercel, Cloudflare Pages, or another static host.
-- Needed from user: Confirm preferred durable host or provide/login through the selected service when ready.
-- Resolution:
+No open blockers.
 
 ## Blocker Template
 
@@ -28,4 +21,8 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ## Resolved Blockers
 
-No resolved blockers yet.
+### 2026-04-24 | Checkers web game | Durable public hosting
+
+- Status: resolved
+- Blocker: Workspace was not a git repo and GitHub CLI was unauthenticated.
+- Resolution: Authenticated `gh` as `scottishramp`, created public repo `agentcore-checkers`, enabled GitHub Pages. Live at https://scottishramp.github.io/agentcore-checkers/

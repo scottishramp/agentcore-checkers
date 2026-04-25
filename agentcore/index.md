@@ -17,7 +17,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 ## Knowledge
 
 - [Projects](knowledge/projects/): active and historical project pages.
-- [Checkers Web Game](knowledge/projects/checkers-web-game.md): two-player browser checkers project completed through prototype and review, pending durable public deployment.
+- [Checkers Web Game](knowledge/projects/checkers-web-game.md): two-player browser checkers, live at https://scottishramp.github.io/agentcore-checkers/
 - [Clients](knowledge/clients/): client and sponsor pages.
 - [People](knowledge/people/): people and stakeholder pages.
 - [Organizations](knowledge/organizations/): organizations relevant to projects.

@@ -1,7 +1,7 @@
 ---
 title: Checkers Web Game
 type: project
-status: prototype-reviewed
+status: live
 created: 2026-04-24
 updated: 2026-04-25
 client: Brian Herbert
@@ -20,11 +20,9 @@ Create a two-player checkers game that is publicly available on the web.
 
 ## Current Status
 
-- Built a dependency-free static web app at the repository root.
-- Local server: `python3 -m http.server 4173`
-- Public tunnel: stopped per user request after review phase.
-
-Durable hosting is still tracked in `../../blockers.md`.
+- Live on GitHub Pages: https://scottishramp.github.io/agentcore-checkers/
+- GitHub repo: https://github.com/scottishramp/agentcore-checkers
+- Local dev: `python3 -m http.server 4173`
 
 ## Deliverables
 
@@ -83,4 +81,5 @@ Durable hosting is still tracked in `../../blockers.md`.
 
 ## Next Actions
 
-- If durable hosting is required, initialize a repo and publish via GitHub Pages, Netlify, Vercel, or Cloudflare Pages after login/auth is available.
+- Monitor for any user-reported issues on the live site.
+- Future updates: push to `main` branch; GitHub Pages rebuilds automatically.
