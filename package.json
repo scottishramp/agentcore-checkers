@@ -1,0 +1,17 @@
+{
+  "name": "myagent",
+  "version": "1.0.0",
+  "description": "A dependency-free, browser-based checkers game for two local players.",
+  "main": "game.js",
+  "scripts": {
+    "test": "npm run test:user",
+    "test:user": "playwright test tests/checkers.user.spec.js",
+    "test:user:headed": "playwright test tests/checkers.user.spec.js --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1"
+  }
+}
