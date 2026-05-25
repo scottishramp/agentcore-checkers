@@ -2,6 +2,13 @@
 
 Temporary holding area for unprocessed notes, links, pasted text, files, or task fragments.
 
+Subfolders:
+
+- `email/` normalized inbound email records.
+- `drive/` normalized inbound Google Drive document records.
+- `photos/` normalized inbound Android photo upload records.
+- `tasks/` queued task files generated from inbound task intent.
+
 When processing inbox material:
 
 1. Decide whether it belongs in `sources/`, `knowledge/`, `outputs/`, or `blockers.md`.

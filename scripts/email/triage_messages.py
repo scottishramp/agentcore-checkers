@@ -1,0 +1,239 @@
+#!/usr/bin/env python3
+"""Normalize fetched email records and enqueue task files."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+from pathlib import Path
+
+from common import (
+    compact_whitespace,
+    ensure_dir,
+    make_thread_key,
+    read_json,
+    sanitize_filename,
+    utc_now_iso,
+    write_json,
+)
+from task_queue import next_task_id
+
+
+DEFAULT_INPUT_PATH = ".agentcore/state/email-fetch/latest.json"
+DEFAULT_SUMMARY_PATH = ".agentcore/state/email-sync-summary.json"
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Classify and store fetched inbox emails.")
+    parser.add_argument("--input", default=DEFAULT_INPUT_PATH, help="Path to fetch output JSON.")
+    parser.add_argument("--email-dir", default="agentcore/inbox/email", help="Markdown output directory for email records.")
+    parser.add_argument("--task-dir", default="agentcore/inbox/tasks", help="Markdown output directory for task queue records.")
+    parser.add_argument("--summary-output", default=DEFAULT_SUMMARY_PATH, help="Path for machine-readable triage summary.")
+    return parser.parse_args()
+
+
+TASK_HINTS = (
+    "please",
+    "implement",
+    "build",
+    "create",
+    "fix",
+    "set up",
+    "start",
+    "ship",
+    "deploy",
+    "work on",
+)
+
+QUESTION_HINTS = ("?", "can you", "could you", "what", "how", "when", "why", "should we")
+ANSWER_HINTS = ("yes", "no", "approved", "sounds good", "do this", "that works")
+UPDATE_HINTS = ("fyi", "for context", "status", "update", "heads up")
+
+
+def classify_message(subject: str, body: str) -> str:
+    haystack = f"{subject}\n{body}".lower()
+    normalized = compact_whitespace(haystack)
+
+    if any(hint in normalized for hint in TASK_HINTS):
+        return "task"
+    if any(hint in normalized for hint in QUESTION_HINTS):
+        return "question"
+    if subject.lower().startswith("re:") and any(hint in normalized for hint in ANSWER_HINTS):
+        return "answer"
+    if any(hint in normalized for hint in UPDATE_HINTS):
+        return "update"
+    return "update"
+
+
+def requires_response(classification: str, subject: str, body: str) -> bool:
+    text = f"{subject}\n{body}".lower()
+    if classification in {"question", "answer"}:
+        return True
+    return any(token in text for token in ("?", "please confirm", "let me know"))
+
+
+def summarize_body(body: str, limit: int = 220) -> str:
+    summary = compact_whitespace(body)
+    return summary[:limit] + ("..." if len(summary) > limit else "")
+
+
+def normalized_email_filename(record: dict) -> str:
+    uid = record.get("uid", "unknown")
+    message_id = sanitize_filename(str(record.get("message_id", "")), fallback=f"uid-{uid}")
+    return f"email__uid-{uid}__{message_id}.md"
+
+
+def write_email_record(path: Path, record: dict, classification: str, needs_response: bool) -> bool:
+    if path.exists():
+        return False
+
+    metadata = {
+        "uid": record.get("uid", ""),
+        "message_id": record.get("message_id", ""),
+        "thread_key": make_thread_key(
+            str(record.get("message_id", "")),
+            str(record.get("subject", "")),
+        ),
+        "from_email": record.get("from_email", ""),
+        "subject": record.get("subject", ""),
+        "received_at": record.get("received_at", ""),
+        "classification": classification,
+        "requires_response": needs_response,
+        "triaged_at": utc_now_iso(),
+    }
+
+    body = str(record.get("body_text", "")).strip()
+    lines = [
+        "---",
+        f'uid: "{metadata["uid"]}"',
+        f'message_id: "{metadata["message_id"]}"',
+        f'thread_key: "{metadata["thread_key"]}"',
+        f'from_email: "{metadata["from_email"]}"',
+        f'subject: "{metadata["subject"]}"',
+        f'received_at: "{metadata["received_at"]}"',
+        f'classification: "{metadata["classification"]}"',
+        f"requires_response: {str(metadata['requires_response']).lower()}",
+        f'triaged_at: "{metadata["triaged_at"]}"',
+        "---",
+        "",
+        "## Raw Body",
+        "",
+        body if body else "_No body content parsed._",
+        "",
+    ]
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return True
+
+
+def normalized_task_filename(record: dict) -> str:
+    uid = record.get("uid", "unknown")
+    subject_slug = sanitize_filename(str(record.get("subject", "")), fallback=f"uid-{uid}")
+    return f"task__uid-{uid}__{subject_slug}.md"
+
+
+def write_task_record(path: Path, record: dict) -> bool:
+    if path.exists():
+        return False
+
+    body = str(record.get("body_text", "")).strip()
+    task_title = compact_whitespace(str(record.get("subject", ""))) or f"Inbound task from uid {record.get('uid', 'unknown')}"
+    body_summary = summarize_body(body)
+    thread_key = str(record.get("thread_key", ""))
+    task_id = next_task_id(str(record.get("uid", "")), thread_key)
+    now = utc_now_iso()
+    lines = [
+        "---",
+        f'task_id: "{task_id}"',
+        'status: "queued"',
+        'priority: "normal"',
+        f'source_message_id: "{record.get("message_id", "")}"',
+        f'source_uid: "{record.get("uid", "")}"',
+        f'source_from: "{record.get("from_email", "")}"',
+        f'source_subject: "{task_title}"',
+        f'thread_key: "{thread_key}"',
+        f'queued_at: "{now}"',
+        f'updated_at: "{now}"',
+        "attempts: 0",
+        'claimed_at: ""',
+        'run_id: ""',
+        'completed_at: ""',
+        'snagged_at: ""',
+        'last_error: ""',
+        'result_path: ""',
+        "---",
+        "",
+        f"# {task_title}",
+        "",
+        "## Requested Work",
+        "",
+        body if body else "_No body content parsed._",
+        "",
+        "## Intake Notes",
+        "",
+        f"- Task ID: {task_id}",
+        f"- Summary: {body_summary if body_summary else 'No summary available.'}",
+        f"- Thread key: {thread_key}",
+        "- Suggested next step: review and convert to active project task.",
+        "",
+    ]
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return True
+
+
+def main() -> int:
+    args = parse_args()
+    input_path = Path(args.input)
+    if not input_path.exists():
+        raise FileNotFoundError(f"Fetch output not found: {input_path}")
+
+    data = read_json(input_path, default={})
+    messages = data.get("messages", [])
+    if not isinstance(messages, list):
+        raise ValueError("Invalid fetch input: messages must be a list.")
+
+    email_dir = Path(args.email_dir)
+    task_dir = Path(args.task_dir)
+    ensure_dir(email_dir)
+    ensure_dir(task_dir)
+
+    normalized_count = 0
+    tasks_created = 0
+    classifications: dict[str, int] = {"question": 0, "answer": 0, "task": 0, "update": 0}
+
+    for item in messages:
+        if not isinstance(item, dict):
+            continue
+        subject = str(item.get("subject", ""))
+        body = str(item.get("body_text", ""))
+        classification = classify_message(subject, body)
+        classifications[classification] = classifications.get(classification, 0) + 1
+        needs_response = requires_response(classification, subject, body)
+
+        email_filename = normalized_email_filename(item)
+        email_path = email_dir / email_filename
+        if write_email_record(email_path, item, classification, needs_response):
+            normalized_count += 1
+
+        if classification == "task":
+            task_filename = normalized_task_filename(item)
+            task_path = task_dir / task_filename
+            if write_task_record(task_path, item):
+                tasks_created += 1
+
+    summary = {
+        "triaged_at": utc_now_iso(),
+        "source_file": str(input_path),
+        "messages_in_payload": len(messages),
+        "normalized_count": normalized_count,
+        "tasks_created": tasks_created,
+        "classifications": classifications,
+    }
+    write_json(Path(args.summary_output), summary)
+
+    print(json.dumps(summary))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

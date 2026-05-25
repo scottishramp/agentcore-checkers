@@ -6,7 +6,21 @@
   "scripts": {
     "test": "npm run test:user",
     "test:user": "playwright test tests/checkers.user.spec.js",
-    "test:user:headed": "playwright test tests/checkers.user.spec.js --headed"
+    "test:user:headed": "playwright test tests/checkers.user.spec.js --headed",
+    "chat:send": "python3 scripts/chat/send_direct_message.py",
+    "email:oauth": "python3 scripts/email/gmail_oauth_setup.py",
+    "email:ask": "python3 scripts/email/send_message.py",
+    "email:fetch": "python3 scripts/email/fetch_inbox.py",
+    "email:triage": "python3 scripts/email/triage_messages.py",
+    "email:sync": "npm run email:fetch && npm run email:triage",
+    "ingest:drive": "python3 scripts/ingest/ingest_drive_updates.py",
+    "ingest:summary": "python3 scripts/ingest/build_ingestion_summary.py",
+    "ingest:dispatch": "python3 scripts/ingest/dispatch_runner_trigger.py",
+    "ingest:publish": "python3 scripts/ingest/publish_ingestion_updates.py",
+    "email:claim": "python3 scripts/email/claim_next_task.py",
+    "email:run-task": "python3 scripts/email/run_task_adapter.py",
+    "email:finalize-task": "python3 scripts/email/finalize_task.py",
+    "email:notify-task": "python3 scripts/email/send_task_status.py"
   },
   "keywords": [],
   "author": "",

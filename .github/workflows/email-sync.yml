@@ -1,0 +1,115 @@
+name: AgentCore Email Sync
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  sync-inbox:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Prepare directories
+        run: mkdir -p .agentcore/state agentcore/inbox/email agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks agentcore/knowledge/communications
+
+      - name: Fetch inbox
+        env:
+          AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
+          AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+        run: python3 scripts/email/fetch_inbox.py --limit 30 --bootstrap-window 120
+
+      - name: Triage messages
+        run: python3 scripts/email/triage_messages.py
+
+      - name: Ingest Drive docs and photos
+        env:
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_DRIVE_DOCS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_DOCS_FOLDER_ID }}
+          AGENTCORE_DRIVE_PHOTOS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_PHOTOS_FOLDER_ID }}
+          AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME: ${{ secrets.AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME || 'false' }}
+        run: python3 scripts/ingest/ingest_drive_updates.py
+
+      - name: Build combined ingestion summary
+        run: python3 scripts/ingest/build_ingestion_summary.py
+
+      - name: Publish deterministic ingestion updates
+        env:
+          AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
+          AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+        run: python3 scripts/ingest/publish_ingestion_updates.py --send-policy changes
+
+      - name: Dispatch async runner (event trigger)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+        run: python3 scripts/ingest/dispatch_runner_trigger.py
+
+      - name: Publish sync summary
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          email_path = Path(".agentcore/state/email-sync-summary.json")
+          drive_path = Path(".agentcore/state/drive-ingest-summary.json")
+          ingest_path = Path(".agentcore/state/ingestion-summary.json")
+          email = json.loads(email_path.read_text(encoding="utf-8")) if email_path.exists() else {}
+          drive = json.loads(drive_path.read_text(encoding="utf-8")) if drive_path.exists() else {}
+          ingest = json.loads(ingest_path.read_text(encoding="utf-8")) if ingest_path.exists() else {}
+          lines = [
+              "# AgentCore Ingestion Sync",
+              "",
+              f"- Generated at: {ingest.get('generated_at', '')}",
+              f"- Email normalized: {email.get('normalized_count', 0)}",
+              f"- Drive records: {drive.get('records_created', 0)}",
+              f"- Photo records: {drive.get('photos_created', 0)}",
+              f"- Tasks created total: {(ingest.get('totals') or {}).get('tasks_created', 0)}",
+              f"- Reason codes: {ingest.get('reason_codes', [])}",
+              f"- Errors: {ingest.get('errors', [])}",
+          ]
+          output = "\n".join(lines) + "\n"
+          Path(".agentcore/state/ingestion-summary.md").write_text(output, encoding="utf-8")
+
+          step_summary = Path(__import__("os").environ["GITHUB_STEP_SUMMARY"])
+          step_summary.write_text(output, encoding="utf-8")
+          PY
+
+      - name: Upload summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ingestion-sync-summary
+          path: |
+            .agentcore/state/email-sync-summary.json
+            .agentcore/state/drive-ingest-summary.json
+            .agentcore/state/ingestion-summary.json
+            .agentcore/state/ingestion-summary.md
+            agentcore/knowledge/communications/ingestion-ledger.md

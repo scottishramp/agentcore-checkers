@@ -1,0 +1,233 @@
+name: AgentCore Async Runner
+
+on:
+  schedule:
+    - cron: "5 * * * *"
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["AgentCore Email Sync"]
+    types:
+      - completed
+
+concurrency:
+  group: agentcore-async-runner
+  cancel-in-progress: false
+
+jobs:
+  run-queued-task:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Prepare directories
+        run: mkdir -p .agentcore/state .agentcore/state/task-runs agentcore/inbox/email agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks
+
+      - name: Restore queue state cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .agentcore/state/email-last-uid.json
+            .agentcore/state/drive-ingest-state.json
+            agentcore/inbox/email
+            agentcore/inbox/drive
+            agentcore/inbox/photos
+            agentcore/inbox/tasks
+          key: agentcore-queue-state-${{ github.run_id }}
+          restore-keys: |
+            agentcore-queue-state-
+
+      - name: Fetch inbox
+        env:
+          AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
+          AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+        run: python3 scripts/email/fetch_inbox.py --limit 30 --bootstrap-window 120
+
+      - name: Triage messages
+        run: python3 scripts/email/triage_messages.py
+
+      - name: Ingest Drive docs and photos
+        env:
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_DRIVE_DOCS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_DOCS_FOLDER_ID }}
+          AGENTCORE_DRIVE_PHOTOS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_PHOTOS_FOLDER_ID }}
+          AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME: ${{ secrets.AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME || 'false' }}
+        run: python3 scripts/ingest/ingest_drive_updates.py
+
+      - name: Claim next queued task
+        run: python3 scripts/email/claim_next_task.py --output .agentcore/state/task-claim.json --runner-id "${GITHUB_RUN_ID}"
+
+      - name: Read claim result
+        id: claim
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          import os
+
+          claim_path = Path(".agentcore/state/task-claim.json")
+          claim = json.loads(claim_path.read_text(encoding="utf-8")) if claim_path.exists() else {}
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+            fh.write(f"claimed={str(bool(claim.get('claimed'))).lower()}\n")
+            fh.write(f"task_file={claim.get('task_file', '')}\n")
+            fh.write(f"task_id={claim.get('task_id', '')}\n")
+            fh.write(f"thread_key={claim.get('thread_key', '')}\n")
+          PY
+
+      - name: Send running notification
+        if: steps.claim.outputs.claimed == 'true'
+        env:
+          AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
+          AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+        run: |
+          python3 scripts/email/send_task_status.py \
+            --task-file "${{ steps.claim.outputs.task_file }}" \
+            --status running \
+            --project AsyncLoop
+
+      - name: Execute task adapter
+        if: steps.claim.outputs.claimed == 'true'
+        env:
+          AGENTCORE_TASK_RUN_COMMAND: ${{ secrets.AGENTCORE_TASK_RUN_COMMAND }}
+          AGENTCORE_TASK_RUN_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_TASK_RUN_TIMEOUT_SECONDS || '900' }}
+        run: |
+          python3 scripts/email/run_task_adapter.py \
+            --task-file "${{ steps.claim.outputs.task_file }}" \
+            --output .agentcore/state/task-run-result.json
+
+      - name: Finalize task queue status
+        if: steps.claim.outputs.claimed == 'true'
+        run: |
+          python3 scripts/email/finalize_task.py \
+            --task-file "${{ steps.claim.outputs.task_file }}" \
+            --result-json .agentcore/state/task-run-result.json
+
+      - name: Read final result
+        id: result
+        if: steps.claim.outputs.claimed == 'true'
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          import os
+
+          path = Path(".agentcore/state/task-run-result.json")
+          result = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+          status = str(result.get("status", "snag")).lower() or "snag"
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+            fh.write(f"status={status}\n")
+            fh.write(f"run_id={result.get('run_id', '')}\n")
+          PY
+
+      - name: Send completion notification
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done'
+        env:
+          AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
+          AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+        run: |
+          python3 scripts/email/send_task_status.py \
+            --task-file "${{ steps.claim.outputs.task_file }}" \
+            --status done \
+            --result-json .agentcore/state/task-run-result.json \
+            --project AsyncLoop
+
+      - name: Send snag notification
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status != 'done'
+        env:
+          AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
+          AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+        run: |
+          python3 scripts/email/send_task_status.py \
+            --task-file "${{ steps.claim.outputs.task_file }}" \
+            --status snag \
+            --result-json .agentcore/state/task-run-result.json \
+            --project AsyncLoop
+
+      - name: Publish runner summary
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          claim_path = Path(".agentcore/state/task-claim.json")
+          result_path = Path(".agentcore/state/task-run-result.json")
+          claim = json.loads(claim_path.read_text(encoding="utf-8")) if claim_path.exists() else {}
+          result = json.loads(result_path.read_text(encoding="utf-8")) if result_path.exists() else {}
+
+          lines = [
+              "# AgentCore Async Runner",
+              "",
+              f"- Claimed task: {claim.get('claimed', False)}",
+              f"- Task ID: {claim.get('task_id', '')}",
+              f"- Task file: {claim.get('task_file', '')}",
+              f"- Stale requeued: {claim.get('stale_requeued', 0)}",
+              f"- Final status: {result.get('status', '')}",
+              f"- Run ID: {result.get('run_id', '')}",
+          ]
+          output = "\\n".join(lines) + "\\n"
+          summary_file = Path(".agentcore/state/agent-runner-summary.md")
+          summary_file.write_text(output, encoding="utf-8")
+          Path(__import__("os").environ["GITHUB_STEP_SUMMARY"]).write_text(output, encoding="utf-8")
+          PY
+
+      - name: Upload runner artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-runner-state
+          path: |
+            .agentcore/state/task-claim.json
+            .agentcore/state/task-run-result.json
+            .agentcore/state/agent-runner-summary.md
+            .agentcore/state/task-runs/
+            agentcore/inbox/email/
+            agentcore/inbox/drive/
+            agentcore/inbox/photos/
+            agentcore/inbox/tasks/
+
+      - name: Save queue state cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .agentcore/state/email-last-uid.json
+            .agentcore/state/drive-ingest-state.json
+            agentcore/inbox/email
+            agentcore/inbox/drive
+            agentcore/inbox/photos
+            agentcore/inbox/tasks
+          key: agentcore-queue-state-${{ github.run_id }}

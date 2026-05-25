@@ -46,3 +46,14 @@ npm test
 ## Deployment
 
 The app is static and can be published by any static host, including GitHub Pages, Netlify, Vercel, Cloudflare Pages, or an object-storage bucket with website hosting.
+
+## AgentCore Email Ops
+
+This repository also includes asynchronous communication tooling in `scripts/email/`.
+
+```sh
+npm run email:ask -- --project "ProjectName" --kind question --subject "..." --body "..."
+npm run email:sync
+```
+
+See `scripts/email/README.md` and `agentcore/knowledge/playbooks/email-ops.md` for setup and operating policy.

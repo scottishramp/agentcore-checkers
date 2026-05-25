@@ -12,22 +12,34 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 ## Intake
 
 - [Inbox](inbox/README.md): temporary holding area for unprocessed notes and materials.
+- [Email Inbox Records](inbox/email/README.md): normalized inbound email records.
+- [Drive Inbox Records](inbox/drive/README.md): normalized inbound Google Drive document records.
+- [Photo Inbox Records](inbox/photos/README.md): normalized inbound Android photo upload records.
+- [Email Task Queue](inbox/tasks/README.md): queued tasks derived from inbound task intent.
 - [Sources](sources/README.md): raw source material and source references.
 
 ## Knowledge
 
 - [Projects](knowledge/projects/): active and historical project pages.
+- [Family Admin System](knowledge/projects/family-admin-system.md): administrative-assistant system for Brian's documents, family logistics, Drive organization, and action tracking.
 - [Checkers Web Game](knowledge/projects/checkers-web-game.md): two-player browser checkers, live at https://scottishramp.github.io/agentcore-checkers/
 - [Clients](knowledge/clients/): client and sponsor pages.
 - [People](knowledge/people/): people and stakeholder pages.
+- [Brian Herbert](knowledge/people/brian-herbert.md): trusted client and primary administrative-assistance context.
 - [Organizations](knowledge/organizations/): organizations relevant to projects.
+- [Communications](knowledge/communications/README.md): deterministic communication ingestion summaries and ledgers.
 - [Concepts](knowledge/concepts/): reusable ideas, frameworks, and research themes.
 - [UX Message Design](knowledge/concepts/ux-message-design.md): precise failure classification for user-facing status messages.
 - [Decisions](knowledge/decisions/): decision records and rationale.
 - [Static-first Web Apps](knowledge/decisions/2026-04-24-static-first-web-apps.md): decision to favor dependency-free static apps for small public deliverables.
+- [AgentCore Repo Topology](knowledge/decisions/2026-04-25-agentcore-control-repo-topology.md): keep this repository as control repo with separate delivery repos.
 - [Playbooks](knowledge/playbooks/): repeatable methods and operating procedures.
 - [Public Static Web App](knowledge/playbooks/public-static-web-app.md): fast path for building, verifying, and publishing static web apps.
 - [GitHub Pages Deployment](knowledge/playbooks/github-pages-deployment.md): exact steps for deploying to GitHub Pages including auth, repo creation, and build triggering.
+- [Email Operations](knowledge/playbooks/email-ops.md): operational policy and workflow for async client communication by email.
+- [Email to Cursor CLI Bridge](knowledge/playbooks/email-to-cursor-cli-bridge.md): guarded phase-2 design for intent-to-automation handoff.
+- [Drive Document Organization](knowledge/playbooks/drive-document-organization.md): Drive-backed source storage with repo metadata for documents, scans, and photo intake.
+- [Communication Intake Contracts](knowledge/playbooks/communication-intake-contracts.md): canonical channel contracts, intent classes, and deterministic reply reason codes.
 
 ## Outputs
 

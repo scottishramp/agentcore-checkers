@@ -3,3 +3,11 @@ test-results/
 playwright-report/
 .DS_Store
 .env
+.env.*
+.agentcore/state/
+scripts/email/__pycache__/
+*.pyc
+.secrets/
+client_secret_*.apps.googleusercontent.com.json
+oauth-client*.json
+credentials*.json
