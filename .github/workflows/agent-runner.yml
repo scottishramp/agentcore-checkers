@@ -67,7 +67,7 @@ jobs:
           AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
           AGENTCORE_DRIVE_DOCS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_DOCS_FOLDER_ID }}
           AGENTCORE_DRIVE_PHOTOS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_PHOTOS_FOLDER_ID }}
-          AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME: ${{ secrets.AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME || 'false' }}
+          AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME: ${{ secrets.AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME || 'true' }}
         run: python3 scripts/ingest/ingest_drive_updates.py
 
       - name: Claim next queued task
@@ -107,11 +107,20 @@ jobs:
             --status running \
             --project AsyncLoop
 
+      - name: Install Cursor CLI
+        if: steps.claim.outputs.claimed == 'true'
+        run: |
+          curl https://cursor.com/install -fsS | bash
+          echo "$HOME/.cursor/bin" >> "$GITHUB_PATH"
+
       - name: Execute task adapter
         if: steps.claim.outputs.claimed == 'true'
         env:
-          AGENTCORE_TASK_RUN_COMMAND: ${{ secrets.AGENTCORE_TASK_RUN_COMMAND }}
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+          AGENTCORE_TASK_RUN_COMMAND: ${{ secrets.AGENTCORE_TASK_RUN_COMMAND || 'python3 scripts/agent/run_cursor_task.py --task-file {{TASK_FILE}} --workspace .' }}
           AGENTCORE_TASK_RUN_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_TASK_RUN_TIMEOUT_SECONDS || '900' }}
+          AGENTCORE_CURSOR_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_CURSOR_TIMEOUT_SECONDS || '1200' }}
+          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'auto' }}
         run: |
           python3 scripts/email/run_task_adapter.py \
             --task-file "${{ steps.claim.outputs.task_file }}" \

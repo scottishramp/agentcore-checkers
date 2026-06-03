@@ -21,15 +21,16 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 ## Current State
 
 - Delivered: checkers game → https://scottishramp.github.io/agentcore-checkers/
-- Delivered: hybrid ingestion baseline (email + Drive/photo ingestion scripts, deterministic summary, runner dispatch trigger)
+- Delivered: hybrid ingestion baseline (direct-email tasking, shared-with-me Drive ingestion, deterministic summary, runner dispatch trigger)
 - Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
-- Open blockers: Drive source folder IDs and `Life 2026` access path still need final configuration for live document ingestion.
+- No open blockers.
 
 ## Operating Preferences
 
 - Read `.env` at the start of any session involving logins or service sign-ups.
 - For personal administration, keep metadata in this repo and source documents/scans/photos in AgentCore Google Drive.
 - Use `briandherbert@gmail.com` as the trusted client channel for questions and updates.
+- Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
 - Prefer Gmail API OAuth for email automation (`AGENTCORE_EMAIL_TRANSPORT=gmail-api`); SMTP/IMAP app-password auth is fallback only.
 - Kickoff questions before building — even for simple projects.
 - Prototype first, local-first, define test scenarios before building interactions.
@@ -45,5 +46,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - `scripts/ingest/build_ingestion_summary.py` — added deterministic multi-channel summary generation
 - `scripts/ingest/dispatch_runner_trigger.py` — added event-trigger workflow dispatch with cron fallback
 - `scripts/ingest/publish_ingestion_updates.py` — added knowledge ledger + reason-coded summary reply behavior
-- `.github/workflows/email-sync.yml` — upgraded to hybrid ingestion pipeline (email + drive + summary + dispatch)
-- `.github/workflows/agent-runner.yml` — added Drive/photo ingestion and cache continuity for new channels
+- `scripts/email/triage_messages.py` — direct emails now queue as tasks; forward-only emails become knowledge/source records
+- `scripts/agent/run_cursor_task.py` — added default Cursor Agent task runner for async replies
+- `.github/workflows/agent-runner.yml` — installs Cursor CLI and defaults to the Cursor Agent task runner
+- GitHub repo secrets — `CURSOR_API_KEY` is set for cloud Cursor Agent replies

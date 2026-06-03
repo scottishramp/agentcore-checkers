@@ -16,7 +16,7 @@ Each file must include:
 - `from_email`
 - `subject`
 - `received_at`
-- `classification` (`question` | `answer` | `task` | `update`)
+- `classification` (`question` | `answer` | `task` | `update` | `document_shared` | `photo_batch`)
 - `requires_response`
 - `triaged_at`
 
@@ -24,4 +24,6 @@ Each file must include:
 
 - Files are append-only history.
 - Re-running triage is idempotent; existing filenames are not overwritten.
+- Direct trusted-client emails are queued as tasks by default so the async agent can respond.
+- Forward-only emails are classified as `document_shared` and stored as source knowledge unless Brian adds instructions above the forwarded content.
 - Use `_template.md` when creating manual records.

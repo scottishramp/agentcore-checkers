@@ -154,3 +154,17 @@ Synthesized all learnings from the checkers project into AgentCore:
   - `email-sync.yml` now runs email triage + drive ingest + summary publish + event dispatch.
   - `agent-runner.yml` now ingests drive/photo channels and preserves state in cache.
 - Preserved polling fallback with existing cron schedules while adding event dispatch for low-latency pickup.
+
+## [2026-05-25] system | Direct email agent tasking
+
+- Updated email triage policy so direct trusted-client emails queue as tasks by default.
+- Added forward-only detection so forwarded emails are stored as source knowledge (`document_shared`) unless Brian adds instructions above the forwarded message.
+- Added `scripts/agent/run_cursor_task.py` to run queued tasks through Cursor Agent and produce an email-ready response.
+- Updated `agent-runner.yml` to install Cursor CLI and use the Cursor Agent runner by default.
+- Set Drive ingestion default to `sharedWithMe` in workflows and repository secret `AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME=true`.
+- Recorded `CURSOR_API_KEY` as the remaining blocker for cloud agent replies.
+
+## [2026-05-31] ops | Cursor API key configured
+
+- Stored `CURSOR_API_KEY` as a GitHub Actions repository secret.
+- Resolved the async-agent-runner blocker so queued direct emails can be processed by Cursor Agent in cloud workflows.

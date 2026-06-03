@@ -58,13 +58,16 @@ Inbound messages from the client may contain any of the following intents:
 - `answer`: responses to AgentCore questions
 - `task`: new work requests, change requests, constraints, priorities
 - `update`: status notes, context, references, links
+- `document_shared`: forwarded/source material for knowledge ingestion
+- `photo_batch`: photo or scan batch intake
 
 Default triage behavior:
 
 1. Normalize each message to a durable markdown record under `agentcore/inbox/email/`.
-2. Classify intent (`question`, `answer`, `task`, `update`).
-3. For `task` intents, enqueue a task file under `agentcore/inbox/tasks/`.
-4. Flag `requires_response` when the content asks for confirmation, includes direct questions, or changes priority.
+2. Classify intent (`question`, `answer`, `task`, `update`, `document_shared`, `photo_batch`).
+3. Queue direct trusted-client emails as `task` by default so the agent can respond.
+4. Treat forward-only emails as `document_shared` source knowledge unless the client adds instructions above the forwarded content.
+5. Flag `requires_response` when the content asks for confirmation, includes direct questions, changes priority, or is queued as a task.
 
 ## Safety Constraints
 

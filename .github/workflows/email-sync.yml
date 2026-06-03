@@ -48,7 +48,7 @@ jobs:
           AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
           AGENTCORE_DRIVE_DOCS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_DOCS_FOLDER_ID }}
           AGENTCORE_DRIVE_PHOTOS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_PHOTOS_FOLDER_ID }}
-          AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME: ${{ secrets.AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME || 'false' }}
+          AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME: ${{ secrets.AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME || 'true' }}
         run: python3 scripts/ingest/ingest_drive_updates.py
 
       - name: Build combined ingestion summary

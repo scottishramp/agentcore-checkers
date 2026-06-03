@@ -15,10 +15,11 @@ Cross-channel ingestion utilities for Drive documents and Android photo uploads.
 
 ## Environment Variables
 
-- `AGENTCORE_DRIVE_DOCS_FOLDER_ID` (Drive folder id for shared docs intake)
-- `AGENTCORE_DRIVE_PHOTOS_FOLDER_ID` (Drive folder id for Android photo/scans intake)
+- `AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME` (`true` to ingest docs/folders shared with `scottishramp@gmail.com`; default in workflows)
+- Optional explicit folder watches:
+  - `AGENTCORE_DRIVE_DOCS_FOLDER_ID` (Drive folder id for shared docs intake)
+  - `AGENTCORE_DRIVE_PHOTOS_FOLDER_ID` (Drive folder id for Android photo/scans intake)
 - Optional:
-  - `AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME` (`true` to ingest `sharedWithMe` docs)
   - `AGENTCORE_GMAIL_AUTHORIZED_USER_FILE` (OAuth authorized-user JSON path)
   - `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` (OAuth authorized-user JSON inline)
   - OAuth consent must include `https://www.googleapis.com/auth/drive.readonly`

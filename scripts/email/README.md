@@ -49,6 +49,8 @@ From repo root:
   - `npm run email:claim -- --output .agentcore/state/task-claim.json`
 - Run claimed task via adapter:
   - `npm run email:run-task -- --task-file agentcore/inbox/tasks/task__uid-123__example.md`
+- Run claimed task through Cursor Agent directly:
+  - `npm run agent:run-task -- --task-file agentcore/inbox/tasks/task__uid-123__example.md`
 - Finalize claimed task to `done`/`snag`:
   - `npm run email:finalize-task -- --task-file ... --result-json .agentcore/state/task-run-result.json`
 - Send task status email (`running`, `done`, `snag`):
@@ -65,6 +67,9 @@ From repo root:
 - Triage summary: `.agentcore/state/email-sync-summary.json`
 - Inbound processing only accepts messages from `AGENTCORE_CLIENT_EMAIL`.
 - Outbound sending is locked to `AGENTCORE_CLIENT_EMAIL`.
+- Direct trusted-client emails queue as tasks by default.
+- Forward-only emails are classified as `document_shared`; if Brian adds text above the forwarded content, that text is treated as instructions and the email queues as a task.
+- GitHub Actions agent replies require `CURSOR_API_KEY` to be set as a repository secret.
 - Queue lock file: `.agentcore/state/task-queue.lock`
 - Claim output: `.agentcore/state/task-claim.json`
 - Run output: `.agentcore/state/task-run-result.json`

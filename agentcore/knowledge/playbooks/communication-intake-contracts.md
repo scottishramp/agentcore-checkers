@@ -16,6 +16,8 @@ Define one canonical intake contract across chat, email, Drive documents, and An
 
 - Channel id: `email`
 - Intake source: trusted sender mailbox (`AGENTCORE_CLIENT_EMAIL`)
+- Direct emails from Brian are agent instructions by default and should be queued for an async run/reply.
+- Forward-only emails are source knowledge by default. If Brian adds text above the forwarded message, that text is treated as instructions and the forwarded content is context.
 - Required record fields:
   - `uid`
   - `message_id`

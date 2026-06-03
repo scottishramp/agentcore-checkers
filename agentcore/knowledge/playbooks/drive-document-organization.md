@@ -50,11 +50,12 @@ Capture these fields when available:
 ## Intake Workflow
 
 1. Receive or discover a document through email, Drive share, Android photo upload, or manual file drop.
-2. Put new files in the Drive `Inbox` unless they are already organized.
-3. Extract metadata and create or update the relevant Markdown index.
-4. Identify whether the item is reference-only or action-required.
-5. Move or copy the file to the target Drive folder if AgentCore has authority.
-6. Email Brian only when the item needs a decision, has an urgent deadline, or completes a batch that Brian asked to review.
+2. Prefer discovering new materials through Drive `sharedWithMe`; fixed intake folders are optional for future high-volume workflows.
+3. Put new files in the Drive `Inbox` unless they are already organized.
+4. Extract metadata and create or update the relevant Markdown index.
+5. Identify whether the item is reference-only or action-required.
+6. Move or copy the file to the target Drive folder if AgentCore has authority.
+7. Email Brian only when the item needs a decision, has an urgent deadline, or completes a batch that Brian asked to review.
 
 ## Naming Convention
 

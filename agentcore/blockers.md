@@ -4,14 +4,7 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ## Open Blockers
 
-### 2026-05-25 | Family admin system | Drive document access path not yet configured
-
-- Status: open
-- Blocker: Drive/photo ingestion scripts now exist, but live ingestion is not active until folder ids and/or `sharedWithMe` settings are configured for the actual shared materials (including `Life 2026`).
-- Why it matters: Without configured Drive sources, document/photo updates cannot enter the queue automatically.
-- Proposed default: Set `AGENTCORE_DRIVE_DOCS_FOLDER_ID` and `AGENTCORE_DRIVE_PHOTOS_FOLDER_ID` in secrets/env and optionally enable `AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME=true` for broad shared-doc intake.
-- Needed from user: Provide the Drive folder ids (or approve shared-with-me intake mode) and confirm which folders should be watched continuously.
-- Resolution:
+- None currently.
 
 ## Blocker Template
 
@@ -27,6 +20,18 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 ```
 
 ## Resolved Blockers
+
+### 2026-05-31 | Async agent runner | Cursor API key needed for cloud replies
+
+- Status: resolved
+- Blocker: The GitHub Actions runner could install Cursor Agent and had a default task command, but needed `CURSOR_API_KEY` as a repository secret.
+- Resolution: Stored `CURSOR_API_KEY` as a GitHub Actions repository secret and verified it appears in `gh secret list`.
+
+### 2026-05-25 | Family admin system | Drive shared-with-me ingestion
+
+- Status: resolved
+- Blocker: Drive/photo ingestion scripts originally needed explicit folder ids before live ingestion could run.
+- Resolution: Shifted default model to `sharedWithMe` ingestion, set `AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME=true`, and verified Drive API ingestion with the shared `Life 2026` document.
 
 ### 2026-05-25 | Email operations | OAuth app still in testing mode
 

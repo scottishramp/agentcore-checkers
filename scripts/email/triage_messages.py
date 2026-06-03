@@ -35,6 +35,7 @@ def parse_args() -> argparse.Namespace:
 
 TASK_HINTS = (
     "please",
+    "just",
     "implement",
     "build",
     "create",
@@ -49,27 +50,68 @@ TASK_HINTS = (
 QUESTION_HINTS = ("?", "can you", "could you", "what", "how", "when", "why", "should we")
 ANSWER_HINTS = ("yes", "no", "approved", "sounds good", "do this", "that works")
 UPDATE_HINTS = ("fyi", "for context", "status", "update", "heads up")
+FORWARD_MARKERS = (
+    "---------- forwarded message ---------",
+    "-----original message-----",
+    "begin forwarded message:",
+    "forwarded message",
+)
+
+
+def _forward_start_index(body: str) -> int:
+    lowered = body.lower()
+    indexes = [lowered.find(marker) for marker in FORWARD_MARKERS if lowered.find(marker) >= 0]
+    return min(indexes) if indexes else -1
+
+
+def _has_user_instruction_before_forward(body: str) -> bool:
+    forward_idx = _forward_start_index(body)
+    if forward_idx < 0:
+        return False
+    preface = compact_whitespace(body[:forward_idx])
+    if not preface:
+        return False
+    if len(preface) < 8:
+        return False
+    return True
+
+
+def is_forward_only(subject: str, body: str) -> bool:
+    subject_l = subject.lower().strip()
+    forward_idx = _forward_start_index(body)
+    looks_forwarded = subject_l.startswith(("fwd:", "fw:")) or forward_idx >= 0
+    if not looks_forwarded:
+        return False
+    return not _has_user_instruction_before_forward(body)
 
 
 def classify_message(subject: str, body: str) -> str:
     haystack = f"{subject}\n{body}".lower()
     normalized = compact_whitespace(haystack)
 
+    if is_forward_only(subject, body):
+        return "document_shared"
+    if _has_user_instruction_before_forward(body):
+        return "task"
     if any(hint in normalized for hint in TASK_HINTS):
         return "task"
     if any(hint in normalized for hint in QUESTION_HINTS):
-        return "question"
+        return "task"
     if subject.lower().startswith("re:") and any(hint in normalized for hint in ANSWER_HINTS):
         return "answer"
     if any(hint in normalized for hint in UPDATE_HINTS):
         return "update"
-    return "update"
+    # Direct trusted-client email should get an agent run/reply unless it is
+    # clearly a forward-only source item.
+    return "task"
 
 
 def requires_response(classification: str, subject: str, body: str) -> bool:
     text = f"{subject}\n{body}".lower()
-    if classification in {"question", "answer"}:
+    if classification in {"task", "question", "answer"}:
         return True
+    if classification == "document_shared":
+        return False
     return any(token in text for token in ("?", "please confirm", "let me know"))
 
 
@@ -199,7 +241,14 @@ def main() -> int:
 
     normalized_count = 0
     tasks_created = 0
-    classifications: dict[str, int] = {"question": 0, "answer": 0, "task": 0, "update": 0}
+    classifications: dict[str, int] = {
+        "question": 0,
+        "answer": 0,
+        "task": 0,
+        "update": 0,
+        "document_shared": 0,
+        "photo_batch": 0,
+    }
 
     for item in messages:
         if not isinstance(item, dict):
