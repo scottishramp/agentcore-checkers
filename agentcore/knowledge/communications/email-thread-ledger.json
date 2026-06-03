@@ -1,5 +1,28 @@
 {
   "version": 1,
-  "messages": {},
-  "threads": {}
+  "messages": {
+    "19e8353e26557bf5": {
+      "gmail_message_id": "19e8353e26557bf5",
+      "gmail_thread_id": "19e8353e26557bf5",
+      "rfc_message_id": "CABjd5M7DyL3a4jJDpGcryxGriSVJDtTvqSyBiAG05pGMFQML=Q@mail.gmail.com",
+      "status": "queued",
+      "task_id": "task-gmail-19e8353e26557bf5-cabjd5m7dyl3a4jjdpgcryxgrisvjdttvqsy",
+      "response_gmail_message_id": "",
+      "note": "",
+      "updated_at": "2026-06-03T08:48:57.188724+00:00",
+      "created_at": "2026-06-03T08:48:57.188724+00:00"
+    }
+  },
+  "threads": {
+    "19e8353e26557bf5": {
+      "gmail_thread_id": "19e8353e26557bf5",
+      "latest_client_message_id": "19e8353e26557bf5",
+      "latest_status": "queued",
+      "latest_task_id": "task-gmail-19e8353e26557bf5-cabjd5m7dyl3a4jjdpgcryxgrisvjdttvqsy",
+      "latest_response_gmail_message_id": "",
+      "updated_at": "2026-06-03T08:48:57.188724+00:00",
+      "created_at": "2026-06-03T08:48:57.188724+00:00"
+    }
+  },
+  "updated_at": "2026-06-03T08:51:31.076940+00:00"
 }
