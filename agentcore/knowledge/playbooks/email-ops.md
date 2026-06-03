@@ -69,6 +69,13 @@ Default triage behavior:
 4. Treat forward-only emails as `document_shared` source knowledge unless the client adds instructions above the forwarded content.
 5. Flag `requires_response` when the content asks for confirmation, includes direct questions, changes priority, or is queued as a task.
 
+## Thread State And Idempotency
+
+- Gmail threads are the primary conversation state: process the thread only when Brian is the latest meaningful sender.
+- AgentCore replies should stay in the original Gmail thread using Gmail `threadId`, `In-Reply-To`, and `References`.
+- After AgentCore replies, future fetches skip that thread until Brian replies again.
+- `agentcore/knowledge/communications/email-thread-ledger.json` is a tiny backup ledger for message IDs, thread IDs, task IDs, response IDs, and terminal status. It should not store email bodies.
+
 ## Safety Constraints
 
 - Never execute arbitrary shell commands directly from raw email content.

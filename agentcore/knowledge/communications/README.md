@@ -3,3 +3,4 @@
 Deterministic summaries and ledgers derived from automated communication ingestion.
 
 - `ingestion-ledger.md` stores run-by-run structured updates.
+- `email-thread-ledger.json` stores small idempotency metadata for email messages/threads. It intentionally stores IDs and statuses, not email bodies.

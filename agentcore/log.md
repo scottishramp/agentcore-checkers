@@ -168,3 +168,11 @@ Synthesized all learnings from the checkers project into AgentCore:
 
 - Stored `CURSOR_API_KEY` as a GitHub Actions repository secret.
 - Resolved the async-agent-runner blocker so queued direct emails can be processed by Cursor Agent in cloud workflows.
+
+## [2026-06-02] ops | Thread-aware email idempotency
+
+- Added Gmail thread metadata fetches so email ingestion only queues work when Brian is the latest meaningful sender in the thread.
+- Updated task status replies to use Gmail `threadId`, `In-Reply-To`, and `References`, making AgentCore's reply the latest thread message until Brian responds again.
+- Added `agentcore/knowledge/communications/email-thread-ledger.json` for ID/status audit metadata without storing email bodies.
+- Added scripts to skip terminal ledger entries during triage and record final task responses after notifications.
+- Updated the async runner workflow to commit terminal email ledger/task status changes back to the repo.

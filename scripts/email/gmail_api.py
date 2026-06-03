@@ -153,13 +153,16 @@ def encode_raw_message(msg: EmailMessage) -> str:
     return base64.urlsafe_b64encode(msg.as_bytes()).decode("ascii")
 
 
-def send_message(msg: EmailMessage, env_map: dict[str, str] | None = None) -> dict:
+def send_message(msg: EmailMessage, env_map: dict[str, str] | None = None, thread_id: str = "") -> dict:
     token = access_token(env_map=env_map)
+    payload = {"raw": encode_raw_message(msg)}
+    if thread_id:
+        payload["threadId"] = thread_id
     return gmail_request(
         "POST",
         "/users/me/messages/send",
         token=token,
-        payload={"raw": encode_raw_message(msg)},
+        payload=payload,
     )
 
 

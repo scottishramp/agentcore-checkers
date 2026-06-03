@@ -74,6 +74,38 @@ def parse_message(uid: int | str, msg: Message) -> dict[str, str | int]:
     }
 
 
+def _metadata_header(headers: list[dict], name: str) -> str:
+    target = name.lower()
+    for item in headers:
+        if str(item.get("name", "")).lower() == target:
+            return decode_mime_header(str(item.get("value", "")))
+    return ""
+
+
+def _thread_latest_sender(token: str, thread_id: str) -> dict[str, str | int]:
+    if not thread_id:
+        return {"latest_sender_email": "", "latest_message_id": "", "latest_internal_date_ms": 0}
+    thread = gmail_api.gmail_request(
+        "GET",
+        f"/users/me/threads/{thread_id}",
+        token=token,
+        query={"format": "metadata", "metadataHeaders": "From"},
+    )
+    latest: dict = {}
+    for message in thread.get("messages", []) if isinstance(thread.get("messages"), list) else []:
+        if not isinstance(message, dict):
+            continue
+        if not latest or int(message.get("internalDate", 0) or 0) > int(latest.get("internalDate", 0) or 0):
+            latest = message
+    headers = ((latest.get("payload") or {}).get("headers") or []) if latest else []
+    from_value = _metadata_header(headers, "From") if isinstance(headers, list) else ""
+    return {
+        "latest_sender_email": normalize_email_address(from_value),
+        "latest_message_id": str(latest.get("id", "")) if latest else "",
+        "latest_internal_date_ms": int(latest.get("internalDate", 0) or 0) if latest else 0,
+    }
+
+
 def _gmail_after_query(last_internal_ms: int) -> str:
     if last_internal_ms <= 0:
         return ""
@@ -106,7 +138,10 @@ def fetch_gmail_api(args: argparse.Namespace, env_map: dict[str, str], allowed_s
             break
 
     accepted_messages: list[dict[str, str | int]] = []
+    skipped_not_latest = 0
     seen_message_ids: list[str] = []
+    max_seen_ms = last_internal_ms
+    seen_at_max: list[str] = sorted(seen_at_last)
     for item in messages[:max_results]:
         gmail_id = str(item.get("id", ""))
         if not gmail_id:
@@ -119,6 +154,11 @@ def fetch_gmail_api(args: argparse.Namespace, env_map: dict[str, str], allowed_s
         )
         internal_ms = int(detail.get("internalDate", 0) or 0)
         seen_message_ids.append(gmail_id)
+        if internal_ms > max_seen_ms:
+            max_seen_ms = internal_ms
+            seen_at_max = [gmail_id]
+        elif internal_ms == max_seen_ms:
+            seen_at_max.append(gmail_id)
         if last_internal_ms and internal_ms < last_internal_ms:
             continue
         if last_internal_ms and internal_ms == last_internal_ms and gmail_id in seen_at_last:
@@ -133,22 +173,21 @@ def fetch_gmail_api(args: argparse.Namespace, env_map: dict[str, str], allowed_s
         payload["internal_date_ms"] = internal_ms
         if allowed_senders and payload["from_email"] not in allowed_senders:
             continue
+        latest = _thread_latest_sender(token=token, thread_id=str(payload["gmail_thread_id"]))
+        payload.update(latest)
+        if allowed_senders and latest.get("latest_sender_email") not in allowed_senders:
+            skipped_not_latest += 1
+            continue
         accepted_messages.append(payload)
 
     accepted_messages.sort(key=lambda item: int(item.get("internal_date_ms", 0)))
     if args.limit > 0:
         accepted_messages = accepted_messages[-args.limit :]
 
-    max_internal_ms = max([int(item.get("internal_date_ms", 0)) for item in accepted_messages], default=last_internal_ms)
-    seen_at_max = [
-        str(item.get("gmail_message_id", ""))
-        for item in accepted_messages
-        if int(item.get("internal_date_ms", 0)) == max_internal_ms and item.get("gmail_message_id")
-    ]
     checkpoint = {
         "transport": "gmail-api",
-        "last_internal_date_ms": max_internal_ms,
-        "seen_message_ids": seen_at_max if seen_at_max else sorted(seen_at_last),
+        "last_internal_date_ms": max_seen_ms,
+        "seen_message_ids": sorted(set(seen_at_max)) if seen_at_max else sorted(seen_at_last),
         "updated_at": utc_now_iso(),
         "mailbox": args.mailbox,
         "allowed_senders": sorted(allowed_senders),
@@ -160,9 +199,10 @@ def fetch_gmail_api(args: argparse.Namespace, env_map: dict[str, str], allowed_s
         "transport": "gmail-api",
         "mailbox": args.mailbox,
         "start_uid": last_internal_ms,
-        "end_uid": max_internal_ms,
+        "end_uid": max_seen_ms,
         "total_seen": len(seen_message_ids),
         "accepted_count": len(accepted_messages),
+        "skipped_not_latest": skipped_not_latest,
         "allowed_senders": sorted(allowed_senders),
         "messages": accepted_messages,
     }

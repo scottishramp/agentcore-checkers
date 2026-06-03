@@ -21,7 +21,8 @@
     "email:claim": "python3 scripts/email/claim_next_task.py",
     "email:run-task": "python3 scripts/email/run_task_adapter.py",
     "email:finalize-task": "python3 scripts/email/finalize_task.py",
-    "email:notify-task": "python3 scripts/email/send_task_status.py"
+    "email:notify-task": "python3 scripts/email/send_task_status.py",
+    "email:record-response": "python3 scripts/email/record_email_response.py"
   },
   "keywords": [],
   "author": "",

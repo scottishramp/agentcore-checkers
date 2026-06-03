@@ -55,6 +55,8 @@ From repo root:
   - `npm run email:finalize-task -- --task-file ... --result-json .agentcore/state/task-run-result.json`
 - Send task status email (`running`, `done`, `snag`):
   - `npm run email:notify-task -- --task-file ... --status running`
+- Record terminal email response metadata:
+  - `npm run email:record-response -- --task-file ... --result-json ... --notification-json ...`
 
 ## Notes
 
@@ -74,6 +76,8 @@ From repo root:
 - Claim output: `.agentcore/state/task-claim.json`
 - Run output: `.agentcore/state/task-run-result.json`
 - Run logs: `.agentcore/state/task-runs/`
+- Email thread idempotency ledger: `agentcore/knowledge/communications/email-thread-ledger.json`
+- Task completion replies are sent into the original Gmail thread when Gmail thread metadata is available. Future fetches skip threads where AgentCore is already the latest sender.
 
 ## Async Chat Loop (Email + GitHub Actions)
 

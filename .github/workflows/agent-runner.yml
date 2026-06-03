@@ -13,6 +13,9 @@ concurrency:
   group: agentcore-async-runner
   cancel-in-progress: false
 
+permissions:
+  contents: write
+
 jobs:
   run-queued-task:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
@@ -35,6 +38,7 @@ jobs:
           path: |
             .agentcore/state/email-last-uid.json
             .agentcore/state/drive-ingest-state.json
+            agentcore/knowledge/communications/email-thread-ledger.json
             agentcore/inbox/email
             agentcore/inbox/drive
             agentcore/inbox/photos
@@ -166,7 +170,7 @@ jobs:
             --task-file "${{ steps.claim.outputs.task_file }}" \
             --status done \
             --result-json .agentcore/state/task-run-result.json \
-            --project AsyncLoop
+            --project AsyncLoop | tee .agentcore/state/task-notify-result.json
 
       - name: Send snag notification
         if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status != 'done'
@@ -184,7 +188,26 @@ jobs:
             --task-file "${{ steps.claim.outputs.task_file }}" \
             --status snag \
             --result-json .agentcore/state/task-run-result.json \
-            --project AsyncLoop
+            --project AsyncLoop | tee .agentcore/state/task-notify-result.json
+
+      - name: Record email response ledger
+        if: steps.claim.outputs.claimed == 'true'
+        run: |
+          python3 scripts/email/record_email_response.py \
+            --task-file "${{ steps.claim.outputs.task_file }}" \
+            --result-json .agentcore/state/task-run-result.json \
+            --notification-json .agentcore/state/task-notify-result.json
+
+      - name: Commit email ledger update
+        if: steps.claim.outputs.claimed == 'true'
+        run: |
+          git add agentcore/knowledge/communications/email-thread-ledger.json agentcore/inbox/tasks
+          if git diff --cached --quiet; then
+            echo "No ledger changes to commit."
+          else
+            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Record async email task result"
+            git push
+          fi
 
       - name: Publish runner summary
         run: |
@@ -221,6 +244,7 @@ jobs:
           path: |
             .agentcore/state/task-claim.json
             .agentcore/state/task-run-result.json
+            .agentcore/state/task-notify-result.json
             .agentcore/state/agent-runner-summary.md
             .agentcore/state/task-runs/
             agentcore/inbox/email/
@@ -235,6 +259,7 @@ jobs:
           path: |
             .agentcore/state/email-last-uid.json
             .agentcore/state/drive-ingest-state.json
+            agentcore/knowledge/communications/email-thread-ledger.json
             agentcore/inbox/email
             agentcore/inbox/drive
             agentcore/inbox/photos

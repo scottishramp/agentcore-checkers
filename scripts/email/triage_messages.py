@@ -17,6 +17,7 @@ from common import (
     utc_now_iso,
     write_json,
 )
+from email_ledger import is_terminal_message, load_ledger, save_ledger, upsert_message
 from task_queue import next_task_id
 
 
@@ -30,6 +31,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--email-dir", default="agentcore/inbox/email", help="Markdown output directory for email records.")
     parser.add_argument("--task-dir", default="agentcore/inbox/tasks", help="Markdown output directory for task queue records.")
     parser.add_argument("--summary-output", default=DEFAULT_SUMMARY_PATH, help="Path for machine-readable triage summary.")
+    parser.add_argument(
+        "--ledger",
+        default="agentcore/knowledge/communications/email-thread-ledger.json",
+        help="Durable message/thread idempotency ledger.",
+    )
     return parser.parse_args()
 
 
@@ -151,6 +157,8 @@ def write_email_record(path: Path, record: dict, classification: str, needs_resp
         f'uid: "{metadata["uid"]}"',
         f'message_id: "{metadata["message_id"]}"',
         f'thread_key: "{metadata["thread_key"]}"',
+        f'gmail_message_id: "{record.get("gmail_message_id", "")}"',
+        f'gmail_thread_id: "{record.get("gmail_thread_id", "")}"',
         f'from_email: "{metadata["from_email"]}"',
         f'subject: "{metadata["subject"]}"',
         f'received_at: "{metadata["received_at"]}"',
@@ -194,6 +202,9 @@ def write_task_record(path: Path, record: dict) -> bool:
         f'source_from: "{record.get("from_email", "")}"',
         f'source_subject: "{task_title}"',
         f'thread_key: "{thread_key}"',
+        f'gmail_message_id: "{record.get("gmail_message_id", "")}"',
+        f'gmail_thread_id: "{record.get("gmail_thread_id", "")}"',
+        f'rfc_message_id: "{record.get("message_id", "")}"',
         f'queued_at: "{now}"',
         f'updated_at: "{now}"',
         "attempts: 0",
@@ -241,6 +252,7 @@ def main() -> int:
 
     normalized_count = 0
     tasks_created = 0
+    skipped_ledger = 0
     classifications: dict[str, int] = {
         "question": 0,
         "answer": 0,
@@ -249,9 +261,16 @@ def main() -> int:
         "document_shared": 0,
         "photo_batch": 0,
     }
+    ledger = load_ledger(args.ledger)
 
     for item in messages:
         if not isinstance(item, dict):
+            continue
+        gmail_message_id = str(item.get("gmail_message_id", ""))
+        gmail_thread_id = str(item.get("gmail_thread_id", ""))
+        rfc_message_id = str(item.get("message_id", ""))
+        if is_terminal_message(ledger, gmail_message_id):
+            skipped_ledger += 1
             continue
         subject = str(item.get("subject", ""))
         body = str(item.get("body_text", ""))
@@ -269,6 +288,23 @@ def main() -> int:
             task_path = task_dir / task_filename
             if write_task_record(task_path, item):
                 tasks_created += 1
+                ledger = upsert_message(
+                    ledger,
+                    gmail_message_id=gmail_message_id,
+                    gmail_thread_id=gmail_thread_id,
+                    rfc_message_id=rfc_message_id,
+                    status="queued",
+                    task_id=next_task_id(str(item.get("uid", "")), str(item.get("thread_key", ""))),
+                )
+        elif classification == "document_shared":
+            ledger = upsert_message(
+                ledger,
+                gmail_message_id=gmail_message_id,
+                gmail_thread_id=gmail_thread_id,
+                rfc_message_id=rfc_message_id,
+                status="source_only",
+                note="Forward-only or source-material email.",
+            )
 
     summary = {
         "triaged_at": utc_now_iso(),
@@ -276,9 +312,11 @@ def main() -> int:
         "messages_in_payload": len(messages),
         "normalized_count": normalized_count,
         "tasks_created": tasks_created,
+        "skipped_ledger": skipped_ledger,
         "classifications": classifications,
     }
     write_json(Path(args.summary_output), summary)
+    save_ledger(ledger, args.ledger)
 
     print(json.dumps(summary))
     return 0

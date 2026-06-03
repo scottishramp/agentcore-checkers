@@ -141,6 +141,8 @@ def main() -> int:
     thread_key = str(task.meta.get("thread_key", ""))
     run_id = str(task.meta.get("run_id", ""))
     source_subject = str(task.meta.get("source_subject", ""))
+    gmail_thread_id = str(task.meta.get("gmail_thread_id", ""))
+    rfc_message_id = str(task.meta.get("rfc_message_id", "")) or str(task.meta.get("source_message_id", ""))
     requested_summary = summarize_requested_work(task)
     run_url = _run_url()
 
@@ -175,11 +177,14 @@ def main() -> int:
     msg["From"] = username
     msg["To"] = trusted_client_email
     msg["Subject"] = _subject(status=args.status, project=args.project, task_id=task_id)
+    if rfc_message_id and "@" in rfc_message_id:
+        msg["In-Reply-To"] = f"<{rfc_message_id.strip('<>')}>"
+        msg["References"] = f"<{rfc_message_id.strip('<>')}>"
     msg.set_content(body)
 
     gmail_message_id = ""
     if transport == "gmail-api":
-        result = gmail_api.send_message(msg, env_map=env_map)
+        result = gmail_api.send_message(msg, env_map=env_map, thread_id=gmail_thread_id)
         gmail_message_id = str(result.get("id", ""))
     else:
         _, password = resolve_email_credentials(env_map=env_map)
@@ -209,6 +214,9 @@ def main() -> int:
         "to": trusted_client_email,
         "transport": transport,
         "gmail_message_id": gmail_message_id,
+        "gmail_thread_id": gmail_thread_id,
+        "source_gmail_message_id": str(task.meta.get("gmail_message_id", "")),
+        "source_rfc_message_id": rfc_message_id,
     }
     print(json.dumps(payload, ensure_ascii=True))
     return 0

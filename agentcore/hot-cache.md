@@ -22,6 +22,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 - Delivered: checkers game → https://scottishramp.github.io/agentcore-checkers/
 - Delivered: hybrid ingestion baseline (direct-email tasking, shared-with-me Drive ingestion, deterministic summary, runner dispatch trigger)
+- Delivered: thread-aware email tasking. AgentCore replies into the original Gmail thread, fetch skips threads where AgentCore is already the latest sender, and `email-thread-ledger.json` records task/response idempotency metadata.
 - Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
 - No open blockers.
 
@@ -31,6 +32,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - For personal administration, keep metadata in this repo and source documents/scans/photos in AgentCore Google Drive.
 - Use `briandherbert@gmail.com` as the trusted client channel for questions and updates.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
+- For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Prefer Gmail API OAuth for email automation (`AGENTCORE_EMAIL_TRANSPORT=gmail-api`); SMTP/IMAP app-password auth is fallback only.
 - Kickoff questions before building — even for simple projects.
 - Prototype first, local-first, define test scenarios before building interactions.
@@ -41,12 +43,10 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `agentcore/knowledge/playbooks/communication-intake-contracts.md` — added canonical intake and reason-code contracts
-- `scripts/ingest/ingest_drive_updates.py` — added Drive/photo ingestion with task creation
-- `scripts/ingest/build_ingestion_summary.py` — added deterministic multi-channel summary generation
-- `scripts/ingest/dispatch_runner_trigger.py` — added event-trigger workflow dispatch with cron fallback
-- `scripts/ingest/publish_ingestion_updates.py` — added knowledge ledger + reason-coded summary reply behavior
-- `scripts/email/triage_messages.py` — direct emails now queue as tasks; forward-only emails become knowledge/source records
-- `scripts/agent/run_cursor_task.py` — added default Cursor Agent task runner for async replies
-- `.github/workflows/agent-runner.yml` — installs Cursor CLI and defaults to the Cursor Agent task runner
-- GitHub repo secrets — `CURSOR_API_KEY` is set for cloud Cursor Agent replies
+- `scripts/email/fetch_inbox.py` — fetches Gmail thread metadata and skips threads where Brian is not the latest sender
+- `scripts/email/send_task_status.py` — sends task completion/snag notices into the original Gmail thread
+- `scripts/email/email_ledger.py` and `scripts/email/record_email_response.py` — added small idempotency/audit ledger helpers
+- `scripts/email/triage_messages.py` — skips terminal ledger entries and records queued/source-only message metadata
+- `agentcore/knowledge/communications/email-thread-ledger.json` — stores message/thread/task/response IDs without email bodies
+- `.github/workflows/agent-runner.yml` — records and commits terminal email response metadata after task notification
+- `agentcore/knowledge/playbooks/email-ops.md` — documented thread-state and idempotency policy
