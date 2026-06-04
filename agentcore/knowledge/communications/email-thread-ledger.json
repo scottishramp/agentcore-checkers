@@ -5,24 +5,44 @@
       "gmail_message_id": "19e8353e26557bf5",
       "gmail_thread_id": "19e8353e26557bf5",
       "rfc_message_id": "CABjd5M7DyL3a4jJDpGcryxGriSVJDtTvqSyBiAG05pGMFQML=Q@mail.gmail.com",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-gmail-19e8353e26557bf5-cabjd5m7dyl3a4jjdpgcryxgrisvjdttvqsy",
-      "response_gmail_message_id": "",
-      "note": "",
-      "updated_at": "2026-06-03T08:48:57.188724+00:00",
+      "response_gmail_message_id": "19e8caff1c168ea1",
+      "note": "Task **Reply back with hello** is complete. Your note asked for a reply in bold; the thread reply is **hello**. The async runner will deliver that in the original Gmail thread (completion summary: **hello**). No durable knowledge updates we",
+      "updated_at": "2026-06-03T08:53:21.560752+00:00",
       "created_at": "2026-06-03T08:48:57.188724+00:00"
+    },
+    "19e92c2eed4dc40f": {
+      "gmail_message_id": "19e92c2eed4dc40f",
+      "gmail_thread_id": "19e92c2eed4dc40f",
+      "rfc_message_id": "CABjd5M41gWFvroRvTQ_=Wkai=ftzB3kGsWPeM6xUGPtntpvs3w@mail.gmail.com",
+      "status": "done",
+      "task_id": "task-gmail-19e92c2eed4dc40f-cabjd5m41gwfvrorvtq_-wkai-ftzb3kgswp",
+      "response_gmail_message_id": "19e9314d95e11b3e",
+      "note": "Task **reply with a haiku** is complete. Your note asked for italics; here is the reply: *Inbox light stirs\u2014* *a haiku typed in italics;* *spring answers your mail.* The async runner will deliver this in the original Gmail thread. No durabl",
+      "updated_at": "2026-06-04T14:41:17.774975+00:00",
+      "created_at": "2026-06-04T14:40:35.184569+00:00"
     }
   },
   "threads": {
     "19e8353e26557bf5": {
       "gmail_thread_id": "19e8353e26557bf5",
       "latest_client_message_id": "19e8353e26557bf5",
-      "latest_status": "queued",
+      "latest_status": "done",
       "latest_task_id": "task-gmail-19e8353e26557bf5-cabjd5m7dyl3a4jjdpgcryxgrisvjdttvqsy",
-      "latest_response_gmail_message_id": "",
-      "updated_at": "2026-06-03T08:48:57.188724+00:00",
+      "latest_response_gmail_message_id": "19e8caff1c168ea1",
+      "updated_at": "2026-06-03T08:53:21.560752+00:00",
       "created_at": "2026-06-03T08:48:57.188724+00:00"
+    },
+    "19e92c2eed4dc40f": {
+      "gmail_thread_id": "19e92c2eed4dc40f",
+      "latest_client_message_id": "19e92c2eed4dc40f",
+      "latest_status": "done",
+      "latest_task_id": "task-gmail-19e92c2eed4dc40f-cabjd5m41gwfvrorvtq_-wkai-ftzb3kgswp",
+      "latest_response_gmail_message_id": "19e9314d95e11b3e",
+      "updated_at": "2026-06-04T14:41:17.774975+00:00",
+      "created_at": "2026-06-04T14:40:35.184569+00:00"
     }
   },
-  "updated_at": "2026-06-03T08:51:31.076940+00:00"
+  "updated_at": "2026-06-04T14:41:17.774991+00:00"
 }

@@ -1,24 +1,24 @@
 ---
 task_id: "task-gmail-19e8353e26557bf5-cabjd5m7dyl3a4jjdpgcryxgrisvjdttvqsy"
-status: "queued"
+status: "done"
 priority: "normal"
 source_message_id: "CABjd5M7DyL3a4jJDpGcryxGriSVJDtTvqSyBiAG05pGMFQML=Q@mail.gmail.com"
 source_uid: "gmail-19e8353e26557bf5"
 source_from: "briandherbert@gmail.com"
 source_subject: "Reply back with hello"
 thread_key: "cabjd5m7dyl3a4jjdpgcryxgrisvjdttvqsybiag05pgmfqml-q-mail.gmail.com"
+queued_at: "2026-06-03T08:48:57.188657+00:00"
+updated_at: "2026-06-03T08:53:20.830199+00:00"
+attempts: 1
+claimed_at: "2026-06-03T08:51:46.276802+00:00"
+run_id: "26874017852"
+completed_at: "2026-06-03T08:53:20.830199+00:00"
+snagged_at: ""
+last_error: ""
+result_path: ".agentcore/state/task-run-result.json"
 gmail_message_id: "19e8353e26557bf5"
 gmail_thread_id: "19e8353e26557bf5"
 rfc_message_id: "CABjd5M7DyL3a4jJDpGcryxGriSVJDtTvqSyBiAG05pGMFQML=Q@mail.gmail.com"
-queued_at: "2026-06-03T08:48:57.188657+00:00"
-updated_at: "2026-06-03T08:48:57.188657+00:00"
-attempts: 0
-claimed_at: ""
-run_id: ""
-completed_at: ""
-snagged_at: ""
-last_error: ""
-result_path: ""
 ---
 
 # Reply back with hello
