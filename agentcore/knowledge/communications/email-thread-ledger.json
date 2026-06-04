@@ -33,6 +33,17 @@
       "note": "Hi Brian, Hello \u2014 here are three ways to say it: - **English:** Hello - **Spanish:** Hola - **French:** Bonjour \u2014 AgentCore",
       "updated_at": "2026-06-04T17:40:12.683407+00:00",
       "created_at": "2026-06-04T17:39:56.255249+00:00"
+    },
+    "19e94c89be2e174e": {
+      "gmail_message_id": "19e94c89be2e174e",
+      "gmail_thread_id": "19e94c89be2e174e",
+      "rfc_message_id": "CABjd5M62Xcc066sk==TiVtvp22bYDMYG3Eh3v67Srv9sp_kEcA@mail.gmail.com",
+      "status": "done",
+      "task_id": "task-gmail-19e94c89be2e174e-cabjd5m62xcc066sk-tivtvp22bydmyg3eh3",
+      "response_gmail_message_id": "19e94e1114a5e828",
+      "note": "Hi Brian, I\u2019m blocked from reading the Keep note itself. Google Keep doesn\u2019t offer a supported API, and AgentCore\u2019s Gmail access is scoped for your direct emails\u2014not Google\u2019s Keep share notifications. When you share a note with `scottishram",
+      "updated_at": "2026-06-04T23:03:58.654845+00:00",
+      "created_at": "2026-06-04T23:03:09.062804+00:00"
     }
   },
   "threads": {
@@ -62,7 +73,16 @@
       "latest_response_gmail_message_id": "19e93b8a44ac09d4",
       "updated_at": "2026-06-04T17:40:12.683407+00:00",
       "created_at": "2026-06-04T17:39:56.255249+00:00"
+    },
+    "19e94c89be2e174e": {
+      "gmail_thread_id": "19e94c89be2e174e",
+      "latest_client_message_id": "19e94c89be2e174e",
+      "latest_status": "done",
+      "latest_task_id": "task-gmail-19e94c89be2e174e-cabjd5m62xcc066sk-tivtvp22bydmyg3eh3",
+      "latest_response_gmail_message_id": "19e94e1114a5e828",
+      "updated_at": "2026-06-04T23:03:58.654845+00:00",
+      "created_at": "2026-06-04T23:03:09.062804+00:00"
     }
   },
-  "updated_at": "2026-06-04T17:40:12.683423+00:00"
+  "updated_at": "2026-06-04T23:03:58.654860+00:00"
 }
