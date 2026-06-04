@@ -12,6 +12,7 @@ Cross-channel ingestion utilities for Drive documents and Android photo uploads.
   - `npm run ingest:dispatch`
 - Publish deterministic ledger + optional summary email:
   - `npm run ingest:publish`
+  - Default `changes` policy emails only when new records/tasks are created. Errors alone are logged to the ledger/artifacts to avoid recurring operational email noise.
 
 ## Environment Variables
 

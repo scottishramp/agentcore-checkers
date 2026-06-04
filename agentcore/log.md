@@ -176,3 +176,12 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Added `agentcore/knowledge/communications/email-thread-ledger.json` for ID/status audit metadata without storing email bodies.
 - Added scripts to skip terminal ledger entries during triage and record final task responses after notifications.
 - Updated the async runner workflow to commit terminal email ledger/task status changes back to the repo.
+
+## [2026-06-04] ops | Direct email reply cleanup
+
+- Investigated Brian's report that parsed emails received log-style responses rather than natural AI replies.
+- Confirmed Cursor Agent did run successfully for the smoke-test email, but `send_task_status.py` wrapped the LLM output in a task-completion template.
+- Updated direct email `done` replies to send the Cursor Agent output as the email body and use the original Gmail thread subject.
+- Removed the runner's separate "running" notification email to reduce operational noise.
+- Changed ingestion summary email policy so recurring errors alone are logged but not emailed under the default `changes` policy.
+- Recorded CI Drive ingestion's missing Drive readonly OAuth scope as an open blocker; this is separate from Gmail/LLM email answering.

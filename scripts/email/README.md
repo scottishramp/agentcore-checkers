@@ -78,6 +78,7 @@ From repo root:
 - Run logs: `.agentcore/state/task-runs/`
 - Email thread idempotency ledger: `agentcore/knowledge/communications/email-thread-ledger.json`
 - Task completion replies are sent into the original Gmail thread when Gmail thread metadata is available. Future fetches skip threads where AgentCore is already the latest sender.
+- For direct Gmail tasks, final `done`/`snag` notifications are formatted as human replies in the original thread. Operational task IDs, run IDs, and logs stay in artifacts/ledgers instead of the email body.
 
 ## Async Chat Loop (Email + GitHub Actions)
 

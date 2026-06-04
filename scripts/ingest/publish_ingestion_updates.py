@@ -59,8 +59,7 @@ def _should_send(summary: dict, send_policy: str) -> bool:
     totals = summary.get("totals", {})
     records = int((totals or {}).get("records_created", 0) or 0)
     tasks = int((totals or {}).get("tasks_created", 0) or 0)
-    errors = summary.get("errors", [])
-    return bool(records > 0 or tasks > 0 or errors)
+    return bool(records > 0 or tasks > 0)
 
 
 def _format_ledger_entry(summary: dict, drive_summary: dict) -> str:

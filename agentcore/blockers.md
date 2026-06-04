@@ -4,7 +4,14 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ## Open Blockers
 
-- None currently.
+### 2026-06-04 | Drive ingestion CI | GitHub OAuth secret lacks Drive scope
+
+- Status: open
+- Blocker: GitHub Actions Drive ingestion is returning `ACCESS_TOKEN_SCOPE_INSUFFICIENT` for `drive.files.list`, which means the `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` secret currently available to CI does not include `https://www.googleapis.com/auth/drive.readonly`.
+- Why it matters: Email answering still works, but unattended shared-with-me Drive/document ingestion cannot run in CI until the secret is refreshed with a Drive-scoped authorized-user token.
+- Proposed default: Refresh the GitHub secret from a local authorized-user JSON that includes Drive readonly scope, then verify the next workflow run.
+- Needed from user: None if the local `.secrets/gmail-authorized-user.json` is already the Drive-scoped token; otherwise a one-time OAuth consent rerun may be required.
+- Resolution:
 
 ## Blocker Template
 

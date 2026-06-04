@@ -94,23 +94,6 @@ jobs:
             fh.write(f"thread_key={claim.get('thread_key', '')}\n")
           PY
 
-      - name: Send running notification
-        if: steps.claim.outputs.claimed == 'true'
-        env:
-          AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
-          AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
-          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
-          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
-          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
-          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
-          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
-          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
-        run: |
-          python3 scripts/email/send_task_status.py \
-            --task-file "${{ steps.claim.outputs.task_file }}" \
-            --status running \
-            --project AsyncLoop
-
       - name: Install Cursor CLI
         if: steps.claim.outputs.claimed == 'true'
         run: |

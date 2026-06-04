@@ -23,8 +23,9 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: checkers game → https://scottishramp.github.io/agentcore-checkers/
 - Delivered: hybrid ingestion baseline (direct-email tasking, shared-with-me Drive ingestion, deterministic summary, runner dispatch trigger)
 - Delivered: thread-aware email tasking. AgentCore replies into the original Gmail thread, fetch skips threads where AgentCore is already the latest sender, and `email-thread-ledger.json` records task/response idempotency metadata.
+- Delivered: direct email replies now send the Cursor Agent output as the reply body instead of a task-status report. Routine ingestion errors are logged but no longer emailed under the default `changes` policy.
 - Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
-- No open blockers.
+- Open blocker: CI Drive ingestion OAuth secret lacks Drive readonly scope; email answering still works.
 
 ## Operating Preferences
 
@@ -43,10 +44,10 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `scripts/email/fetch_inbox.py` — fetches Gmail thread metadata and skips threads where Brian is not the latest sender
-- `scripts/email/send_task_status.py` — sends task completion/snag notices into the original Gmail thread
-- `scripts/email/email_ledger.py` and `scripts/email/record_email_response.py` — added small idempotency/audit ledger helpers
-- `scripts/email/triage_messages.py` — skips terminal ledger entries and records queued/source-only message metadata
+- `scripts/email/send_task_status.py` — direct email `done`/`snag` replies are human replies, not status reports
+- `.github/workflows/agent-runner.yml` — removed per-task running notification email to reduce noise
+- `scripts/agent/run_cursor_task.py` — prompts Cursor Agent to output only the email body for direct email tasks
+- `scripts/ingest/publish_ingestion_updates.py` — default `changes` policy no longer emails on errors alone
+- `agentcore/blockers.md` — reopened Drive CI OAuth scope blocker
 - `agentcore/knowledge/communications/email-thread-ledger.json` — stores message/thread/task/response IDs without email bodies
-- `.github/workflows/agent-runner.yml` — records and commits terminal email response metadata after task notification
 - `agentcore/knowledge/playbooks/email-ops.md` — documented thread-state and idempotency policy

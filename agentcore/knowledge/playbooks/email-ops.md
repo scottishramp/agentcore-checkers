@@ -74,6 +74,7 @@ Default triage behavior:
 - Gmail threads are the primary conversation state: process the thread only when Brian is the latest meaningful sender.
 - AgentCore replies should stay in the original Gmail thread using Gmail `threadId`, `In-Reply-To`, and `References`.
 - After AgentCore replies, future fetches skip that thread until Brian replies again.
+- Direct email task completions should send the Cursor Agent's reply body, not an operational status report. Keep task IDs, run IDs, and logs in artifacts/ledgers unless Brian asks for diagnostics.
 - `agentcore/knowledge/communications/email-thread-ledger.json` is a tiny backup ledger for message IDs, thread IDs, task IDs, response IDs, and terminal status. It should not store email bodies.
 
 ## Safety Constraints

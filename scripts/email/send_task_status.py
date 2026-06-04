@@ -57,6 +57,19 @@ def _subject(status: str, project: str, task_id: str) -> str:
     return f"[AgentCore][{label}][{project}][{task_id}] {status.upper()}"
 
 
+def _reply_subject(source_subject: str, fallback: str) -> str:
+    subject = compact_whitespace(source_subject) or fallback
+    if subject.lower().startswith("re:"):
+        return subject
+    return f"Re: {subject}"
+
+
+def _is_direct_email_task(task_meta: dict) -> bool:
+    return bool(str(task_meta.get("gmail_thread_id", "")).strip()) or str(task_meta.get("source_uid", "")).startswith(
+        "gmail-"
+    )
+
+
 def _body_running(task_id: str, thread_key: str, run_id: str, source_subject: str, requested: str, run_url: str) -> str:
     lines = [
         "Task status: RUNNING",
@@ -75,6 +88,11 @@ def _body_running(task_id: str, thread_key: str, run_id: str, source_subject: st
     return "\n".join(lines) + "\n"
 
 
+def _body_direct_done(summary: str) -> str:
+    body = summary.strip()
+    return (body or "Done.") + "\n"
+
+
 def _body_done(task_id: str, thread_key: str, run_id: str, source_subject: str, summary: str, run_url: str) -> str:
     lines = [
         "Task status: COMPLETED",
@@ -91,6 +109,15 @@ def _body_done(task_id: str, thread_key: str, run_id: str, source_subject: str, 
         lines.extend(["", f"Run URL: {run_url}"])
     lines.extend(["", f"Timestamp: {utc_now_iso()}"])
     return "\n".join(lines) + "\n"
+
+
+def _body_direct_snag(summary: str, error: str) -> str:
+    detail = summary or error or "The async task did not complete cleanly."
+    return (
+        "I hit a snag while trying to handle that email.\n\n"
+        f"{detail}\n\n"
+        "Reply with any extra context and I will try again.\n"
+    )
 
 
 def _body_snag(
@@ -145,6 +172,7 @@ def main() -> int:
     rfc_message_id = str(task.meta.get("rfc_message_id", "")) or str(task.meta.get("source_message_id", ""))
     requested_summary = summarize_requested_work(task)
     run_url = _run_url()
+    direct_email_task = _is_direct_email_task(task.meta)
 
     result = {}
     if args.status in {"done", "snag"} and args.result_json:
@@ -154,29 +182,42 @@ def main() -> int:
     if args.status == "running":
         body = _body_running(task_id, thread_key, run_id, source_subject, requested_summary, run_url)
     elif args.status == "done":
-        body = _body_done(
-            task_id=task_id,
-            thread_key=thread_key,
-            run_id=run_id,
-            source_subject=source_subject,
-            summary=compact_whitespace(str(result.get("summary", ""))),
-            run_url=run_url,
-        )
+        summary = str(result.get("summary", "")).strip()
+        if direct_email_task:
+            body = _body_direct_done(summary)
+        else:
+            body = _body_done(
+                task_id=task_id,
+                thread_key=thread_key,
+                run_id=run_id,
+                source_subject=source_subject,
+                summary=compact_whitespace(summary),
+                run_url=run_url,
+            )
     else:
-        body = _body_snag(
-            task_id=task_id,
-            thread_key=thread_key,
-            run_id=run_id,
-            source_subject=source_subject,
-            summary=compact_whitespace(str(result.get("summary", ""))),
-            error=compact_whitespace(str(result.get("error", ""))),
-            run_url=run_url,
-        )
+        summary = compact_whitespace(str(result.get("summary", "")))
+        error = compact_whitespace(str(result.get("error", "")))
+        if direct_email_task:
+            body = _body_direct_snag(summary, error)
+        else:
+            body = _body_snag(
+                task_id=task_id,
+                thread_key=thread_key,
+                run_id=run_id,
+                source_subject=source_subject,
+                summary=summary,
+                error=error,
+                run_url=run_url,
+            )
 
     msg = EmailMessage()
     msg["From"] = username
     msg["To"] = trusted_client_email
-    msg["Subject"] = _subject(status=args.status, project=args.project, task_id=task_id)
+    msg["Subject"] = (
+        _reply_subject(source_subject, fallback=_subject(status=args.status, project=args.project, task_id=task_id))
+        if direct_email_task and args.status in {"done", "snag"}
+        else _subject(status=args.status, project=args.project, task_id=task_id)
+    )
     if rfc_message_id and "@" in rfc_message_id:
         msg["In-Reply-To"] = f"<{rfc_message_id.strip('<>')}>"
         msg["References"] = f"<{rfc_message_id.strip('<>')}>"
