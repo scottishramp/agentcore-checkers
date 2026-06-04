@@ -22,6 +22,17 @@
       "note": "Task **reply with a haiku** is complete. Your note asked for italics; here is the reply: *Inbox light stirs\u2014* *a haiku typed in italics;* *spring answers your mail.* The async runner will deliver this in the original Gmail thread. No durabl",
       "updated_at": "2026-06-04T14:41:17.774975+00:00",
       "created_at": "2026-06-04T14:40:35.184569+00:00"
+    },
+    "19e937e1f9a60acd": {
+      "gmail_message_id": "19e937e1f9a60acd",
+      "gmail_thread_id": "19e937e1f9a60acd",
+      "rfc_message_id": "CABjd5M6NtB6KbX2saYDL-1N_rNA4cPVxzn62SFV1iPpsM-y0sA@mail.gmail.com",
+      "status": "done",
+      "task_id": "task-gmail-19e937e1f9a60acd-cabjd5m6ntb6kbx2saydl-1n_rna4cpvxzn6",
+      "response_gmail_message_id": "19e93b8a44ac09d4",
+      "note": "Hi Brian, Hello \u2014 here are three ways to say it: - **English:** Hello - **Spanish:** Hola - **French:** Bonjour \u2014 AgentCore",
+      "updated_at": "2026-06-04T17:40:12.683407+00:00",
+      "created_at": "2026-06-04T17:39:56.255249+00:00"
     }
   },
   "threads": {
@@ -42,7 +53,16 @@
       "latest_response_gmail_message_id": "19e9314d95e11b3e",
       "updated_at": "2026-06-04T14:41:17.774975+00:00",
       "created_at": "2026-06-04T14:40:35.184569+00:00"
+    },
+    "19e937e1f9a60acd": {
+      "gmail_thread_id": "19e937e1f9a60acd",
+      "latest_client_message_id": "19e937e1f9a60acd",
+      "latest_status": "done",
+      "latest_task_id": "task-gmail-19e937e1f9a60acd-cabjd5m6ntb6kbx2saydl-1n_rna4cpvxzn6",
+      "latest_response_gmail_message_id": "19e93b8a44ac09d4",
+      "updated_at": "2026-06-04T17:40:12.683407+00:00",
+      "created_at": "2026-06-04T17:39:56.255249+00:00"
     }
   },
-  "updated_at": "2026-06-04T14:41:17.774991+00:00"
+  "updated_at": "2026-06-04T17:40:12.683423+00:00"
 }
