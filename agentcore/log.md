@@ -185,3 +185,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Removed the runner's separate "running" notification email to reduce operational noise.
 - Changed ingestion summary email policy so recurring errors alone are logged but not emailed under the default `changes` policy.
 - Recorded CI Drive ingestion's missing Drive readonly OAuth scope as an open blocker; this is separate from Gmail/LLM email answering.
+
+## [2026-06-04] ops | Repair deployment default
+
+- Added a standing operating instruction: when Brian reports a bug, weird behavior, or asks to fix an operating workflow, commit/push/deploy are implicit parts of the repair unless Brian explicitly says to keep changes local or not deploy.
+- Recorded the instruction in both `.cursor/rules/admin-assistant.mdc` and `AGENTS.md`, with hot-cache updated for future sessions.
