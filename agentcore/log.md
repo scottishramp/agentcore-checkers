@@ -190,3 +190,9 @@ Synthesized all learnings from the checkers project into AgentCore:
 
 - Added a standing operating instruction: when Brian reports a bug, weird behavior, or asks to fix an operating workflow, commit/push/deploy are implicit parts of the repair unless Brian explicitly says to keep changes local or not deploy.
 - Recorded the instruction in both `.cursor/rules/admin-assistant.mdc` and `AGENTS.md`, with hot-cache updated for future sessions.
+
+## [2026-06-05] ops | Completed-change deployment default
+
+- Confirmed local repository state was behind `origin/main` by two bot-authored task-result commits and fast-forwarded local `main` to match remote.
+- Broadened the standing operating instruction: commit, push, and deployment/activation are implicit parts of any completed change unless Brian explicitly says to keep changes local, avoid committing, avoid pushing, or not deploy.
+- Updated `.cursor/rules/admin-assistant.mdc`, `AGENTS.md`, and hot-cache so future sessions inherit this default.

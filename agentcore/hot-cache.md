@@ -34,7 +34,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Use `briandherbert@gmail.com` as the trusted client channel for questions and updates.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
-- For bug reports and repair/debugging conversations, commit, push, and deployment/activation are implicit parts of the fix unless Brian explicitly says to hold changes locally or not deploy.
+- Commit, push, and deployment/activation are implicit parts of any completed change unless Brian explicitly says to keep changes local, avoid committing, avoid pushing, or not deploy.
 - Prefer Gmail API OAuth for email automation (`AGENTCORE_EMAIL_TRANSPORT=gmail-api`); SMTP/IMAP app-password auth is fallback only.
 - Kickoff questions before building — even for simple projects.
 - Prototype first, local-first, define test scenarios before building interactions.
@@ -50,5 +50,5 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - `scripts/agent/run_cursor_task.py` — prompts Cursor Agent to output only the email body for direct email tasks
 - `scripts/ingest/publish_ingestion_updates.py` — default `changes` policy no longer emails on errors alone
 - `agentcore/blockers.md` — reopened Drive CI OAuth scope blocker
-- `.cursor/rules/admin-assistant.mdc` and `AGENTS.md` — added standing instruction that repairs should be pushed/deployed unless Brian says otherwise
+- `.cursor/rules/admin-assistant.mdc` and `AGENTS.md` — broadened standing instruction so completed changes should be committed, pushed, and deployed/activated unless Brian says otherwise
 - `agentcore/knowledge/communications/email-thread-ledger.json` — stores message/thread/task/response IDs without email bodies
