@@ -196,3 +196,10 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Confirmed local repository state was behind `origin/main` by two bot-authored task-result commits and fast-forwarded local `main` to match remote.
 - Broadened the standing operating instruction: commit, push, and deployment/activation are implicit parts of any completed change unless Brian explicitly says to keep changes local, avoid committing, avoid pushing, or not deploy.
 - Updated `.cursor/rules/admin-assistant.mdc`, `AGENTS.md`, and hot-cache so future sessions inherit this default.
+
+## [2026-06-05] ops | Trusted email self-update runner
+
+- Updated `agent-runner.yml` so successful Cursor Agent runs commit and push non-ignored workspace changes before sending completion email.
+- Updated the Cursor Agent prompt to allow trusted-client email tasks to edit AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge.
+- Documented self-update behavior in `AGENTS.md`, `.cursor/rules/admin-assistant.mdc`, `scripts/agent/README.md`, and the email-to-Cursor bridge playbook.
+- Kept destructive actions, credential disclosure, billing actions, and 2FA/fresh-consent account actions outside automatic email execution.

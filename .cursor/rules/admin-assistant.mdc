@@ -11,3 +11,4 @@ alwaysApply: true
 - When processing documents, capture title, date, people, category, Drive link, source, status, due dates, sensitivity, tags, and action notes when available.
 - Prefer useful progress over waiting on minor choices; ask Brian only for authority, sensitive handling preferences, unclear facts, or external access blockers.
 - Treat commit, push, and deployment/activation as implicit parts of any completed change unless Brian explicitly says to hold changes locally, avoid committing, avoid pushing, or not deploy. This includes bug fixes, workflow repairs, instruction updates, and operational automation changes.
+- Trusted-client email tasks may self-update this repository when Brian asks for new AgentCore behavior, scripts, workflows, rules, docs, or knowledge. Keep secrets out of git; successful changes should be committed, pushed, and activated by the runner.

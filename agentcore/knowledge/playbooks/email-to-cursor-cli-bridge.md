@@ -9,7 +9,7 @@ related:
   - ./email-ops.md
 ---
 
-# Playbook: Email to Cursor CLI Bridge (Guarded Phase-2)
+# Playbook: Email to Cursor CLI Bridge
 
 Use this playbook to safely convert trusted-client email intents into Cursor Agent task execution.
 
@@ -23,7 +23,8 @@ Allow controlled automation from client emails while preventing arbitrary comman
 2. Queue direct trusted-client emails as task records by default.
 3. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
 4. Run Cursor Agent through a fixed command adapter, not arbitrary email-provided shell.
-5. Require explicit confirmation before high-impact intents.
+5. Allow trusted-client email tasks to self-update this repository for AgentCore behavior, workflow, script, rule, docs, and knowledge changes.
+6. Require explicit confirmation before destructive external actions, credential disclosure, billing actions, or sensitive data sharing.
 
 ## Allowlist Categories
 
@@ -32,13 +33,16 @@ These categories may auto-enqueue:
 - `direct-client-email`
 - `project-kickoff`
 - `doc-update`
+- `agentcore-self-update`
+- `workflow-update`
+- `integration-request`
 - `research-brief`
 - `status-digest`
 - `test-run-non-destructive`
 
 Blocked categories (must stay manual):
 
-- deployment, credential changes, billing actions, destructive data/repo operations
+- credential disclosure, billing actions, destructive external actions, destructive data/repo operations, and user-account actions requiring 2FA or fresh consent
 
 ## Proposed Queue Schema
 
@@ -59,8 +63,9 @@ Blocked categories (must stay manual):
 1. Intake script writes queue item under `agentcore/inbox/tasks/`.
 2. Claim script marks one task `in_progress`.
 3. Runner invokes `scripts/agent/run_cursor_task.py` through `run_task_adapter.py`.
-4. Cursor Agent processes the task and prints an email-ready result.
-5. Notification script emails running/done/snag status back to Brian.
+4. Cursor Agent processes the task, may edit the repository, and prints an email-ready result.
+5. The runner commits and pushes successful non-ignored workspace changes before sending the completion email.
+6. Notification script emails the natural reply or snag back to Brian.
 
 ## Current Repository Implementation Notes
 
@@ -70,6 +75,7 @@ Blocked categories (must stay manual):
 - Cursor Agent wrapper lives in `scripts/agent/run_cursor_task.py`.
 - Notification templates live in `scripts/email/send_task_status.py`.
 - Terminal state writes are handled by `scripts/email/finalize_task.py`.
+- Successful Cursor Agent workspace edits are committed by `agent-runner.yml` using `git add -A`; `.gitignore` prevents `.env`, `.secrets/`, and `.agentcore/state/` from being committed.
 
 ## Rollout Sequence
 

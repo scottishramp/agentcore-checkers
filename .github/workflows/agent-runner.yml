@@ -137,6 +137,19 @@ jobs:
             fh.write(f"run_id={result.get('run_id', '')}\n")
           PY
 
+      - name: Commit agent workspace changes
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done'
+        run: |
+          git add -A
+          git reset -- .agentcore/state || true
+          if git diff --cached --quiet; then
+            echo "No agent workspace changes to commit."
+          else
+            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Apply async agent task changes"
+            git pull --rebase origin main
+            git push
+          fi
+
       - name: Send completion notification
         if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done'
         env:
@@ -189,6 +202,7 @@ jobs:
             echo "No ledger changes to commit."
           else
             git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Record async email task result"
+            git pull --rebase origin main
             git push
           fi
 
