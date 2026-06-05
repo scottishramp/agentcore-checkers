@@ -203,3 +203,11 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Updated the Cursor Agent prompt to allow trusted-client email tasks to edit AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge.
 - Documented self-update behavior in `AGENTS.md`, `.cursor/rules/admin-assistant.mdc`, `scripts/agent/README.md`, and the email-to-Cursor bridge playbook.
 - Kept destructive actions, credential disclosure, billing actions, and 2FA/fresh-consent account actions outside automatic email execution.
+
+## [2026-06-05] ops | Google Keep share investigation
+
+- Found Brian's Google Keep share notification in Gmail from `keep-shares-dm-noreply@google.com`; the body says Brian shared note `Stage` with `scottishramp@gmail.com`.
+- Confirmed the current trusted-client-only Gmail fetch policy would miss or reject service-sender share notifications even when Brian initiated the share.
+- Tested note access: the Keep share URL redirects to Google sign-in without browser session, and the official Keep API returns `ACCESS_TOKEN_SCOPE_INSUFFICIENT` for the current OAuth token.
+- Updated Gmail fetch/triage to accept verified Google Drive/Keep share notifications when the body names Brian's trusted email and the message is addressed to AgentCore.
+- Added `https://www.googleapis.com/auth/keep.readonly` to OAuth setup for the next token refresh and recorded the Keep scope blocker.

@@ -64,10 +64,12 @@ def _reply_subject(source_subject: str, fallback: str) -> str:
     return f"Re: {subject}"
 
 
-def _is_direct_email_task(task_meta: dict) -> bool:
-    return bool(str(task_meta.get("gmail_thread_id", "")).strip()) or str(task_meta.get("source_uid", "")).startswith(
-        "gmail-"
-    )
+def _uses_natural_reply(task_meta: dict, trusted_client_email: str) -> bool:
+    if str(task_meta.get("reply_style", "")).strip().lower() == "natural":
+        return True
+    if str(task_meta.get("source_kind", "")).strip().lower() == "trusted_share_notification":
+        return True
+    return str(task_meta.get("source_from", "")).strip().lower() == trusted_client_email.strip().lower()
 
 
 def _body_running(task_id: str, thread_key: str, run_id: str, source_subject: str, requested: str, run_url: str) -> str:
@@ -172,7 +174,7 @@ def main() -> int:
     rfc_message_id = str(task.meta.get("rfc_message_id", "")) or str(task.meta.get("source_message_id", ""))
     requested_summary = summarize_requested_work(task)
     run_url = _run_url()
-    direct_email_task = _is_direct_email_task(task.meta)
+    natural_reply = _uses_natural_reply(task.meta, trusted_client_email)
 
     result = {}
     if args.status in {"done", "snag"} and args.result_json:
@@ -183,7 +185,7 @@ def main() -> int:
         body = _body_running(task_id, thread_key, run_id, source_subject, requested_summary, run_url)
     elif args.status == "done":
         summary = str(result.get("summary", "")).strip()
-        if direct_email_task:
+        if natural_reply:
             body = _body_direct_done(summary)
         else:
             body = _body_done(
@@ -197,7 +199,7 @@ def main() -> int:
     else:
         summary = compact_whitespace(str(result.get("summary", "")))
         error = compact_whitespace(str(result.get("error", "")))
-        if direct_email_task:
+        if natural_reply:
             body = _body_direct_snag(summary, error)
         else:
             body = _body_snag(
@@ -215,7 +217,7 @@ def main() -> int:
     msg["To"] = trusted_client_email
     msg["Subject"] = (
         _reply_subject(source_subject, fallback=_subject(status=args.status, project=args.project, task_id=task_id))
-        if direct_email_task and args.status in {"done", "snag"}
+        if natural_reply and args.status in {"done", "snag"}
         else _subject(status=args.status, project=args.project, task_id=task_id)
     )
     if rfc_message_id and "@" in rfc_message_id:

@@ -30,6 +30,10 @@ from common import (
 
 DEFAULT_STATE_PATH = ".agentcore/state/email-last-uid.json"
 DEFAULT_OUTPUT_PATH = ".agentcore/state/email-fetch/latest.json"
+DEFAULT_TRUSTED_SHARE_SENDERS = {
+    "drive-shares-dm-noreply@google.com",
+    "keep-shares-dm-noreply@google.com",
+}
 
 
 def parse_args() -> argparse.Namespace:
@@ -74,6 +78,33 @@ def parse_message(uid: int | str, msg: Message) -> dict[str, str | int]:
     }
 
 
+def _split_email_list(raw: str) -> set[str]:
+    return {item.strip().lower() for item in raw.replace(";", ",").split(",") if item.strip()}
+
+
+def _is_verified_share_notification(
+    payload: dict[str, str | int],
+    trusted_client_email: str,
+    agent_email: str,
+    trusted_share_senders: set[str],
+) -> bool:
+    from_email = str(payload.get("from_email", "")).lower()
+    if from_email not in trusted_share_senders:
+        return False
+
+    body = str(payload.get("body_text", "")).lower()
+    to_header = str(payload.get("to", "")).lower()
+    subject = str(payload.get("subject", "")).lower()
+    trusted = trusted_client_email.lower()
+    agent = agent_email.lower()
+
+    if trusted not in body:
+        return False
+    if agent and agent not in to_header and agent not in body:
+        return False
+    return "shared" in subject or "shared" in body
+
+
 def _metadata_header(headers: list[dict], name: str) -> str:
     target = name.lower()
     for item in headers:
@@ -113,13 +144,20 @@ def _gmail_after_query(last_internal_ms: int) -> str:
     return f" after:{dt.strftime('%Y/%m/%d')}"
 
 
-def fetch_gmail_api(args: argparse.Namespace, env_map: dict[str, str], allowed_senders: set[str]) -> dict:
+def fetch_gmail_api(
+    args: argparse.Namespace,
+    env_map: dict[str, str],
+    allowed_senders: set[str],
+    trusted_share_senders: set[str],
+    trusted_client_email: str,
+    agent_email: str,
+) -> dict:
     state_path = Path(args.state_file)
     output_path = Path(args.output)
     state = read_json(state_path, default={"last_internal_date_ms": 0, "seen_message_ids": []})
     last_internal_ms = int(state.get("last_internal_date_ms", 0) or 0)
     seen_at_last = {str(item) for item in state.get("seen_message_ids", [])}
-    sender_terms = [f"from:{sender}" for sender in sorted(allowed_senders)]
+    sender_terms = [f"from:{sender}" for sender in sorted(allowed_senders | trusted_share_senders)]
     sender_query = sender_terms[0] if len(sender_terms) == 1 else "{" + " ".join(sender_terms) + "}"
     query = f"in:inbox {sender_query}{_gmail_after_query(last_internal_ms)}"
     token = gmail_api.access_token(env_map=env_map)
@@ -171,13 +209,24 @@ def fetch_gmail_api(args: argparse.Namespace, env_map: dict[str, str], allowed_s
         payload["gmail_message_id"] = gmail_id
         payload["gmail_thread_id"] = str(detail.get("threadId", ""))
         payload["internal_date_ms"] = internal_ms
-        if allowed_senders and payload["from_email"] not in allowed_senders:
+        verified_share = _is_verified_share_notification(
+            payload=payload,
+            trusted_client_email=trusted_client_email,
+            agent_email=agent_email,
+            trusted_share_senders=trusted_share_senders,
+        )
+        if allowed_senders and payload["from_email"] not in allowed_senders and not verified_share:
             continue
         latest = _thread_latest_sender(token=token, thread_id=str(payload["gmail_thread_id"]))
         payload.update(latest)
-        if allowed_senders and latest.get("latest_sender_email") not in allowed_senders:
+        if allowed_senders and latest.get("latest_sender_email") not in allowed_senders and not verified_share:
             skipped_not_latest += 1
             continue
+        if verified_share:
+            payload["trusted_share_notification"] = True
+            payload["shared_by_email"] = trusted_client_email
+            payload["source_kind"] = "trusted_share_notification"
+            payload["reply_style"] = "natural"
         accepted_messages.append(payload)
 
     accepted_messages.sort(key=lambda item: int(item.get("internal_date_ms", 0)))
@@ -204,6 +253,7 @@ def fetch_gmail_api(args: argparse.Namespace, env_map: dict[str, str], allowed_s
         "accepted_count": len(accepted_messages),
         "skipped_not_latest": skipped_not_latest,
         "allowed_senders": sorted(allowed_senders),
+        "trusted_share_senders": sorted(trusted_share_senders),
         "messages": accepted_messages,
     }
     write_json(output_path, output)
@@ -237,10 +287,21 @@ def main() -> int:
         env_map=env_map,
     )
     allowed_senders: set[str] = {default_sender.strip().lower()}
+    trusted_share_senders = DEFAULT_TRUSTED_SHARE_SENDERS | _split_email_list(
+        get_env("AGENTCORE_TRUSTED_SHARE_SENDERS", default="", env_map=env_map)
+    )
+    agent_email = get_env("AGENTCORE_EMAIL", fallback_keys=("GOOGLE_EMAIL",), default="", env_map=env_map)
     transport = gmail_api.resolve_transport(args.transport, "gmail-api", "imap", env_map=env_map)
 
     if transport == "gmail-api":
-        fetch_gmail_api(args, env_map, allowed_senders)
+        fetch_gmail_api(
+            args,
+            env_map,
+            allowed_senders,
+            trusted_share_senders,
+            trusted_client_email=default_sender.strip().lower(),
+            agent_email=agent_email,
+        )
         return 0
 
     username, password = resolve_email_credentials(env_map=env_map)
@@ -301,8 +362,19 @@ def main() -> int:
                 continue
             parsed = email.message_from_bytes(raw_bytes)
             payload = parse_message(uid, parsed)
-            if allowed_senders and payload["from_email"] not in allowed_senders:
+            verified_share = _is_verified_share_notification(
+                payload=payload,
+                trusted_client_email=default_sender.strip().lower(),
+                agent_email=agent_email,
+                trusted_share_senders=trusted_share_senders,
+            )
+            if allowed_senders and payload["from_email"] not in allowed_senders and not verified_share:
                 continue
+            if verified_share:
+                payload["trusted_share_notification"] = True
+                payload["shared_by_email"] = default_sender.strip().lower()
+                payload["source_kind"] = "trusted_share_notification"
+                payload["reply_style"] = "natural"
             accepted_messages.append(payload)
 
     accepted_messages.sort(key=lambda item: int(item["uid"]))
@@ -326,6 +398,7 @@ def main() -> int:
         "total_seen": len(seen_uids),
         "accepted_count": len(accepted_messages),
         "allowed_senders": sorted(allowed_senders),
+        "trusted_share_senders": sorted(trusted_share_senders),
         "messages": accepted_messages,
     }
     write_json(output_path, output)

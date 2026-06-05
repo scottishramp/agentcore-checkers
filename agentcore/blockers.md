@@ -13,6 +13,15 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 - Needed from user: None if the local `.secrets/gmail-authorized-user.json` is already the Drive-scoped token; otherwise a one-time OAuth consent rerun may be required.
 - Resolution:
 
+### 2026-06-05 | Google Keep ingestion | OAuth token lacks Keep scope
+
+- Status: open
+- Blocker: The Google Keep share notification for note `Stage` is visible in Gmail, but the current OAuth token returns `ACCESS_TOKEN_SCOPE_INSUFFICIENT` for `keep.googleapis.com/v1/notes`.
+- Why it matters: AgentCore can now recognize trusted Google Keep share notifications, but cannot read Keep note content through the official API until OAuth includes `https://www.googleapis.com/auth/keep.readonly` and the GitHub secret is refreshed.
+- Proposed default: Re-run `npm run email:oauth -- --client-file .secrets/google-oauth-client.json` with the updated scopes, refresh `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON`, then test `keep.googleapis.com/v1/notes`.
+- Needed from user: One-time browser OAuth approval if the existing refresh token cannot be upgraded silently.
+- Resolution:
+
 ## Blocker Template
 
 ```markdown

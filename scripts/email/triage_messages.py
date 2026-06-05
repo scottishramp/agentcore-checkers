@@ -112,6 +112,12 @@ def classify_message(subject: str, body: str) -> str:
     return "task"
 
 
+def classify_record(record: dict) -> str:
+    if record.get("trusted_share_notification"):
+        return "document_shared"
+    return classify_message(str(record.get("subject", "")), str(record.get("body_text", "")))
+
+
 def requires_response(classification: str, subject: str, body: str) -> bool:
     text = f"{subject}\n{body}".lower()
     if classification in {"task", "question", "answer"}:
@@ -124,6 +130,10 @@ def requires_response(classification: str, subject: str, body: str) -> bool:
 def summarize_body(body: str, limit: int = 220) -> str:
     summary = compact_whitespace(body)
     return summary[:limit] + ("..." if len(summary) > limit else "")
+
+
+def quote_meta(value) -> str:
+    return str(value).replace("\\", "\\\\").replace('"', '\\"')
 
 
 def normalized_email_filename(record: dict) -> str:
@@ -154,17 +164,18 @@ def write_email_record(path: Path, record: dict, classification: str, needs_resp
     body = str(record.get("body_text", "")).strip()
     lines = [
         "---",
-        f'uid: "{metadata["uid"]}"',
-        f'message_id: "{metadata["message_id"]}"',
-        f'thread_key: "{metadata["thread_key"]}"',
-        f'gmail_message_id: "{record.get("gmail_message_id", "")}"',
-        f'gmail_thread_id: "{record.get("gmail_thread_id", "")}"',
-        f'from_email: "{metadata["from_email"]}"',
-        f'subject: "{metadata["subject"]}"',
-        f'received_at: "{metadata["received_at"]}"',
-        f'classification: "{metadata["classification"]}"',
+        f'uid: "{quote_meta(metadata["uid"])}"',
+        f'message_id: "{quote_meta(metadata["message_id"])}"',
+        f'thread_key: "{quote_meta(metadata["thread_key"])}"',
+        f'gmail_message_id: "{quote_meta(record.get("gmail_message_id", ""))}"',
+        f'gmail_thread_id: "{quote_meta(record.get("gmail_thread_id", ""))}"',
+        f'source_kind: "{quote_meta(record.get("source_kind", ""))}"',
+        f'from_email: "{quote_meta(metadata["from_email"])}"',
+        f'subject: "{quote_meta(metadata["subject"])}"',
+        f'received_at: "{quote_meta(metadata["received_at"])}"',
+        f'classification: "{quote_meta(metadata["classification"])}"',
         f"requires_response: {str(metadata['requires_response']).lower()}",
-        f'triaged_at: "{metadata["triaged_at"]}"',
+        f'triaged_at: "{quote_meta(metadata["triaged_at"])}"',
         "---",
         "",
         "## Raw Body",
@@ -194,19 +205,21 @@ def write_task_record(path: Path, record: dict) -> bool:
     now = utc_now_iso()
     lines = [
         "---",
-        f'task_id: "{task_id}"',
+        f'task_id: "{quote_meta(task_id)}"',
         'status: "queued"',
         'priority: "normal"',
-        f'source_message_id: "{record.get("message_id", "")}"',
-        f'source_uid: "{record.get("uid", "")}"',
-        f'source_from: "{record.get("from_email", "")}"',
-        f'source_subject: "{task_title}"',
-        f'thread_key: "{thread_key}"',
-        f'gmail_message_id: "{record.get("gmail_message_id", "")}"',
-        f'gmail_thread_id: "{record.get("gmail_thread_id", "")}"',
-        f'rfc_message_id: "{record.get("message_id", "")}"',
-        f'queued_at: "{now}"',
-        f'updated_at: "{now}"',
+        f'source_message_id: "{quote_meta(record.get("message_id", ""))}"',
+        f'source_uid: "{quote_meta(record.get("uid", ""))}"',
+        f'source_from: "{quote_meta(record.get("from_email", ""))}"',
+        f'source_subject: "{quote_meta(task_title)}"',
+        f'thread_key: "{quote_meta(thread_key)}"',
+        f'gmail_message_id: "{quote_meta(record.get("gmail_message_id", ""))}"',
+        f'gmail_thread_id: "{quote_meta(record.get("gmail_thread_id", ""))}"',
+        f'rfc_message_id: "{quote_meta(record.get("message_id", ""))}"',
+        f'source_kind: "{quote_meta(record.get("source_kind", ""))}"',
+        f'reply_style: "{quote_meta(record.get("reply_style", ""))}"',
+        f'queued_at: "{quote_meta(now)}"',
+        f'updated_at: "{quote_meta(now)}"',
         "attempts: 0",
         'claimed_at: ""',
         'run_id: ""',
@@ -274,7 +287,7 @@ def main() -> int:
             continue
         subject = str(item.get("subject", ""))
         body = str(item.get("body_text", ""))
-        classification = classify_message(subject, body)
+        classification = classify_record(item)
         classifications[classification] = classifications.get(classification, 0) + 1
         needs_response = requires_response(classification, subject, body)
 
@@ -283,7 +296,8 @@ def main() -> int:
         if write_email_record(email_path, item, classification, needs_response):
             normalized_count += 1
 
-        if classification == "task":
+        should_queue_task = classification == "task" or bool(item.get("trusted_share_notification"))
+        if should_queue_task:
             task_filename = normalized_task_filename(item)
             task_path = task_dir / task_filename
             if write_task_record(task_path, item):
