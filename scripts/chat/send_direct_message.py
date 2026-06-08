@@ -15,12 +15,19 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+EMAIL_DIR = SCRIPT_DIR.parent / "email"
+if str(EMAIL_DIR) not in sys.path:
+    sys.path.insert(0, str(EMAIL_DIR))
+
+import gmail_api  # noqa: E402
+
 CHAT_API_ROOT = "https://chat.googleapis.com/v1"
 SCOPE_HINT_COMMAND = (
     "gcloud auth application-default login "
     '--scopes="openid,https://www.googleapis.com/auth/userinfo.email,'
     'https://www.googleapis.com/auth/cloud-platform,'
-    'https://www.googleapis.com/auth/chat.spaces,'
+    'https://www.googleapis.com/auth/chat.spaces.create,'
     'https://www.googleapis.com/auth/chat.messages.create"'
 )
 
@@ -117,7 +124,10 @@ def run_json_request(method: str, path: str, token: str, payload: dict | None = 
         raise ChatApiError(status_code=exc.code, payload=payload_error) from exc
 
 
-def get_access_token() -> str:
+def get_access_token(env_map: dict[str, str]) -> str:
+    if gmail_api.has_oauth_credentials(env_map=env_map):
+        return gmail_api.access_token(env_map=env_map)
+
     cmd = ["gcloud", "auth", "application-default", "print-access-token"]
     result = subprocess.run(cmd, capture_output=True, text=True, check=False)
     if result.returncode != 0:
@@ -181,7 +191,7 @@ def main() -> int:
         )
 
     message_text = (args.text or default_message(args.project)).strip()
-    token = get_access_token()
+    token = get_access_token(env_map=env_map)
     summary = {
         "recipient": recipient,
         "create_dm_if_missing": not args.no_create_dm,
@@ -193,15 +203,14 @@ def main() -> int:
         return 0
 
     try:
-        try:
+        if args.no_create_dm:
             space = find_dm_space(token=token, recipient_email=recipient)
             dm_status = "found_existing_dm"
-        except ChatApiError as err:
-            if err.status_code == 404 and not args.no_create_dm:
-                space = create_dm_space(token=token, recipient_email=recipient)
-                dm_status = "created_dm"
-            else:
-                raise
+        else:
+            # spaces.setup returns an existing direct-message space when one
+            # already exists, avoiding an extra spaces.readonly scope.
+            space = create_dm_space(token=token, recipient_email=recipient)
+            dm_status = "created_or_found_dm"
 
         space_name = (space.get("name") or "").strip()
         if not space_name:

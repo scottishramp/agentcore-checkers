@@ -253,3 +253,12 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Tried user-authenticated Chat API DM setup to `briandherbert@gmail.com`; initial response said Google Chat was turned off, and after accepting the web request the API returned `404 Google Chat app not found`.
 - Confirmed the browser Chat UI works for `scottishramp@gmail.com`, accepted Brian's message request, and sent a test DM: "Test from AgentCore in Google Chat. If you see this, the synchronous chat channel works."
 - Recorded the remaining programmatic blocker: the Cloud project needs a configured Chat app profile before unattended Chat API sends can work.
+
+## [2026-06-08] ops | Google Chat API send working
+
+- Configured the Google Chat API app profile in Cloud Console for project `agentcore-495202`.
+- App profile values: name `AgentCore`, avatar `https://developers.google.com/chat/images/quickstart-app-avatar.png`, description `Private admin assistant for Brian.`, interactive features disabled, logging enabled.
+- Retried user-authenticated Chat API setup for `briandherbert@gmail.com`; `spaces.setup` succeeded and returned existing DM space `spaces/6RZ69yAAAAE`.
+- Sent a programmatic Chat API test message to Brian: "Programmatic Google Chat test from AgentCore. Sent through Chat API at <UTC timestamp>."
+- Updated `scripts/chat/send_direct_message.py` to prefer AgentCore's repo-managed OAuth authorized-user token and use `spaces.setup` directly, then verified `npm run chat:send` sends through the reusable helper.
+- Marked the Chat app profile blocker resolved.

@@ -27,9 +27,9 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: trusted third-party share notification intake. Google Drive/Keep share emails are accepted when the body names Brian's trusted email and the message is addressed to AgentCore.
 - Delivered: Calendar readonly access. Brian shared `briandherbert@googlemail.com` with `scottishramp@gmail.com`; AgentCore can list it through Google Calendar API as `reader` and read upcoming events.
 - Delivered: broad admin-assistant OAuth bundle. AgentCore has read access for shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive/Docs/Sheets/Slides/Tasks/app-created Photos artifacts.
-- Delivered: Google Chat browser send test. AgentCore accepted Brian's Chat request and sent a test DM from `scottishramp@gmail.com` through chat.google.com.
+- Delivered: Google Chat browser and API send tests. AgentCore accepted Brian's Chat request, sent a web UI test DM, configured the Chat app profile, and successfully sent a programmatic Chat API DM.
 - Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
-- Open blockers: Google Chat API requires Cloud Console Chat app profile configuration; Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
+- Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
 
 ## Operating Preferences
 
@@ -56,6 +56,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - `agentcore/knowledge/people/brian-herbert.md` — recorded Brian's shared calendar
 - `agentcore/knowledge/projects/family-admin-system.md` — calendar awareness in scope
 - `scripts/email/gmail_oauth_setup.py` — broad admin-assistant OAuth bundle plus Google Chat send/conversation scopes
-- Google Cloud project `agentcore-495202` — Chat API enabled alongside prior Gmail/Drive/Calendar/Workspace APIs
-- GitHub secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` — refreshed from local token including Chat scopes
-- Google Chat — browser DM test succeeded from `scottishramp@gmail.com` to Brian
+- Google Cloud project `agentcore-495202` — Chat API app profile configured for AgentCore
+- Google Chat — API DM send succeeded to Brian in `spaces/6RZ69yAAAAE`
+- `scripts/chat/send_direct_message.py` — reusable `npm run chat:send` now uses repo OAuth token and verified send
+- `agentcore/blockers.md` — resolved Chat app profile blocker

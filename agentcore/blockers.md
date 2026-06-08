@@ -4,15 +4,6 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ## Open Blockers
 
-### 2026-06-08 | Google Chat API | Chat app profile not configured
-
-- Status: open
-- Blocker: Google Chat browser messaging works for `scottishramp@gmail.com`, but Google Chat API `spaces.setup` returns `404 Google Chat app not found` until the Cloud project has a configured Chat app profile.
-- Why it matters: AgentCore can manually send Chat messages through the browser, but unattended programmatic Chat sends/receives need the Chat app configuration completed before the API can route requests.
-- Proposed default: Configure the Chat API app profile in Google Cloud Console for project `agentcore-495202` with AgentCore name/description/avatar, then retry user-authenticated DM setup and message creation.
-- Needed from user: None expected unless Google requires additional Workspace/Marketplace approval or account verification during Chat app configuration.
-- Resolution:
-
 ### 2026-06-07 | Google Photos intake | Broad library reads unavailable
 
 - Status: open
@@ -45,6 +36,12 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 ```
 
 ## Resolved Blockers
+
+### 2026-06-08 | Google Chat API | Chat app profile not configured
+
+- Status: resolved
+- Blocker: Google Chat browser messaging worked for `scottishramp@gmail.com`, but Google Chat API `spaces.setup` returned `404 Google Chat app not found` until the Cloud project had a configured Chat app profile.
+- Resolution: Configured the Google Chat API app profile in Cloud Console for project `agentcore-495202` with app name `AgentCore`, avatar `https://developers.google.com/chat/images/quickstart-app-avatar.png`, description `Private admin assistant for Brian.`, interactive features disabled, and logging enabled. Retried user-authenticated `spaces.setup` and `messages.create`; both succeeded for Brian's DM space `spaces/6RZ69yAAAAE`.
 
 ### 2026-06-04 | Drive ingestion CI | GitHub OAuth secret lacks Drive scope
 
