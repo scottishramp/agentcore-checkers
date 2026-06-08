@@ -49,11 +49,11 @@
       "gmail_message_id": "19ea4f3f0f800b8e",
       "gmail_thread_id": "19ea4f3f0f800b8e",
       "rfc_message_id": "calendar-4443ee39-d209-4acf-8980-a739078821a1@google.com",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-gmail-19ea4f3f0f800b8e-calendar-4443ee39-d209-4acf-8980-a73",
-      "response_gmail_message_id": "",
-      "note": "",
-      "updated_at": "2026-06-08T05:24:21.148042+00:00",
+      "response_gmail_message_id": "19ea5b101efd54c6",
+      "note": "Hi Brian, Thanks for sharing your calendar \u2014 I can see `briandherbert@googlemail.com` with full event details. I\u2019ll use it for scheduling context, upcoming deadlines, and reminder follow-up as we keep building out the admin setup. Brian",
+      "updated_at": "2026-06-08T05:25:01.879419+00:00",
       "created_at": "2026-06-08T05:24:21.148042+00:00"
     }
   },
@@ -97,12 +97,12 @@
     "19ea4f3f0f800b8e": {
       "gmail_thread_id": "19ea4f3f0f800b8e",
       "latest_client_message_id": "19ea4f3f0f800b8e",
-      "latest_status": "queued",
+      "latest_status": "done",
       "latest_task_id": "task-gmail-19ea4f3f0f800b8e-calendar-4443ee39-d209-4acf-8980-a73",
-      "latest_response_gmail_message_id": "",
-      "updated_at": "2026-06-08T05:24:21.148042+00:00",
+      "latest_response_gmail_message_id": "19ea5b101efd54c6",
+      "updated_at": "2026-06-08T05:25:01.879419+00:00",
       "created_at": "2026-06-08T05:24:21.148042+00:00"
     }
   },
-  "updated_at": "2026-06-08T05:24:21.148194+00:00"
+  "updated_at": "2026-06-08T05:25:01.879435+00:00"
 }
