@@ -36,6 +36,9 @@ SCOPES = [
     "https://www.googleapis.com/auth/contacts.readonly",
     # Tasks are AgentCore-owned operational state.
     "https://www.googleapis.com/auth/tasks",
+    # Google Chat is the planned synchronous interaction channel.
+    "https://www.googleapis.com/auth/chat.spaces.create",
+    "https://www.googleapis.com/auth/chat.messages.create",
     # Google Photos no longer permits broad library reads. These scopes only
     # cover media/albums created or uploaded by AgentCore's app.
     "https://www.googleapis.com/auth/photoslibrary.appendonly",

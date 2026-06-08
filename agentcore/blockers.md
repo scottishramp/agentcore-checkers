@@ -4,6 +4,15 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ## Open Blockers
 
+### 2026-06-08 | Google Chat API | Chat app profile not configured
+
+- Status: open
+- Blocker: Google Chat browser messaging works for `scottishramp@gmail.com`, but Google Chat API `spaces.setup` returns `404 Google Chat app not found` until the Cloud project has a configured Chat app profile.
+- Why it matters: AgentCore can manually send Chat messages through the browser, but unattended programmatic Chat sends/receives need the Chat app configuration completed before the API can route requests.
+- Proposed default: Configure the Chat API app profile in Google Cloud Console for project `agentcore-495202` with AgentCore name/description/avatar, then retry user-authenticated DM setup and message creation.
+- Needed from user: None expected unless Google requires additional Workspace/Marketplace approval or account verification during Chat app configuration.
+- Resolution:
+
 ### 2026-06-07 | Google Photos intake | Broad library reads unavailable
 
 - Status: open

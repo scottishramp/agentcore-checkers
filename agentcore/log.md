@@ -245,3 +245,11 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Processed queued task for Brian's Google Calendar share notification (`briandherbert@googlemail.com` → `scottishramp@gmail.com`, reader with event details).
 - Recorded shared calendar on Brian's people page and the family admin system scope.
 - Replied to Brian confirming calendar access is active and will be used for scheduling context and deadline awareness.
+
+## [2026-06-08] ops | Google Chat send test
+
+- Added Google Chat OAuth scopes `chat.spaces.create` and `chat.messages.create` to the admin-assistant OAuth helper.
+- Enabled the Google Chat API on Google Cloud project `agentcore-495202`, completed OAuth consent for `scottishramp@gmail.com`, and refreshed the GitHub Actions `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` secret.
+- Tried user-authenticated Chat API DM setup to `briandherbert@gmail.com`; initial response said Google Chat was turned off, and after accepting the web request the API returned `404 Google Chat app not found`.
+- Confirmed the browser Chat UI works for `scottishramp@gmail.com`, accepted Brian's message request, and sent a test DM: "Test from AgentCore in Google Chat. If you see this, the synchronous chat channel works."
+- Recorded the remaining programmatic blocker: the Cloud project needs a configured Chat app profile before unattended Chat API sends can work.
