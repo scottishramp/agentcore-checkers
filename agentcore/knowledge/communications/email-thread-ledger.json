@@ -55,6 +55,17 @@
       "note": "Hi Brian, Thanks for sharing your calendar \u2014 I can see `briandherbert@googlemail.com` with full event details. I\u2019ll use it for scheduling context, upcoming deadlines, and reminder follow-up as we keep building out the admin setup. Brian",
       "updated_at": "2026-06-08T05:25:01.879419+00:00",
       "created_at": "2026-06-08T05:24:21.148042+00:00"
+    },
+    "19e946e3abff9515": {
+      "gmail_message_id": "19e946e3abff9515",
+      "gmail_thread_id": "19e946e3abff9515",
+      "rfc_message_id": "autogen-java-75e1b7dc-861b-4e5d-8da9-04cf4b9ea34c@google.com",
+      "status": "queued",
+      "task_id": "task-gmail-19e946e3abff9515-autogen-java-75e1b7dc-861b-4e5d-8da9",
+      "response_gmail_message_id": "",
+      "note": "",
+      "updated_at": "2026-06-08T22:51:03.666336+00:00",
+      "created_at": "2026-06-08T22:51:03.666336+00:00"
     }
   },
   "threads": {
@@ -102,7 +113,16 @@
       "latest_response_gmail_message_id": "19ea5b101efd54c6",
       "updated_at": "2026-06-08T05:25:01.879419+00:00",
       "created_at": "2026-06-08T05:24:21.148042+00:00"
+    },
+    "19e946e3abff9515": {
+      "gmail_thread_id": "19e946e3abff9515",
+      "latest_client_message_id": "19e946e3abff9515",
+      "latest_status": "queued",
+      "latest_task_id": "task-gmail-19e946e3abff9515-autogen-java-75e1b7dc-861b-4e5d-8da9",
+      "latest_response_gmail_message_id": "",
+      "updated_at": "2026-06-08T22:51:03.666336+00:00",
+      "created_at": "2026-06-08T22:51:03.666336+00:00"
     }
   },
-  "updated_at": "2026-06-08T05:25:01.879435+00:00"
+  "updated_at": "2026-06-08T22:51:03.666493+00:00"
 }

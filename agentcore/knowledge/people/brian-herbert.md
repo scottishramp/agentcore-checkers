@@ -23,6 +23,7 @@ Brian Herbert is AgentCore's trusted client and the person AgentCore assists wit
 
 - Drive: `Life 2026` document shared with viewer access.
 - Calendar: `briandherbert@googlemail.com` shared with `scottishramp@gmail.com` as reader with full event-detail visibility (shared 2026-06-08).
+- Keep: note `Stage` shared with `scottishramp@gmail.com` (share notifications 2026-06-05 and 2026-06-08). Note body not readable via API; metadata at `agentcore/sources/web/keep-note-stage.md`.
 
 ## Current Admin Setup
 

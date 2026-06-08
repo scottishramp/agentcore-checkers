@@ -54,6 +54,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- `agentcore/sources/web/keep-note-stage.md` — metadata for Brian's shared Keep note `Stage`.
+- `agentcore/knowledge/people/brian-herbert.md` — Keep share recorded under shared Google resources.
 - `scripts/chat/fetch_messages.py` and `scripts/chat/triage_messages.py` — poll Brian's Google Chat DM and queue tasks.
 - `scripts/chat/send_task_response.py` and `scripts/chat/record_chat_response.py` — reply to Chat-origin tasks and record response metadata.
 - `.github/workflows/email-sync.yml` and `.github/workflows/agent-runner.yml` — include Chat fetch/triage and Chat response routing.

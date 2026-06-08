@@ -271,3 +271,9 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Wired Chat fetch/triage into `email-sync.yml` and `agent-runner.yml`; runner notifications now route email-origin tasks to email and Chat-origin tasks to Google Chat.
 - Added `https://www.googleapis.com/auth/chat.messages.readonly` to the OAuth helper, refreshed local OAuth consent for `scottishramp@gmail.com`, verified Chat message reads, and refreshed GitHub secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON`.
 - Set first-run Chat fetch behavior to mark existing history seen without queueing old messages, preventing backlog replies to old setup/test messages.
+
+## [2026-06-08] intake | Google Keep note "Stage" share
+
+- Processed Brian's Google Keep share notification for note `Stage` (Gmail `19e946e3abff9515`).
+- Logged metadata at `agentcore/sources/web/keep-note-stage.md` and updated Brian's shared-resources page.
+- Confirmed prior blocker still applies: Keep note body is not readable through AgentCore's supported Google APIs.
