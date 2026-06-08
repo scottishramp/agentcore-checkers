@@ -17,6 +17,7 @@ Build an iterative administrative-assistant system for Brian Herbert that can in
 - Family and children-related administrative context.
 - Action identification: deadlines, signatures, payments, renewals, missing information, and follow-up questions.
 - Email-based questions, status updates, and digests.
+- Calendar awareness: read Brian's shared calendar (`briandherbert@googlemail.com`) for scheduling context, upcoming deadlines, and reminder follow-up.
 - Android photo intake workflow once Brian decides the capture path.
 
 ## System Boundary

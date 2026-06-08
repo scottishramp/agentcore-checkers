@@ -19,6 +19,11 @@ Brian Herbert is AgentCore's trusted client and the person AgentCore assists wit
 - This repository should store metadata, indexes, decisions, action queues, and operating notes rather than full sensitive source material.
 - Open questions for preferences, folder taxonomy, urgency thresholds, and photo intake are being sent by email.
 
+## Shared Google Resources
+
+- Drive: `Life 2026` document shared with viewer access.
+- Calendar: `briandherbert@googlemail.com` shared with `scottishramp@gmail.com` as reader with full event-detail visibility (shared 2026-06-08).
+
 ## Current Admin Setup
 
 - Status: discovery / first iteration.

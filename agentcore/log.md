@@ -239,3 +239,9 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Verified AgentCore-owned Drive write access by creating and deleting a temporary test folder through the Drive API.
 - Refreshed GitHub Actions secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` with the broad-scope authorized-user token.
 - Noted Google Photos limitation: broad unattended library reads are no longer available through the official Library API, so Brian photo intake should use Drive/email/share flows unless a future interactive Photos Picker path is built.
+
+## [2026-06-08] intake | Brian calendar share acknowledged
+
+- Processed queued task for Brian's Google Calendar share notification (`briandherbert@googlemail.com` → `scottishramp@gmail.com`, reader with event details).
+- Recorded shared calendar on Brian's people page and the family admin system scope.
+- Replied to Brian confirming calendar access is active and will be used for scheduling context and deadline awareness.

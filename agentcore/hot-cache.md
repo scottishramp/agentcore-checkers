@@ -52,6 +52,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- `agentcore/knowledge/people/brian-herbert.md` — recorded Brian's shared calendar
+- `agentcore/knowledge/projects/family-admin-system.md` — calendar awareness in scope
 - `scripts/email/gmail_oauth_setup.py` — broad admin-assistant OAuth bundle
 - Google Cloud project `agentcore-495202` — Gmail/Drive/Calendar/Docs/Sheets/Slides/People/Tasks/Photos APIs enabled
 - GitHub secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` — refreshed from local broad-scope token
