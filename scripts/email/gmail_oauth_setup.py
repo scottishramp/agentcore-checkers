@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create OAuth refresh token for AgentCore email and Drive automation."""
+"""Create OAuth refresh token for AgentCore admin-assistant automation."""
 
 from __future__ import annotations
 
@@ -18,10 +18,29 @@ from common import get_env, load_env_file
 AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 SCOPES = [
+    # Email is AgentCore's primary async interaction channel with Brian.
     "https://www.googleapis.com/auth/gmail.send",
     "https://www.googleapis.com/auth/gmail.readonly",
+    # Read Brian-shared Drive files, while allowing AgentCore to create and
+    # manage its own app-created Drive artifacts.
     "https://www.googleapis.com/auth/drive.readonly",
+    "https://www.googleapis.com/auth/drive.file",
+    # Calendars shared by Brian should be visible but not writable by default.
     "https://www.googleapis.com/auth/calendar.readonly",
+    # Workspace files shared by Brian are read surfaces; write scopes support
+    # AgentCore-owned working docs/sheets/decks in its own Google space.
+    "https://www.googleapis.com/auth/documents",
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/presentations",
+    # Contacts are useful context for family/admin work; keep them read-only.
+    "https://www.googleapis.com/auth/contacts.readonly",
+    # Tasks are AgentCore-owned operational state.
+    "https://www.googleapis.com/auth/tasks",
+    # Google Photos no longer permits broad library reads. These scopes only
+    # cover media/albums created or uploaded by AgentCore's app.
+    "https://www.googleapis.com/auth/photoslibrary.appendonly",
+    "https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata",
+    "https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata",
 ]
 
 
@@ -133,7 +152,7 @@ def main() -> int:
         "state": state,
     }
     auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
-    print("Open this URL to authorize AgentCore Gmail, Drive, and Calendar access:")
+    print("Open this URL to authorize AgentCore admin-assistant Google access:")
     print(auth_url)
     if not args.no_browser:
         webbrowser.open(auth_url)

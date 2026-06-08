@@ -26,19 +26,22 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: direct email replies now send the Cursor Agent output as the reply body instead of a task-status report. Email-only intake and routine ingestion errors are logged but no longer emailed under the default `changes` policy.
 - Delivered: trusted third-party share notification intake. Google Drive/Keep share emails are accepted when the body names Brian's trusted email and the message is addressed to AgentCore.
 - Delivered: Calendar readonly access. Brian shared `briandherbert@googlemail.com` with `scottishramp@gmail.com`; AgentCore can list it through Google Calendar API as `reader` and read upcoming events.
+- Delivered: broad admin-assistant OAuth bundle. AgentCore has read access for shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive/Docs/Sheets/Slides/Tasks/app-created Photos artifacts.
 - Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
-- Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API.
+- Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
 
 ## Operating Preferences
 
 - Read `.env` at the start of any session involving logins or service sign-ups.
 - For personal administration, keep metadata in this repo and source documents/scans/photos in AgentCore Google Drive.
+- Google operating model: know what Brian shares with `scottishramp@gmail.com`, treat Brian-shared resources as read surfaces unless explicit edit authority is granted, and write/organize durable artifacts in AgentCore's own Google space.
 - Use `briandherbert@gmail.com` as the trusted client channel for questions and updates.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
 - Commit, push, and deployment/activation are implicit parts of any completed change unless Brian explicitly says to keep changes local, avoid committing, avoid pushing, or not deploy.
 - Google Keep share notification `Stage` is visible in Gmail from `keep-shares-dm-noreply@google.com`, but reading note content through the official Keep API is not available for AgentCore's personal Google account.
+- Google Photos no longer permits broad unattended library reads through the official Library API; AgentCore can manage app-created Photos media, while Brian photo intake should use Drive/email/share workflows unless a future Photos Picker flow is built.
 - Prefer Gmail API OAuth for email automation (`AGENTCORE_EMAIL_TRANSPORT=gmail-api`); SMTP/IMAP app-password auth is fallback only.
 - Kickoff questions before building — even for simple projects.
 - Prototype first, local-first, define test scenarios before building interactions.
@@ -49,8 +52,9 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `scripts/email/gmail_oauth_setup.py` — adds supported Calendar readonly scope and updated helper wording
-- Google Cloud project `agentcore-495202` — Calendar API enabled
-- GitHub secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` — refreshed from local Gmail/Drive/Calendar-scoped token
-- Calendar API test — confirmed access to shared `briandherbert@googlemail.com` calendar as reader
-- `agentcore/log.md` — records calendar access verification
+- `scripts/email/gmail_oauth_setup.py` — broad admin-assistant OAuth bundle
+- Google Cloud project `agentcore-495202` — Gmail/Drive/Calendar/Docs/Sheets/Slides/People/Tasks/Photos APIs enabled
+- GitHub secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` — refreshed from local broad-scope token
+- Operating instructions — read Brian-shared resources, write in AgentCore-owned Google space
+- API smoke tests — Gmail, Drive, Calendar, People, Tasks, and app-created Photos surfaces passed
+- `agentcore/blockers.md` — records Google Photos library-read limitation

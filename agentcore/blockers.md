@@ -4,6 +4,15 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ## Open Blockers
 
+### 2026-06-07 | Google Photos intake | Broad library reads unavailable
+
+- Status: open
+- Blocker: Google Photos no longer permits broad unattended reads of an entire user's photo library through the official Library API. The current OAuth bundle can manage Photos media and albums created by AgentCore's app, but cannot scan every photo in `scottishramp@gmail.com` Google Photos.
+- Why it matters: Brian's desired Android photo/scanning intake cannot rely on background Photos library polling unless a supported Picker/manual-share workflow is added.
+- Proposed default: Use Google Drive upload/share folders, email attachments, or direct Drive sharing for document-photo intake; consider a future interactive Google Photos Picker flow only if Drive-based intake is not enough.
+- Needed from user: None for Drive/email photo intake. User input would be needed only for an interactive Photos Picker workflow.
+- Resolution:
+
 ### 2026-06-05 | Google Keep ingestion | OAuth token lacks Keep scope
 
 - Status: open

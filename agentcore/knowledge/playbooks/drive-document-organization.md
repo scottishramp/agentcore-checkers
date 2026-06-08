@@ -9,6 +9,7 @@ Use AgentCore Google Drive for source files and this repository for metadata. Th
 - Store source documents, scans, photos, PDFs, and copied shared files in AgentCore Google Drive.
 - Store document metadata, indexes, action notes, and workflow decisions in `agentcore/`.
 - Store only minimal sensitive details in Markdown unless Brian explicitly asks for richer summaries.
+- Treat Brian-shared Google resources as read surfaces unless Brian explicitly grants edit authority. Use AgentCore's own Google Drive/Docs/Sheets/Tasks space for writable working files, indexes, exports, and organized copies.
 
 ## Proposed Drive Folders
 

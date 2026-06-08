@@ -228,3 +228,14 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Verified the Calendar API lists two calendars: AgentCore's primary `scottishramp@gmail.com` calendar as owner and Brian's `briandherbert@googlemail.com` calendar as reader.
 - Probed upcoming events for Brian's shared calendar without printing private details; the API returned a successful sample of upcoming events.
 - Refreshed GitHub Actions secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` with the Gmail/Drive/Calendar-scoped authorized-user token.
+
+## [2026-06-07] ops | Broad admin-assistant OAuth bundle
+
+- Recorded Brian's operating model: AgentCore should know the materials Brian shares, treat Brian-shared Google resources as read surfaces unless explicitly granted edit authority, write durable artifacts in AgentCore's own Google account, and continue using email as the main async interaction channel until synchronous chat exists.
+- Expanded the OAuth helper to request Gmail read/send, Drive readonly plus app-created file management, Calendar readonly, Docs/Sheets/Slides write scopes for AgentCore-owned working files, Contacts readonly, Tasks, and app-created Google Photos scopes.
+- Enabled Gmail, Drive, Calendar, Docs, Sheets, Slides, People, Tasks, and Photos Library APIs on Google Cloud project `agentcore-495202`.
+- Completed Google consent for `scottishramp@gmail.com`; tokeninfo confirmed all 13 requested scopes were granted.
+- Smoke-tested Gmail profile, Drive file listing, Calendar list, People connections, Tasks lists, and app-created Photos album listing without printing private content.
+- Verified AgentCore-owned Drive write access by creating and deleting a temporary test folder through the Drive API.
+- Refreshed GitHub Actions secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` with the broad-scope authorized-user token.
+- Noted Google Photos limitation: broad unattended library reads are no longer available through the official Library API, so Brian photo intake should use Drive/email/share flows unless a future interactive Photos Picker path is built.
