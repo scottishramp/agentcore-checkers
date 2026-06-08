@@ -25,6 +25,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: thread-aware email tasking. AgentCore replies into the original Gmail thread, fetch skips threads where AgentCore is already the latest sender, and `email-thread-ledger.json` records task/response idempotency metadata.
 - Delivered: direct email replies now send the Cursor Agent output as the reply body instead of a task-status report. Email-only intake and routine ingestion errors are logged but no longer emailed under the default `changes` policy.
 - Delivered: trusted third-party share notification intake. Google Drive/Keep share emails are accepted when the body names Brian's trusted email and the message is addressed to AgentCore.
+- Delivered: Calendar readonly access. Brian shared `briandherbert@googlemail.com` with `scottishramp@gmail.com`; AgentCore can list it through Google Calendar API as `reader` and read upcoming events.
 - Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
 - Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API.
 
@@ -48,8 +49,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `scripts/ingest/publish_ingestion_updates.py` — suppresses email-only ingestion updates and raw error dumps in notification emails
-- `scripts/email/gmail_oauth_setup.py` — requests only supported Gmail/Drive OAuth scopes
-- `agentcore/blockers.md` — resolved CI Drive secret blocker and corrected Keep API blocker
-- `scripts/ingest/README.md` — documents Keep share notification limits
-- GitHub secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` — refreshed from local Drive-scoped token
+- `scripts/email/gmail_oauth_setup.py` — adds supported Calendar readonly scope and updated helper wording
+- Google Cloud project `agentcore-495202` — Calendar API enabled
+- GitHub secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` — refreshed from local Gmail/Drive/Calendar-scoped token
+- Calendar API test — confirmed access to shared `briandherbert@googlemail.com` calendar as reader
+- `agentcore/log.md` — records calendar access verification

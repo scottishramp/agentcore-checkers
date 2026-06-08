@@ -219,3 +219,12 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Removed raw error arrays from ingestion summary email bodies; detailed errors remain in runner logs and the ingestion ledger.
 - Verified the local OAuth token includes Drive readonly scope and refreshed the GitHub Actions `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` secret from the local authorized-user JSON.
 - Removed the invalid Google Keep readonly scope from the OAuth helper and corrected docs/blockers to reflect that Keep note content is not available to AgentCore's personal Google account through the official API.
+
+## [2026-06-07] ops | Calendar access verified
+
+- Found Brian's Google Calendar share notification in Gmail: Brian added `scottishramp@gmail.com` to shared calendar `briandherbert@googlemail.com` with event-detail visibility.
+- Added supported `https://www.googleapis.com/auth/calendar.readonly` scope to the OAuth helper, completed Google consent for `scottishramp@gmail.com`, and refreshed `.secrets/gmail-authorized-user.json`.
+- Enabled `calendar-json.googleapis.com` on Google Cloud project `agentcore-495202` using the `scottishramp@gmail.com` gcloud account.
+- Verified the Calendar API lists two calendars: AgentCore's primary `scottishramp@gmail.com` calendar as owner and Brian's `briandherbert@googlemail.com` calendar as reader.
+- Probed upcoming events for Brian's shared calendar without printing private details; the API returned a successful sample of upcoming events.
+- Refreshed GitHub Actions secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` with the Gmail/Drive/Calendar-scoped authorized-user token.

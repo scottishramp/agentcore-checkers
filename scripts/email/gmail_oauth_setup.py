@@ -21,6 +21,7 @@ SCOPES = [
     "https://www.googleapis.com/auth/gmail.send",
     "https://www.googleapis.com/auth/gmail.readonly",
     "https://www.googleapis.com/auth/drive.readonly",
+    "https://www.googleapis.com/auth/calendar.readonly",
 ]
 
 
@@ -132,7 +133,7 @@ def main() -> int:
         "state": state,
     }
     auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
-    print("Open this URL to authorize AgentCore email and Drive access:")
+    print("Open this URL to authorize AgentCore Gmail, Drive, and Calendar access:")
     print(auth_url)
     if not args.no_browser:
         webbrowser.open(auth_url)
