@@ -69,6 +69,7 @@ def _format_ledger_entry(summary: dict, drive_summary: dict) -> str:
     reason_codes = summary.get("reason_codes", [])
     totals = summary.get("totals", {})
     email = summary.get("email", {})
+    chat = summary.get("chat", {})
     drive = summary.get("drive", {})
     errors = summary.get("errors", [])
     created_items = drive_summary.get("created_items", []) if isinstance(drive_summary.get("created_items"), list) else []
@@ -79,6 +80,7 @@ def _format_ledger_entry(summary: dict, drive_summary: dict) -> str:
         f"- Records created: {int((totals or {}).get('records_created', 0) or 0)}",
         f"- Tasks created: {int((totals or {}).get('tasks_created', 0) or 0)}",
         f"- Email normalized records: {int((email or {}).get('normalized_count', 0) or 0)}",
+        f"- Chat normalized records: {int((chat or {}).get('normalized_count', 0) or 0)}",
         f"- Drive documents: {int((drive or {}).get('documents_created', 0) or 0)}",
         f"- Photo records: {int((drive or {}).get('photos_created', 0) or 0)}",
     ]
@@ -116,6 +118,7 @@ def _build_email_body(summary: dict) -> str:
     totals = summary.get("totals", {})
     drive = summary.get("drive", {})
     email = summary.get("email", {})
+    chat = summary.get("chat", {})
     lines = [
         "Ingestion update:",
         "",
@@ -123,6 +126,7 @@ def _build_email_body(summary: dict) -> str:
         f"- Records created: {int((totals or {}).get('records_created', 0) or 0)}",
         f"- Tasks created: {int((totals or {}).get('tasks_created', 0) or 0)}",
         f"- Email normalized: {int((email or {}).get('normalized_count', 0) or 0)}",
+        f"- Chat normalized: {int((chat or {}).get('normalized_count', 0) or 0)}",
         f"- Drive documents: {int((drive or {}).get('documents_created', 0) or 0)}",
         f"- Photo records: {int((drive or {}).get('photos_created', 0) or 0)}",
     ]

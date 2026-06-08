@@ -13,10 +13,13 @@ These credentials are produced by `npm run email:oauth` and must include:
 
 - `https://www.googleapis.com/auth/chat.spaces.create`
 - `https://www.googleapis.com/auth/chat.messages.create`
+- `https://www.googleapis.com/auth/chat.messages.readonly`
 
 If repo OAuth credentials are unavailable, the script falls back to `gcloud` Application Default Credentials (ADC).
 
-## Command
+## Commands
+
+Send a direct message:
 
 From repo root:
 
@@ -24,10 +27,23 @@ From repo root:
 python3 scripts/chat/send_direct_message.py --to briandherbert@gmail.com --text "Test from AgentCore"
 ```
 
+Fetch and triage inbound Chat messages:
+
+```sh
+npm run chat:sync
+```
+
+Reply to a completed Chat-origin task:
+
+```sh
+npm run chat:respond-task -- --task-file agentcore/inbox/tasks/task__chat__example.md --status done --result-json .agentcore/state/task-run-result.json
+```
+
 ## Notes
 
 - Uses the same authorized-user token as Gmail/Drive/Calendar automation by default.
 - Creates or reuses a DM via `spaces:setup`.
 - `--no-create-dm` uses `spaces:findDirectMessage` and may require an additional Chat read scope.
+- Fetching reads Brian's configured direct-message space (`AGENTCORE_CHAT_DM_SPACE`, default `spaces/6RZ69yAAAAE`) and skips AgentCore-authored messages (`AGENTCORE_CHAT_SELF_USER_NAME`).
 - Default recipient is `AGENTCORE_CLIENT_EMAIL` (fallback: `briandherbert@gmail.com`).
 - For safety, sending is restricted to trusted client email unless `--allow-non-client` is supplied.

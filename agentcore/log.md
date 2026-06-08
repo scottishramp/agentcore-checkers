@@ -262,3 +262,12 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Sent a programmatic Chat API test message to Brian: "Programmatic Google Chat test from AgentCore. Sent through Chat API at <UTC timestamp>."
 - Updated `scripts/chat/send_direct_message.py` to prefer AgentCore's repo-managed OAuth authorized-user token and use `spaces.setup` directly, then verified `npm run chat:send` sends through the reusable helper.
 - Marked the Chat app profile blocker resolved.
+
+## [2026-06-08] ops | Google Chat intake and replies
+
+- Recorded Brian's instruction that Google Chat should be an inbound task channel alongside email.
+- Added Chat fetch/triage scripts that read Brian's DM space `spaces/6RZ69yAAAAE`, skip AgentCore-authored messages, normalize Brian-authored messages under `agentcore/inbox/chat/`, and queue them under `agentcore/inbox/tasks/` with `source_kind: google_chat`.
+- Added Chat task response and ledger scripts so completed Chat-origin tasks reply back into the same Chat space and update `agentcore/knowledge/communications/chat-thread-ledger.json`.
+- Wired Chat fetch/triage into `email-sync.yml` and `agent-runner.yml`; runner notifications now route email-origin tasks to email and Chat-origin tasks to Google Chat.
+- Added `https://www.googleapis.com/auth/chat.messages.readonly` to the OAuth helper, refreshed local OAuth consent for `scottishramp@gmail.com`, verified Chat message reads, and refreshed GitHub secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON`.
+- Set first-run Chat fetch behavior to mark existing history seen without queueing old messages, preventing backlog replies to old setup/test messages.

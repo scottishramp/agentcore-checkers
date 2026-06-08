@@ -22,7 +22,7 @@ jobs:
           python-version: "3.12"
 
       - name: Prepare directories
-        run: mkdir -p .agentcore/state agentcore/inbox/email agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks agentcore/knowledge/communications
+        run: mkdir -p .agentcore/state .agentcore/state/chat-fetch agentcore/inbox/email agentcore/inbox/chat agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks agentcore/knowledge/communications
 
       - name: Fetch inbox
         env:
@@ -38,6 +38,20 @@ jobs:
 
       - name: Triage messages
         run: python3 scripts/email/triage_messages.py
+
+      - name: Fetch Chat messages
+        env:
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+          AGENTCORE_CHAT_SELF_USER_NAME: ${{ secrets.AGENTCORE_CHAT_SELF_USER_NAME || 'users/112143982168307832773' }}
+        run: python3 scripts/chat/fetch_messages.py --limit 50 --bootstrap-window 0
+
+      - name: Triage Chat messages
+        run: python3 scripts/chat/triage_messages.py
 
       - name: Ingest Drive docs and photos
         env:
@@ -80,9 +94,11 @@ jobs:
           from pathlib import Path
 
           email_path = Path(".agentcore/state/email-sync-summary.json")
+          chat_path = Path(".agentcore/state/chat-sync-summary.json")
           drive_path = Path(".agentcore/state/drive-ingest-summary.json")
           ingest_path = Path(".agentcore/state/ingestion-summary.json")
           email = json.loads(email_path.read_text(encoding="utf-8")) if email_path.exists() else {}
+          chat = json.loads(chat_path.read_text(encoding="utf-8")) if chat_path.exists() else {}
           drive = json.loads(drive_path.read_text(encoding="utf-8")) if drive_path.exists() else {}
           ingest = json.loads(ingest_path.read_text(encoding="utf-8")) if ingest_path.exists() else {}
           lines = [
@@ -90,6 +106,7 @@ jobs:
               "",
               f"- Generated at: {ingest.get('generated_at', '')}",
               f"- Email normalized: {email.get('normalized_count', 0)}",
+              f"- Chat normalized: {chat.get('normalized_count', 0)}",
               f"- Drive records: {drive.get('records_created', 0)}",
               f"- Photo records: {drive.get('photos_created', 0)}",
               f"- Tasks created total: {(ingest.get('totals') or {}).get('tasks_created', 0)}",
@@ -109,6 +126,8 @@ jobs:
           name: ingestion-sync-summary
           path: |
             .agentcore/state/email-sync-summary.json
+            .agentcore/state/chat-sync-summary.json
+            .agentcore/state/chat-fetch/latest.json
             .agentcore/state/drive-ingest-summary.json
             .agentcore/state/ingestion-summary.json
             .agentcore/state/ingestion-summary.md

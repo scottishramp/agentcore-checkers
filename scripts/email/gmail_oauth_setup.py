@@ -39,6 +39,7 @@ SCOPES = [
     # Google Chat is the planned synchronous interaction channel.
     "https://www.googleapis.com/auth/chat.spaces.create",
     "https://www.googleapis.com/auth/chat.messages.create",
+    "https://www.googleapis.com/auth/chat.messages.readonly",
     # Google Photos no longer permits broad library reads. These scopes only
     # cover media/albums created or uploaded by AgentCore's app.
     "https://www.googleapis.com/auth/photoslibrary.appendonly",

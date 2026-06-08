@@ -29,6 +29,22 @@ Define one canonical intake contract across chat, email, Drive documents, and An
   - `requires_response`
   - `triaged_at`
 
+### Google Chat
+
+- Channel id: `google_chat`
+- Intake source: Brian's direct Google Chat space with AgentCore (`spaces/6RZ69yAAAAE` by default).
+- Direct Chat messages from Brian are agent instructions by default and should be queued for an async run/reply.
+- AgentCore replies should be sent back into the same Chat space as natural prose, without task IDs or runner metadata unless Brian asks for diagnostics.
+- Required record fields:
+  - `chat_message_name`
+  - `chat_space`
+  - `sender_name`
+  - `sender_display_name`
+  - `created_at`
+  - `classification`
+  - `requires_response`
+  - `triaged_at`
+
 ### Google Drive Documents
 
 - Channel id: `drive_document`
@@ -76,6 +92,7 @@ Use one reason code per outbound ingestion summary:
 
 - `NO_NEW_ITEMS`
 - `NEW_EMAIL_TASKS`
+- `NEW_CHAT_TASKS`
 - `NEW_DOCUMENTS`
 - `NEW_PHOTOS`
 - `REQUIRES_CLARIFICATION`
@@ -94,4 +111,5 @@ Every automated ingestion run should create:
 - Do not persist raw sensitive document content in git.
 - Store links and metadata in repo; store source files in Drive.
 - Keep trusted-sender enforcement for inbound mail.
+- For Chat, process only Brian's configured direct-message space and skip AgentCore-authored messages.
 - Skip non-client senders unless an explicit policy update is made.

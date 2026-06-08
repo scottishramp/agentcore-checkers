@@ -16,7 +16,7 @@ Build an iterative administrative-assistant system for Brian Herbert that can in
 - Metadata extraction and indexing.
 - Family and children-related administrative context.
 - Action identification: deadlines, signatures, payments, renewals, missing information, and follow-up questions.
-- Email-based questions, status updates, and digests.
+- Email- and Google Chat-based questions, status updates, and task requests.
 - Calendar awareness: read Brian's shared calendar (`briandherbert@googlemail.com`) for scheduling context, upcoming deadlines, and reminder follow-up.
 - Android photo intake workflow once Brian decides the capture path.
 
@@ -24,7 +24,8 @@ Build an iterative administrative-assistant system for Brian Herbert that can in
 
 - Repository: durable metadata, operating memory, action queues, decisions, and summaries.
 - AgentCore Google Drive: actual source documents, scans, photos, organized folders, and copied files where copying is authorized.
-- Email: trusted communication channel for questions, setup answers, status digests, and urgent follow-up.
+- Email: trusted async communication channel for questions, setup answers, status digests, and urgent follow-up.
+- Google Chat: trusted direct-message channel for quicker async instructions and natural replies.
 
 ## First Iteration Acceptance Criteria
 

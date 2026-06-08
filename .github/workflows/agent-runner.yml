@@ -30,16 +30,19 @@ jobs:
           python-version: "3.12"
 
       - name: Prepare directories
-        run: mkdir -p .agentcore/state .agentcore/state/task-runs agentcore/inbox/email agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks
+        run: mkdir -p .agentcore/state .agentcore/state/chat-fetch .agentcore/state/task-runs agentcore/inbox/email agentcore/inbox/chat agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks
 
       - name: Restore queue state cache
         uses: actions/cache/restore@v4
         with:
           path: |
             .agentcore/state/email-last-uid.json
+            .agentcore/state/chat-last-message.json
             .agentcore/state/drive-ingest-state.json
             agentcore/knowledge/communications/email-thread-ledger.json
+            agentcore/knowledge/communications/chat-thread-ledger.json
             agentcore/inbox/email
+            agentcore/inbox/chat
             agentcore/inbox/drive
             agentcore/inbox/photos
             agentcore/inbox/tasks
@@ -61,6 +64,20 @@ jobs:
 
       - name: Triage messages
         run: python3 scripts/email/triage_messages.py
+
+      - name: Fetch Chat messages
+        env:
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+          AGENTCORE_CHAT_SELF_USER_NAME: ${{ secrets.AGENTCORE_CHAT_SELF_USER_NAME || 'users/112143982168307832773' }}
+        run: python3 scripts/chat/fetch_messages.py --limit 50 --bootstrap-window 0
+
+      - name: Triage Chat messages
+        run: python3 scripts/chat/triage_messages.py
 
       - name: Ingest Drive docs and photos
         env:
@@ -87,11 +104,23 @@ jobs:
 
           claim_path = Path(".agentcore/state/task-claim.json")
           claim = json.loads(claim_path.read_text(encoding="utf-8")) if claim_path.exists() else {}
+          source_kind = ""
+          task_file = claim.get('task_file', '')
+          if task_file:
+            try:
+              text = Path(task_file).read_text(encoding="utf-8")
+              for line in text.splitlines():
+                if line.startswith("source_kind:"):
+                  source_kind = line.split(":", 1)[1].strip().strip('"')
+                  break
+            except FileNotFoundError:
+              pass
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
             fh.write(f"claimed={str(bool(claim.get('claimed'))).lower()}\n")
-            fh.write(f"task_file={claim.get('task_file', '')}\n")
+            fh.write(f"task_file={task_file}\n")
             fh.write(f"task_id={claim.get('task_id', '')}\n")
             fh.write(f"thread_key={claim.get('thread_key', '')}\n")
+            fh.write(f"source_kind={source_kind}\n")
           PY
 
       - name: Install Cursor CLI
@@ -151,7 +180,7 @@ jobs:
           fi
 
       - name: Send completion notification
-        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done'
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done' && steps.claim.outputs.source_kind != 'google_chat'
         env:
           AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
           AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
@@ -169,7 +198,7 @@ jobs:
             --project AsyncLoop | tee .agentcore/state/task-notify-result.json
 
       - name: Send snag notification
-        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status != 'done'
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status != 'done' && steps.claim.outputs.source_kind != 'google_chat'
         env:
           AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
           AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
@@ -186,22 +215,58 @@ jobs:
             --result-json .agentcore/state/task-run-result.json \
             --project AsyncLoop | tee .agentcore/state/task-notify-result.json
 
+      - name: Send Chat completion notification
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done' && steps.claim.outputs.source_kind == 'google_chat'
+        env:
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+        run: |
+          python3 scripts/chat/send_task_response.py \
+            --task-file "${{ steps.claim.outputs.task_file }}" \
+            --status done \
+            --result-json .agentcore/state/task-run-result.json | tee .agentcore/state/task-notify-result.json
+
+      - name: Send Chat snag notification
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status != 'done' && steps.claim.outputs.source_kind == 'google_chat'
+        env:
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+        run: |
+          python3 scripts/chat/send_task_response.py \
+            --task-file "${{ steps.claim.outputs.task_file }}" \
+            --status snag \
+            --result-json .agentcore/state/task-run-result.json | tee .agentcore/state/task-notify-result.json
+
       - name: Record email response ledger
-        if: steps.claim.outputs.claimed == 'true'
+        if: steps.claim.outputs.claimed == 'true' && steps.claim.outputs.source_kind != 'google_chat'
         run: |
           python3 scripts/email/record_email_response.py \
             --task-file "${{ steps.claim.outputs.task_file }}" \
             --result-json .agentcore/state/task-run-result.json \
             --notification-json .agentcore/state/task-notify-result.json
 
-      - name: Commit email ledger update
+      - name: Record Chat response ledger
+        if: steps.claim.outputs.claimed == 'true' && steps.claim.outputs.source_kind == 'google_chat'
+        run: |
+          python3 scripts/chat/record_chat_response.py \
+            --task-file "${{ steps.claim.outputs.task_file }}" \
+            --result-json .agentcore/state/task-run-result.json \
+            --notification-json .agentcore/state/task-notify-result.json
+
+      - name: Commit communication ledger update
         if: steps.claim.outputs.claimed == 'true'
         run: |
-          git add agentcore/knowledge/communications/email-thread-ledger.json agentcore/inbox/tasks
+          git add agentcore/knowledge/communications/email-thread-ledger.json agentcore/knowledge/communications/chat-thread-ledger.json agentcore/inbox/tasks agentcore/inbox/chat
           if git diff --cached --quiet; then
             echo "No ledger changes to commit."
           else
-            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Record async email task result"
+            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Record async communication task result"
             git pull --rebase origin main
             git push
           fi
@@ -242,6 +307,8 @@ jobs:
             .agentcore/state/task-claim.json
             .agentcore/state/task-run-result.json
             .agentcore/state/task-notify-result.json
+            .agentcore/state/chat-sync-summary.json
+            .agentcore/state/chat-fetch/latest.json
             .agentcore/state/agent-runner-summary.md
             .agentcore/state/task-runs/
             agentcore/inbox/email/
@@ -255,9 +322,12 @@ jobs:
         with:
           path: |
             .agentcore/state/email-last-uid.json
+            .agentcore/state/chat-last-message.json
             .agentcore/state/drive-ingest-state.json
             agentcore/knowledge/communications/email-thread-ledger.json
+            agentcore/knowledge/communications/chat-thread-ledger.json
             agentcore/inbox/email
+            agentcore/inbox/chat
             agentcore/inbox/drive
             agentcore/inbox/photos
             agentcore/inbox/tasks

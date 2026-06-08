@@ -13,6 +13,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 
 - [Inbox](inbox/README.md): temporary holding area for unprocessed notes and materials.
 - [Email Inbox Records](inbox/email/README.md): normalized inbound email records.
+- [Google Chat Inbox Records](inbox/chat/README.md): normalized direct Google Chat messages from Brian.
 - [Drive Inbox Records](inbox/drive/README.md): normalized inbound Google Drive document records.
 - [Photo Inbox Records](inbox/photos/README.md): normalized inbound Android photo upload records.
 - [Email Task Queue](inbox/tasks/README.md): queued tasks derived from inbound task intent.

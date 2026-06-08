@@ -1,78 +1,27 @@
 #!/usr/bin/env python3
-"""Send a Google Chat direct message using gcloud Application Default Credentials."""
+"""Send a Google Chat direct message."""
 
 from __future__ import annotations
 
 import argparse
 import json
-import os
-import subprocess
 import sys
-import urllib.error
-import urllib.parse
-import urllib.request
-from dataclasses import dataclass
 from datetime import datetime, timezone
-from pathlib import Path
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-EMAIL_DIR = SCRIPT_DIR.parent / "email"
-if str(EMAIL_DIR) not in sys.path:
-    sys.path.insert(0, str(EMAIL_DIR))
+import chat_api
 
-import gmail_api  # noqa: E402
-
-CHAT_API_ROOT = "https://chat.googleapis.com/v1"
 SCOPE_HINT_COMMAND = (
     "gcloud auth application-default login "
     '--scopes="openid,https://www.googleapis.com/auth/userinfo.email,'
     'https://www.googleapis.com/auth/cloud-platform,'
     'https://www.googleapis.com/auth/chat.spaces.create,'
-    'https://www.googleapis.com/auth/chat.messages.create"'
+    'https://www.googleapis.com/auth/chat.messages.create,'
+    'https://www.googleapis.com/auth/chat.messages.readonly"'
 )
-
-
-def load_env_file(path: str = ".env") -> dict[str, str]:
-    env_map: dict[str, str] = {}
-    env_path = Path(path)
-    if not env_path.exists():
-        return env_map
-
-    for raw_line in env_path.read_text(encoding="utf-8").splitlines():
-        line = raw_line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        key, value = line.split("=", 1)
-        env_map[key.strip()] = value.strip()
-    return env_map
-
-
-def get_env(
-    key: str,
-    fallback_keys: tuple[str, ...] = (),
-    default: str = "",
-    env_map: dict[str, str] | None = None,
-) -> str:
-    for candidate in (key, *fallback_keys):
-        value = os.getenv(candidate)
-        if value:
-            return value
-        if env_map and env_map.get(candidate):
-            return env_map[candidate]
-    return default
 
 
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
-
-
-@dataclass
-class ChatApiError(Exception):
-    status_code: int
-    payload: dict
-
-    def __str__(self) -> str:
-        return json.dumps({"status_code": self.status_code, "payload": self.payload}, ensure_ascii=True)
 
 
 def parse_args() -> argparse.Namespace:
@@ -102,70 +51,6 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def run_json_request(method: str, path: str, token: str, payload: dict | None = None) -> dict:
-    url = f"{CHAT_API_ROOT}/{path.lstrip('/')}"
-    body = None
-    headers = {"Authorization": f"Bearer {token}"}
-    if payload is not None:
-        body = json.dumps(payload, ensure_ascii=True).encode("utf-8")
-        headers["Content-Type"] = "application/json; charset=utf-8"
-
-    request = urllib.request.Request(url=url, data=body, method=method, headers=headers)
-    try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            raw = response.read().decode("utf-8")
-            return json.loads(raw) if raw else {}
-    except urllib.error.HTTPError as exc:
-        raw_error = exc.read().decode("utf-8", errors="replace")
-        try:
-            payload_error = json.loads(raw_error)
-        except json.JSONDecodeError:
-            payload_error = {"error": {"message": raw_error or exc.reason}}
-        raise ChatApiError(status_code=exc.code, payload=payload_error) from exc
-
-
-def get_access_token(env_map: dict[str, str]) -> str:
-    if gmail_api.has_oauth_credentials(env_map=env_map):
-        return gmail_api.access_token(env_map=env_map)
-
-    cmd = ["gcloud", "auth", "application-default", "print-access-token"]
-    result = subprocess.run(cmd, capture_output=True, text=True, check=False)
-    if result.returncode != 0:
-        stderr = (result.stderr or "").strip()
-        raise RuntimeError(
-            "Unable to fetch ADC token. Run `gcloud auth application-default login` first. "
-            f"Details: {stderr}"
-        )
-    token = result.stdout.strip()
-    if not token:
-        raise RuntimeError("gcloud returned an empty access token.")
-    return token
-
-
-def find_dm_space(token: str, recipient_email: str) -> dict:
-    name_param = urllib.parse.quote(f"users/{recipient_email}", safe="")
-    return run_json_request("GET", f"spaces:findDirectMessage?name={name_param}", token=token)
-
-
-def create_dm_space(token: str, recipient_email: str) -> dict:
-    return run_json_request(
-        "POST",
-        "spaces:setup",
-        token=token,
-        payload={
-            "space": {"spaceType": "DIRECT_MESSAGE"},
-            "memberships": [{"member": {"name": f"users/{recipient_email}", "type": "HUMAN"}}],
-        },
-    )
-
-
-def send_message(token: str, space_name: str, text: str) -> dict:
-    return run_json_request("POST", f"{space_name}/messages", token=token, payload={"text": text})
-
-
-def error_has_scope_issue(error_payload: dict) -> bool:
-    text = json.dumps(error_payload, ensure_ascii=True)
-    return "ACCESS_TOKEN_SCOPE_INSUFFICIENT" in text
 
 
 def default_message(project: str) -> str:
@@ -174,14 +59,9 @@ def default_message(project: str) -> str:
 
 def main() -> int:
     args = parse_args()
-    env_map = load_env_file(".env")
+    env_map = chat_api.load_env_file(".env")
 
-    trusted_client_email = get_env(
-        "AGENTCORE_CLIENT_EMAIL",
-        fallback_keys=("CLIENT_EMAIL",),
-        default="briandherbert@gmail.com",
-        env_map=env_map,
-    ).strip()
+    trusted_client_email = chat_api.trusted_client_email(env_map=env_map)
     recipient = (args.to or trusted_client_email).strip().lower()
     if not args.allow_non_client and recipient != trusted_client_email.lower():
         raise ValueError(
@@ -191,7 +71,7 @@ def main() -> int:
         )
 
     message_text = (args.text or default_message(args.project)).strip()
-    token = get_access_token(env_map=env_map)
+    token = chat_api.access_token(env_map=env_map)
     summary = {
         "recipient": recipient,
         "create_dm_if_missing": not args.no_create_dm,
@@ -204,19 +84,19 @@ def main() -> int:
 
     try:
         if args.no_create_dm:
-            space = find_dm_space(token=token, recipient_email=recipient)
+            space = chat_api.find_dm_space(token=token, recipient_email=recipient)
             dm_status = "found_existing_dm"
         else:
             # spaces.setup returns an existing direct-message space when one
             # already exists, avoiding an extra spaces.readonly scope.
-            space = create_dm_space(token=token, recipient_email=recipient)
+            space = chat_api.create_or_get_dm_space(token=token, recipient_email=recipient)
             dm_status = "created_or_found_dm"
 
         space_name = (space.get("name") or "").strip()
         if not space_name:
             raise RuntimeError(f"Chat API response missing space name: {json.dumps(space, ensure_ascii=True)}")
 
-        sent = send_message(token=token, space_name=space_name, text=message_text)
+        sent = chat_api.send_message(token=token, space_name=space_name, text=message_text)
         print(
             json.dumps(
                 {
@@ -231,8 +111,8 @@ def main() -> int:
             )
         )
         return 0
-    except ChatApiError as err:
-        if error_has_scope_issue(err.payload):
+    except chat_api.ChatApiError as err:
+        if chat_api.error_has_scope_issue(err.payload):
             print(
                 json.dumps(
                     {

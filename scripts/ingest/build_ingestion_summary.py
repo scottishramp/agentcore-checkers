@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build combined ingestion summary.")
     parser.add_argument("--email-summary", default=".agentcore/state/email-sync-summary.json", help="Email summary JSON path.")
+    parser.add_argument("--chat-summary", default=".agentcore/state/chat-sync-summary.json", help="Chat summary JSON path.")
     parser.add_argument("--drive-summary", default=".agentcore/state/drive-ingest-summary.json", help="Drive summary JSON path.")
     parser.add_argument(
         "--output",
@@ -38,22 +39,31 @@ def _now_iso() -> str:
 def main() -> int:
     args = parse_args()
     email_summary = _read_json(Path(args.email_summary))
+    chat_summary = _read_json(Path(args.chat_summary))
     drive_summary = _read_json(Path(args.drive_summary))
 
     email_tasks = int(email_summary.get("tasks_created", 0) or 0)
+    chat_tasks = int(chat_summary.get("tasks_created", 0) or 0)
     drive_tasks = int(drive_summary.get("tasks_created", 0) or 0)
     email_records = int(email_summary.get("normalized_count", 0) or 0)
+    chat_records = int(chat_summary.get("normalized_count", 0) or 0)
     drive_records = int(drive_summary.get("records_created", 0) or 0)
 
     errors: list[str] = []
     for item in email_summary.get("errors", []) if isinstance(email_summary.get("errors"), list) else []:
         errors.append(f"email:{item}")
+    if str(chat_summary.get("fetch_status", "")) == "auth_scope_error":
+        errors.append("chat:missing_read_scope")
+    for item in chat_summary.get("errors", []) if isinstance(chat_summary.get("errors"), list) else []:
+        errors.append(f"chat:{item}")
     for item in drive_summary.get("errors", []) if isinstance(drive_summary.get("errors"), list) else []:
         errors.append(f"drive:{item}")
 
     reason_codes: list[str] = []
     if email_tasks > 0:
         reason_codes.append("NEW_EMAIL_TASKS")
+    if chat_tasks > 0:
+        reason_codes.append("NEW_CHAT_TASKS")
     if int(drive_summary.get("documents_created", 0) or 0) > 0:
         reason_codes.append("NEW_DOCUMENTS")
     if int(drive_summary.get("photos_created", 0) or 0) > 0:
@@ -70,6 +80,11 @@ def main() -> int:
             "tasks_created": email_tasks,
             "classifications": email_summary.get("classifications", {}),
         },
+        "chat": {
+            "normalized_count": chat_records,
+            "tasks_created": chat_tasks,
+            "fetch_status": chat_summary.get("fetch_status", ""),
+        },
         "drive": {
             "records_created": drive_records,
             "documents_created": int(drive_summary.get("documents_created", 0) or 0),
@@ -77,8 +92,8 @@ def main() -> int:
             "tasks_created": drive_tasks,
         },
         "totals": {
-            "records_created": email_records + drive_records,
-            "tasks_created": email_tasks + drive_tasks,
+            "records_created": email_records + chat_records + drive_records,
+            "tasks_created": email_tasks + chat_tasks + drive_tasks,
         },
         "reason_codes": reason_codes,
         "errors": errors,
