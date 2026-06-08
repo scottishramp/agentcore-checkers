@@ -277,3 +277,10 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Processed Brian's Google Keep share notification for note `Stage` (Gmail `19e946e3abff9515`).
 - Logged metadata at `agentcore/sources/web/keep-note-stage.md` and updated Brian's shared-resources page.
 - Confirmed prior blocker still applies: Keep note body is not readable through AgentCore's supported Google APIs.
+
+## [2026-06-08] knowledge | Brian family basics
+
+- Recorded Brian Herbert's date of birth as 1983-09-10.
+- Recorded Brian's spouse as Kristin Herbert and marriage date as 2006-05-27.
+- Recorded Brian and Kristin's children: Daniel, Nathan, Ezra, Silver, and Levi.
+- Created lightweight people/context pages for Kristin Herbert and the Herbert children, and linked them from the AgentCore index.

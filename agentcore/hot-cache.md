@@ -29,6 +29,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: broad admin-assistant OAuth bundle. AgentCore has read access for shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive/Docs/Sheets/Slides/Tasks/app-created Photos artifacts.
 - Delivered: Google Chat browser/API send and polling baseline. AgentCore can send Chat DMs, fetch Brian's DM messages, queue them as async tasks, and reply back into Chat after runner completion.
 - Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
+- Brian family context: Brian was born 1983-09-10; married Kristin Herbert on 2006-05-27; children are Daniel, Nathan, Ezra, Silver, and Levi.
 - Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
 
 ## Operating Preferences
@@ -54,11 +55,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `agentcore/sources/web/keep-note-stage.md` — metadata for Brian's shared Keep note `Stage`.
-- `agentcore/knowledge/people/brian-herbert.md` — Keep share recorded under shared Google resources.
-- `scripts/chat/fetch_messages.py` and `scripts/chat/triage_messages.py` — poll Brian's Google Chat DM and queue tasks.
-- `scripts/chat/send_task_response.py` and `scripts/chat/record_chat_response.py` — reply to Chat-origin tasks and record response metadata.
-- `.github/workflows/email-sync.yml` and `.github/workflows/agent-runner.yml` — include Chat fetch/triage and Chat response routing.
-- `scripts/email/gmail_oauth_setup.py` — added `chat.messages.readonly`; GitHub secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` refreshed.
-- `agentcore/knowledge/playbooks/communication-intake-contracts.md` — Google Chat contract added.
-- `AGENTS.md` and `.cursor/rules/admin-assistant.mdc` — trusted Google Chat task channel recorded.
+- `agentcore/knowledge/people/brian-herbert.md` — birth date, spouse, marriage date, and children recorded.
+- `agentcore/knowledge/people/kristin-herbert.md` — spouse record created.
+- `agentcore/knowledge/people/herbert-children.md` — children list and admin context created.
+- `agentcore/knowledge/projects/family-admin-system.md` — core family context added.
+- `agentcore/index.md` — new family people pages added.

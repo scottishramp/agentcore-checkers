@@ -8,10 +8,17 @@ Brian Herbert is AgentCore's trusted client and the person AgentCore assists wit
 
 - Primary email: `briandherbert@gmail.com`
 
+## Personal Details
+
+- Date of birth: 1983-09-10.
+- Spouse: Kristin Herbert.
+- Marriage date: 2006-05-27.
+
 ## Family Context
 
-- Children: pending extraction from the first paragraphs of `Life 2026` and Brian's email responses.
-- Key family/admin entities: pending intake.
+- Married to Kristin Herbert since 2006-05-27.
+- Children: Daniel Herbert, Nathan Herbert, Ezra Herbert, Silver Herbert, Levi Herbert.
+- Key family/admin entities now include Kristin and the five children for document, calendar, school, medical, travel, and household administration context.
 
 ## Administrative Preferences
 

@@ -9,6 +9,7 @@ Build an iterative administrative-assistant system for Brian Herbert that can in
 - Phase: discovery and operating-model setup.
 - Trusted client email: `briandherbert@gmail.com`.
 - Drive source: `Life 2026` has been shared with viewer access; use its first couple paragraphs for initial context about Brian and his kids when Drive access is available in the working environment.
+- Core family context recorded: Brian Herbert, spouse Kristin Herbert, and children Daniel, Nathan, Ezra, Silver, and Levi.
 
 ## Scope
 
