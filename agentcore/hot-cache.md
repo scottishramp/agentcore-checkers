@@ -23,10 +23,10 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: checkers game → https://scottishramp.github.io/agentcore-checkers/
 - Delivered: hybrid ingestion baseline (direct-email tasking, shared-with-me Drive ingestion, deterministic summary, runner dispatch trigger)
 - Delivered: thread-aware email tasking. AgentCore replies into the original Gmail thread, fetch skips threads where AgentCore is already the latest sender, and `email-thread-ledger.json` records task/response idempotency metadata.
-- Delivered: direct email replies now send the Cursor Agent output as the reply body instead of a task-status report. Routine ingestion errors are logged but no longer emailed under the default `changes` policy.
+- Delivered: direct email replies now send the Cursor Agent output as the reply body instead of a task-status report. Email-only intake and routine ingestion errors are logged but no longer emailed under the default `changes` policy.
 - Delivered: trusted third-party share notification intake. Google Drive/Keep share emails are accepted when the body names Brian's trusted email and the message is addressed to AgentCore.
 - Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
-- Open blockers: CI Drive ingestion OAuth secret lacks Drive readonly scope; Google Keep note content requires refreshed OAuth with `keep.readonly`.
+- Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API.
 
 ## Operating Preferences
 
@@ -37,7 +37,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
 - Commit, push, and deployment/activation are implicit parts of any completed change unless Brian explicitly says to keep changes local, avoid committing, avoid pushing, or not deploy.
-- Google Keep share notification `Stage` is visible in Gmail from `keep-shares-dm-noreply@google.com`, but reading note content through `keep.googleapis.com/v1/notes` is blocked by missing `keep.readonly` OAuth scope.
+- Google Keep share notification `Stage` is visible in Gmail from `keep-shares-dm-noreply@google.com`, but reading note content through the official Keep API is not available for AgentCore's personal Google account.
 - Prefer Gmail API OAuth for email automation (`AGENTCORE_EMAIL_TRANSPORT=gmail-api`); SMTP/IMAP app-password auth is fallback only.
 - Kickoff questions before building — even for simple projects.
 - Prototype first, local-first, define test scenarios before building interactions.
@@ -48,9 +48,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `scripts/email/fetch_inbox.py` — accepts verified Google Drive/Keep share notifications from service senders
-- `scripts/email/triage_messages.py` — queues trusted share notifications as source-processing tasks
-- `scripts/email/send_task_status.py` — honors `reply_style: natural` for trusted share tasks
-- `scripts/email/gmail_oauth_setup.py` — adds Google Keep readonly scope for next OAuth refresh
-- `agentcore/blockers.md` — added Google Keep OAuth scope blocker
-- `scripts/ingest/README.md` — documented third-party share notification strategy
+- `scripts/ingest/publish_ingestion_updates.py` — suppresses email-only ingestion updates and raw error dumps in notification emails
+- `scripts/email/gmail_oauth_setup.py` — requests only supported Gmail/Drive OAuth scopes
+- `agentcore/blockers.md` — resolved CI Drive secret blocker and corrected Keep API blocker
+- `scripts/ingest/README.md` — documents Keep share notification limits
+- GitHub secret `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` — refreshed from local Drive-scoped token

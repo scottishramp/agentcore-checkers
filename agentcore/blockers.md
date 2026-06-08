@@ -4,22 +4,13 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ## Open Blockers
 
-### 2026-06-04 | Drive ingestion CI | GitHub OAuth secret lacks Drive scope
-
-- Status: open
-- Blocker: GitHub Actions Drive ingestion is returning `ACCESS_TOKEN_SCOPE_INSUFFICIENT` for `drive.files.list`, which means the `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` secret currently available to CI does not include `https://www.googleapis.com/auth/drive.readonly`.
-- Why it matters: Email answering still works, but unattended shared-with-me Drive/document ingestion cannot run in CI until the secret is refreshed with a Drive-scoped authorized-user token.
-- Proposed default: Refresh the GitHub secret from a local authorized-user JSON that includes Drive readonly scope, then verify the next workflow run.
-- Needed from user: None if the local `.secrets/gmail-authorized-user.json` is already the Drive-scoped token; otherwise a one-time OAuth consent rerun may be required.
-- Resolution:
-
 ### 2026-06-05 | Google Keep ingestion | OAuth token lacks Keep scope
 
 - Status: open
-- Blocker: The Google Keep share notification for note `Stage` is visible in Gmail, but the current OAuth token returns `ACCESS_TOKEN_SCOPE_INSUFFICIENT` for `keep.googleapis.com/v1/notes`.
-- Why it matters: AgentCore can now recognize trusted Google Keep share notifications, but cannot read Keep note content through the official API until OAuth includes `https://www.googleapis.com/auth/keep.readonly` and the GitHub secret is refreshed.
-- Proposed default: Re-run `npm run email:oauth -- --client-file .secrets/google-oauth-client.json` with the updated scopes, refresh `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON`, then test `keep.googleapis.com/v1/notes`.
-- Needed from user: One-time browser OAuth approval if the existing refresh token cannot be upgraded silently.
+- Blocker: The Google Keep share notification for note `Stage` is visible in Gmail, but Google Keep note content is not available to this personal account through the official API.
+- Why it matters: AgentCore can recognize Brian-initiated Keep share notifications as trusted source material, but cannot programmatically read the note body from Keep.
+- Proposed default: Treat Keep share emails as intake signals and ask Brian to copy/export/share the note content through email or Drive when the content itself is needed.
+- Needed from user: None for share notification intake; Brian must provide the note content through another channel if AgentCore needs to ingest it.
 - Resolution:
 
 ## Blocker Template
@@ -36,6 +27,12 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 ```
 
 ## Resolved Blockers
+
+### 2026-06-04 | Drive ingestion CI | GitHub OAuth secret lacks Drive scope
+
+- Status: resolved
+- Blocker: GitHub Actions Drive ingestion was returning `ACCESS_TOKEN_SCOPE_INSUFFICIENT` for `drive.files.list`, which meant the `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` secret available to CI did not include `https://www.googleapis.com/auth/drive.readonly`.
+- Resolution: Verified the local authorized-user token includes Drive readonly scope and refreshed the GitHub Actions `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` secret from `.secrets/gmail-authorized-user.json` on 2026-06-07.
 
 ### 2026-05-31 | Async agent runner | Cursor API key needed for cloud replies
 

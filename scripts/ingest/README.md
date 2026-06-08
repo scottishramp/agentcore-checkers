@@ -25,7 +25,7 @@ Cross-channel ingestion utilities for Drive documents and Android photo uploads.
   - `AGENTCORE_GMAIL_AUTHORIZED_USER_FILE` (OAuth authorized-user JSON path)
   - `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` (OAuth authorized-user JSON inline)
   - OAuth consent must include `https://www.googleapis.com/auth/drive.readonly`
-  - Google Keep ingestion requires `https://www.googleapis.com/auth/keep.readonly`
+  - Google Keep share notifications can be recognized through Gmail, but Google Keep note content is not available to this personal account through the official API.
 
 ## Third-Party Share Notifications
 

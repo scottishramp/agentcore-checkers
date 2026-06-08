@@ -211,3 +211,11 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Tested note access: the Keep share URL redirects to Google sign-in without browser session, and the official Keep API returns `ACCESS_TOKEN_SCOPE_INSUFFICIENT` for the current OAuth token.
 - Updated Gmail fetch/triage to accept verified Google Drive/Keep share notifications when the body names Brian's trusted email and the message is addressed to AgentCore.
 - Added `https://www.googleapis.com/auth/keep.readonly` to OAuth setup for the next token refresh and recorded the Keep scope blocker.
+
+## [2026-06-07] ops | Suppress ingestion-summary email noise
+
+- Diagnosed user-facing ingestion emails with `NEW_EMAIL_TASKS` and `RUNNER_SNAG`: the default `changes` policy was still sending summary emails when direct email tasks were queued, and the email body included raw Drive API errors.
+- Updated ingestion notification behavior so direct-email task intake relies on the natural task reply path instead of sending a second operational summary email.
+- Removed raw error arrays from ingestion summary email bodies; detailed errors remain in runner logs and the ingestion ledger.
+- Verified the local OAuth token includes Drive readonly scope and refreshed the GitHub Actions `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` secret from the local authorized-user JSON.
+- Removed the invalid Google Keep readonly scope from the OAuth helper and corrected docs/blockers to reflect that Keep note content is not available to AgentCore's personal Google account through the official API.

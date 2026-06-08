@@ -56,10 +56,12 @@ def _should_send(summary: dict, send_policy: str) -> bool:
         return False
     if send_policy == "always":
         return True
-    totals = summary.get("totals", {})
-    records = int((totals or {}).get("records_created", 0) or 0)
-    tasks = int((totals or {}).get("tasks_created", 0) or 0)
-    return bool(records > 0 or tasks > 0)
+    drive = summary.get("drive", {})
+    documents = int((drive or {}).get("documents_created", 0) or 0)
+    photos = int((drive or {}).get("photos_created", 0) or 0)
+    # Direct email intake has its own natural reply path; do not send a
+    # second operational "ingestion update" just because an email task queued.
+    return bool(documents > 0 or photos > 0)
 
 
 def _format_ledger_entry(summary: dict, drive_summary: dict) -> str:
@@ -114,7 +116,6 @@ def _build_email_body(summary: dict) -> str:
     totals = summary.get("totals", {})
     drive = summary.get("drive", {})
     email = summary.get("email", {})
-    errors = summary.get("errors", [])
     lines = [
         "Ingestion update:",
         "",
@@ -125,8 +126,6 @@ def _build_email_body(summary: dict) -> str:
         f"- Drive documents: {int((drive or {}).get('documents_created', 0) or 0)}",
         f"- Photo records: {int((drive or {}).get('photos_created', 0) or 0)}",
     ]
-    if errors:
-        lines.extend(["", f"- Errors: {errors}"])
     lines.extend(["", f"Generated at: {summary.get('generated_at', _now_iso())}"])
     return "\n".join(lines) + "\n"
 
