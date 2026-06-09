@@ -13,6 +13,7 @@
     "chat:sync": "npm run chat:fetch && npm run chat:triage",
     "chat:respond-task": "python3 scripts/chat/send_task_response.py",
     "chat:record-response": "python3 scripts/chat/record_chat_response.py",
+    "chat:sync-loop": "python3 scripts/chat/synchronous_loop.py",
     "email:oauth": "python3 scripts/email/gmail_oauth_setup.py",
     "email:ask": "python3 scripts/email/send_message.py",
     "email:fetch": "python3 scripts/email/fetch_inbox.py",

@@ -28,6 +28,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: Calendar readonly access. Brian shared `briandherbert@googlemail.com` with `scottishramp@gmail.com`; AgentCore can list it through Google Calendar API as `reader` and read upcoming events.
 - Delivered: broad admin-assistant OAuth bundle. AgentCore has read access for shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive/Docs/Sheets/Slides/Tasks/app-created Photos artifacts.
 - Delivered: Google Chat browser/API send and polling baseline. AgentCore can send Chat DMs, fetch Brian's DM messages, queue them as async tasks, and reply back into Chat after runner completion.
+- Delivered: bounded pseudo-synchronous Google Chat mode in GitHub Actions. For conversational Chat tasks during 09:00-20:00 `America/Chicago`, the runner can keep polling/replying for a short session.
 - Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
 - Brian family context: Brian was born 1983-09-10; married Kristin Herbert on 2006-05-27; children are Daniel, Nathan, Ezra, Silver, and Levi.
 - Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
@@ -40,6 +41,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Use `briandherbert@gmail.com` and Brian's direct Google Chat with AgentCore as trusted client channels for questions, updates, and task requests.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
 - Treat direct Google Chat messages from Brian as agent instructions by default; jobs poll the Brian DM space `spaces/6RZ69yAAAAE`, skip AgentCore-authored messages, queue Brian-authored text as tasks, and reply naturally in Chat.
+- For short conversational Chat messages during 09:00-20:00 `America/Chicago`, the runner may keep a bounded sync loop open (default 15 minutes, 20 second polling) to continue the conversation inside one GitHub Actions runtime.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
 - Commit, push, and deployment/activation are implicit parts of any completed change unless Brian explicitly says to keep changes local, avoid committing, avoid pushing, or not deploy.
@@ -55,8 +57,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `agentcore/knowledge/people/brian-herbert.md` — birth date, spouse, marriage date, and children recorded.
-- `agentcore/knowledge/people/kristin-herbert.md` — spouse record created.
-- `agentcore/knowledge/people/herbert-children.md` — children list and admin context created.
-- `agentcore/knowledge/projects/family-admin-system.md` — core family context added.
-- `agentcore/index.md` — new family people pages added.
+- `scripts/chat/synchronous_loop.py` — bounded pseudo-synchronous Chat loop added.
+- `.github/workflows/agent-runner.yml` — Chat sync loop wired into runner after Chat-origin replies.
+- `scripts/email/claim_next_task.py` — optional `source_kind` filter added for Chat-only loop claims.
+- `scripts/chat/README.md` — sync-loop command and defaults documented.
+- `agentcore/knowledge/playbooks/communication-intake-contracts.md` — Chat sync-session policy recorded.

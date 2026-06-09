@@ -84,6 +84,7 @@ def main() -> int:
     if not isinstance(raw_messages, list):
         raw_messages = []
     raw_messages = sorted(raw_messages, key=message_sort_key)
+    newest = {"name": last_seen_name, "createTime": last_seen_create_time}
     if not last_seen_name:
         if args.bootstrap_window > 0:
             raw_messages = raw_messages[-args.bootstrap_window :]
@@ -96,7 +97,6 @@ def main() -> int:
             raw_messages = []
 
     new_messages = []
-    newest = {"name": last_seen_name, "createTime": last_seen_create_time}
     for message in raw_messages:
         message_name = str(message.get("name", ""))
         create_time = str(message.get("createTime", ""))

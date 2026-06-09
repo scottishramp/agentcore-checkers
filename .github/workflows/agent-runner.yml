@@ -271,6 +271,31 @@ jobs:
             git push
           fi
 
+      - name: Maintain synchronous Chat session
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done' && steps.claim.outputs.source_kind == 'google_chat'
+        env:
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+          AGENTCORE_TASK_RUN_COMMAND: ${{ secrets.AGENTCORE_TASK_RUN_COMMAND || 'python3 scripts/agent/run_cursor_task.py --task-file {{TASK_FILE}} --workspace .' }}
+          AGENTCORE_TASK_RUN_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_TASK_RUN_TIMEOUT_SECONDS || '900' }}
+          AGENTCORE_CURSOR_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_CURSOR_TIMEOUT_SECONDS || '1200' }}
+          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+          AGENTCORE_CHAT_SELF_USER_NAME: ${{ secrets.AGENTCORE_CHAT_SELF_USER_NAME || 'users/112143982168307832773' }}
+          AGENTCORE_CHAT_SYNC_WINDOW_ENABLED: ${{ secrets.AGENTCORE_CHAT_SYNC_WINDOW_ENABLED || 'true' }}
+          AGENTCORE_CHAT_SYNC_MAX_MINUTES: ${{ secrets.AGENTCORE_CHAT_SYNC_MAX_MINUTES || '15' }}
+          AGENTCORE_CHAT_SYNC_POLL_SECONDS: ${{ secrets.AGENTCORE_CHAT_SYNC_POLL_SECONDS || '20' }}
+          AGENTCORE_CHAT_SYNC_TIMEZONE: ${{ secrets.AGENTCORE_CHAT_SYNC_TIMEZONE || 'America/Chicago' }}
+          AGENTCORE_CHAT_SYNC_START_HOUR: ${{ secrets.AGENTCORE_CHAT_SYNC_START_HOUR || '9' }}
+          AGENTCORE_CHAT_SYNC_END_HOUR: ${{ secrets.AGENTCORE_CHAT_SYNC_END_HOUR || '20' }}
+        run: |
+          python3 scripts/chat/synchronous_loop.py \
+            --seed-task-file "${{ steps.claim.outputs.task_file }}" \
+            --summary-output .agentcore/state/chat-sync-loop-summary.json
+
       - name: Publish runner summary
         run: |
           python3 - <<'PY'
@@ -279,8 +304,10 @@ jobs:
 
           claim_path = Path(".agentcore/state/task-claim.json")
           result_path = Path(".agentcore/state/task-run-result.json")
+          sync_loop_path = Path(".agentcore/state/chat-sync-loop-summary.json")
           claim = json.loads(claim_path.read_text(encoding="utf-8")) if claim_path.exists() else {}
           result = json.loads(result_path.read_text(encoding="utf-8")) if result_path.exists() else {}
+          sync_loop = json.loads(sync_loop_path.read_text(encoding="utf-8")) if sync_loop_path.exists() else {}
 
           lines = [
               "# AgentCore Async Runner",
@@ -291,6 +318,9 @@ jobs:
               f"- Stale requeued: {claim.get('stale_requeued', 0)}",
               f"- Final status: {result.get('status', '')}",
               f"- Run ID: {result.get('run_id', '')}",
+              f"- Chat sync loop entered: {sync_loop.get('entered_loop', False)}",
+              f"- Chat sync loop reason: {sync_loop.get('reason', '')}",
+              f"- Chat sync loop processed tasks: {len(sync_loop.get('processed_tasks', [])) if isinstance(sync_loop.get('processed_tasks', []), list) else 0}",
           ]
           output = "\\n".join(lines) + "\\n"
           summary_file = Path(".agentcore/state/agent-runner-summary.md")
@@ -308,7 +338,10 @@ jobs:
             .agentcore/state/task-run-result.json
             .agentcore/state/task-notify-result.json
             .agentcore/state/chat-sync-summary.json
+            .agentcore/state/chat-sync-loop-summary.json
+            .agentcore/state/chat-sync-loop-*.json
             .agentcore/state/chat-fetch/latest.json
+            .agentcore/state/chat-fetch/sync-loop.json
             .agentcore/state/agent-runner-summary.md
             .agentcore/state/task-runs/
             agentcore/inbox/email/

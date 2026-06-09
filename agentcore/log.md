@@ -284,3 +284,11 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Recorded Brian's spouse as Kristin Herbert and marriage date as 2006-05-27.
 - Recorded Brian and Kristin's children: Daniel, Nathan, Ezra, Silver, and Levi.
 - Created lightweight people/context pages for Kristin Herbert and the Herbert children, and linked them from the AgentCore index.
+
+## [2026-06-09] ops | Bounded Google Chat sync loop
+
+- Added a pseudo-synchronous Google Chat loop for GitHub Actions: after a Chat-origin task is answered, the runner can keep polling Brian's DM space for follow-up messages and process/reply inside the same workflow run.
+- Gated the loop to short conversational Chat tasks, `America/Chicago` local time between 09:00 and 20:00, and a configurable hard cap (default 15 minutes, 20 second poll interval).
+- Added `scripts/chat/synchronous_loop.py` to orchestrate fetch, triage, Chat-only claim, Cursor task execution, finalization, Chat response send, ledger recording, and commits for follow-up Chat tasks.
+- Added `--source-kind` filtering to `scripts/email/claim_next_task.py` so the sync loop cannot accidentally claim email or Drive tasks.
+- Wired the loop into `agent-runner.yml` after Chat response ledger commits and added summary/artifact output for loop entry, stop reason, and processed task count.

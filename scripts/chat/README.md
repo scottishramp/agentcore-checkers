@@ -39,11 +39,18 @@ Reply to a completed Chat-origin task:
 npm run chat:respond-task -- --task-file agentcore/inbox/tasks/task__chat__example.md --status done --result-json .agentcore/state/task-run-result.json
 ```
 
+Maintain a bounded pseudo-synchronous session after a Chat-origin task:
+
+```sh
+npm run chat:sync-loop -- --seed-task-file agentcore/inbox/tasks/task__chat__example.md
+```
+
 ## Notes
 
 - Uses the same authorized-user token as Gmail/Drive/Calendar automation by default.
 - Creates or reuses a DM via `spaces:setup`.
 - `--no-create-dm` uses `spaces:findDirectMessage` and may require an additional Chat read scope.
 - Fetching reads Brian's configured direct-message space (`AGENTCORE_CHAT_DM_SPACE`, default `spaces/6RZ69yAAAAE`) and skips AgentCore-authored messages (`AGENTCORE_CHAT_SELF_USER_NAME`).
+- The GitHub Actions runner can keep a pseudo-synchronous Chat session open after a conversational Chat task. Defaults: enabled, `America/Chicago`, 9:00-20:00 local time, 15 minute max, 20 second poll interval.
 - Default recipient is `AGENTCORE_CLIENT_EMAIL` (fallback: `briandherbert@gmail.com`).
 - For safety, sending is restricted to trusted client email unless `--allow-non-client` is supplied.

@@ -43,6 +43,11 @@ def parse_args() -> argparse.Namespace:
         default="",
         help="Runner/run identifier. Defaults to GITHUB_RUN_ID or timestamp.",
     )
+    parser.add_argument(
+        "--source-kind",
+        default="",
+        help="Optional task source_kind filter, such as google_chat.",
+    )
     return parser.parse_args()
 
 
@@ -94,6 +99,8 @@ def main() -> int:
                 _requeue_stale(task, reason="Requeued after stale in_progress lock timeout.")
                 task = load_task(task_path)
             if str(task.meta.get("status", "")) == TASK_STATUS_QUEUED:
+                if args.source_kind and str(task.meta.get("source_kind", "")).strip().lower() != args.source_kind:
+                    continue
                 queued_candidates.append(task)
 
         if queued_candidates:

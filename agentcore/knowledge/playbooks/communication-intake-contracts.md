@@ -35,6 +35,7 @@ Define one canonical intake contract across chat, email, Drive documents, and An
 - Intake source: Brian's direct Google Chat space with AgentCore (`spaces/6RZ69yAAAAE` by default).
 - Direct Chat messages from Brian are agent instructions by default and should be queued for an async run/reply.
 - AgentCore replies should be sent back into the same Chat space as natural prose, without task IDs or runner metadata unless Brian asks for diagnostics.
+- If a Chat-origin message looks conversational and is processed between 09:00 and 20:00 `America/Chicago`, the runner may maintain a bounded pseudo-synchronous session inside the GitHub Actions runtime. Default limits: 15 minutes total, 20 seconds between polls, trusted Brian DM only.
 - Required record fields:
   - `chat_message_name`
   - `chat_space`
