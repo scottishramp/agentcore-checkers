@@ -16,11 +16,12 @@
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/vbVblXHSJeU.vbVblXHSJeU",
       "chat_space": "spaces/6RZ69yAAAAE",
       "sender_name": "users/111231822876595172958",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-spaces-6RZ69yAAAAE-messages-vbVblXHSJeU.vbVblXHSJeU-spaces-6RZ69yAAAAE",
-      "response_chat_message_name": "",
-      "updated_at": "2026-06-09T16:11:05.715427+00:00",
-      "created_at": "2026-06-09T16:11:05.715427+00:00"
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/Kq5AOQ-R4fs.Kq5AOQ-R4fs",
+      "updated_at": "2026-06-09T16:11:22.520375+00:00",
+      "created_at": "2026-06-09T16:11:05.715427+00:00",
+      "note": "\ud83d\udc36 \ud83e\udd81 \ud83d\udc27"
     },
     "spaces/6RZ69yAAAAE/messages/j7U9Tt1Emp0.j7U9Tt1Emp0": {
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/j7U9Tt1Emp0.j7U9Tt1Emp0",
@@ -36,13 +37,13 @@
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
-      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/j7U9Tt1Emp0.j7U9Tt1Emp0",
-      "latest_status": "queued",
-      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-j7U9Tt1Emp0.j7U9Tt1Emp0-spaces-6RZ69yAAAAE",
-      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/siHVWmgUvXs.siHVWmgUvXs",
-      "updated_at": "2026-06-09T16:11:05.715656+00:00",
+      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/vbVblXHSJeU.vbVblXHSJeU",
+      "latest_status": "done",
+      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-vbVblXHSJeU.vbVblXHSJeU-spaces-6RZ69yAAAAE",
+      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/Kq5AOQ-R4fs.Kq5AOQ-R4fs",
+      "updated_at": "2026-06-09T16:11:22.520375+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-09T16:11:05.715790+00:00"
+  "updated_at": "2026-06-09T16:11:22.520375+00:00"
 }
