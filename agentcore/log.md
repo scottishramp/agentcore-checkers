@@ -292,3 +292,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Added `scripts/chat/synchronous_loop.py` to orchestrate fetch, triage, Chat-only claim, Cursor task execution, finalization, Chat response send, ledger recording, and commits for follow-up Chat tasks.
 - Added `--source-kind` filtering to `scripts/email/claim_next_task.py` so the sync loop cannot accidentally claim email or Drive tasks.
 - Wired the loop into `agent-runner.yml` after Chat response ledger commits and added summary/artifact output for loop entry, stop reason, and processed task count.
+
+## [2026-06-09] ops | Cursor-based GitHub sync command
+
+- Added the project skill `.cursor/skills/github-sync/SKILL.md` so a bare `sync` request means to inspect, pull, push, and reconcile GitHub state using Cursor agent judgment.
+- Updated the administrative-assistant rule and hot cache to prefer the skill over a custom programmatic sync routine.

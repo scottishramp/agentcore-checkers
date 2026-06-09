@@ -42,6 +42,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
 - Treat direct Google Chat messages from Brian as agent instructions by default; jobs poll the Brian DM space `spaces/6RZ69yAAAAE`, skip AgentCore-authored messages, queue Brian-authored text as tasks, and reply naturally in Chat.
 - For short conversational Chat messages during 09:00-20:00 `America/Chicago`, the runner may keep a bounded sync loop open (default 15 minutes, 20 second polling) to continue the conversation inside one GitHub Actions runtime.
+- If Brian says exactly `sync`, use the project `github-sync` skill to sync local and remote GitHub state with Cursor agent judgment. Do not rely on a custom sync script.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
 - Commit, push, and deployment/activation are implicit parts of any completed change unless Brian explicitly says to keep changes local, avoid committing, avoid pushing, or not deploy.
@@ -57,8 +58,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- `.cursor/skills/github-sync/SKILL.md` — Cursor-based GitHub sync skill added.
+- `.cursor/rules/admin-assistant.mdc` — bare `sync` command mapped to the GitHub sync skill.
 - `scripts/chat/synchronous_loop.py` — bounded pseudo-synchronous Chat loop added.
 - `.github/workflows/agent-runner.yml` — Chat sync loop wired into runner after Chat-origin replies.
 - `scripts/email/claim_next_task.py` — optional `source_kind` filter added for Chat-only loop claims.
-- `scripts/chat/README.md` — sync-loop command and defaults documented.
-- `agentcore/knowledge/playbooks/communication-intake-contracts.md` — Chat sync-session policy recorded.
