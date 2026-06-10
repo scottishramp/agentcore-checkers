@@ -29,6 +29,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: broad admin-assistant OAuth bundle. AgentCore has read access for shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive/Docs/Sheets/Slides/Tasks/app-created Photos artifacts.
 - Delivered: Google Chat browser/API send and polling baseline. AgentCore can send Chat DMs, fetch Brian's DM messages, queue them as async tasks, and reply back into Chat after runner completion.
 - Delivered: bounded pseudo-synchronous Google Chat mode in GitHub Actions. For conversational Chat tasks during 09:00-20:00 `America/Chicago`, the runner can keep polling/replying for a short session.
+- Delivered: runner notification hardening. If an async task's repo push is rejected, the runner should still send the Email/Chat response and continue ledger/finalization steps.
 - Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
 - Brian family context: Brian was born 1983-09-10; married Kristin Herbert on 2006-05-27; children are Daniel, Nathan, Ezra, Silver, and Levi.
 - Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
@@ -58,8 +59,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- `.github/workflows/agent-runner.yml` — commit/push steps made non-blocking so Chat replies still send after push rejection.
 - `.cursor/skills/github-sync/SKILL.md` — Cursor-based GitHub sync skill added.
 - `.cursor/rules/admin-assistant.mdc` — bare `sync` command mapped to the GitHub sync skill.
 - `scripts/chat/synchronous_loop.py` — bounded pseudo-synchronous Chat loop added.
-- `.github/workflows/agent-runner.yml` — Chat sync loop wired into runner after Chat-origin replies.
 - `scripts/email/claim_next_task.py` — optional `source_kind` filter added for Chat-only loop claims.

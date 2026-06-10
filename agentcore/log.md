@@ -297,3 +297,9 @@ Synthesized all learnings from the checkers project into AgentCore:
 
 - Added the project skill `.cursor/skills/github-sync/SKILL.md` so a bare `sync` request means to inspect, pull, push, and reconcile GitHub state using Cursor agent judgment.
 - Updated the administrative-assistant rule and hot cache to prefer the skill over a custom programmatic sync routine.
+
+## [2026-06-10] ops | Preserve replies after runner push rejection
+
+- Investigated a missed Google Chat response for Brian's location-sharing request. Chat intake and the Cursor task ran successfully, but `agent-runner.yml` stopped at `Commit agent workspace changes` because GitHub rejected a workflow-file update from the default Actions token.
+- Made the runner's workspace and communication-ledger commit steps non-blocking so Email/Chat response delivery is not skipped when a push fails.
+- The underlying workflow-write limitation remains: GitHub Actions' default token cannot push workflow-file changes without elevated workflow permission, so workflow self-updates may still need local Cursor or a differently scoped token.
