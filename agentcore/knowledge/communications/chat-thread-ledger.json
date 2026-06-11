@@ -103,23 +103,24 @@
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/nImDFZkm-ls.nImDFZkm-ls",
       "chat_space": "spaces/6RZ69yAAAAE",
       "sender_name": "users/111231822876595172958",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-spaces-6RZ69yAAAAE-messages-nImDFZkm-ls.nImDFZkm-ls-spaces-6RZ69yAAAAE",
-      "response_chat_message_name": "",
-      "updated_at": "2026-06-11T23:46:55.280738+00:00",
-      "created_at": "2026-06-11T23:46:55.280738+00:00"
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/HxCRwelClXE.HxCRwelClXE",
+      "updated_at": "2026-06-11T23:47:49.245194+00:00",
+      "created_at": "2026-06-11T23:46:55.280738+00:00",
+      "note": "Today is opening day of the 2026 World Cup. The headline game was **Mexico vs South Africa** at Estadio Azteca in Mexico City \u2014 the tournament opener with the opening ceremony (kickoff around **1:00 PM CT**). There was also a second Group A"
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
       "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/nImDFZkm-ls.nImDFZkm-ls",
-      "latest_status": "queued",
+      "latest_status": "done",
       "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-nImDFZkm-ls.nImDFZkm-ls-spaces-6RZ69yAAAAE",
-      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/zITi6bFriHU.zITi6bFriHU",
-      "updated_at": "2026-06-11T23:46:55.280738+00:00",
+      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/HxCRwelClXE.HxCRwelClXE",
+      "updated_at": "2026-06-11T23:47:49.245194+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-11T23:46:55.280840+00:00"
+  "updated_at": "2026-06-11T23:47:49.245194+00:00"
 }
