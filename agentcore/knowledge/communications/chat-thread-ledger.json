@@ -92,23 +92,24 @@
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/hpTTvxChRB4.hpTTvxChRB4",
       "chat_space": "spaces/6RZ69yAAAAE",
       "sender_name": "users/111231822876595172958",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-spaces-6RZ69yAAAAE-messages-hpTTvxChRB4.hpTTvxChRB4-spaces-6RZ69yAAAAE",
-      "response_chat_message_name": "",
-      "updated_at": "2026-06-11T23:16:13.139770+00:00",
-      "created_at": "2026-06-11T23:16:13.139770+00:00"
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/zITi6bFriHU.zITi6bFriHU",
+      "updated_at": "2026-06-11T23:16:31.017832+00:00",
+      "created_at": "2026-06-11T23:16:13.139770+00:00",
+      "note": "Hey Brian \u2014 I'm here and ready to chat. You sent this to test how much back-and-forth we can do in the runner, so let's give it a try. I'm up for a few rounds if you are. Quick opener: what's on your mind tonight \u2014 something practical you w"
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
       "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/hpTTvxChRB4.hpTTvxChRB4",
-      "latest_status": "queued",
+      "latest_status": "done",
       "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-hpTTvxChRB4.hpTTvxChRB4-spaces-6RZ69yAAAAE",
-      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/DHj2mapWZdY.DHj2mapWZdY",
-      "updated_at": "2026-06-11T23:16:13.139770+00:00",
+      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/zITi6bFriHU.zITi6bFriHU",
+      "updated_at": "2026-06-11T23:16:31.017832+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-11T23:16:13.139897+00:00"
+  "updated_at": "2026-06-11T23:16:31.017832+00:00"
 }
