@@ -15,6 +15,8 @@ from task_queue import TASK_STATUS_DONE, TASK_STATUS_SNAG, load_task, write_json
 
 DEFAULT_OUTPUT_PATH = ".agentcore/state/task-run-result.json"
 DEFAULT_LOG_DIR = ".agentcore/state/task-runs"
+# Google Chat text messages allow up to 4096 characters; keep a transport-safe cap.
+MAX_CLIENT_REPLY_CHARS = 4096
 
 
 def parse_args() -> argparse.Namespace:
@@ -116,14 +118,20 @@ def main() -> int:
         ended_at = datetime.now(timezone.utc)
         stdout_text = proc.stdout or ""
         stderr_text = proc.stderr or ""
-        combined = compact_whitespace(f"{stdout_text}\n{stderr_text}")
 
         result["started_at"] = started_at.isoformat()
         result["ended_at"] = ended_at.isoformat()
         result["duration_seconds"] = round((ended_at - started_at).total_seconds(), 3)
         result["exit_code"] = proc.returncode
         result["status"] = TASK_STATUS_DONE if proc.returncode == 0 else TASK_STATUS_SNAG
-        result["summary"] = combined[:600] if combined else "Task command completed without output."
+        summary = stdout_text.strip()
+        if not summary and proc.returncode == 0:
+            summary = "Task command completed without output."
+        elif not summary:
+            summary = compact_whitespace(stderr_text)[:600] or f"Task command exited with {proc.returncode}."
+        elif len(summary) > MAX_CLIENT_REPLY_CHARS:
+            summary = summary[: MAX_CLIENT_REPLY_CHARS - 1] + "…"
+        result["summary"] = summary
         if proc.returncode != 0:
             result["error"] = compact_whitespace(stderr_text)[:600] or f"Task command exited with {proc.returncode}."
 

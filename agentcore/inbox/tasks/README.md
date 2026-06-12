@@ -32,8 +32,9 @@ Each task file includes:
 
 1. `triage_messages.py` creates `queued` task files for inbound `task` intent.
 2. Queue runner claims oldest `queued` task and marks it `in_progress`.
-3. Runner marks terminal status as `done` or `snag`.
-4. Active working sessions review and either:
+3. After the first task completes, `queue_drain_loop.py` can poll for new inbound messages and process additional queued tasks in the same runner session (default up to 10 tasks or 20 minutes).
+4. Runner marks terminal status as `done` or `snag`.
+5. Active working sessions review and either:
    - convert to project work in `agentcore/knowledge/projects/`, or
    - clarify with client by outbound email question.
 5. Keep source linkage intact so each task can be traced to the originating message.
