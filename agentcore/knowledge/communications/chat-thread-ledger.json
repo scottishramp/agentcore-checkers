@@ -136,23 +136,24 @@
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/ohNtfizTkgk.ohNtfizTkgk",
       "chat_space": "spaces/6RZ69yAAAAE",
       "sender_name": "users/111231822876595172958",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-spaces-6RZ69yAAAAE-messages-ohNtfizTkgk.ohNtfizTkgk-spaces-6RZ69yAAAAE",
-      "response_chat_message_name": "",
-      "updated_at": "2026-06-12T16:53:09.412996+00:00",
-      "created_at": "2026-06-12T16:53:09.412996+00:00"
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/Cv4cT1CWUhU.Cv4cT1CWUhU",
+      "updated_at": "2026-06-12T16:53:58.619015+00:00",
+      "created_at": "2026-06-12T16:53:09.412996+00:00",
+      "note": "Yes \u2014 that was on me, not Google Chat. The runner was capping my reply at **600 characters** when it captured agent output, so longer answers got chopped mid-sentence. Google Chat itself allows much longer messages (about **4,000 characters"
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
       "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/ohNtfizTkgk.ohNtfizTkgk",
-      "latest_status": "queued",
+      "latest_status": "done",
       "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-ohNtfizTkgk.ohNtfizTkgk-spaces-6RZ69yAAAAE",
-      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/7L8yNedEOf0.7L8yNedEOf0",
-      "updated_at": "2026-06-12T16:53:09.412996+00:00",
+      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/Cv4cT1CWUhU.Cv4cT1CWUhU",
+      "updated_at": "2026-06-12T16:53:58.619015+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-12T16:53:09.413132+00:00"
+  "updated_at": "2026-06-12T16:53:58.619015+00:00"
 }
