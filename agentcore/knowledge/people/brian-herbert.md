@@ -20,6 +20,12 @@ Brian Herbert is AgentCore's trusted client and the person AgentCore assists wit
 - Children: Daniel Herbert, Nathan Herbert, Ezra Herbert, Silver Herbert, Levi Herbert.
 - Key family/admin entities now include Kristin and the five children for document, calendar, school, medical, travel, and household administration context.
 
+## Food Tracking
+
+- Brian wants meal tracking via Google Chat check-ins around 12:00 PM and 6:00 PM `America/Chicago`, plus ad hoc replies when he volunteers what he ate.
+- Log entries in `agentcore/knowledge/people/brian-herbert-food-log.md` with rough calorie/macro estimates when quantities are vague.
+- When Brian says to log internally only, do not send a detailed report-back in Chat.
+
 ## Administrative Preferences
 
 - Source documents and scans should live in AgentCore Google Drive when AgentCore has permission to organize them.

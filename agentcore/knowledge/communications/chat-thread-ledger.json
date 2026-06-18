@@ -142,18 +142,50 @@
       "updated_at": "2026-06-12T16:53:58.619015+00:00",
       "created_at": "2026-06-12T16:53:09.412996+00:00",
       "note": "Yes \u2014 that was on me, not Google Chat. The runner was capping my reply at **600 characters** when it captured agent output, so longer answers got chopped mid-sentence. Google Chat itself allows much longer messages (about **4,000 characters"
+    },
+    "spaces/6RZ69yAAAAE/messages/Js967SNi0Hw.Js967SNi0Hw": {
+      "chat_message_name": "spaces/6RZ69yAAAAE/messages/Js967SNi0Hw.Js967SNi0Hw",
+      "chat_space": "spaces/6RZ69yAAAAE",
+      "sender_name": "users/111231822876595172958",
+      "status": "done",
+      "task_id": "task-spaces-6RZ69yAAAAE-messages-Js967SNi0Hw.Js967SNi0Hw-spaces-6RZ69yAAAAE",
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/Uvd5pMoc9_o.Uvd5pMoc9_o",
+      "updated_at": "2026-06-18T19:27:14.783025+00:00",
+      "created_at": "2026-06-18T19:25:28.668145+00:00",
+      "note": "Done \u2014 here's your food tracking setup:\n\nI'll check in twice a day in Google Chat:\n- **Lunch** around 12:00 PM\n- **Dinner** around 6:00 PM\n\nWhen I ask, just reply with what you ate \u2014 something like \"turkey sandwich and chips\" or \"leftover p"
+    },
+    "spaces/6RZ69yAAAAE/messages/YRGqhciYGtU.YRGqhciYGtU": {
+      "chat_message_name": "spaces/6RZ69yAAAAE/messages/YRGqhciYGtU.YRGqhciYGtU",
+      "chat_space": "spaces/6RZ69yAAAAE",
+      "sender_name": "users/111231822876595172958",
+      "status": "done",
+      "task_id": "task-spaces-6RZ69yAAAAE-messages-YRGqhciYGtU.YRGqhciYGtU-spaces-6RZ69yAAAAE",
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/HNDnO7rDrHE.HNDnO7rDrHE",
+      "updated_at": "2026-06-18T21:27:15.531204+00:00",
+      "created_at": "2026-06-18T21:26:08.090042+00:00",
+      "note": "Got it \u2014 12 and 6 are locked in.\n\nLogged breakfast for today:\n\u2022 2 eggs with shredded Colby jack (~250 cal)\n\u2022 Coffee with a splash of milk (~15 cal)\n\u2022 3 chocolate chip cookies (~240 cal)\n\nRough total: **~505 cal**, 23g protein, 36g carbs, 32"
+    },
+    "spaces/6RZ69yAAAAE/messages/4kXw2pM8QFQ.4kXw2pM8QFQ": {
+      "chat_message_name": "spaces/6RZ69yAAAAE/messages/4kXw2pM8QFQ.4kXw2pM8QFQ",
+      "chat_space": "spaces/6RZ69yAAAAE",
+      "sender_name": "users/111231822876595172958",
+      "status": "queued",
+      "task_id": "task-spaces-6RZ69yAAAAE-messages-4kXw2pM8QFQ.4kXw2pM8QFQ-spaces-6RZ69yAAAAE",
+      "response_chat_message_name": "",
+      "updated_at": "2026-06-18T21:59:47.754440+00:00",
+      "created_at": "2026-06-18T21:59:47.754440+00:00"
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
-      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/ohNtfizTkgk.ohNtfizTkgk",
-      "latest_status": "done",
-      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-ohNtfizTkgk.ohNtfizTkgk-spaces-6RZ69yAAAAE",
-      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/Cv4cT1CWUhU.Cv4cT1CWUhU",
-      "updated_at": "2026-06-12T16:53:58.619015+00:00",
+      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/4kXw2pM8QFQ.4kXw2pM8QFQ",
+      "latest_status": "queued",
+      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-4kXw2pM8QFQ.4kXw2pM8QFQ-spaces-6RZ69yAAAAE",
+      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/HNDnO7rDrHE.HNDnO7rDrHE",
+      "updated_at": "2026-06-18T21:59:47.754440+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-12T16:53:58.619015+00:00"
+  "updated_at": "2026-06-18T21:59:47.754575+00:00"
 }

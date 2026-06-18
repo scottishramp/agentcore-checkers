@@ -27,6 +27,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Clients](knowledge/clients/): client and sponsor pages.
 - [People](knowledge/people/): people and stakeholder pages.
 - [Brian Herbert](knowledge/people/brian-herbert.md): trusted client and primary administrative-assistance context.
+- [Brian Herbert Food Log](knowledge/people/brian-herbert-food-log.md): rolling meal intake log with rough estimates.
 - [Kristin Herbert](knowledge/people/kristin-herbert.md): Brian's spouse and immediate family context.
 - [Herbert Children](knowledge/people/herbert-children.md): Brian and Kristin's children for family administration context.
 - [Organizations](knowledge/organizations/): organizations relevant to projects.

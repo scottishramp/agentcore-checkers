@@ -298,6 +298,12 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Added the project skill `.cursor/skills/github-sync/SKILL.md` so a bare `sync` request means to inspect, pull, push, and reconcile GitHub state using Cursor agent judgment.
 - Updated the administrative-assistant rule and hot cache to prefer the skill over a custom programmatic sync routine.
 
+## [2026-06-18] intake | Brian food log — afternoon snack
+
+- Logged Brian's afternoon intake for 2026-06-18: biscuit with chicken breast, small hummus portion, and one cookie (~490 cal estimated).
+- Consolidated earlier breakfast entry (eggs, coffee, 3 cookies) into `agentcore/knowledge/people/brian-herbert-food-log.md`.
+- Brian asked for internal-only logging with no report-back.
+
 ## [2026-06-10] ops | Preserve replies after runner push rejection
 
 - Investigated a missed Google Chat response for Brian's location-sharing request. Chat intake and the Cursor task ran successfully, but `agent-runner.yml` stopped at `Commit agent workspace changes` because GitHub rejected a workflow-file update from the default Actions token.
