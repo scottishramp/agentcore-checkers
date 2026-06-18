@@ -169,23 +169,24 @@
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/4kXw2pM8QFQ.4kXw2pM8QFQ",
       "chat_space": "spaces/6RZ69yAAAAE",
       "sender_name": "users/111231822876595172958",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-spaces-6RZ69yAAAAE-messages-4kXw2pM8QFQ.4kXw2pM8QFQ-spaces-6RZ69yAAAAE",
-      "response_chat_message_name": "",
-      "updated_at": "2026-06-18T21:59:47.754440+00:00",
-      "created_at": "2026-06-18T21:59:47.754440+00:00"
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/Mo-vRk2_0sU.Mo-vRk2_0sU",
+      "updated_at": "2026-06-18T22:01:36.831059+00:00",
+      "created_at": "2026-06-18T21:59:47.754440+00:00",
+      "note": "\ud83d\udc4d"
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
       "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/4kXw2pM8QFQ.4kXw2pM8QFQ",
-      "latest_status": "queued",
+      "latest_status": "done",
       "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-4kXw2pM8QFQ.4kXw2pM8QFQ-spaces-6RZ69yAAAAE",
-      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/HNDnO7rDrHE.HNDnO7rDrHE",
-      "updated_at": "2026-06-18T21:59:47.754440+00:00",
+      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/Mo-vRk2_0sU.Mo-vRk2_0sU",
+      "updated_at": "2026-06-18T22:01:36.831059+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-18T21:59:47.754575+00:00"
+  "updated_at": "2026-06-18T22:01:36.831059+00:00"
 }
