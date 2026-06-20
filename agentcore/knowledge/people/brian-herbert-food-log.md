@@ -29,3 +29,21 @@ Brian reported: biscuit with a chicken breast, a bit of hummus, and another cook
 **Meal total:** ~490 cal | ~32g protein | ~42g carbs | ~18g fat
 
 **Day running total (so far):** ~995 cal | ~55g protein | ~78g carbs | ~50g fat
+
+## 2026-06-20
+
+### Breakfast (logged ~13:10 CT)
+
+- 2 eggs (~140 cal)
+- 1 slice sourdough (~90 cal)
+
+**Meal total:** ~230 cal | ~15g protein | ~19g carbs | ~11g fat
+
+### Lunch (logged ~13:10 CT)
+
+- Cheeseburger (~400 cal)
+- Bratwurst (~280 cal)
+
+**Meal total:** ~680 cal | ~33g protein | ~35g carbs | ~45g fat
+
+**Day running total (so far):** ~910 cal | ~48g protein | ~54g carbs | ~56g fat

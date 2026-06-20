@@ -298,6 +298,11 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Added the project skill `.cursor/skills/github-sync/SKILL.md` so a bare `sync` request means to inspect, pull, push, and reconcile GitHub state using Cursor agent judgment.
 - Updated the administrative-assistant rule and hot cache to prefer the skill over a custom programmatic sync routine.
 
+## [2026-06-20] intake | Brian food log — breakfast and lunch
+
+- Logged Brian's 2026-06-20 intake via Google Chat: 2 eggs and sourdough for breakfast; cheeseburger and bratwurst for lunch (~910 cal estimated day total so far).
+- Updated `agentcore/knowledge/people/brian-herbert-food-log.md`.
+
 ## [2026-06-18] intake | Brian food log — afternoon snack
 
 - Logged Brian's afternoon intake for 2026-06-18: biscuit with chicken breast, small hummus portion, and one cookie (~490 cal estimated).

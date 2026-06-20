@@ -59,7 +59,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `agentcore/knowledge/people/brian-herbert-food-log.md` — rolling food log started; 2026-06-18 breakfast and afternoon snack logged.
+- `agentcore/knowledge/people/brian-herbert-food-log.md` — 2026-06-20 breakfast and lunch logged (eggs, sourdough, cheeseburger, bratwurst).
 - `.github/workflows/agent-runner.yml` — commit/push steps made non-blocking so Chat replies still send after push rejection.
 - `.cursor/skills/github-sync/SKILL.md` — Cursor-based GitHub sync skill added.
 - `.cursor/rules/admin-assistant.mdc` — bare `sync` command mapped to the GitHub sync skill.
