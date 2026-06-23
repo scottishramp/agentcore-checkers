@@ -47,3 +47,17 @@ Brian reported: biscuit with a chicken breast, a bit of hummus, and another cook
 **Meal total:** ~680 cal | ~33g protein | ~35g carbs | ~45g fat
 
 **Day running total (so far):** ~910 cal | ~48g protein | ~54g carbs | ~56g fat
+
+## 2026-06-23
+
+### Breakfast (logged ~13:18 CT)
+
+Brian reported: small club sandwich, handful of Fritos Flavor Twists, 2 eggs, slice sourdough, slice ham.
+
+- 2 eggs (~140 cal)
+- Small club sandwich with sourdough and ham (~320 cal)
+- Handful of Fritos Flavor Twists (~160 cal)
+
+**Meal total:** ~620 cal | ~34g protein | ~44g carbs | ~35g fat
+
+**Day running total (so far):** ~620 cal | ~34g protein | ~44g carbs | ~35g fat

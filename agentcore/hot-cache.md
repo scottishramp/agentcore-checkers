@@ -59,6 +59,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- `agentcore/knowledge/people/brian-herbert-food-log.md` — logged 2026-06-23 breakfast (club sandwich, eggs, Fritos).
 - `scripts/chat/send_intake_ack.py` — instant "Got it" acknowledgment on new Chat message intake.
 - `scripts/agent/drain_task_queue.py` — multi-task processing loop; drains all queued tasks per runner invocation.
 - `scripts/chat/scheduled_messages.json` — v2 with morning check-in + rotating message variants.
