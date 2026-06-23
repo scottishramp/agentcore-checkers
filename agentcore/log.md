@@ -314,3 +314,13 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Investigated a missed Google Chat response for Brian's location-sharing request. Chat intake and the Cursor task ran successfully, but `agent-runner.yml` stopped at `Commit agent workspace changes` because GitHub rejected a workflow-file update from the default Actions token.
 - Made the runner's workspace and communication-ledger commit steps non-blocking so Email/Chat response delivery is not skipped when a push fails.
 - The underlying workflow-write limitation remains: GitHub Actions' default token cannot push workflow-file changes without elevated workflow permission, so workflow self-updates may still need local Cursor or a differently scoped token.
+
+## [2026-06-22] fix | Proactive scheduled Chat messaging
+
+- Diagnosed missing Google Chat check-ins: the Cursor agent (running in Actions) promised scheduled food check-ins 3 times (June 18, 19, 20) but never committed any code. Zero scripts or workflow changes existed. The system was purely reactive.
+- Built proactive outbound messaging system:
+  - `scripts/chat/scheduled_messages.json` — config for recurring messages (noon + 6 PM food check-ins, 90-minute delivery windows, `America/Chicago` timezone).
+  - `scripts/chat/send_scheduled_messages.py` — checks schedule, tracks state to avoid duplicates, sends due messages via Chat API.
+  - Wired into both `email-sync.yml` and `agent-runner.yml` workflows.
+- Bumped email-sync cron from hourly (`0 * * * *`) to every 30 minutes (`0,30 * * * *`) for more reliable delivery timing.
+- Remaining caveat: GitHub Actions free-tier cron can still be delayed 1-2 hours; messages will arrive within 90 minutes of target time on normal days, potentially later if Actions has a delay spike.

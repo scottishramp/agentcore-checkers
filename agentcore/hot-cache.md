@@ -59,9 +59,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `agentcore/knowledge/people/brian-herbert-food-log.md` — 2026-06-20 breakfast and lunch logged (eggs, sourdough, cheeseburger, bratwurst).
-- `.github/workflows/agent-runner.yml` — commit/push steps made non-blocking so Chat replies still send after push rejection.
-- `.cursor/skills/github-sync/SKILL.md` — Cursor-based GitHub sync skill added.
-- `.cursor/rules/admin-assistant.mdc` — bare `sync` command mapped to the GitHub sync skill.
-- `scripts/chat/synchronous_loop.py` — bounded pseudo-synchronous Chat loop added.
-- `scripts/email/claim_next_task.py` — optional `source_kind` filter added for Chat-only loop claims.
+- `scripts/chat/send_scheduled_messages.py` — proactive scheduled Chat messaging system (noon/6 PM food check-ins).
+- `scripts/chat/scheduled_messages.json` — schedule config for recurring outbound messages with timezone and delivery windows.
+- `.github/workflows/email-sync.yml` — added scheduled send step; bumped cron to every 30 minutes for reliability.
+- `.github/workflows/agent-runner.yml` — added scheduled send step so runner cycles also trigger outbound messages.
+- `agentcore/knowledge/people/brian-herbert-food-log.md` — 2026-06-20 breakfast and lunch logged.
