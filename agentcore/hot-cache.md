@@ -59,8 +59,9 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `scripts/chat/send_scheduled_messages.py` — proactive scheduled Chat messaging system (noon/6 PM food check-ins).
-- `scripts/chat/scheduled_messages.json` — schedule config for recurring outbound messages with timezone and delivery windows.
-- `.github/workflows/email-sync.yml` — added scheduled send step; bumped cron to every 30 minutes for reliability.
-- `.github/workflows/agent-runner.yml` — added scheduled send step so runner cycles also trigger outbound messages.
-- `agentcore/knowledge/people/brian-herbert-food-log.md` — 2026-06-20 breakfast and lunch logged.
+- `scripts/chat/send_intake_ack.py` — instant "Got it" acknowledgment on new Chat message intake.
+- `scripts/agent/drain_task_queue.py` — multi-task processing loop; drains all queued tasks per runner invocation.
+- `scripts/chat/scheduled_messages.json` — v2 with morning check-in + rotating message variants.
+- `scripts/chat/send_scheduled_messages.py` — supports `variants` field for natural message variation.
+- `.github/workflows/agent-runner.yml` — drain loop, failure notification, scheduled sends.
+- `.github/workflows/email-sync.yml` — ack step, scheduled sends, 30-min cron.

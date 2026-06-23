@@ -324,3 +324,11 @@ Synthesized all learnings from the checkers project into AgentCore:
   - Wired into both `email-sync.yml` and `agent-runner.yml` workflows.
 - Bumped email-sync cron from hourly (`0 * * * *`) to every 30 minutes (`0,30 * * * *`) for more reliable delivery timing.
 - Remaining caveat: GitHub Actions free-tier cron can still be delayed 1-2 hours; messages will arrive within 90 minutes of target time on normal days, potentially later if Actions has a delay spike.
+
+## [2026-06-23] enhancement | Chat assistant responsiveness overhaul
+
+- **Instant acknowledgment:** added `scripts/chat/send_intake_ack.py` — when email-sync triages new Chat messages, it immediately sends "Got it — working on this" before the runner even starts, so Brian gets instant feedback.
+- **Multi-task drain loop:** added `scripts/agent/drain_task_queue.py` — after the first task completes, the runner loops through ALL remaining queued tasks in one invocation (up to 25 min budget). No more one-task-per-30-min-cycle bottleneck.
+- **Dynamic scheduled messages:** upgraded to v2 config with a morning check-in (8:30 AM CT) and rotating message variants so check-ins don't repeat the same text.
+- **Failure notification:** added a catch-all workflow failure step that sends a Chat message if the runner crashes, so Brian never gets silent failures.
+- Combined effect: messages Brian sends should now be acknowledged within seconds of the next sync cycle, processed within minutes, and any failures are visible immediately.
