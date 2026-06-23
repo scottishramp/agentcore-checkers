@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "timezone": "America/Chicago",
+  "messages": [
+    {
+      "id": "food-checkin-lunch",
+      "enabled": true,
+      "schedule": {"hour": 12, "minute": 0},
+      "window_minutes": 90,
+      "text": "Hey Brian — lunch check-in. What did you have for lunch today?",
+      "description": "Daily noon food tracking check-in"
+    },
+    {
+      "id": "food-checkin-dinner",
+      "enabled": true,
+      "schedule": {"hour": 18, "minute": 0},
+      "window_minutes": 90,
+      "text": "Dinner check-in — what are you having tonight?",
+      "description": "Daily 6 PM food tracking check-in"
+    }
+  ]
+}

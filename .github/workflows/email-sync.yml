@@ -2,7 +2,7 @@ name: AgentCore Email Sync
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0,30 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -52,6 +52,15 @@ jobs:
 
       - name: Triage Chat messages
         run: python3 scripts/chat/triage_messages.py
+
+      - name: Send scheduled Chat messages
+        env:
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+        run: python3 scripts/chat/send_scheduled_messages.py
 
       - name: Ingest Drive docs and photos
         env:
