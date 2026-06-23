@@ -1,13 +1,30 @@
 {
-  "version": 1,
+  "version": 2,
   "timezone": "America/Chicago",
   "messages": [
+    {
+      "id": "morning-checkin",
+      "enabled": true,
+      "schedule": {"hour": 8, "minute": 30},
+      "window_minutes": 90,
+      "variants": [
+        "Morning, Brian. I'm here if you need anything today.",
+        "Good morning — ready when you are. Let me know if anything comes up.",
+        "Morning. Anything I can help with today?"
+      ],
+      "description": "Daily morning availability check-in"
+    },
     {
       "id": "food-checkin-lunch",
       "enabled": true,
       "schedule": {"hour": 12, "minute": 0},
       "window_minutes": 90,
-      "text": "Hey Brian — lunch check-in. What did you have for lunch today?",
+      "variants": [
+        "Lunch check-in — what did you have?",
+        "Hey, what's for lunch today?",
+        "Noon check-in. What are you eating?",
+        "Lunch time — what did you go with?"
+      ],
       "description": "Daily noon food tracking check-in"
     },
     {
@@ -15,7 +32,12 @@
       "enabled": true,
       "schedule": {"hour": 18, "minute": 0},
       "window_minutes": 90,
-      "text": "Dinner check-in — what are you having tonight?",
+      "variants": [
+        "Dinner check-in — what are you having?",
+        "What's for dinner tonight?",
+        "Evening check-in. What did you eat?",
+        "Dinner time — what's on the menu?"
+      ],
       "description": "Daily 6 PM food tracking check-in"
     }
   ]

@@ -307,6 +307,57 @@ jobs:
             --seed-task-file "${{ steps.claim.outputs.task_file }}" \
             --summary-output .agentcore/state/chat-sync-loop-summary.json
 
+      - name: Drain remaining queued tasks
+        if: always()
+        env:
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+          AGENTCORE_TASK_RUN_COMMAND: ${{ secrets.AGENTCORE_TASK_RUN_COMMAND || 'python3 scripts/agent/run_cursor_task.py --task-file {{TASK_FILE}} --workspace .' }}
+          AGENTCORE_CURSOR_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_CURSOR_TIMEOUT_SECONDS || '1200' }}
+          AGENTCORE_DRAIN_MAX_MINUTES: "25"
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+        run: python3 scripts/agent/drain_task_queue.py
+
+      - name: Commit drain changes
+        if: always()
+        continue-on-error: true
+        run: |
+          git add -A
+          git reset -- .agentcore/state || true
+          if git diff --cached --quiet; then
+            echo "No drain changes to commit."
+          else
+            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Process remaining queued tasks"
+            git pull --rebase origin main
+            git push
+          fi
+
+      - name: Notify on workflow failure
+        if: failure()
+        continue-on-error: true
+        env:
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+        run: |
+          python3 -c "
+          import sys; sys.path.insert(0, 'scripts/chat')
+          import chat_api
+          env_map = chat_api.load_env_file('.env')
+          space = chat_api.default_space_name(env_map=env_map)
+          if space:
+              token = chat_api.access_token(env_map=env_map)
+              chat_api.send_message(token=token, space_name=space, text='Hit a snag processing your last message — I\\'ll retry on the next cycle. (Runner workflow error)')
+          "
+
       - name: Publish runner summary
         run: |
           python3 - <<'PY'

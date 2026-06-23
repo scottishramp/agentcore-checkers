@@ -9,6 +9,7 @@ overdue within their configured window.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from datetime import datetime, timedelta, timezone
@@ -109,7 +110,13 @@ def main() -> int:
         if not is_due(msg["schedule"], tz, window_minutes, last_sent_utc):
             continue
 
-        text = msg.get("text", "").strip()
+        variants = msg.get("variants", [])
+        if variants:
+            day_seed = datetime.now(tz).strftime("%Y-%m-%d") + msg_id
+            idx = int(hashlib.md5(day_seed.encode()).hexdigest(), 16) % len(variants)
+            text = variants[idx].strip()
+        else:
+            text = msg.get("text", "").strip()
         if not text:
             continue
 
