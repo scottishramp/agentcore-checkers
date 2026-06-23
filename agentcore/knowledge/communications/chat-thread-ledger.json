@@ -224,23 +224,24 @@
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/p62rg-R6VQg.p62rg-R6VQg",
       "chat_space": "spaces/6RZ69yAAAAE",
       "sender_name": "users/111231822876595172958",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-spaces-6RZ69yAAAAE-messages-p62rg-R6VQg.p62rg-R6VQg-spaces-6RZ69yAAAAE",
-      "response_chat_message_name": "",
-      "updated_at": "2026-06-23T18:25:56.031413+00:00",
-      "created_at": "2026-06-23T18:25:56.031413+00:00"
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/A2KPu0UML94.A2KPu0UML94",
+      "updated_at": "2026-06-23T18:28:10.445985+00:00",
+      "created_at": "2026-06-23T18:25:56.031413+00:00",
+      "note": "Logged for today:\n\n**Breakfast**\n\u2022 2 eggs (~140 cal)\n\u2022 Small club sandwich with sourdough and ham (~320 cal)\n\u2022 Handful of Fritos Flavor Twists (~160 cal)\n\nRough total so far: **~620 cal**, 34g protein, 44g carbs, 35g fat. I'll check in arou"
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
       "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/p62rg-R6VQg.p62rg-R6VQg",
-      "latest_status": "queued",
+      "latest_status": "done",
       "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-p62rg-R6VQg.p62rg-R6VQg-spaces-6RZ69yAAAAE",
-      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/dp1zd57I6yY.dp1zd57I6yY",
-      "updated_at": "2026-06-23T18:25:56.031413+00:00",
+      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/A2KPu0UML94.A2KPu0UML94",
+      "updated_at": "2026-06-23T18:28:10.445985+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-23T18:25:56.031546+00:00"
+  "updated_at": "2026-06-23T18:28:10.445985+00:00"
 }
