@@ -41,6 +41,7 @@ jobs:
             .agentcore/state/drive-ingest-state.json
             agentcore/knowledge/communications/email-thread-ledger.json
             agentcore/knowledge/communications/chat-thread-ledger.json
+            agentcore/knowledge/communications/scheduled-messages-state.json
             agentcore/inbox/email
             agentcore/inbox/chat
             agentcore/inbox/drive
@@ -87,6 +88,18 @@ jobs:
           AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
           AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
         run: python3 scripts/chat/send_scheduled_messages.py
+
+      - name: Persist scheduled message state
+        continue-on-error: true
+        run: |
+          git add agentcore/knowledge/communications/scheduled-messages-state.json
+          if git diff --cached --quiet; then
+            echo "No scheduled-message state change to commit."
+          else
+            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Update scheduled message send state"
+            git -c rebase.autoStash=true pull --rebase origin main
+            git push
+          fi
 
       - name: Ingest Drive docs and photos
         env:
@@ -421,6 +434,7 @@ jobs:
             .agentcore/state/drive-ingest-state.json
             agentcore/knowledge/communications/email-thread-ledger.json
             agentcore/knowledge/communications/chat-thread-ledger.json
+            agentcore/knowledge/communications/scheduled-messages-state.json
             agentcore/inbox/email
             agentcore/inbox/chat
             agentcore/inbox/drive

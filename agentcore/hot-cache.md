@@ -59,10 +59,13 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `agentcore/knowledge/people/brian-herbert-food-log.md` — logged 2026-06-23 breakfast (club sandwich, eggs, Fritos).
-- `scripts/chat/send_intake_ack.py` — instant "Got it" acknowledgment on new Chat message intake.
-- `scripts/agent/drain_task_queue.py` — multi-task processing loop; drains all queued tasks per runner invocation.
-- `scripts/chat/scheduled_messages.json` — v2 with morning check-in + rotating message variants.
-- `scripts/chat/send_scheduled_messages.py` — supports `variants` field for natural message variation.
-- `.github/workflows/agent-runner.yml` — drain loop, failure notification, scheduled sends.
-- `.github/workflows/email-sync.yml` — ack step, scheduled sends, 30-min cron.
+- Fixed duplicate Chat messages: proactive sends now owned ONLY by agent-runner; dedup state is git-tracked.
+- `agentcore/knowledge/communications/scheduled-messages-state.json` — durable, git-tracked dedup state for scheduled sends.
+- `scripts/chat/send_scheduled_messages.py` — state moved out of gitignored `.agentcore/state/` to the tracked path.
+- `.github/workflows/email-sync.yml` — removed proactive Chat sends (read-only workflow can't persist dedup state).
+- `.github/workflows/agent-runner.yml` — sole owner of scheduled sends; commits + caches dedup state.
+
+## Operating Note: proactive Chat sends
+
+- Only `agent-runner.yml` may send proactive/scheduled Chat messages. It has `contents: write` and commits the git-tracked dedup state `agentcore/knowledge/communications/scheduled-messages-state.json`.
+- `email-sync.yml` is `contents: read` and must NOT send proactive messages (it cannot persist dedup state, which caused duplicates).

@@ -337,3 +337,14 @@ Synthesized all learnings from the checkers project into AgentCore:
 - **Dynamic scheduled messages:** upgraded to v2 config with a morning check-in (8:30 AM CT) and rotating message variants so check-ins don't repeat the same text.
 - **Failure notification:** added a catch-all workflow failure step that sends a Chat message if the runner crashes, so Brian never gets silent failures.
 - Combined effect: messages Brian sends should now be acknowledged within seconds of the next sync cycle, processed within minutes, and any failures are visible immediately.
+
+## [2026-06-24] fix | Duplicate Google Chat messages
+
+- **Diagnosed:** Brian was getting the same proactive check-in multiple times. Confirmed in logs: on 2026-06-24 the morning check-in was sent by `email-sync` at 13:37 UTC (`X0XRb3r8ADg`) and again 22s later by `agent-runner` at 13:38 UTC (`kWQTHsu4es0`).
+- **Root cause:** the dedup state file (`scheduled-messages-state.json`) lived under gitignored `.agentcore/state/`. `email-sync.yml` had no cache, and `agent-runner.yml`'s cache list didn't include it, so neither workflow remembered a message was already sent. Every run landing in the 90-minute delivery window re-sent — and BOTH workflows ran the send step, so duplicates multiplied.
+- **Fix:**
+  - Moved dedup state to a durable, git-tracked file: `agentcore/knowledge/communications/scheduled-messages-state.json`.
+  - Made proactive Chat sends single-owner: only `agent-runner.yml` (which has `contents: write`) sends scheduled messages. Removed the scheduled-send and the dead intake-ack steps from `email-sync.yml` (read-only; never queued chat anyway).
+  - Added a dedicated commit/push of the dedup state right after the send (autostash rebase), plus the state file to the runner's cache restore/save as a backup guard.
+  - Deleted the now-unused `scripts/chat/send_intake_ack.py`.
+- **Result:** each scheduled check-in is sent at most once per day, from one workflow, with the "already sent" record committed to git so it survives across runs.

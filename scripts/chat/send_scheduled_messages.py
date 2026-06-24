@@ -20,7 +20,10 @@ import chat_api
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SCHEDULE_PATH = SCRIPT_DIR / "scheduled_messages.json"
-STATE_PATH = Path(".agentcore/state/scheduled-messages-state.json")
+# State must be durable and git-tracked so dedup survives across workflow runs
+# and across the two workflows (email-sync + agent-runner). A gitignored path
+# under .agentcore/state/ is NOT shared, which causes duplicate sends.
+STATE_PATH = Path("agentcore/knowledge/communications/scheduled-messages-state.json")
 
 
 def parse_args() -> argparse.Namespace:
@@ -137,7 +140,8 @@ def main() -> int:
         except chat_api.ChatApiError as err:
             results.append({"id": msg_id, "status": "error", "details": err.payload})
 
-    write_json(state_path, state)
+    if not args.dry_run:
+        write_json(state_path, state)
 
     summary = {
         "status": "ok",

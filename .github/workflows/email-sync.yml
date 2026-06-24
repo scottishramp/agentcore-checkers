@@ -53,23 +53,11 @@ jobs:
       - name: Triage Chat messages
         run: python3 scripts/chat/triage_messages.py
 
-      - name: Acknowledge new Chat messages
-        env:
-          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
-          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
-          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
-          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
-          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
-        run: python3 scripts/chat/send_intake_ack.py
-
-      - name: Send scheduled Chat messages
-        env:
-          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
-          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
-          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
-          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
-          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
-        run: python3 scripts/chat/send_scheduled_messages.py
+      # NOTE: Proactive outbound Chat sends (scheduled check-ins, acks) are
+      # intentionally NOT done here. This workflow has `contents: read` and
+      # cannot persist the git-tracked dedup state, so sending from here
+      # produced duplicate messages. All proactive sends are owned by the
+      # agent-runner workflow, which has write permission and commits state.
 
       - name: Ingest Drive docs and photos
         env:
