@@ -348,3 +348,11 @@ Synthesized all learnings from the checkers project into AgentCore:
   - Added a dedicated commit/push of the dedup state right after the send (autostash rebase), plus the state file to the runner's cache restore/save as a backup guard.
   - Deleted the now-unused `scripts/chat/send_intake_ack.py`.
 - **Result:** each scheduled check-in is sent at most once per day, from one workflow, with the "already sent" record committed to git so it survives across runs.
+
+## [2026-06-24] fix | Missed successive Chat messages + simpler food prompt
+
+- **Diagnosed (with live API probe):** the Google Chat `spaces.messages.list` endpoint returns messages oldest-first with pagination. With `pageSize=50` and the space now holding >50 messages, page 1 covered only 2026-06-08 → 2026-06-23 and carried a `nextPageToken`. Brian's most recent messages (including "You're sending messages twice. Just ask what I ate") were on later pages and were never fetched, so successive/recent messages went unanswered.
+- **Fix (newest-first):** added an `order_by` parameter to `chat_api.list_messages` and set `fetch_messages.py` to request `orderBy=createTime desc`. The newest messages are now always on page 1; messages are sorted ascending locally for incremental processing against the cursor. Verified via a read-only probe that recent Brian messages now surface.
+- **Hardened cache loss:** changed the agent-runner chat fetch from `--bootstrap-window 0` (which silently dropped everything if the cursor cache was lost) to `--bootstrap-window 30`. The git-tracked `chat-thread-ledger.json` dedups already-answered messages, so recovering recent messages cannot produce duplicate replies.
+- **Simplified food check-ins:** replaced the lunch/dinner-specific variant messages with a single generic prompt "What'd you eat?" at noon and 6 PM CT (ids `food-checkin-midday`, `food-checkin-evening`).
+- Known limitation: fetch still only pulls the newest 50 per run; if Brian ever sends >50 messages between runs, the oldest of that batch could be missed. Pagination is a future improvement.

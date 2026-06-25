@@ -67,7 +67,16 @@ def main() -> int:
 
     try:
         token = chat_api.access_token(env_map=env_map)
-        payload = chat_api.list_messages(token=token, space_name=space_name, page_size=max(1, args.limit))
+        # Request newest-first. The Chat API defaults to oldest-first with
+        # pagination, so once a space has more than `limit` messages the most
+        # recent ones fall off page 1 and are never fetched. Ordering by
+        # createTime desc keeps the latest (and successive) messages on page 1.
+        payload = chat_api.list_messages(
+            token=token,
+            space_name=space_name,
+            page_size=max(1, args.limit),
+            order_by="createTime desc",
+        )
     except chat_api.ChatApiError as err:
         status = "auth_scope_error" if chat_api.error_has_scope_issue(err.payload) else "chat_api_error"
         summary = {

@@ -15,30 +15,20 @@
       "description": "Daily morning availability check-in"
     },
     {
-      "id": "food-checkin-lunch",
+      "id": "food-checkin-midday",
       "enabled": true,
       "schedule": {"hour": 12, "minute": 0},
       "window_minutes": 90,
-      "variants": [
-        "Lunch check-in — what did you have?",
-        "Hey, what's for lunch today?",
-        "Noon check-in. What are you eating?",
-        "Lunch time — what did you go with?"
-      ],
-      "description": "Daily noon food tracking check-in"
+      "text": "What'd you eat?",
+      "description": "Daily midday food tracking check-in"
     },
     {
-      "id": "food-checkin-dinner",
+      "id": "food-checkin-evening",
       "enabled": true,
       "schedule": {"hour": 18, "minute": 0},
       "window_minutes": 90,
-      "variants": [
-        "Dinner check-in — what are you having?",
-        "What's for dinner tonight?",
-        "Evening check-in. What did you eat?",
-        "Dinner time — what's on the menu?"
-      ],
-      "description": "Daily 6 PM food tracking check-in"
+      "text": "What'd you eat?",
+      "description": "Daily evening food tracking check-in"
     }
   ]
 }

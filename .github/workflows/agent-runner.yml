@@ -75,7 +75,11 @@ jobs:
           AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
           AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
           AGENTCORE_CHAT_SELF_USER_NAME: ${{ secrets.AGENTCORE_CHAT_SELF_USER_NAME || 'users/112143982168307832773' }}
-        run: python3 scripts/chat/fetch_messages.py --limit 50 --bootstrap-window 0
+        # bootstrap-window 30: if the cursor cache is ever lost, recover the
+        # most recent messages instead of silently dropping them. The
+        # git-tracked chat-thread-ledger dedups anything already answered, so
+        # this cannot cause duplicate replies.
+        run: python3 scripts/chat/fetch_messages.py --limit 50 --bootstrap-window 30
 
       - name: Triage Chat messages
         run: python3 scripts/chat/triage_messages.py

@@ -142,8 +142,20 @@ def find_dm_space(token: str, recipient_email: str) -> dict:
     return run_json_request("GET", f"spaces:findDirectMessage?name={name_param}", token=token)
 
 
-def list_messages(token: str, space_name: str, page_size: int = 50, page_token: str = "") -> dict:
-    query = urllib.parse.urlencode({"pageSize": str(page_size), **({"pageToken": page_token} if page_token else {})})
+def list_messages(
+    token: str,
+    space_name: str,
+    page_size: int = 50,
+    page_token: str = "",
+    order_by: str = "",
+) -> dict:
+    params = {"pageSize": str(page_size)}
+    if page_token:
+        params["pageToken"] = page_token
+    if order_by:
+        # e.g. "createTime desc" so the newest messages are always on page 1.
+        params["orderBy"] = order_by
+    query = urllib.parse.urlencode(params)
     return run_json_request("GET", f"{space_name}/messages?{query}", token=token)
 
 
