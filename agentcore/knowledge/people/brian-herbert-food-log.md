@@ -109,4 +109,12 @@ Brian reported: 2 eggs with shredded Colby jack, a slice of sourdough, and a cup
 
 **Meal total:** ~345 cal | ~19g protein | ~19g carbs | ~19g fat
 
-**Day running total (so far):** ~345 cal | ~19g protein | ~19g carbs | ~19g fat
+### Dinner (logged ~18:38 CT)
+
+Brian reported: two meat lovers pizza slices.
+
+- 2 slices meat lovers pizza (~700 cal, rough estimate at ~350 cal/slice for a loaded meat pizza)
+
+**Meal total:** ~700 cal | ~32g protein | ~70g carbs | ~34g fat
+
+**Day running total (so far):** ~1,045 cal | ~51g protein | ~89g carbs | ~53g fat

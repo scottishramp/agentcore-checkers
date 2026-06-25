@@ -263,18 +263,38 @@
       "updated_at": "2026-06-25T15:27:07.900997+00:00",
       "created_at": "2026-06-25T15:26:27.079308+00:00",
       "note": "Logged your breakfast for today.\n\n- 2 eggs (~140 cal)\n- Shredded Colby jack (~110 cal)\n- 1 slice sourdough (~90 cal)\n- Cup of coffee, black (~5 cal)\n\nThat's about **345 cal** so far today (~19g protein, ~19g carbs, ~19g fat). I'll keep trac"
+    },
+    "spaces/6RZ69yAAAAE/messages/cTOgxTwrfLU.cTOgxTwrfLU": {
+      "chat_message_name": "spaces/6RZ69yAAAAE/messages/cTOgxTwrfLU.cTOgxTwrfLU",
+      "chat_space": "spaces/6RZ69yAAAAE",
+      "sender_name": "users/111231822876595172958",
+      "status": "queued",
+      "task_id": "task-spaces-6RZ69yAAAAE-messages-cTOgxTwrfLU.cTOgxTwrfLU-spaces-6RZ69yAAAAE",
+      "response_chat_message_name": "",
+      "updated_at": "2026-06-25T23:54:27.326078+00:00",
+      "created_at": "2026-06-25T23:54:27.326078+00:00"
+    },
+    "spaces/6RZ69yAAAAE/messages/7Ab9tPAEHEo.7Ab9tPAEHEo": {
+      "chat_message_name": "spaces/6RZ69yAAAAE/messages/7Ab9tPAEHEo.7Ab9tPAEHEo",
+      "chat_space": "spaces/6RZ69yAAAAE",
+      "sender_name": "users/111231822876595172958",
+      "status": "queued",
+      "task_id": "task-spaces-6RZ69yAAAAE-messages-7Ab9tPAEHEo.7Ab9tPAEHEo-spaces-6RZ69yAAAAE",
+      "response_chat_message_name": "",
+      "updated_at": "2026-06-25T23:54:27.326278+00:00",
+      "created_at": "2026-06-25T23:54:27.326278+00:00"
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
-      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/Wj8HBd1ZGU4.Wj8HBd1ZGU4",
-      "latest_status": "done",
-      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-Wj8HBd1ZGU4.Wj8HBd1ZGU4-spaces-6RZ69yAAAAE",
+      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/7Ab9tPAEHEo.7Ab9tPAEHEo",
+      "latest_status": "queued",
+      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-7Ab9tPAEHEo.7Ab9tPAEHEo-spaces-6RZ69yAAAAE",
       "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/9b1qdjP5UEY.9b1qdjP5UEY",
-      "updated_at": "2026-06-25T15:27:07.900997+00:00",
+      "updated_at": "2026-06-25T23:54:27.326278+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-25T22:39:49.245681+00:00"
+  "updated_at": "2026-06-25T23:54:27.326403+00:00"
 }
