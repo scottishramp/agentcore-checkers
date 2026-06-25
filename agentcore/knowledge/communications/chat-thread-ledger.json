@@ -268,11 +268,12 @@
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/cTOgxTwrfLU.cTOgxTwrfLU",
       "chat_space": "spaces/6RZ69yAAAAE",
       "sender_name": "users/111231822876595172958",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-spaces-6RZ69yAAAAE-messages-cTOgxTwrfLU.cTOgxTwrfLU-spaces-6RZ69yAAAAE",
-      "response_chat_message_name": "",
-      "updated_at": "2026-06-25T23:54:27.326078+00:00",
-      "created_at": "2026-06-25T23:54:27.326078+00:00"
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/3NQ33pWX5nY.3NQ33pWX5nY",
+      "updated_at": "2026-06-25T23:55:02.769536+00:00",
+      "created_at": "2026-06-25T23:54:27.326078+00:00",
+      "note": "Logged it. Reply for Brian:\n\nGot it \u2014 two meat lovers pizza slices logged for dinner, about 700 cal (~32g protein, ~70g carbs, ~34g fat). That puts you at roughly 1,045 cal for the day so far: ~51g protein, ~89g carbs, ~53g fat."
     },
     "spaces/6RZ69yAAAAE/messages/7Ab9tPAEHEo.7Ab9tPAEHEo": {
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/7Ab9tPAEHEo.7Ab9tPAEHEo",
@@ -288,13 +289,13 @@
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
-      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/7Ab9tPAEHEo.7Ab9tPAEHEo",
-      "latest_status": "queued",
-      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-7Ab9tPAEHEo.7Ab9tPAEHEo-spaces-6RZ69yAAAAE",
-      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/9b1qdjP5UEY.9b1qdjP5UEY",
-      "updated_at": "2026-06-25T23:54:27.326278+00:00",
+      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/cTOgxTwrfLU.cTOgxTwrfLU",
+      "latest_status": "done",
+      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-cTOgxTwrfLU.cTOgxTwrfLU-spaces-6RZ69yAAAAE",
+      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/3NQ33pWX5nY.3NQ33pWX5nY",
+      "updated_at": "2026-06-25T23:55:02.769536+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-25T23:54:27.326403+00:00"
+  "updated_at": "2026-06-25T23:55:02.769536+00:00"
 }
