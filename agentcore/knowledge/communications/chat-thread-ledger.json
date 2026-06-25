@@ -241,18 +241,28 @@
       "updated_at": "2026-06-25T02:50:24.418992+00:00",
       "created_at": "2026-06-25T02:48:46.438797+00:00",
       "note": "Got it \u2014 sorry about the duplicate pings. That was a dedup bug on my end after I renamed the check-in ids; fixed now.\n\nGoing forward I'll ask **\"What'd you eat since last time?\"** at noon and 6.\n\nLogged **tacos** for today (~500 cal, rough "
+    },
+    "spaces/6RZ69yAAAAE/messages/BQ4O14cdYRY.BQ4O14cdYRY": {
+      "chat_message_name": "spaces/6RZ69yAAAAE/messages/BQ4O14cdYRY.BQ4O14cdYRY",
+      "chat_space": "spaces/6RZ69yAAAAE",
+      "sender_name": "users/111231822876595172958",
+      "status": "queued",
+      "task_id": "task-spaces-6RZ69yAAAAE-messages-BQ4O14cdYRY.BQ4O14cdYRY-spaces-6RZ69yAAAAE",
+      "response_chat_message_name": "",
+      "updated_at": "2026-06-25T04:18:31.545209+00:00",
+      "created_at": "2026-06-25T04:18:31.545209+00:00"
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
-      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/iet6e-hWn08.iet6e-hWn08",
-      "latest_status": "done",
-      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-iet6e-hWn08.iet6e-hWn08-spaces-6RZ69yAAAAE",
+      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/BQ4O14cdYRY.BQ4O14cdYRY",
+      "latest_status": "queued",
+      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-BQ4O14cdYRY.BQ4O14cdYRY-spaces-6RZ69yAAAAE",
       "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/PZHQlVGEoww.PZHQlVGEoww",
-      "updated_at": "2026-06-25T02:50:24.418992+00:00",
+      "updated_at": "2026-06-25T04:18:31.545209+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-25T02:50:24.418992+00:00"
+  "updated_at": "2026-06-25T04:18:31.545345+00:00"
 }

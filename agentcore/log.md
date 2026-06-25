@@ -362,3 +362,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Brian reported duplicate food check-ins and asked for "what I ate since last time" instead of the generic prompt; logged tacos for 2026-06-23 dinner.
 - **Root cause (duplicates):** scheduled-message dedup state still used the legacy id `food-checkin-dinner` after the config was renamed to `food-checkin-midday` / `food-checkin-evening`, so the new ids had no "already sent today" record and could re-send on every runner pass inside the delivery window.
 - **Fix:** prompt is now "What'd you eat since last time?"; `send_scheduled_messages.py` migrates legacy dedup keys; state file updated to `food-checkin-evening`.
+
+## [2026-06-25] intake | Brian food log — dinner + earlier meals
+
+- Brian reported via Google Chat: oatmeal bowl with banana, 2 eggs with shredded cheese, sourdough slice, and 5 slices of pizza for dinner.
+- Updated `agentcore/knowledge/people/brian-herbert-food-log.md` for 2026-06-24.

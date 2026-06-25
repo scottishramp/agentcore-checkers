@@ -72,3 +72,26 @@ Brian reported: tacos.
 **Meal total:** ~500 cal | ~22g protein | ~45g carbs | ~25g fat
 
 **Day total:** ~1,120 cal | ~56g protein | ~89g carbs | ~60g fat
+
+## 2026-06-24
+
+### Earlier today (logged ~22:09 CT)
+
+Brian reported: bowl of oatmeal with a banana, two eggs with shredded cheese, and a slice of sourdough.
+
+- Bowl of oatmeal (~150 cal)
+- Banana (~105 cal)
+- 2 eggs with shredded cheese (~250 cal)
+- 1 slice sourdough (~90 cal)
+
+**Meal total:** ~595 cal | ~27g protein | ~58g carbs | ~22g fat
+
+### Dinner (logged ~22:09 CT)
+
+Brian reported: 5 slices of pizza.
+
+- 5 slices pizza (~1,375 cal, rough estimate at ~275 cal/slice)
+
+**Meal total:** ~1,375 cal | ~60g protein | ~150g carbs | ~55g fat
+
+**Day total:** ~1,970 cal | ~87g protein | ~208g carbs | ~77g fat
