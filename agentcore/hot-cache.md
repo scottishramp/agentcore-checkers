@@ -59,7 +59,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- `agentcore/knowledge/people/brian-herbert-food-log.md` — logged 2026-06-24: oatmeal/banana/eggs/sourdough + 5 slices pizza (~1,970 cal day total).
+- `agentcore/knowledge/people/brian-herbert-food-log.md` — logged 2026-06-25 breakfast: 2 eggs + Colby jack, sourdough, coffee (~345 cal so far).
 - Fixed missed successive Chat messages: `fetch_messages.py` now requests `orderBy=createTime desc` so the newest messages are always on page 1 (the Chat API defaults to oldest-first + pagination, so recent messages were dropped once history passed 50). Agent-runner fetch uses `--bootstrap-window 30` so a cache loss recovers recent messages; the git-tracked ledger prevents duplicate replies.
 - Food check-ins at noon and 6 PM ask "What'd you eat since last time?" (ids `food-checkin-midday`/`food-checkin-evening`). `send_scheduled_messages.py` migrates legacy dedup keys (`food-checkin-dinner` → `food-checkin-evening`) so renamed ids do not re-send within the same window.
 - Fixed duplicate Chat messages: proactive sends now owned ONLY by agent-runner; dedup state is git-tracked.

@@ -95,3 +95,18 @@ Brian reported: 5 slices of pizza.
 **Meal total:** ~1,375 cal | ~60g protein | ~150g carbs | ~55g fat
 
 **Day total:** ~1,970 cal | ~87g protein | ~208g carbs | ~77g fat
+
+## 2026-06-25
+
+### Breakfast (logged ~10:26 CT)
+
+Brian reported: 2 eggs with shredded Colby jack, a slice of sourdough, and a cup of coffee.
+
+- 2 eggs (~140 cal)
+- Shredded Colby jack cheese (~110 cal)
+- 1 slice sourdough (~90 cal)
+- Cup of coffee, black (~5 cal)
+
+**Meal total:** ~345 cal | ~19g protein | ~19g carbs | ~19g fat
+
+**Day running total (so far):** ~345 cal | ~19g protein | ~19g carbs | ~19g fat

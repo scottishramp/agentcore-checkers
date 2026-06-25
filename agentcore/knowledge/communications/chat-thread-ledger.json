@@ -252,18 +252,28 @@
       "updated_at": "2026-06-25T04:19:25.710463+00:00",
       "created_at": "2026-06-25T04:18:31.545209+00:00",
       "note": "Logged for today:\n\n**Earlier**\n\u2022 Oatmeal with banana (~255 cal)\n\u2022 2 eggs with shredded cheese (~250 cal)\n\u2022 1 slice sourdough (~90 cal)\n\n**Dinner**\n\u2022 5 slices pizza (~1,375 cal)\n\nRough day total: **~1,970 cal**, 87g protein, 208g carbs, 77g "
+    },
+    "spaces/6RZ69yAAAAE/messages/Wj8HBd1ZGU4.Wj8HBd1ZGU4": {
+      "chat_message_name": "spaces/6RZ69yAAAAE/messages/Wj8HBd1ZGU4.Wj8HBd1ZGU4",
+      "chat_space": "spaces/6RZ69yAAAAE",
+      "sender_name": "users/111231822876595172958",
+      "status": "queued",
+      "task_id": "task-spaces-6RZ69yAAAAE-messages-Wj8HBd1ZGU4.Wj8HBd1ZGU4-spaces-6RZ69yAAAAE",
+      "response_chat_message_name": "",
+      "updated_at": "2026-06-25T15:26:27.079308+00:00",
+      "created_at": "2026-06-25T15:26:27.079308+00:00"
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
-      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/BQ4O14cdYRY.BQ4O14cdYRY",
-      "latest_status": "done",
-      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-BQ4O14cdYRY.BQ4O14cdYRY-spaces-6RZ69yAAAAE",
+      "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/Wj8HBd1ZGU4.Wj8HBd1ZGU4",
+      "latest_status": "queued",
+      "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-Wj8HBd1ZGU4.Wj8HBd1ZGU4-spaces-6RZ69yAAAAE",
       "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/P51nvuxMfcA.P51nvuxMfcA",
-      "updated_at": "2026-06-25T04:19:25.710463+00:00",
+      "updated_at": "2026-06-25T15:26:27.079308+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-25T14:51:04.607920+00:00"
+  "updated_at": "2026-06-25T15:26:27.079435+00:00"
 }
