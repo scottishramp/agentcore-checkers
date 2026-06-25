@@ -4,6 +4,15 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ## Open Blockers
 
+### 2026-06-25 | Travel/flight research | No live web access in async runner
+
+- Status: open
+- Blocker: The GitHub Actions async-task runner cannot reach the live web (WebSearch and WebFetch are rejected in the unattended environment), so AgentCore cannot pull real-time flight fares, schedules, or booking data when processing queued Chat/email tasks.
+- Why it matters: Brian asked for live American Airlines prices/stops/travel time (OKC→PHL/TTN/ABE, Jul 23-26). AgentCore can supply routing/airport knowledge and search links, but cannot quote current fares from this environment.
+- Proposed default: Reply with airline/airport routing guidance plus ready-to-tap search links; quote live fares only when run interactively with web access, or wire a flight-data API (e.g., Amadeus/Kiwi/Travelpayouts) with a secret key for unattended fare lookups.
+- Needed from user: Decision on whether to provision a flight-search API key for AgentCore, or to have AgentCore answer travel-research tasks interactively where web access is available.
+- Resolution:
+
 ### 2026-06-07 | Google Photos intake | Broad library reads unavailable
 
 - Status: open
