@@ -30,7 +30,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: Google Chat browser/API send and polling baseline. AgentCore can send Chat DMs, fetch Brian's DM messages, queue them as async tasks, and reply back into Chat after runner completion.
 - Delivered: bounded pseudo-synchronous Google Chat mode in GitHub Actions. For conversational Chat tasks during 09:00-20:00 `America/Chicago`, the runner can keep polling/replying for a short session.
 - Delivered: runner notification hardening. If an async task's repo push is rejected, the runner should still send the Email/Chat response and continue ledger/finalization steps.
-- Active initiative: family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
+- Active initiative: Brian personal operating system and family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
+- Operating hub: `agentcore/knowledge/projects/personal-operating-system.md` covers diet, scheduling, kid school logistics, app ideas, and personal management defaults.
 - Brian family context: Brian was born 1983-09-10; married Kristin Herbert on 2006-05-27; children are Daniel, Nathan, Ezra, Silver, and Levi.
 - Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
 
@@ -59,6 +60,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- `agentcore/knowledge/projects/personal-operating-system.md` — created operating hub for diet, scheduling, kid school logistics, app ideas, personal management, intake defaults, and sensitivity defaults.
 - `agentcore/knowledge/people/brian-herbert-food-log.md` — logged 2026-06-25 breakfast: 2 eggs + Colby jack, sourdough, coffee (~345 cal so far).
 - Fixed missed successive Chat messages: `fetch_messages.py` now requests `orderBy=createTime desc` so the newest messages are always on page 1 (the Chat API defaults to oldest-first + pagination, so recent messages were dropped once history passed 50). Agent-runner fetch uses `--bootstrap-window 30` so a cache loss recovers recent messages; the git-tracked ledger prevents duplicate replies.
 - Food check-ins at noon and 6 PM ask "What'd you eat since last time?" (ids `food-checkin-midday`/`food-checkin-evening`). `send_scheduled_messages.py` migrates legacy dedup keys (`food-checkin-dinner` → `food-checkin-evening`) so renamed ids do not re-send within the same window.
@@ -66,7 +68,6 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - `agentcore/knowledge/communications/scheduled-messages-state.json` — durable, git-tracked dedup state for scheduled sends.
 - `scripts/chat/send_scheduled_messages.py` — state moved out of gitignored `.agentcore/state/` to the tracked path.
 - `.github/workflows/email-sync.yml` — removed proactive Chat sends (read-only workflow can't persist dedup state).
-- `.github/workflows/agent-runner.yml` — sole owner of scheduled sends; commits + caches dedup state.
 
 ## Operating Note: proactive Chat sends
 

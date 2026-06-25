@@ -367,3 +367,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 
 - Brian reported via Google Chat: oatmeal bowl with banana, 2 eggs with shredded cheese, sourdough slice, and 5 slices of pizza for dinner.
 - Updated `agentcore/knowledge/people/brian-herbert-food-log.md` for 2026-06-24.
+
+## [2026-06-25] ops | Personal operating hub
+
+- Created `agentcore/knowledge/projects/personal-operating-system.md` as the durable operating hub for helping Brian with diet, scheduling, kid school logistics, app ideas, personal management, intake defaults, and sensitivity defaults.
+- Linked the hub from `agentcore/index.md` and `agentcore/hot-cache.md` so future sessions can find it quickly.
