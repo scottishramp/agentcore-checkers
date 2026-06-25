@@ -356,3 +356,9 @@ Synthesized all learnings from the checkers project into AgentCore:
 - **Hardened cache loss:** changed the agent-runner chat fetch from `--bootstrap-window 0` (which silently dropped everything if the cursor cache was lost) to `--bootstrap-window 30`. The git-tracked `chat-thread-ledger.json` dedups already-answered messages, so recovering recent messages cannot produce duplicate replies.
 - **Simplified food check-ins:** replaced the lunch/dinner-specific variant messages with a single generic prompt "What'd you eat?" at noon and 6 PM CT (ids `food-checkin-midday`, `food-checkin-evening`).
 - Known limitation: fetch still only pulls the newest 50 per run; if Brian ever sends >50 messages between runs, the oldest of that batch could be missed. Pagination is a future improvement.
+
+## [2026-06-25] fix | Food check-in prompt + dedup key migration
+
+- Brian reported duplicate food check-ins and asked for "what I ate since last time" instead of the generic prompt; logged tacos for 2026-06-23 dinner.
+- **Root cause (duplicates):** scheduled-message dedup state still used the legacy id `food-checkin-dinner` after the config was renamed to `food-checkin-midday` / `food-checkin-evening`, so the new ids had no "already sent today" record and could re-send on every runner pass inside the delivery window.
+- **Fix:** prompt is now "What'd you eat since last time?"; `send_scheduled_messages.py` migrates legacy dedup keys; state file updated to `food-checkin-evening`.

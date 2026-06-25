@@ -25,6 +25,12 @@ SCHEDULE_PATH = SCRIPT_DIR / "scheduled_messages.json"
 # under .agentcore/state/ is NOT shared, which causes duplicate sends.
 STATE_PATH = Path("agentcore/knowledge/communications/scheduled-messages-state.json")
 
+# Renamed message ids must still dedup against prior sends.
+STATE_KEY_ALIASES = {
+    "food-checkin-lunch": "food-checkin-midday",
+    "food-checkin-dinner": "food-checkin-evening",
+}
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Send scheduled proactive Chat messages.")
@@ -43,6 +49,33 @@ def read_json(path: Path, default: dict | list) -> dict | list:
 def write_json(path: Path, payload: dict | list) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
+
+
+def _parse_utc(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value)
+    except (ValueError, TypeError):
+        return None
+
+
+def migrate_state_keys(state: dict) -> dict:
+    """Copy legacy send records onto renamed message ids and drop stale keys."""
+    for old_key, new_key in STATE_KEY_ALIASES.items():
+        old_entry = state.get(old_key)
+        if not isinstance(old_entry, dict):
+            continue
+        new_entry = state.get(new_key)
+        if not isinstance(new_entry, dict):
+            state[new_key] = old_entry
+        else:
+            old_sent = _parse_utc(old_entry.get("last_sent_utc"))
+            new_sent = _parse_utc(new_entry.get("last_sent_utc"))
+            if old_sent and (not new_sent or old_sent > new_sent):
+                state[new_key] = old_entry
+        del state[old_key]
+    return state
 
 
 def is_due(schedule: dict, tz: ZoneInfo, window_minutes: int, last_sent_utc: str | None) -> bool:
@@ -91,6 +124,7 @@ def main() -> int:
     state = read_json(state_path, {})
     if not isinstance(state, dict):
         state = {}
+    state = migrate_state_keys(state)
 
     space_name = chat_api.default_space_name(env_map=env_map)
     if not space_name:

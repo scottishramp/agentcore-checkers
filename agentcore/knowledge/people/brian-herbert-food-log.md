@@ -5,6 +5,7 @@ Rolling food intake log for Brian. Estimates are rough when brands and quantitie
 ## Tracking Setup
 
 - Brian asked AgentCore to track meals via Google Chat check-ins around **12:00 PM** and **6:00 PM** `America/Chicago`.
+- Check-in prompt: **"What'd you eat since last time?"** (Brian, 2026-06-23).
 - Brian may reply ad hoc between check-ins; log those entries without requiring a report-back when he asks for internal-only logging.
 - Estimate calories/macros from vague descriptions; note uncertainty when helpful.
 
@@ -61,3 +62,13 @@ Brian reported: small club sandwich, handful of Fritos Flavor Twists, 2 eggs, sl
 **Meal total:** ~620 cal | ~34g protein | ~44g carbs | ~35g fat
 
 **Day running total (so far):** ~620 cal | ~34g protein | ~44g carbs | ~35g fat
+
+### Dinner (logged ~18:37 CT)
+
+Brian reported: tacos.
+
+- Tacos (~500 cal, rough estimate for a typical serving)
+
+**Meal total:** ~500 cal | ~22g protein | ~45g carbs | ~25g fat
+
+**Day total:** ~1,120 cal | ~56g protein | ~89g carbs | ~60g fat

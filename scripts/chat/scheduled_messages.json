@@ -19,7 +19,7 @@
       "enabled": true,
       "schedule": {"hour": 12, "minute": 0},
       "window_minutes": 90,
-      "text": "What'd you eat?",
+      "text": "What'd you eat since last time?",
       "description": "Daily midday food tracking check-in"
     },
     {
@@ -27,7 +27,7 @@
       "enabled": true,
       "schedule": {"hour": 18, "minute": 0},
       "window_minutes": 90,
-      "text": "What'd you eat?",
+      "text": "What'd you eat since last time?",
       "description": "Daily evening food tracking check-in"
     }
   ]
