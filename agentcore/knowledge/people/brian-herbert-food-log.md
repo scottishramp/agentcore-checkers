@@ -143,4 +143,8 @@ Brian reported: 4 slices pepperoni bread (treated as ~pizza slices), a Twix, a h
 
 **Meal total:** ~1,690 cal | ~53g protein | ~195g carbs | ~73g fat
 
+### Evening check-in (logged ~18:14 CT)
+
+Brian reported nothing eaten since the last check-in. No new entry.
+
 **Day running total (so far):** ~2,030 cal | ~75g protein | ~215g carbs | ~93g fat
