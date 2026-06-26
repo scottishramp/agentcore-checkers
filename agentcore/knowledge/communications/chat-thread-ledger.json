@@ -301,23 +301,24 @@
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/gjQ0CdFs7Ro.gjQ0CdFs7Ro",
       "chat_space": "spaces/6RZ69yAAAAE",
       "sender_name": "users/111231822876595172958",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-spaces-6RZ69yAAAAE-messages-gjQ0CdFs7Ro.gjQ0CdFs7Ro-spaces-6RZ69yAAAAE",
-      "response_chat_message_name": "",
-      "updated_at": "2026-06-26T23:13:40.905691+00:00",
-      "created_at": "2026-06-26T23:13:40.905691+00:00"
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/DyIo4Qh4GQw.DyIo4Qh4GQw",
+      "updated_at": "2026-06-26T23:14:44.108242+00:00",
+      "created_at": "2026-06-26T23:13:40.905691+00:00",
+      "note": "Got it \u2014 I'll stop reading your meals back to you. From now on, when you tell me what you ate, I'll just log it and reply with the estimate or running total, not a recap of the food itself."
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
       "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/gjQ0CdFs7Ro.gjQ0CdFs7Ro",
-      "latest_status": "queued",
+      "latest_status": "done",
       "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-gjQ0CdFs7Ro.gjQ0CdFs7Ro-spaces-6RZ69yAAAAE",
-      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/bZYSDOB06K8.bZYSDOB06K8",
-      "updated_at": "2026-06-26T23:13:40.905691+00:00",
+      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/DyIo4Qh4GQw.DyIo4Qh4GQw",
+      "updated_at": "2026-06-26T23:14:44.108242+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-26T23:13:40.905814+00:00"
+  "updated_at": "2026-06-26T23:14:44.108242+00:00"
 }
