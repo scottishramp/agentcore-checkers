@@ -118,3 +118,28 @@ Brian reported: two meat lovers pizza slices.
 **Meal total:** ~700 cal | ~32g protein | ~70g carbs | ~34g fat
 
 **Day running total (so far):** ~1,045 cal | ~51g protein | ~89g carbs | ~53g fat
+
+## 2026-06-26
+
+### Breakfast (logged ~15:03 CT)
+
+Brian reported: 2 eggs, shredded Colby jack, slice sourdough.
+
+- 2 eggs (~140 cal)
+- Shredded Colby jack cheese (~110 cal)
+- 1 slice sourdough (~90 cal)
+
+**Meal total:** ~340 cal | ~22g protein | ~20g carbs | ~20g fat
+
+### Lunch (logged ~15:03 CT)
+
+Brian reported: 4 slices pepperoni bread (treated as ~pizza slices), a Twix, a handful of Fritos Flavor Twists, and a cookie.
+
+- 4 slices pepperoni bread (~1,200 cal, rough estimate at ~300 cal/slice)
+- Twix bar (~250 cal, standard 2-piece package)
+- Handful of Fritos Flavor Twists (~160 cal)
+- 1 cookie (~80 cal)
+
+**Meal total:** ~1,690 cal | ~53g protein | ~195g carbs | ~73g fat
+
+**Day running total (so far):** ~2,030 cal | ~75g protein | ~215g carbs | ~93g fat
