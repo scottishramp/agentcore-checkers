@@ -312,23 +312,24 @@
       "chat_message_name": "spaces/6RZ69yAAAAE/messages/k37Pn5hPrQo.k37Pn5hPrQo",
       "chat_space": "spaces/6RZ69yAAAAE",
       "sender_name": "users/111231822876595172958",
-      "status": "queued",
+      "status": "done",
       "task_id": "task-spaces-6RZ69yAAAAE-messages-k37Pn5hPrQo.k37Pn5hPrQo-spaces-6RZ69yAAAAE",
-      "response_chat_message_name": "",
-      "updated_at": "2026-06-26T23:15:05.847742+00:00",
-      "created_at": "2026-06-26T23:15:05.847742+00:00"
+      "response_chat_message_name": "spaces/6RZ69yAAAAE/messages/HGXTYyW4Skw.HGXTYyW4Skw",
+      "updated_at": "2026-06-26T23:15:32.412327+00:00",
+      "created_at": "2026-06-26T23:15:05.847742+00:00",
+      "note": "Got it\u2014nothing to add. You're still sitting at about 2,030 calories for the day (~75g protein, ~215g carbs, ~93g fat)."
     }
   },
   "spaces": {
     "spaces/6RZ69yAAAAE": {
       "chat_space": "spaces/6RZ69yAAAAE",
       "latest_client_message_name": "spaces/6RZ69yAAAAE/messages/k37Pn5hPrQo.k37Pn5hPrQo",
-      "latest_status": "queued",
+      "latest_status": "done",
       "latest_task_id": "task-spaces-6RZ69yAAAAE-messages-k37Pn5hPrQo.k37Pn5hPrQo-spaces-6RZ69yAAAAE",
-      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/DyIo4Qh4GQw.DyIo4Qh4GQw",
-      "updated_at": "2026-06-26T23:15:05.847742+00:00",
+      "latest_response_chat_message_name": "spaces/6RZ69yAAAAE/messages/HGXTYyW4Skw.HGXTYyW4Skw",
+      "updated_at": "2026-06-26T23:15:32.412327+00:00",
       "created_at": "2026-06-09T13:39:45.706684+00:00"
     }
   },
-  "updated_at": "2026-06-26T23:15:05.847866+00:00"
+  "updated_at": "2026-06-26T23:15:32.412327+00:00"
 }
