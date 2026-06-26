@@ -372,3 +372,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 
 - Created `agentcore/knowledge/projects/personal-operating-system.md` as the durable operating hub for helping Brian with diet, scheduling, kid school logistics, app ideas, personal management, intake defaults, and sensitivity defaults.
 - Linked the hub from `agentcore/index.md` and `agentcore/hot-cache.md` so future sessions can find it quickly.
+
+## [2026-06-26] preference | Don't repeat food back
+
+- Brian asked (Google Chat): in the future don't repeat his food back to him.
+- Recorded the food-log reply-style preference in `brian-herbert-food-log.md`, `personal-operating-system.md`, and `hot-cache.md`: when Brian reports a meal, log it and reply with totals/notes only — never echo the items he just reported.

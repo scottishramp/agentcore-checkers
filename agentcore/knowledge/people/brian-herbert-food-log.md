@@ -8,6 +8,7 @@ Rolling food intake log for Brian. Estimates are rough when brands and quantitie
 - Check-in prompt: **"What'd you eat since last time?"** (Brian, 2026-06-23).
 - Brian may reply ad hoc between check-ins; log those entries without requiring a report-back when he asks for internal-only logging.
 - Estimate calories/macros from vague descriptions; note uncertainty when helpful.
+- **Do not repeat Brian's food back to him** (Brian, 2026-06-26). When he reports a meal, log it and reply with totals/notes only — do not restate the list of items he just told you. Keep replies brief (e.g. calorie/macro estimate or running total) rather than echoing the meal.
 
 ## 2026-06-18
 
