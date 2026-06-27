@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const { routeChatEvent } = require("./_agentcore/fast-router");
+const { loadVersionRegistry } = require("./_agentcore/version");
 
 function logRouterEvent(label, details = {}) {
   console.log(
@@ -96,10 +97,13 @@ async function verifyGoogleChatRequest(request) {
 module.exports = async function handler(request, response) {
   if (request.method === "GET") {
     logRouterEvent("health_check", { method: request.method });
+    const registry = loadVersionRegistry();
     response.status(200).json({
       status: "ok",
       service: "agentcore-chat",
       fast_model: process.env.AGENTCORE_FAST_MODEL || "gemini-2.5-flash",
+      router_version: registry.router_version,
+      context_bundle_version: registry.context_bundle_version,
     });
     return;
   }

@@ -35,7 +35,11 @@ Webhook URL: `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`
 
 ### 4. Start chatting
 
-Search for **`@AgentCoreFam_bot`** in Telegram and send a message. Replies should arrive in 1–3 seconds.
+Send **`version`** (or `/version`) to see the live router version.
+
+## Versioning
+
+See `agentcore/knowledge/architecture/chatbot-version.md`. Bump `chatbot-version.json` on router changes, deploy, then verify with `version`.
 
 ## Family sharing
 

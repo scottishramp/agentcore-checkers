@@ -407,6 +407,12 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Confirmed a message sent in the existing Brian <-> `scottishramp` DM does not reach the Vercel router; that DM still uses the async polling workflow.
 - Created new Google Cloud project `agentcore-chat-brian` under `briandherbert@gmail.com` and enabled Chat API. Browser configuration is blocked until Brian completes Google Cloud Console sign-in with his passkey.
 
+## [2026-06-27] ops | Chatbot versioning system
+
+- Added `agentcore/knowledge/architecture/chatbot-version.json` and `chatbot-version.md` as the canonical fast-router semver registry.
+- Implemented deterministic `version` / `/version` command; injected version into Gemini prompts and health endpoints.
+- Current release: router v1.2.0, context bundle v1.1.0.
+
 ## [2026-06-27] ops | Telegram fast router added
 
 - Added `api/agentcore-telegram.js` webhook, Telegram adapter, async task handoff, and router-task Telegram completion notifications.

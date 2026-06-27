@@ -1,5 +1,6 @@
 const { buildContext, runtimeClock, tryDeterministicFoodAnswer } = require("./context");
 const { getHistory, saveHistory } = require("./store");
+const { loadVersionRegistry, tryDeterministicVersionAnswer, versionMetadata } = require("./version");
 
 const DEFAULT_MODEL = "gemini-2.5-flash";
 
@@ -118,8 +119,11 @@ async function callGemini({ text, context, history, sender, env = process.env })
   const model = env.AGENTCORE_FAST_MODEL || DEFAULT_MODEL;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
   const clock = runtimeClock(env);
+  const registry = loadVersionRegistry();
+  const versionLine = `Chatbot version: ${registry.name} v${registry.router_version} (context v${registry.context_bundle_version}, released ${registry.released_at || "unknown"}).`;
   const system = [
     "You are AgentCore's fast chat router for Brian Herbert and family (Telegram/Google Chat).",
+    versionLine,
     `Authoritative runtime clock: ${clock.localDisplay} (${clock.timezone}). Local date: ${clock.localDate}. Use this for today/yesterday; never guess the date.`,
     "Answer ONLY from the compact repo context below. If the context lacks the fact, say you do not have it yet — never invent meals, dates, or personal details.",
     "The food log is in agentcore/knowledge/people/brian-herbert-food-log.md under ## YYYY-MM-DD headings.",
@@ -256,11 +260,18 @@ async function routeChatEvent(event, options = {}) {
   const context = options.context || buildContext({ rootDir: options.rootDir });
   const history = options.history || (await getHistory(conversationKey, env).catch(() => []));
   let decision;
-  const deterministic = tryDeterministicFoodAnswer(text, {
+  const versionAnswer = tryDeterministicVersionAnswer(text, {
     rootDir: options.rootDir,
     env,
-    clock: options.clock,
+    event,
   });
+  const deterministic =
+    versionAnswer ||
+    tryDeterministicFoodAnswer(text, {
+      rootDir: options.rootDir,
+      env,
+      clock: options.clock,
+    });
   if (deterministic) {
     decision = normalizeDecision(deterministic, text);
   } else {
@@ -290,9 +301,15 @@ async function routeChatEvent(event, options = {}) {
     { role: "assistant", text: decision.response, route: decision.route, at: new Date().toISOString() },
   ];
   await saveHistory(conversationKey, nextHistory, env).catch(() => null);
+  const registry = loadVersionRegistry({ rootDir: options.rootDir });
   return {
     text: decision.response,
-    _meta: { route: decision.route, confidence: decision.confidence, dispatch_status: dispatch.status },
+    _meta: {
+      route: decision.route,
+      confidence: decision.confidence,
+      dispatch_status: dispatch.status,
+      ...versionMetadata(registry),
+    },
     _debug: env.AGENTCORE_ROUTER_DEBUG === "true" ? { decision, dispatch } : undefined,
   };
 }

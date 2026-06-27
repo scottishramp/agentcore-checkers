@@ -45,7 +45,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Google operating model: know what Brian shares with `scottishramp@gmail.com`, treat Brian-shared resources as read surfaces unless explicit edit authority is granted, and write/organize durable artifacts in AgentCore's own Google space.
 - Use `briandherbert@gmail.com` and Brian's direct Google Chat with AgentCore as trusted client channels for questions, updates, and task requests.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
-- **Fast chat:** DM `@AgentCoreFam_bot` on Telegram for instant replies with shared AgentCore knowledge.
+- Fast chat via `@AgentCoreFam_bot`; send `version` for live router semver (currently v1.2.0).
 - If Brian says exactly `sync`, use the project `github-sync` skill to sync local and remote GitHub state with Cursor agent judgment. Do not rely on a custom sync script.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
@@ -63,7 +63,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- Added Telegram bot `@AgentCoreFam_bot` live with webhook; fast-router context now includes `brian-herbert-food-log.md` for meal questions.
+- Added chatbot versioning (`chatbot-version.json`, `version` command → v1.2.0) with architecture docs and health-check injection.
 - Added fast-router request logging and compact recent Chat automation context; deployed to Vercel. Created Brian-owned Cloud project `agentcore-chat-brian`; setup is paused at Brian browser passkey sign-in.
 - Deployed Google Chat fast router to Vercel: `https://agentcore-fast-router.vercel.app/api/agentcore-chat`, set production secrets, saved Google Chat API HTTP endpoint config, and documented the remaining visibility/live-test blocker.
 - Added Google Photos Picker support path: OAuth helper requests `photospicker.mediaitems.readonly`, `scripts/photos/picker_session.py` can create/get/list/delete Picker sessions after consent refresh, and docs/blockers explain the interactive flow.

@@ -1,4 +1,4 @@
-const { buildContext } = require("./_agentcore/context");
+const { loadVersionRegistry } = require("./_agentcore/version");
 const { routeChatEvent } = require("./_agentcore/fast-router");
 const {
   botToken,
@@ -47,11 +47,14 @@ function verifyWebhookSecret(request) {
 module.exports = async function handler(request, response) {
   if (request.method === "GET") {
     logRouterEvent("health_check", { configured: Boolean(botToken()) });
+    const registry = loadVersionRegistry();
     response.status(200).json({
       status: "ok",
       service: "agentcore-telegram",
       fast_model: process.env.AGENTCORE_FAST_MODEL || "gemini-2.5-flash",
       bot_configured: Boolean(botToken()),
+      router_version: registry.router_version,
+      context_bundle_version: registry.context_bundle_version,
     });
     return;
   }

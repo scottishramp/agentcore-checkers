@@ -34,6 +34,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Organizations](knowledge/organizations/): organizations relevant to projects.
 - [Architecture](knowledge/architecture/): current AgentCore system architecture, communication surfaces, workflows, data stores, and operational invariants.
 - [AgentCore System Architecture](knowledge/architecture/system-architecture.md): primary map of Google Chat, email, fast router, workflows, polling cadence, secrets, and update requirements.
+- [Chatbot Version Registry](knowledge/architecture/chatbot-version.md): fast router semver, context bundle version, changelog, and `version` command.
 - [Communications](knowledge/communications/README.md): deterministic communication ingestion summaries, email thread state, and ledgers.
 - [Concepts](knowledge/concepts/): reusable ideas, frameworks, and research themes.
 - [UX Message Design](knowledge/concepts/ux-message-design.md): precise failure classification for user-facing status messages.

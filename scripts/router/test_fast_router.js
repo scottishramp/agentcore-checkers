@@ -21,7 +21,7 @@ function eventWithText(text) {
 }
 
 async function run() {
-  const context = buildContext({ rootDir: process.cwd(), maxChars: 12000 });
+  const context = buildContext({ rootDir: process.cwd() });
   assert(context.includes("AgentCore"), "context should include AgentCore knowledge");
   assert(context.includes("brian-herbert-food-log"), "context should include food log");
 
@@ -36,6 +36,17 @@ async function run() {
   });
   assert.match(food.text, /2026-06-26/);
   assert.match(food.text, /2,030|2030/);
+
+  const version = await routeChatEvent(eventWithText("version"), {
+    context,
+    history: [],
+    env: {},
+    modelClient: async () => {
+      throw new Error("Gemini should not run for version command");
+    },
+  });
+  assert.match(version.text, /AgentCore Fast Router v1\.2\.0/);
+  assert.match(version.text, /Context bundle: v1\.2\.0/);
 
   const lightweight = await routeChatEvent(eventWithText("What is my food check-in prompt?"), {
     context,

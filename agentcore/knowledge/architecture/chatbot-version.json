@@ -1,0 +1,28 @@
+{
+  "name": "AgentCore Fast Router",
+  "router_version": "1.2.0",
+  "context_bundle_version": "1.2.0",
+  "released_at": "2026-06-27",
+  "primary_channel": "telegram",
+  "bot_username": "AgentCoreFam_bot",
+  "changelog": [
+    {
+      "router_version": "1.2.0",
+      "context_bundle_version": "1.2.0",
+      "date": "2026-06-27",
+      "summary": "Runtime clock, deterministic food-log lookup, version command"
+    },
+    {
+      "router_version": "1.1.0",
+      "context_bundle_version": "1.2.0",
+      "date": "2026-06-27",
+      "summary": "Telegram bot @AgentCoreFam_bot live with shared family 1:1 DMs"
+    },
+    {
+      "router_version": "1.0.0",
+      "context_bundle_version": "1.0.0",
+      "date": "2026-06-27",
+      "summary": "Initial Vercel fast router for Google Chat webhook + Gemini handoff"
+    }
+  ]
+}

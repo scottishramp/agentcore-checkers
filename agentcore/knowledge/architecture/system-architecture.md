@@ -32,6 +32,17 @@ Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 
 Bot: `@AgentCoreFam_bot`
 
+Send **`version`** in chat to see the live router version (`chatbot-version.json`).
+
+## Chatbot Versioning
+
+- Canonical registry: `agentcore/knowledge/architecture/chatbot-version.json`
+- Human doc: `agentcore/knowledge/architecture/chatbot-version.md`
+- **Router version** — routing code, deterministic commands, prompts, channel handlers
+- **Context bundle version** — repo files included in shallow-chat context
+- User command: `version` or `/version` returns live deployed semver
+- Health checks (`GET /api/agentcore-telegram`, `GET /api/agentcore-chat`) include `router_version`
+
 ### Normal Google Chat DM
 
 Brian currently messages the normal Google account `scottishramp@gmail.com`.

@@ -3,11 +3,12 @@ const path = require("path");
 
 const DEFAULT_CONTEXT_FILES = [
   "agentcore/hot-cache.md",
+  "agentcore/knowledge/people/brian-herbert-food-log.md",
+  "agentcore/knowledge/people/brian-herbert.md",
+  "agentcore/knowledge/projects/personal-operating-system.md",
+  "agentcore/knowledge/architecture/chatbot-version.json",
   "agentcore/blockers.md",
   "agentcore/index.md",
-  "agentcore/knowledge/projects/personal-operating-system.md",
-  "agentcore/knowledge/people/brian-herbert.md",
-  "agentcore/knowledge/people/brian-herbert-food-log.md",
 ];
 
 function compactWhitespace(text) {
