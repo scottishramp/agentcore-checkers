@@ -50,14 +50,24 @@ def main() -> int:
 
     original_text = str(payload.get("original_text") or payload.get("async_task_body") or "").strip()
     route = str(payload.get("route", "task")).strip() or "task"
+    source_kind = str(payload.get("source_kind", "google_chat")).strip() or "google_chat"
     chat_message_name = str(payload.get("chat_message_name", "")).strip()
     chat_space = str(payload.get("chat_space", "")).strip()
     sender_name = str(payload.get("chat_sender_name", "")).strip()
+    telegram_chat_id = str(payload.get("telegram_chat_id", "")).strip()
+    telegram_user_id = str(payload.get("telegram_user_id", "")).strip()
+    telegram_username = str(payload.get("telegram_username", "")).strip()
     conversation_key = str(payload.get("conversation_key", chat_space or sender_name or "router")).strip()
     source_uid = chat_message_name or f"router-{sanitize_filename(conversation_key)}-{utc_now_iso()}"
     task_id = next_task_id(source_uid, conversation_key)
     title = compact_whitespace(str(payload.get("async_task_title", ""))) or (
-        "Ingest Google Chat update" if route == "knowledge_update" else "Handle Google Chat task"
+        "Ingest Telegram update"
+        if source_kind == "telegram" and route == "knowledge_update"
+        else "Handle Telegram task"
+        if source_kind == "telegram"
+        else "Ingest Google Chat update"
+        if route == "knowledge_update"
+        else "Handle Google Chat task"
     )
     safe = sanitize_filename(task_id, fallback="router-task")
     task_file = task_dir / f"task__router__{safe}.md"
@@ -71,13 +81,16 @@ def main() -> int:
         'priority: "normal"',
         f'source_message_id: "{quote_meta(chat_message_name or source_uid)}"',
         f'source_uid: "{quote_meta(source_uid)}"',
-        f'source_from: "google_chat:{quote_meta(sender_name)}"',
+        f'source_from: "{quote_meta(f"{source_kind}:{sender_name or telegram_user_id}")}"',
         f'source_subject: "{quote_meta(title)}"',
         f'thread_key: "{quote_meta(conversation_key)}"',
         f'chat_message_name: "{quote_meta(chat_message_name)}"',
         f'chat_space: "{quote_meta(chat_space)}"',
         f'chat_sender_name: "{quote_meta(sender_name)}"',
-        'source_kind: "google_chat"',
+        f'telegram_chat_id: "{quote_meta(telegram_chat_id)}"',
+        f'telegram_user_id: "{quote_meta(telegram_user_id)}"',
+        f'telegram_username: "{quote_meta(telegram_username)}"',
+        f'source_kind: "{quote_meta(source_kind)}"',
         'reply_style: "natural"',
         f'queued_at: "{quote_meta(now)}"',
         f'updated_at: "{quote_meta(now)}"',
@@ -100,10 +113,12 @@ def main() -> int:
         "",
         f"- Route: {route}",
         f"- Fast response already sent: {payload.get('response', '')}",
-        f"- Source channel: Google Chat HTTP endpoint",
+        f"- Source channel: {source_kind} HTTP endpoint",
         f"- Chat space: {chat_space}",
         f"- Chat message: {chat_message_name}",
-        f"- Sender: {sender_name or payload.get('sender_display_name', '')}",
+        f"- Telegram chat id: {telegram_chat_id}",
+        f"- Telegram user id: {telegram_user_id}",
+        f"- Sender: {sender_name or payload.get('sender_display_name', '') or telegram_username}",
         "",
         "## Instructions",
         "",
@@ -117,7 +132,7 @@ def main() -> int:
         "status": "created",
         "task_file": str(task_file),
         "task_id": task_id,
-        "source_kind": "google_chat",
+        "source_kind": source_kind,
         "route": route,
     }
     write_json(Path(args.output), result)

@@ -41,6 +41,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Static-first Web Apps](knowledge/decisions/2026-04-24-static-first-web-apps.md): decision to favor dependency-free static apps for small public deliverables.
 - [AgentCore Repo Topology](knowledge/decisions/2026-04-25-agentcore-control-repo-topology.md): keep this repository as control repo with separate delivery repos.
 - [Playbooks](knowledge/playbooks/): repeatable methods and operating procedures.
+- [Telegram Fast Router](knowledge/playbooks/telegram-fast-router.md): instant family 1:1 chat via Telegram bot and Vercel webhook.
 - [Public Static Web App](knowledge/playbooks/public-static-web-app.md): fast path for building, verifying, and publishing static web apps.
 - [GitHub Pages Deployment](knowledge/playbooks/github-pages-deployment.md): exact steps for deploying to GitHub Pages including auth, repo creation, and build triggering.
 - [Email Operations](knowledge/playbooks/email-ops.md): operational policy and workflow for async client communication by email.

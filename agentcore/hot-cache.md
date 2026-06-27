@@ -36,7 +36,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - System architecture hub: `agentcore/knowledge/architecture/system-architecture.md` documents communication surfaces, workflows, hosted endpoints, polling cadence, data stores, secrets, blockers, and architecture update requirements.
 - Google access inventory: Gmail, Brian DM Google Chat, Brian shared Calendar, and shared Drive/Docs are live. Maps location share emails are visible but personal live Maps location has no supported API. Keep body remains blocked. Broad Photos reads remain blocked, but user-selected Photos intake can use the Picker helper after OAuth is refreshed with `photospicker.mediaitems.readonly`.
 - Brian family context: Brian was born 1983-09-10; married Kristin Herbert on 2006-05-27; children are Daniel, Nathan, Ezra, Silver, and Levi.
-- Open blockers: HTTP Google Chat app visibility/live testing for Brian is not yet verified and currently needs Brian browser passkey sign-in; Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
+- Open blockers: Telegram bot token needed from Brian via @BotFather to activate live webhook; Google Chat app visibility still blocked for free Gmail accounts; Google Keep note content unavailable; broad Google Photos library reads unavailable.
 
 ## Operating Preferences
 
@@ -45,9 +45,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Google operating model: know what Brian shares with `scottishramp@gmail.com`, treat Brian-shared resources as read surfaces unless explicit edit authority is granted, and write/organize durable artifacts in AgentCore's own Google space.
 - Use `briandherbert@gmail.com` and Brian's direct Google Chat with AgentCore as trusted client channels for questions, updates, and task requests.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
-- Treat direct Google Chat messages from Brian as agent instructions by default; jobs poll the Brian DM space `spaces/6RZ69yAAAAE`, skip AgentCore-authored messages, queue Brian-authored text as tasks, and reply naturally in Chat.
-- Do not disable Brian DM polling until the HTTP Chat app is verified live for Brian. The `scottishramp`-owned app could not expose tester visibility to Brian; use the Brian-owned project `agentcore-chat-brian` once Brian completes Cloud Console passkey sign-in in the browser.
-- For short conversational Chat messages during 09:00-20:00 `America/Chicago`, the runner may keep a bounded sync loop open (default 15 minutes, 20 second polling) to continue the conversation inside one GitHub Actions runtime.
+- **Fast chat:** use the AgentCore Telegram bot once configured (`agentcore/knowledge/playbooks/telegram-fast-router.md`). One bot, separate 1:1 DMs, shared knowledge.
 - If Brian says exactly `sync`, use the project `github-sync` skill to sync local and remote GitHub state with Cursor agent judgment. Do not rely on a custom sync script.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
@@ -65,7 +63,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- Added `agentcore/knowledge/architecture/system-architecture.md` and `.cursor/rules/architecture-memory.mdc` so AgentCore system architecture is documented and future architecture changes update the docs.
+- Added Telegram fast-router endpoint (`api/agentcore-telegram.js`) with shared Gemini/repo context, async Cursor handoff, and family 1:1 DM support. Awaiting BotFather token to go live.
 - Added fast-router request logging and compact recent Chat automation context; deployed to Vercel. Created Brian-owned Cloud project `agentcore-chat-brian`; setup is paused at Brian browser passkey sign-in.
 - Deployed Google Chat fast router to Vercel: `https://agentcore-fast-router.vercel.app/api/agentcore-chat`, set production secrets, saved Google Chat API HTTP endpoint config, and documented the remaining visibility/live-test blocker.
 - Added Google Photos Picker support path: OAuth helper requests `photospicker.mediaitems.readonly`, `scripts/photos/picker_session.py` can create/get/list/delete Picker sessions after consent refresh, and docs/blockers explain the interactive flow.

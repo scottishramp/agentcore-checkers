@@ -2,6 +2,9 @@
   "functions": {
     "api/agentcore-chat.js": {
       "maxDuration": 30
+    },
+    "api/agentcore-telegram.js": {
+      "maxDuration": 30
     }
   }
 }

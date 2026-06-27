@@ -13,6 +13,15 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 - Needed from user: Decision on whether to provision a flight-search API key for AgentCore, or to have AgentCore answer travel-research tasks interactively where web access is available.
 - Resolution:
 
+### 2026-06-27 | Telegram fast router | Bot token needed
+
+- Status: open
+- Blocker: Telegram webhook endpoint is implemented and ready to deploy, but AgentCore does not have a Telegram account session and cannot create a bot without Brian messaging `@BotFather`.
+- Why it matters: Live instant 1:1 family chat requires a bot token stored in Vercel/GitHub secrets and a webhook registration.
+- Proposed default: Brian creates the bot via `@BotFather`, sends the token, AgentCore sets Vercel/GitHub secrets and runs `npm run telegram:setup-webhook`.
+- Needed from user: Bot token from `@BotFather` after `/newbot`.
+- Resolution:
+
 ### 2026-06-27 | Google Chat fast router | Brian-facing HTTP app visibility not verified
 
 - Status: open

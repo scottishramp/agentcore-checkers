@@ -11,9 +11,24 @@ AgentCore is Brian Herbert's private administrative assistant. This repository i
 - AgentCore Google identity: `scottishramp@gmail.com`.
 - Brian trusted client identity: `briandherbert@gmail.com`.
 - GitHub account/repo: `scottishramp/agentcore-checkers`.
-- Primary user-facing channels: Brian's direct Google Chat DM with AgentCore and Brian's trusted email.
+- Primary fast chat: **Telegram bot** at `https://agentcore-fast-router.vercel.app/api/agentcore-telegram` (instant 1:1 DMs, shared repo knowledge). Setup blocked on BotFather token.
+- Legacy Google Chat: human DM polling remains for async tasks; Google Chat app webhook blocked by Gmail visibility limits.
 
 ## Communication Surfaces
+
+### Telegram Bot (Primary Fast Chat)
+
+One shared bot; each family member gets their own 1:1 DM with instant replies.
+
+Flow:
+
+1. User sends a Telegram message to the AgentCore bot.
+2. Telegram POSTs to `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`.
+3. Vercel verifies optional webhook secret, checks allowlist, routes via Gemini + repo context + Redis history.
+4. Bot replies synchronously via Telegram `sendMessage`.
+5. Knowledge updates/tasks dispatch to `.github/workflows/router-task.yml`; completion replies via `scripts/telegram/send_task_response.py`.
+
+Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 
 ### Normal Google Chat DM
 

@@ -163,6 +163,21 @@ async function callGemini({ text, context, history, sender, env = process.env })
   return normalizeDecision(parseJsonFromText(modelText), text);
 }
 
+function dispatchMetaFromEvent(event) {
+  const meta = event && event.agentcore && typeof event.agentcore === "object" ? event.agentcore : {};
+  return {
+    source_kind: meta.source_kind || "google_chat",
+    chat_message_name: meta.message_id || chatMessageName(event),
+    chat_space: meta.conversation_id || chatSpaceName(event),
+    chat_sender_name: meta.sender_id || senderForEvent(event).name,
+    sender_display_name: meta.sender_display_name || senderForEvent(event).displayName,
+    telegram_chat_id: meta.telegram_chat_id || "",
+    telegram_user_id: meta.telegram_user_id || "",
+    telegram_username: meta.telegram_username || "",
+    conversation_key: meta.conversation_key || conversationKeyForEvent(event),
+  };
+}
+
 async function dispatchAsyncTask({ event, text, decision, env = process.env }) {
   const token = env.GITHUB_DISPATCH_TOKEN || env.GH_DISPATCH_TOKEN || "";
   const repository = env.GITHUB_REPOSITORY || env.AGENTCORE_GITHUB_REPOSITORY || "";
@@ -170,19 +185,31 @@ async function dispatchAsyncTask({ event, text, decision, env = process.env }) {
   if (!token || !repository) {
     return { status: "skipped", reason: "missing_github_dispatch_config" };
   }
+  const meta = dispatchMetaFromEvent(event);
   const body = {
     event_type: eventType,
     client_payload: {
       route: decision.route,
       response: decision.response,
-      async_task_title: decision.async_task_title || (decision.route === "knowledge_update" ? "Ingest Google Chat update" : "Handle Google Chat task"),
+      async_task_title:
+        decision.async_task_title ||
+        (decision.route === "knowledge_update"
+          ? meta.source_kind === "telegram"
+            ? "Ingest Telegram update"
+            : "Ingest Google Chat update"
+          : meta.source_kind === "telegram"
+            ? "Handle Telegram task"
+            : "Handle Google Chat task"),
       async_task_body: decision.async_task_body || text,
-      source_kind: "google_chat",
-      chat_message_name: chatMessageName(event),
-      chat_space: chatSpaceName(event),
-      chat_sender_name: senderForEvent(event).name,
-      sender_display_name: senderForEvent(event).displayName,
-      conversation_key: conversationKeyForEvent(event),
+      source_kind: meta.source_kind,
+      chat_message_name: meta.chat_message_name,
+      chat_space: meta.chat_space,
+      chat_sender_name: meta.chat_sender_name,
+      sender_display_name: meta.sender_display_name,
+      telegram_chat_id: meta.telegram_chat_id,
+      telegram_user_id: meta.telegram_user_id,
+      telegram_username: meta.telegram_username,
+      conversation_key: meta.conversation_key,
       original_text: text,
       received_at: new Date().toISOString(),
     },

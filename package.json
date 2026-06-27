@@ -30,7 +30,8 @@
     "email:notify-task": "python3 scripts/email/send_task_status.py",
     "email:record-response": "python3 scripts/email/record_email_response.py",
     "photos:picker": "python3 scripts/photos/picker_session.py",
-    "router:test": "node scripts/router/test_fast_router.js"
+    "router:test": "node scripts/router/test_fast_router.js && node scripts/router/test_telegram_router.js",
+    "telegram:setup-webhook": "node scripts/telegram/setup_webhook.js"
   },
   "keywords": [],
   "author": "",

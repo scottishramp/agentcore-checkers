@@ -47,9 +47,11 @@ jobs:
           from pathlib import Path
 
           payload = json.loads(Path(".agentcore/state/router-task.json").read_text(encoding="utf-8"))
+          source_kind = str(payload.get("source_kind", "google_chat")).strip() or "google_chat"
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
             fh.write(f"task_file={payload.get('task_file', '')}\n")
             fh.write(f"task_id={payload.get('task_id', '')}\n")
+            fh.write(f"source_kind={source_kind}\n")
           PY
 
       - name: Install Cursor CLI
@@ -104,7 +106,7 @@ jobs:
           fi
 
       - name: Send Chat completion notification
-        if: steps.result.outputs.status == 'done'
+        if: steps.result.outputs.status == 'done' && steps.task.outputs.source_kind == 'google_chat'
         env:
           AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
           AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
@@ -118,7 +120,7 @@ jobs:
             --result-json .agentcore/state/task-run-result.json | tee .agentcore/state/task-notify-result.json
 
       - name: Send Chat snag notification
-        if: steps.result.outputs.status != 'done'
+        if: steps.result.outputs.status != 'done' && steps.task.outputs.source_kind == 'google_chat'
         env:
           AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
           AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
@@ -131,7 +133,28 @@ jobs:
             --status snag \
             --result-json .agentcore/state/task-run-result.json | tee .agentcore/state/task-notify-result.json
 
+      - name: Send Telegram completion notification
+        if: steps.result.outputs.status == 'done' && steps.task.outputs.source_kind == 'telegram'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
+        run: |
+          python3 scripts/telegram/send_task_response.py \
+            --task-file "${{ steps.task.outputs.task_file }}" \
+            --status done \
+            --result-json .agentcore/state/task-run-result.json | tee .agentcore/state/task-notify-result.json
+
+      - name: Send Telegram snag notification
+        if: steps.result.outputs.status != 'done' && steps.task.outputs.source_kind == 'telegram'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
+        run: |
+          python3 scripts/telegram/send_task_response.py \
+            --task-file "${{ steps.task.outputs.task_file }}" \
+            --status snag \
+            --result-json .agentcore/state/task-run-result.json | tee .agentcore/state/task-notify-result.json
+
       - name: Record Chat response ledger
+        if: steps.task.outputs.source_kind == 'google_chat'
         continue-on-error: true
         run: |
           python3 scripts/chat/record_chat_response.py \
