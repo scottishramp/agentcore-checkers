@@ -399,3 +399,10 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Saved Google Chat API configuration to use the Vercel HTTP endpoint with common trigger URL and endpoint-audience OIDC verification.
 - Verified production health (`GET` returns `200`) and auth behavior (unauthenticated `POST` returns `401`).
 - Remaining caveat: Brian-facing live HTTP Chat app verification is blocked because the Chat app visibility field appears locked to `scottishramp@gmail.com`, and the Apps marketplace UI could not be reliably automated from Cursor. Existing Brian DM polling remains the verified channel.
+
+## [2026-06-27] ops | Fast router context and Brian-owned Chat app attempt
+
+- Added structured Vercel request logging for the Chat router and expanded fast-router context with recent tracked Brian DM messages plus scheduled-message state, so shallow replies can understand automation prompts like food check-ins.
+- Redeployed `https://agentcore-fast-router.vercel.app/api/agentcore-chat` with the logging/context changes.
+- Confirmed a message sent in the existing Brian <-> `scottishramp` DM does not reach the Vercel router; that DM still uses the async polling workflow.
+- Created new Google Cloud project `agentcore-chat-brian` under `briandherbert@gmail.com` and enabled Chat API. Browser configuration is blocked until Brian completes Google Cloud Console sign-in with his passkey.

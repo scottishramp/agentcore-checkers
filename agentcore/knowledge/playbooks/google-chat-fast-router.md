@@ -18,7 +18,8 @@ Give AgentCore a synchronous Google Chat app endpoint for fast replies while pre
 - Configured model: `gemini-2.5-flash`
 - Google Chat API configuration: saved in Cloud Console for project `agentcore-495202` with connection setting `HTTP endpoint URL` and common trigger URL `https://agentcore-fast-router.vercel.app/api/agentcore-chat`.
 - Health verification: `GET /api/agentcore-chat` returns `200`; unauthenticated `POST` returns `401`.
-- Live Chat verification: not yet complete for Brian. The Chat app visibility field appears locked to `scottishramp@gmail.com`, and the Apps marketplace UI was not reliably automatable because it is iframe-rendered.
+- Live Chat verification: not yet complete for Brian. `scottishramp`-owned Chat app configs strip `briandherbert@gmail.com` from tester visibility. A Brian-owned project `agentcore-chat-brian` exists with Chat API enabled, but Cloud Console configuration is blocked on Brian browser passkey sign-in.
+- Fast context now includes compact recent Brian DM messages and scheduled-message state from the repo so shallow replies understand recent automation prompts.
 
 ## Runtime Model
 
@@ -69,4 +70,4 @@ Give AgentCore a synchronous Google Chat app endpoint for fast replies while pre
 - Existing human-account Chat polling uses `spaces/6RZ69yAAAAE`; a Google Chat app HTTP endpoint can create a different interaction surface.
 - Do not disable the existing polling workflow until the HTTP app is verified live for Brian.
 - The fast router must not write durable knowledge directly. It should acknowledge updates and dispatch the Cursor agent for repo writes.
-- If Brian cannot see or add the `AgentCore` Chat app, investigate whether the current "Build this Chat app as a Workspace add-on" configuration is forcing the app to remain visible only to AgentCore's account and whether a separate Chat app project is needed.
+- If Brian cannot see or add the `AgentCore` Chat app, finish configuring the Brian-owned project `agentcore-chat-brian` after Brian signs into Cloud Console in the browser. Use the same Vercel endpoint and HTTP endpoint audience.

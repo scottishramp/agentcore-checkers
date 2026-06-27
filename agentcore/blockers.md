@@ -16,10 +16,10 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 ### 2026-06-27 | Google Chat fast router | Brian-facing HTTP app visibility not verified
 
 - Status: open
-- Blocker: The Vercel fast router is deployed and the Google Chat API configuration for project `agentcore-495202` is saved to the HTTP endpoint, but the Chat app visibility field in Cloud Console appears locked to `scottishramp@gmail.com`. The Google Chat Apps marketplace UI is iframe-rendered and could not be reliably automated from Cursor to install/test the private app. Brian's existing direct-message polling path remains the verified channel.
+- Blocker: The Vercel fast router is deployed and the Google Chat API configuration for project `agentcore-495202` is saved to the HTTP endpoint, but `scottishramp`-owned Chat app configs strip `briandherbert@gmail.com` from the tester visibility list. A Brian-owned Google Cloud project `agentcore-chat-brian` has been created with Chat API enabled, but browser configuration is blocked on Brian completing Google Cloud Console passkey sign-in. Brian's existing direct-message polling path remains the verified channel.
 - Why it matters: The new synchronous HTTP endpoint cannot replace the existing Brian DM polling workflow until Brian can directly message the Chat app and receive a live synchronous reply.
-- Proposed default: Keep the existing Brian DM polling workflow active. Use the Vercel endpoint for incremental testing from AgentCore's account, then investigate whether the current Workspace add-on style app can be made visible to Brian or whether a separate non-add-on Chat app project is needed.
-- Needed from user: If Brian wants immediate live verification, he can try opening/adding the `AgentCore` Chat app from his Google Chat UI and send a test message. If it is not visible, approve creating a separate Chat app project/config that is not locked to the current add-on visibility surface.
+- Proposed default: Keep the existing Brian DM polling workflow active. After Brian completes Cloud Console sign-in in the browser, finish configuring `agentcore-chat-brian` as the Brian-facing HTTP Chat app using the Vercel endpoint.
+- Needed from user: Complete the visible Google passkey sign-in prompt for `briandherbert@gmail.com` in the Cursor browser.
 - Resolution:
 
 ### 2026-06-25 | Google Maps location sharing | No personal live-location API

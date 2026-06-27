@@ -1,6 +1,17 @@
 const crypto = require("crypto");
 const { routeChatEvent } = require("./_agentcore/fast-router");
 
+function logRouterEvent(label, details = {}) {
+  console.log(
+    JSON.stringify({
+      service: "agentcore-chat",
+      label,
+      at: new Date().toISOString(),
+      ...details,
+    })
+  );
+}
+
 async function readJsonBody(request) {
   if (request.body && typeof request.body === "object") {
     return request.body;
@@ -84,6 +95,7 @@ async function verifyGoogleChatRequest(request) {
 
 module.exports = async function handler(request, response) {
   if (request.method === "GET") {
+    logRouterEvent("health_check", { method: request.method });
     response.status(200).json({
       status: "ok",
       service: "agentcore-chat",
@@ -92,6 +104,7 @@ module.exports = async function handler(request, response) {
     return;
   }
   if (request.method !== "POST") {
+    logRouterEvent("method_not_allowed", { method: request.method });
     response.setHeader("Allow", "GET, POST");
     response.status(405).json({ error: "method_not_allowed" });
     return;
@@ -99,12 +112,21 @@ module.exports = async function handler(request, response) {
   try {
     await verifyGoogleChatRequest(request);
     const event = await readJsonBody(request);
+    const text = String((event.message && (event.message.argumentText || event.message.text)) || event.text || "");
+    logRouterEvent("chat_event_received", {
+      event_type: event.type || "",
+      space: (event.space && event.space.name) || (event.message && event.message.space && event.message.space.name) || "",
+      sender: (event.user && (event.user.displayName || event.user.name || event.user.email)) || "",
+      text_preview: text.slice(0, 120),
+    });
     const routed = await routeChatEvent(event);
+    logRouterEvent("chat_event_routed", routed._meta || {});
     response.status(200).json({ text: routed.text || "Got it." });
   } catch (error) {
     const expose = process.env.AGENTCORE_ROUTER_DEBUG === "true";
     const message = String(error && error.message ? error.message : error);
     const status = /token|authorization|audience|issuer|signature|bearer/i.test(message) ? 401 : 500;
+    logRouterEvent("chat_event_error", { status, message: message.slice(0, 300) });
     response.status(status).json({
       text: "I hit a snag in the fast responder. I’ll need the deeper agent to fix the endpoint.",
       error: expose ? String(error && error.stack ? error.stack : error) : "fast_router_error",

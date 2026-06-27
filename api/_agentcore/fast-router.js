@@ -247,6 +247,7 @@ async function routeChatEvent(event, options = {}) {
   await saveHistory(conversationKey, nextHistory, env).catch(() => null);
   return {
     text: decision.response,
+    _meta: { route: decision.route, confidence: decision.confidence, dispatch_status: dispatch.status },
     _debug: env.AGENTCORE_ROUTER_DEBUG === "true" ? { decision, dispatch } : undefined,
   };
 }
