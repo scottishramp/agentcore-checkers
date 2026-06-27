@@ -148,3 +148,17 @@ Brian reported: 4 slices pepperoni bread (treated as ~pizza slices), a Twix, a h
 Brian reported nothing eaten since the last check-in. No new entry.
 
 **Day running total (so far):** ~2,030 cal | ~75g protein | ~215g carbs | ~93g fat
+
+## 2026-06-27
+
+### Breakfast (logged ~14:37 CT)
+
+Brian reported: Egg McMuffin, McDonald's pancakes, 1 scrambled egg.
+
+- Egg McMuffin (~300 cal)
+- McDonald's Hotcakes with syrup and margarine (~580 cal)
+- 1 scrambled egg (~90 cal)
+
+**Meal total:** ~970 cal | ~32g protein | ~133g carbs | ~34g fat
+
+**Day running total (so far):** ~970 cal | ~32g protein | ~133g carbs | ~34g fat
