@@ -25,6 +25,18 @@ async function run() {
   assert(context.includes("AgentCore"), "context should include AgentCore knowledge");
   assert(context.includes("brian-herbert-food-log"), "context should include food log");
 
+  const food = await routeChatEvent(eventWithText("what did I eat yesterday?"), {
+    context,
+    history: [],
+    env: { AGENTCORE_ROUTER_DEBUG: "true" },
+    clock: { localDate: "2026-06-27", timezone: "America/Chicago", localDisplay: "Saturday, June 27, 2026", isoUtc: "2026-06-27T00:00:00.000Z" },
+    modelClient: async () => {
+      throw new Error("Gemini should not be called for deterministic food lookup");
+    },
+  });
+  assert.match(food.text, /2026-06-26/);
+  assert.match(food.text, /2,030|2030/);
+
   const lightweight = await routeChatEvent(eventWithText("What is my food check-in prompt?"), {
     context,
     history: [],

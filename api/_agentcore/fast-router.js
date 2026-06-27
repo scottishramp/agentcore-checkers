@@ -1,4 +1,4 @@
-const { buildContext } = require("./context");
+const { buildContext, runtimeClock, tryDeterministicFoodAnswer } = require("./context");
 const { getHistory, saveHistory } = require("./store");
 
 const DEFAULT_MODEL = "gemini-2.5-flash";
@@ -117,21 +117,29 @@ async function callGemini({ text, context, history, sender, env = process.env })
   }
   const model = env.AGENTCORE_FAST_MODEL || DEFAULT_MODEL;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const clock = runtimeClock(env);
   const system = [
-    "You are AgentCore's fast Google Chat router for Brian Herbert and family.",
-    "Use the compact repo context to answer only lightweight questions that are immediately answerable.",
-    "The food log at agentcore/knowledge/people/brian-herbert-food-log.md is included in context; use it for meal and calorie questions.",
+    "You are AgentCore's fast chat router for Brian Herbert and family (Telegram/Google Chat).",
+    `Authoritative runtime clock: ${clock.localDisplay} (${clock.timezone}). Local date: ${clock.localDate}. Use this for today/yesterday; never guess the date.`,
+    "Answer ONLY from the compact repo context below. If the context lacks the fact, say you do not have it yet — never invent meals, dates, or personal details.",
+    "The food log is in agentcore/knowledge/people/brian-herbert-food-log.md under ## YYYY-MM-DD headings.",
+    "For Brian meal answers: give totals/notes only; do not repeat back the list of foods he ate.",
     "Do not claim that durable repo knowledge was updated; only the async Cursor agent can write durable updates.",
     "Classify each message into exactly one route: lightweight_answer, knowledge_update, task, needs_clarification, or ignore.",
     "For knowledge_update, acknowledge that the info will be filed later and produce an async task body for Cursor.",
     "For task, acknowledge that the repo-backed Cursor agent will handle it and produce an async task body.",
-    "Keep responses concise and natural for Google Chat.",
+    "Keep responses concise and natural for chat.",
     "Return only JSON with keys route, response, async_task_title, async_task_body, confidence.",
   ].join("\n");
   const historyText = history
     .map((turn) => `${turn.role || "unknown"}: ${turn.text || ""}`)
     .join("\n");
   const prompt = [
+    "Runtime clock (authoritative):",
+    `- Local date: ${clock.localDate}`,
+    `- Local time: ${clock.localDisplay}`,
+    `- UTC: ${clock.isoUtc}`,
+    "",
     "Compact repo context:",
     context,
     "",
@@ -248,12 +256,21 @@ async function routeChatEvent(event, options = {}) {
   const context = options.context || buildContext({ rootDir: options.rootDir });
   const history = options.history || (await getHistory(conversationKey, env).catch(() => []));
   let decision;
-  try {
-    const modelClient = options.modelClient || callGemini;
-    decision = normalizeDecision(await modelClient({ text, context, history, sender, env }), text);
-  } catch (error) {
-    decision = fallbackDecision(text);
-    decision.response = `${decision.response}\n\n(Fast model routing fell back locally.)`;
+  const deterministic = tryDeterministicFoodAnswer(text, {
+    rootDir: options.rootDir,
+    env,
+    clock: options.clock,
+  });
+  if (deterministic) {
+    decision = normalizeDecision(deterministic, text);
+  } else {
+    try {
+      const modelClient = options.modelClient || callGemini;
+      decision = normalizeDecision(await modelClient({ text, context, history, sender, env }), text);
+    } catch (error) {
+      decision = fallbackDecision(text);
+      decision.response = `${decision.response}\n\n(Fast model routing fell back locally.)`;
+    }
   }
 
   let dispatch = { status: "not_needed" };
@@ -287,4 +304,5 @@ module.exports = {
   fallbackDecision,
   normalizeDecision,
   routeChatEvent,
+  runtimeClock,
 };

@@ -92,6 +92,140 @@ function trimMiddle(text, maxChars) {
   return `${text.slice(0, head)}\n\n[...trimmed for fast-router context...]\n\n${text.slice(-tail)}`;
 }
 
+function runtimeClock(env = process.env) {
+  const timezone = env.AGENTCORE_FAST_TIMEZONE || "America/Chicago";
+  const now = new Date();
+  const localDate = new Intl.DateTimeFormat("en-CA", {
+    timeZone: timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(now);
+  const localDisplay = new Intl.DateTimeFormat("en-US", {
+    timeZone: timezone,
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  }).format(now);
+  return {
+    timezone,
+    isoUtc: now.toISOString(),
+    localDate,
+    localDisplay,
+  };
+}
+
+function addDaysToIsoDate(isoDate, deltaDays) {
+  const [year, month, day] = String(isoDate).split("-").map(Number);
+  const shifted = new Date(Date.UTC(year, month - 1, day + deltaDays));
+  return shifted.toISOString().slice(0, 10);
+}
+
+function parseFoodLogByDate(content) {
+  const sections = {};
+  const lines = String(content || "").split("\n");
+  let currentDate = "";
+  let buffer = [];
+  for (const line of lines) {
+    const heading = line.match(/^## (\d{4}-\d{2}-\d{2})\s*$/);
+    if (heading) {
+      if (currentDate) {
+        sections[currentDate] = buffer.join("\n").trim();
+      }
+      currentDate = heading[1];
+      buffer = [];
+      continue;
+    }
+    if (currentDate) {
+      buffer.push(line);
+    }
+  }
+  if (currentDate) {
+    sections[currentDate] = buffer.join("\n").trim();
+  }
+  return sections;
+}
+
+function extractFoodDaySummary(sectionText) {
+  const text = String(sectionText || "");
+  const dayTotalMatch = text.match(/\*\*Day total[^*]*\*\*[^\n]*/i);
+  if (dayTotalMatch) {
+    return compactWhitespace(dayTotalMatch[0].replace(/\*\*/g, ""));
+  }
+  const runningTotalMatch = text.match(/\*\*Day running total[^*]*\*\*[^\n]*/i);
+  if (runningTotalMatch) {
+    return compactWhitespace(runningTotalMatch[0].replace(/\*\*/g, ""));
+  }
+  const mealTotals = [...text.matchAll(/\*\*Meal total:\*\*[^\n]*/g)].map((match) =>
+    compactWhitespace(match[0].replace(/\*\*/g, ""))
+  );
+  if (mealTotals.length) {
+    return mealTotals.join("; ");
+  }
+  return "";
+}
+
+function resolveFoodQueryDate(text, clock) {
+  const lowered = String(text || "").toLowerCase();
+  const explicit = lowered.match(/\b(20\d{2}-\d{2}-\d{2})\b/);
+  if (explicit) {
+    return explicit[1];
+  }
+  if (/\byesterday\b/.test(lowered)) {
+    return addDaysToIsoDate(clock.localDate, -1);
+  }
+  if (/\b(today|this morning|tonight|this evening)\b/.test(lowered)) {
+    return clock.localDate;
+  }
+  return "";
+}
+
+function tryDeterministicFoodAnswer(text, options = {}) {
+  const env = options.env || process.env;
+  const rootDir = path.resolve(options.rootDir || process.cwd());
+  const lowered = String(text || "").toLowerCase();
+  if (!/\b(ate|eat|eating|food|meal|breakfast|lunch|dinner|snack|calories?)\b/.test(lowered)) {
+    return null;
+  }
+  const clock = options.clock || runtimeClock(env);
+  const targetDate = resolveFoodQueryDate(text, clock);
+  if (!targetDate) {
+    return null;
+  }
+
+  const foodLog = readTextIfExists(rootDir, "agentcore/knowledge/people/brian-herbert-food-log.md");
+  const byDate = parseFoodLogByDate(foodLog);
+  const section = byDate[targetDate];
+  if (!section) {
+    const label = targetDate === clock.localDate ? "today" : targetDate === addDaysToIsoDate(clock.localDate, -1) ? "yesterday" : targetDate;
+    return {
+      route: "lightweight_answer",
+      response: `No food log entries for ${label} (${targetDate}) yet.`,
+      confidence: 0.98,
+    };
+  }
+
+  const summary = extractFoodDaySummary(section);
+  const label =
+    targetDate === clock.localDate
+      ? "Today"
+      : targetDate === addDaysToIsoDate(clock.localDate, -1)
+        ? "Yesterday"
+        : targetDate;
+  const response = summary
+    ? `${label} (${targetDate}): ${summary.replace(/^Day (?:running )?total(?: \(so far\))?:?\s*/i, "")}`
+    : `${label} (${targetDate}): logged, but no totals parsed yet.`;
+  return {
+    route: "lightweight_answer",
+    response,
+    confidence: 0.98,
+  };
+}
+
 function buildContext(options = {}) {
   const rootDir = path.resolve(options.rootDir || process.cwd());
   const files = options.files || DEFAULT_CONTEXT_FILES;
@@ -115,7 +249,13 @@ function buildContext(options = {}) {
 
 module.exports = {
   DEFAULT_CONTEXT_FILES,
+  addDaysToIsoDate,
   buildRecentChatContext,
   buildContext,
+  extractFoodDaySummary,
+  parseFoodLogByDate,
+  resolveFoodQueryDate,
+  runtimeClock,
   trimMiddle,
+  tryDeterministicFoodAnswer,
 };

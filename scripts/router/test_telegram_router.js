@@ -18,19 +18,51 @@ async function run() {
   assert.equal(event.agentcore.source_kind, "telegram");
   assert.equal(event.agentcore.telegram_chat_id, "999001");
 
-  const routed = await routeChatEvent(event, {
+  const routed = await routeChatEvent(
+    {
+      ...updateToEvent({
+        update_id: 124,
+        message: {
+          message_id: 457,
+          text: "hello",
+          chat: { id: 999001, type: "private" },
+          from: { id: 111, first_name: "Brian", username: "brianh" },
+        },
+      }),
+    },
+    {
+      history: [],
+      env: {},
+      modelClient: async () => ({
+        route: "lightweight_answer",
+        response: "Hi Brian — I'm here.",
+        confidence: 0.9,
+      }),
+    },
+  );
+  assert.match(routed.text, /I'm here/);
+
+  const food = await routeChatEvent(event, {
     history: [],
     env: {},
-    modelClient: async () => ({
-      route: "lightweight_answer",
-      response: "Checking the food log now.",
-      confidence: 0.9,
-    }),
+    clock: { localDate: "2026-06-27", timezone: "America/Chicago", localDisplay: "Saturday, June 27, 2026", isoUtc: "2026-06-27T00:00:00.000Z" },
+    modelClient: async () => {
+      throw new Error("Gemini should not run for deterministic food lookup");
+    },
   });
-  assert.match(routed.text, /Checking the food log/);
+  assert.match(food.text, /2026-06-26/);
 
   let payload = null;
-  await routeChatEvent(event, {
+  const taskEvent = updateToEvent({
+    update_id: 125,
+    message: {
+      message_id: 458,
+      text: "Find flights OKC to PHL",
+      chat: { id: 999001, type: "private" },
+      from: { id: 111, first_name: "Brian", username: "brianh" },
+    },
+  });
+  await routeChatEvent(taskEvent, {
     history: [],
     env: {},
     modelClient: async () => ({
