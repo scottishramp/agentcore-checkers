@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/agentcore-chat.js": {
+      "maxDuration": 30
+    }
+  }
+}

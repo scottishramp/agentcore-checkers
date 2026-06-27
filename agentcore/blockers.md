@@ -13,6 +13,15 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 - Needed from user: Decision on whether to provision a flight-search API key for AgentCore, or to have AgentCore answer travel-research tasks interactively where web access is available.
 - Resolution:
 
+### 2026-06-27 | Google Chat fast router | Brian-facing HTTP app visibility not verified
+
+- Status: open
+- Blocker: The Vercel fast router is deployed and the Google Chat API configuration for project `agentcore-495202` is saved to the HTTP endpoint, but the Chat app visibility field in Cloud Console appears locked to `scottishramp@gmail.com`. The Google Chat Apps marketplace UI is iframe-rendered and could not be reliably automated from Cursor to install/test the private app. Brian's existing direct-message polling path remains the verified channel.
+- Why it matters: The new synchronous HTTP endpoint cannot replace the existing Brian DM polling workflow until Brian can directly message the Chat app and receive a live synchronous reply.
+- Proposed default: Keep the existing Brian DM polling workflow active. Use the Vercel endpoint for incremental testing from AgentCore's account, then investigate whether the current Workspace add-on style app can be made visible to Brian or whether a separate non-add-on Chat app project is needed.
+- Needed from user: If Brian wants immediate live verification, he can try opening/adding the `AgentCore` Chat app from his Google Chat UI and send a test message. If it is not visible, approve creating a separate Chat app project/config that is not locked to the current add-on visibility surface.
+- Resolution:
+
 ### 2026-06-25 | Google Maps location sharing | No personal live-location API
 
 - Status: open

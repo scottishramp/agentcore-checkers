@@ -391,3 +391,11 @@ Synthesized all learnings from the checkers project into AgentCore:
 
 - Brian asked (Google Chat): in the future don't repeat his food back to him.
 - Recorded the food-log reply-style preference in `brian-herbert-food-log.md`, `personal-operating-system.md`, and `hot-cache.md`: when Brian reports a meal, log it and reply with totals/notes only — never echo the items he just reported.
+
+## [2026-06-27] ops | Google Chat fast router deployed
+
+- Deployed the Vercel fast router for Google Chat at `https://agentcore-fast-router.vercel.app/api/agentcore-chat`.
+- Enabled Google AI Studio/Gemini API access for project `agentcore-495202`, created a restricted Gemini API key, and stored required Vercel production environment variables for Gemini and GitHub `repository_dispatch` handoff.
+- Saved Google Chat API configuration to use the Vercel HTTP endpoint with common trigger URL and endpoint-audience OIDC verification.
+- Verified production health (`GET` returns `200`) and auth behavior (unauthenticated `POST` returns `401`).
+- Remaining caveat: Brian-facing live HTTP Chat app verification is blocked because the Chat app visibility field appears locked to `scottishramp@gmail.com`, and the Apps marketplace UI could not be reliably automated from Cursor. Existing Brian DM polling remains the verified channel.
