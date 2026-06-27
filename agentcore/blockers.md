@@ -15,9 +15,12 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ### 2026-06-27 | Google Chat fast router | Brian-facing HTTP app visibility not verified
 
-- Status: resolved
-- Blocker: The Vercel fast router is deployed and the Google Chat API configuration for project `agentcore-495202` is saved to the HTTP endpoint, but `scottishramp`-owned Chat app configs strip `briandherbert@gmail.com` from the tester visibility list. A Brian-owned Google Cloud project `agentcore-chat-brian` has been created with Chat API enabled, but browser configuration is blocked on Brian completing Google Cloud Console passkey sign-in. Brian's existing direct-message polling path remains the verified channel.
-- Resolution: Switched to bot-only Chat on 2026-06-27. Disabled inbound human-DM polling and pseudo-sync loop. Primary interface is the AgentCore Google Chat app at `https://agentcore-fast-router.vercel.app/api/agentcore-chat`. Brian confirmed shallow chat works via the app.
+- Status: open
+- Blocker: The Vercel fast router is deployed and the Google Chat API configuration for project `agentcore-495202` is saved to the HTTP endpoint, but `scottishramp`-owned Chat app configs strip `briandherbert@gmail.com` from the tester visibility list. A Brian-owned Google Cloud project `agentcore-chat-brian` has been created with Chat API enabled, but browser configuration is blocked on Brian completing Google Cloud Console passkey sign-in.
+- Why it matters: The new synchronous HTTP endpoint cannot replace the existing Brian DM polling workflow until Brian can directly message the Chat app and receive a live synchronous reply.
+- Proposed default: Keep the existing Brian DM polling workflow active. After Brian completes Cloud Console sign-in in the browser, finish configuring `agentcore-chat-brian` as the Brian-facing HTTP Chat app using the Vercel endpoint.
+- Needed from user: Complete the visible Google passkey sign-in prompt for `briandherbert@gmail.com` in the Cursor browser.
+- Resolution:
 
 ### 2026-06-25 | Google Maps location sharing | No personal live-location API
 
