@@ -96,6 +96,7 @@ jobs:
       - name: Persist scheduled message state
         continue-on-error: true
         run: |
+          python3 scripts/agent/ensure_no_conflict_markers.py
           git add agentcore/knowledge/communications/scheduled-messages-state.json
           if git diff --cached --quiet; then
             echo "No scheduled-message state change to commit."
@@ -196,6 +197,7 @@ jobs:
         if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done'
         continue-on-error: true
         run: |
+          python3 scripts/agent/ensure_no_conflict_markers.py
           git add -A
           git reset -- .agentcore/state || true
           if git diff --cached --quiet; then
@@ -290,6 +292,7 @@ jobs:
         if: steps.claim.outputs.claimed == 'true'
         continue-on-error: true
         run: |
+          python3 scripts/agent/ensure_no_conflict_markers.py
           git add agentcore/knowledge/communications/email-thread-ledger.json agentcore/knowledge/communications/chat-thread-ledger.json agentcore/inbox/tasks agentcore/inbox/chat
           if git diff --cached --quiet; then
             echo "No ledger changes to commit."
@@ -345,6 +348,7 @@ jobs:
         if: always()
         continue-on-error: true
         run: |
+          python3 scripts/agent/ensure_no_conflict_markers.py
           git add -A
           git reset -- .agentcore/state || true
           if git diff --cached --quiet; then
