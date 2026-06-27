@@ -411,8 +411,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 
 - Added `api/agentcore-telegram.js` webhook, Telegram adapter, async task handoff, and router-task Telegram completion notifications.
 - Documented setup in `agentcore/knowledge/playbooks/telegram-fast-router.md`.
-- Live activation blocked on BotFather bot token from Brian.
+- Live activation complete: bot `@AgentCoreFam_bot`, webhook registered, secrets stored in Vercel/GitHub only.
 
-- Created `agentcore/knowledge/architecture/system-architecture.md` as the primary architecture map for communication surfaces, workflows, hosted endpoints, polling cadence, data stores, secrets, blockers, and update invariants.
+## [2026-06-27] ops | AgentCore architecture memory
 - Added `.cursor/rules/architecture-memory.mdc` so future Cursor sessions read and maintain the architecture map when AgentCore systems change.
 - Linked the architecture docs from `agentcore/index.md`, surfaced them in `agentcore/hot-cache.md`, and updated `AGENTS.md` to require architecture-doc maintenance for system changes.
