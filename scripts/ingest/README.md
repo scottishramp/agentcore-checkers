@@ -6,6 +6,9 @@ Cross-channel ingestion utilities for Drive documents and Android photo uploads.
 
 - Drive + photo ingest:
   - `npm run ingest:drive`
+- Google Photos Picker session helper:
+  - `npm run photos:picker -- create --max-items 20`
+  - After Brian completes the picker link, poll with `npm run photos:picker -- get SESSION_ID` and list selected items with `npm run photos:picker -- list SESSION_ID`.
 - Build combined ingestion summary:
   - `npm run ingest:summary`
 - Dispatch async runner from new-ingest event:
@@ -24,9 +27,9 @@ Cross-channel ingestion utilities for Drive documents and Android photo uploads.
 - Optional:
   - `AGENTCORE_GMAIL_AUTHORIZED_USER_FILE` (OAuth authorized-user JSON path)
   - `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON` (OAuth authorized-user JSON inline)
-  - OAuth consent uses the admin-assistant bundle in `scripts/email/gmail_oauth_setup.py`: read access for Brian-shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive files, Workspace docs, Tasks, and app-created Photos media.
+  - OAuth consent uses the admin-assistant bundle in `scripts/email/gmail_oauth_setup.py`: read access for Brian-shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive files, Workspace docs, Tasks, app-created Photos media, and user-selected Google Photos Picker sessions.
   - Google Keep share notifications can be recognized through Gmail, but Google Keep note content is not available to this personal account through the official API.
-  - Google Photos no longer permits broad unattended library reads; AgentCore can only manage app-created Photos media through the official Library API.
+  - Google Photos no longer permits broad unattended library reads; AgentCore can manage app-created Photos media through the Library API and can ingest user-selected items through the Picker API after OAuth is refreshed with `photospicker.mediaitems.readonly`.
 
 ## Third-Party Share Notifications
 

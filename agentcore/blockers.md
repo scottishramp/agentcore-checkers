@@ -13,13 +13,22 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 - Needed from user: Decision on whether to provision a flight-search API key for AgentCore, or to have AgentCore answer travel-research tasks interactively where web access is available.
 - Resolution:
 
-### 2026-06-07 | Google Photos intake | Broad library reads unavailable
+### 2026-06-25 | Google Maps location sharing | No personal live-location API
 
 - Status: open
-- Blocker: Google Photos no longer permits broad unattended reads of an entire user's photo library through the official Library API. The current OAuth bundle can manage Photos media and albums created by AgentCore's app, but cannot scan every photo in `scottishramp@gmail.com` Google Photos.
-- Why it matters: Brian's desired Android photo/scanning intake cannot rely on background Photos library polling unless a supported Picker/manual-share workflow is added.
-- Proposed default: Use Google Drive upload/share folders, email attachments, or direct Drive sharing for document-photo intake; consider a future interactive Google Photos Picker flow only if Drive-based intake is not enough.
-- Needed from user: None for Drive/email photo intake. User input would be needed only for an interactive Photos Picker workflow.
+- Blocker: Google Maps location-sharing emails are visible in Gmail, but Google does not provide a supported API for personal real-time Maps location sharing. Google Maps Platform Journey Sharing/Fleet Engine APIs apply to app-managed trips, deliveries, and fleets, not Brian's personal Maps share.
+- Why it matters: AgentCore cannot reliably record Brian's live Maps location unattended through an official API even though the share notification exists.
+- Proposed default: Use non-Maps alternatives for automation: Brian can send/share location through Chat when needed, upload/export Timeline data from his phone for historical backfill, or use a separate purpose-built location logging app/workflow if live automation becomes important.
+- Needed from user: Choose whether location support should be manual/contextual only, Timeline-export based, or implemented through a separate location logging workflow.
+- Resolution:
+
+### 2026-06-07 | Google Photos intake | Broad library reads unavailable; Picker path pending consent
+
+- Status: open
+- Blocker: Google Photos no longer permits broad unattended reads of an entire user's photo library through the official Library API. AgentCore can manage app-created Photos media and now has repo support for Google Photos Picker sessions, but the current OAuth token does not yet include `https://www.googleapis.com/auth/photospicker.mediaitems.readonly`.
+- Why it matters: Brian's desired Android photo/scanning intake cannot rely on background Photos library polling. User-selected photo intake is available, but it requires an interactive Picker flow and refreshed OAuth consent before the helper can create sessions.
+- Proposed default: Continue using Google Drive upload/share folders, email attachments, or direct Drive sharing for unattended document-photo intake. Use `npm run photos:picker -- create --max-items N` after OAuth refresh when Brian wants to select items from Google Photos.
+- Needed from user: OAuth re-consent for the new Picker scope and manual item selection in Google Photos Picker when using that flow.
 - Resolution:
 
 ### 2026-06-05 | Google Keep ingestion | OAuth token lacks Keep scope

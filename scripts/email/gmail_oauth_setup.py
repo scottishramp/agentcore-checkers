@@ -45,6 +45,8 @@ SCOPES = [
     "https://www.googleapis.com/auth/photoslibrary.appendonly",
     "https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata",
     "https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata",
+    # User-selected Google Photos intake must use the newer Picker API.
+    "https://www.googleapis.com/auth/photospicker.mediaitems.readonly",
 ]
 
 

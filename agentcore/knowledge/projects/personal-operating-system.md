@@ -11,6 +11,16 @@ Keep AgentCore ready to help Brian across personal projects, diet, scheduling, k
 - Durable memory: this repository under `agentcore/`.
 - Source files: AgentCore Google Drive for documents, scans, exports, and organized working files when AgentCore has permission.
 
+## Verified Access Inventory
+
+- Gmail: active for `scottishramp@gmail.com`; AgentCore can read trusted-client messages and send replies through the Gmail API.
+- Google Chat: active direct-message space `spaces/6RZ69yAAAAE`; AgentCore can fetch Brian's messages and send replies through the Chat API.
+- Google Calendar: active readonly access to Brian's shared calendar, shown through the API as `briandherbert@googlemail.com` with reader access and event-detail visibility.
+- Google Drive/Docs: active readonly access to Brian-shared Drive items; `Life 2026` is visible and exportable through the Drive API.
+- Google Maps location sharing: share-notification emails are visible in Gmail, including "See Brian Herbert's real-time location on Google Maps"; Google does not expose a supported API for personal real-time Maps location sharing. Supported alternatives are manual/browser viewing, Brian sharing periodic location via Chat, or Brian exporting Timeline data from his phone for backfill analysis.
+- Google Keep: share notifications for note `Stage` are visible, but the note body is not readable through supported Google APIs for AgentCore's personal Google account.
+- Google Photos: app-created Photos artifacts are accessible. Broad unattended reads of Brian's full Photos library are not supported by the official API, but user-selected photo intake is supported through the Google Photos Picker API once AgentCore's OAuth token is refreshed with `photospicker.mediaitems.readonly`.
+
 ## Operating Areas
 
 ### Diet and Food

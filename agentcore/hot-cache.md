@@ -32,6 +32,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: runner notification hardening. If an async task's repo push is rejected, the runner should still send the Email/Chat response and continue ledger/finalization steps.
 - Active initiative: Brian personal operating system and family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
 - Operating hub: `agentcore/knowledge/projects/personal-operating-system.md` covers diet, scheduling, kid school logistics, app ideas, and personal management defaults.
+- Google access inventory: Gmail, Brian DM Google Chat, Brian shared Calendar, and shared Drive/Docs are live. Maps location share emails are visible but personal live Maps location has no supported API. Keep body remains blocked. Broad Photos reads remain blocked, but user-selected Photos intake can use the Picker helper after OAuth is refreshed with `photospicker.mediaitems.readonly`.
 - Brian family context: Brian was born 1983-09-10; married Kristin Herbert on 2006-05-27; children are Daniel, Nathan, Ezra, Silver, and Levi.
 - Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
 
@@ -60,15 +61,15 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Added Google Photos Picker support path: OAuth helper requests `photospicker.mediaitems.readonly`, `scripts/photos/picker_session.py` can create/get/list/delete Picker sessions after consent refresh, and docs/blockers explain the interactive flow.
+- `agentcore/knowledge/projects/personal-operating-system.md` and `agentcore/knowledge/people/brian-herbert.md` — recorded current Google access inventory: Gmail, Chat, Calendar, Drive/Docs active; Maps share emails visible but no live-location API; Keep/Photos limitations remain.
 - `agentcore/knowledge/projects/personal-operating-system.md` — created operating hub for diet, scheduling, kid school logistics, app ideas, personal management, intake defaults, and sensitivity defaults.
 - `agentcore/knowledge/people/brian-herbert-food-log.md` — logged 2026-06-26 breakfast (2 eggs, Colby jack, sourdough) + lunch (4 slices pepperoni bread, Twix, Fritos Twists, cookie); ~2,030 cal so far.
 - Fixed missed successive Chat messages: `fetch_messages.py` now requests `orderBy=createTime desc` so the newest messages are always on page 1 (the Chat API defaults to oldest-first + pagination, so recent messages were dropped once history passed 50). Agent-runner fetch uses `--bootstrap-window 30` so a cache loss recovers recent messages; the git-tracked ledger prevents duplicate replies.
 - Food check-ins at noon and 6 PM ask "What'd you eat since last time?" (ids `food-checkin-midday`/`food-checkin-evening`). `send_scheduled_messages.py` migrates legacy dedup keys (`food-checkin-dinner` → `food-checkin-evening`) so renamed ids do not re-send within the same window.
 - Food-log reply style (Brian, 2026-06-26): do NOT repeat Brian's food back to him. Log the meal and reply with totals/notes only — never echo the items he just reported.
 - Fixed duplicate Chat messages: proactive sends now owned ONLY by agent-runner; dedup state is git-tracked.
-- `agentcore/knowledge/communications/scheduled-messages-state.json` — durable, git-tracked dedup state for scheduled sends.
 - `scripts/chat/send_scheduled_messages.py` — state moved out of gitignored `.agentcore/state/` to the tracked path.
-- `.github/workflows/email-sync.yml` — removed proactive Chat sends (read-only workflow can't persist dedup state).
 
 ## Operating Note: proactive Chat sends
 

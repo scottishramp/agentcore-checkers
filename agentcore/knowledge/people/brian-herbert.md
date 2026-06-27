@@ -34,9 +34,13 @@ Brian Herbert is AgentCore's trusted client and the person AgentCore assists wit
 
 ## Shared Google Resources
 
+- Gmail: trusted-client email `briandherbert@gmail.com` is readable for task intake; AgentCore can reply from `scottishramp@gmail.com` through Gmail API.
+- Google Chat: direct-message space `spaces/6RZ69yAAAAE` is active; AgentCore can fetch Brian-authored messages and reply through Chat API.
 - Drive: `Life 2026` document shared with viewer access.
 - Calendar: `briandherbert@googlemail.com` shared with `scottishramp@gmail.com` as reader with full event-detail visibility (shared 2026-06-08).
+- Maps location: Google Maps real-time location share notification emails are visible in Gmail from `noreply-location-sharing+...@google.com`; Google does not provide a supported API for personal live Maps location sharing, so automation needs a manual, Timeline-export, or separate location-logging workflow.
 - Keep: note `Stage` shared with `scottishramp@gmail.com` (share notifications 2026-06-05 and 2026-06-08). Note body not readable via API; metadata at `agentcore/sources/web/keep-note-stage.md`.
+- Photos: broad unattended library reads are blocked by Google Photos API changes; user-selected photo intake can use Google Photos Picker after OAuth is refreshed with `photospicker.mediaitems.readonly`.
 
 ## Current Admin Setup
 

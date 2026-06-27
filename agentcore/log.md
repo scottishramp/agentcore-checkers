@@ -373,6 +373,20 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Created `agentcore/knowledge/projects/personal-operating-system.md` as the durable operating hub for helping Brian with diet, scheduling, kid school logistics, app ideas, personal management, intake defaults, and sensitivity defaults.
 - Linked the hub from `agentcore/index.md` and `agentcore/hot-cache.md` so future sessions can find it quickly.
 
+## [2026-06-25] ops | Google access inventory
+
+- Took stock of current Google access using metadata-only live probes.
+- Confirmed active Gmail, Google Chat, Calendar, and Drive/Docs access for AgentCore's `scottishramp@gmail.com` account.
+- Confirmed Google Maps real-time location share notification emails are visible in Gmail, but no supported live-location API or repo integration is available yet.
+- Reconfirmed existing Keep and Photos limitations.
+
+## [2026-06-25] ops | Google blocked-surface research
+
+- Researched official unblock paths for Google Maps location sharing, Google Keep, and Google Photos.
+- Confirmed Google Maps personal live-location sharing has no supported API; Maps Platform Journey Sharing/Fleet Engine is for app-managed trips/fleets, not Brian's personal Maps share. Timeline/history access is also not available through a public API; current practical route is a manual phone export for backfill.
+- Confirmed Google Keep API remains Workspace/admin-oriented and is not a supported path for Brian's personal shared Keep note body.
+- Found a supported partial unblock for Google Photos: the newer Photos Picker API supports user-selected media. Added `photospicker.mediaitems.readonly` to the OAuth helper and created `scripts/photos/picker_session.py` to create, poll, list, and delete Picker sessions once OAuth is refreshed.
+
 ## [2026-06-26] preference | Don't repeat food back
 
 - Brian asked (Google Chat): in the future don't repeat his food back to him.
