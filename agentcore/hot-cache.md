@@ -27,15 +27,16 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: trusted third-party share notification intake. Google Drive/Keep share emails are accepted when the body names Brian's trusted email and the message is addressed to AgentCore.
 - Delivered: Calendar readonly access. Brian shared `briandherbert@googlemail.com` with `scottishramp@gmail.com`; AgentCore can list it through Google Calendar API as `reader` and read upcoming events.
 - Delivered: broad admin-assistant OAuth bundle. AgentCore has read access for shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive/Docs/Sheets/Slides/Tasks/app-created Photos artifacts.
-- Delivered: Google Chat app fast router at `https://agentcore-fast-router.vercel.app/api/agentcore-chat`. Gemini 2.5 Flash gives instant shallow replies; deeper tasks dispatch to Cursor async. **This is the primary Chat interface — message the AgentCore app in Google Chat, not the scottishramp@gmail.com human DM.**
-- Disabled: inbound human-DM Chat polling and pseudo-synchronous runner loop (too slow). Outbound scheduled check-ins still send via Chat API.
+- Delivered: Google Chat browser/API send and polling baseline. AgentCore can send Chat DMs, fetch Brian's DM messages, queue them as async tasks, and reply back into Chat after runner completion.
+- Delivered: bounded pseudo-synchronous Google Chat mode in GitHub Actions. For conversational Chat tasks during 09:00-20:00 `America/Chicago`, the runner can keep polling/replying for a short session.
+- Delivered: Vercel-hosted Google Chat fast router endpoint at `https://agentcore-fast-router.vercel.app/api/agentcore-chat`. It uses Gemini 2.5 Flash for synchronous replies and `repository_dispatch` for async Cursor handoff. The router now logs received events and includes compact recent Brian DM + scheduled-message context. Brian-facing live HTTP app verification is still blocked; finish `agentcore-chat-brian` Cloud Console config after Brian completes browser passkey sign-in.
 - Delivered: runner notification hardening. If an async task's repo push is rejected, the runner should still send the Email/Chat response and continue ledger/finalization steps.
 - Active initiative: Brian personal operating system and family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
 - Operating hub: `agentcore/knowledge/projects/personal-operating-system.md` covers diet, scheduling, kid school logistics, app ideas, and personal management defaults.
 - System architecture hub: `agentcore/knowledge/architecture/system-architecture.md` documents communication surfaces, workflows, hosted endpoints, polling cadence, data stores, secrets, blockers, and architecture update requirements.
 - Google access inventory: Gmail, Brian DM Google Chat, Brian shared Calendar, and shared Drive/Docs are live. Maps location share emails are visible but personal live Maps location has no supported API. Keep body remains blocked. Broad Photos reads remain blocked, but user-selected Photos intake can use the Picker helper after OAuth is refreshed with `photospicker.mediaitems.readonly`.
 - Brian family context: Brian was born 1983-09-10; married Kristin Herbert on 2006-05-27; children are Daniel, Nathan, Ezra, Silver, and Levi.
-- Open blockers: Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
+- Open blockers: HTTP Google Chat app visibility/live testing for Brian is not yet verified and currently needs Brian browser passkey sign-in; Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
 
 ## Operating Preferences
 
@@ -44,7 +45,9 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Google operating model: know what Brian shares with `scottishramp@gmail.com`, treat Brian-shared resources as read surfaces unless explicit edit authority is granted, and write/organize durable artifacts in AgentCore's own Google space.
 - Use `briandherbert@gmail.com` and Brian's direct Google Chat with AgentCore as trusted client channels for questions, updates, and task requests.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
-- **Chat with AgentCore via the Google Chat app** (search "AgentCore" in Google Chat). Do not message `scottishramp@gmail.com` directly — that slow polling path is disabled.
+- Treat direct Google Chat messages from Brian as agent instructions by default; jobs poll the Brian DM space `spaces/6RZ69yAAAAE`, skip AgentCore-authored messages, queue Brian-authored text as tasks, and reply naturally in Chat.
+- Do not disable Brian DM polling until the HTTP Chat app is verified live for Brian. The `scottishramp`-owned app could not expose tester visibility to Brian; use the Brian-owned project `agentcore-chat-brian` once Brian completes Cloud Console passkey sign-in in the browser.
+- For short conversational Chat messages during 09:00-20:00 `America/Chicago`, the runner may keep a bounded sync loop open (default 15 minutes, 20 second polling) to continue the conversation inside one GitHub Actions runtime.
 - If Brian says exactly `sync`, use the project `github-sync` skill to sync local and remote GitHub state with Cursor agent judgment. Do not rely on a custom sync script.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
@@ -62,7 +65,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- Switched to bot-only Chat: disabled inbound human-DM polling and pseudo-sync loop; AgentCore Google Chat app is the primary interface.
+- Added `agentcore/knowledge/architecture/system-architecture.md` and `.cursor/rules/architecture-memory.mdc` so AgentCore system architecture is documented and future architecture changes update the docs.
 - Added fast-router request logging and compact recent Chat automation context; deployed to Vercel. Created Brian-owned Cloud project `agentcore-chat-brian`; setup is paused at Brian browser passkey sign-in.
 - Deployed Google Chat fast router to Vercel: `https://agentcore-fast-router.vercel.app/api/agentcore-chat`, set production secrets, saved Google Chat API HTTP endpoint config, and documented the remaining visibility/live-test blocker.
 - Added Google Photos Picker support path: OAuth helper requests `photospicker.mediaitems.readonly`, `scripts/photos/picker_session.py` can create/get/list/delete Picker sessions after consent refresh, and docs/blockers explain the interactive flow.

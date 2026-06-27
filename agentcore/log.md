@@ -407,9 +407,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Confirmed a message sent in the existing Brian <-> `scottishramp` DM does not reach the Vercel router; that DM still uses the async polling workflow.
 - Created new Google Cloud project `agentcore-chat-brian` under `briandherbert@gmail.com` and enabled Chat API. Browser configuration is blocked until Brian completes Google Cloud Console sign-in with his passkey.
 
-## [2026-06-27] ops | Bot-only Google Chat
+## [2026-06-27] ops | AgentCore architecture memory
 
-- Disabled inbound human-DM Chat polling from `email-sync.yml` and `agent-runner.yml`.
-- Removed the pseudo-synchronous Chat runner loop (`synchronous_loop.py` step).
-- Primary Chat interface is now the AgentCore Google Chat app (Vercel fast router). Message the app in Google Chat, not `scottishramp@gmail.com` directly.
-- Updated architecture docs, hot-cache, playbook, and resolved the Chat app visibility blocker.
+- Created `agentcore/knowledge/architecture/system-architecture.md` as the primary architecture map for communication surfaces, workflows, hosted endpoints, polling cadence, data stores, secrets, blockers, and update invariants.
+- Added `.cursor/rules/architecture-memory.mdc` so future Cursor sessions read and maintain the architecture map when AgentCore systems change.
+- Linked the architecture docs from `agentcore/index.md`, surfaced them in `agentcore/hot-cache.md`, and updated `AGENTS.md` to require architecture-doc maintenance for system changes.

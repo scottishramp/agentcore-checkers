@@ -69,7 +69,23 @@ jobs:
       - name: Triage messages
         run: python3 scripts/email/triage_messages.py
 
-      # Inbound Google Chat uses the HTTP Chat app (Vercel fast router), not DM polling.
+      - name: Fetch Chat messages
+        env:
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+          AGENTCORE_CHAT_SELF_USER_NAME: ${{ secrets.AGENTCORE_CHAT_SELF_USER_NAME || 'users/112143982168307832773' }}
+        # bootstrap-window 30: if the cursor cache is ever lost, recover the
+        # most recent messages instead of silently dropping them. The
+        # git-tracked chat-thread-ledger dedups anything already answered, so
+        # this cannot cause duplicate replies.
+        run: python3 scripts/chat/fetch_messages.py --limit 50 --bootstrap-window 30
+
+      - name: Triage Chat messages
+        run: python3 scripts/chat/triage_messages.py
 
       - name: Send scheduled Chat messages
         env:
@@ -288,6 +304,31 @@ jobs:
             git pull --rebase origin main
             git push
           fi
+
+      - name: Maintain synchronous Chat session
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done' && steps.claim.outputs.source_kind == 'google_chat'
+        env:
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+          AGENTCORE_TASK_RUN_COMMAND: ${{ secrets.AGENTCORE_TASK_RUN_COMMAND || 'python3 scripts/agent/run_cursor_task.py --task-file {{TASK_FILE}} --workspace .' }}
+          AGENTCORE_TASK_RUN_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_TASK_RUN_TIMEOUT_SECONDS || '900' }}
+          AGENTCORE_CURSOR_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_CURSOR_TIMEOUT_SECONDS || '1200' }}
+          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+          AGENTCORE_CHAT_SELF_USER_NAME: ${{ secrets.AGENTCORE_CHAT_SELF_USER_NAME || 'users/112143982168307832773' }}
+          AGENTCORE_CHAT_SYNC_WINDOW_ENABLED: ${{ secrets.AGENTCORE_CHAT_SYNC_WINDOW_ENABLED || 'true' }}
+          AGENTCORE_CHAT_SYNC_MAX_MINUTES: ${{ secrets.AGENTCORE_CHAT_SYNC_MAX_MINUTES || '15' }}
+          AGENTCORE_CHAT_SYNC_POLL_SECONDS: ${{ secrets.AGENTCORE_CHAT_SYNC_POLL_SECONDS || '20' }}
+          AGENTCORE_CHAT_SYNC_TIMEZONE: ${{ secrets.AGENTCORE_CHAT_SYNC_TIMEZONE || 'America/Chicago' }}
+          AGENTCORE_CHAT_SYNC_START_HOUR: ${{ secrets.AGENTCORE_CHAT_SYNC_START_HOUR || '9' }}
+          AGENTCORE_CHAT_SYNC_END_HOUR: ${{ secrets.AGENTCORE_CHAT_SYNC_END_HOUR || '20' }}
+        run: |
+          python3 scripts/chat/synchronous_loop.py \
+            --seed-task-file "${{ steps.claim.outputs.task_file }}" \
+            --summary-output .agentcore/state/chat-sync-loop-summary.json
 
       - name: Drain remaining queued tasks
         if: always()
