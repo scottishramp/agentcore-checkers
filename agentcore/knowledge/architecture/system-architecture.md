@@ -30,6 +30,8 @@ Flow:
 
 Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 
+Bot: `@AgentCoreFam_bot`
+
 ### Normal Google Chat DM
 
 Brian currently messages the normal Google account `scottishramp@gmail.com`.

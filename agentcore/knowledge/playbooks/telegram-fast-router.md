@@ -35,7 +35,7 @@ Webhook URL: `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`
 
 ### 4. Start chatting
 
-Search for your bot username in Telegram and send a message. Replies should arrive in 1–3 seconds.
+Search for **`@AgentCoreFam_bot`** in Telegram and send a message. Replies should arrive in 1–3 seconds.
 
 ## Family sharing
 
