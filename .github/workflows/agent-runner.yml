@@ -51,6 +51,9 @@ jobs:
           restore-keys: |
             agentcore-queue-state-
 
+      - name: Repair cached JSON state
+        run: python3 scripts/agent/repair_cached_json_state.py
+
       - name: Fetch inbox
         env:
           AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
