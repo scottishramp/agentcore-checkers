@@ -63,7 +63,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- Added Telegram bot `@AgentCoreFam_bot` live with webhook; token stored in Vercel/GitHub secrets only.
+- Added Telegram bot `@AgentCoreFam_bot` live with webhook; fast-router context now includes `brian-herbert-food-log.md` for meal questions.
 - Added fast-router request logging and compact recent Chat automation context; deployed to Vercel. Created Brian-owned Cloud project `agentcore-chat-brian`; setup is paused at Brian browser passkey sign-in.
 - Deployed Google Chat fast router to Vercel: `https://agentcore-fast-router.vercel.app/api/agentcore-chat`, set production secrets, saved Google Chat API HTTP endpoint config, and documented the remaining visibility/live-test blocker.
 - Added Google Photos Picker support path: OAuth helper requests `photospicker.mediaitems.readonly`, `scripts/photos/picker_session.py` can create/get/list/delete Picker sessions after consent refresh, and docs/blockers explain the interactive flow.

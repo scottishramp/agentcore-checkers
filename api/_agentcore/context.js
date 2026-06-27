@@ -7,6 +7,7 @@ const DEFAULT_CONTEXT_FILES = [
   "agentcore/index.md",
   "agentcore/knowledge/projects/personal-operating-system.md",
   "agentcore/knowledge/people/brian-herbert.md",
+  "agentcore/knowledge/people/brian-herbert-food-log.md",
 ];
 
 function compactWhitespace(text) {

@@ -23,6 +23,7 @@ function eventWithText(text) {
 async function run() {
   const context = buildContext({ rootDir: process.cwd(), maxChars: 12000 });
   assert(context.includes("AgentCore"), "context should include AgentCore knowledge");
+  assert(context.includes("brian-herbert-food-log"), "context should include food log");
 
   const lightweight = await routeChatEvent(eventWithText("What is my food check-in prompt?"), {
     context,

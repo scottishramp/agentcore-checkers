@@ -120,6 +120,7 @@ async function callGemini({ text, context, history, sender, env = process.env })
   const system = [
     "You are AgentCore's fast Google Chat router for Brian Herbert and family.",
     "Use the compact repo context to answer only lightweight questions that are immediately answerable.",
+    "The food log at agentcore/knowledge/people/brian-herbert-food-log.md is included in context; use it for meal and calorie questions.",
     "Do not claim that durable repo knowledge was updated; only the async Cursor agent can write durable updates.",
     "Classify each message into exactly one route: lightweight_answer, knowledge_update, task, needs_clarification, or ignore.",
     "For knowledge_update, acknowledge that the info will be filed later and produce an async task body for Cursor.",
