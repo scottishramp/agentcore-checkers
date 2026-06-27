@@ -1,0 +1,12 @@
+---
+description: Maintain AgentCore architecture memory
+alwaysApply: true
+---
+
+# Architecture Memory
+
+- For substantial AgentCore system work, read `agentcore/knowledge/architecture/system-architecture.md` along with `agentcore/hot-cache.md`, `agentcore/index.md`, and `agentcore/blockers.md`.
+- Update `agentcore/knowledge/architecture/system-architecture.md` whenever changing communication channels, GitHub Actions workflows, hosted endpoints, deployment targets, OAuth scopes, polling cadence, queue semantics, data stores, ledgers, or durable knowledge locations.
+- After architecture changes, also update `agentcore/hot-cache.md`, `agentcore/index.md` if new pages are added, and append `agentcore/log.md`.
+- If an architecture change is blocked by login, passkey, 2FA, missing authority, external API limits, or major ambiguity, record it in `agentcore/blockers.md`.
+- Keep architecture docs factual and current; distinguish normal Google Chat DM polling from Google Chat app webhook behavior.

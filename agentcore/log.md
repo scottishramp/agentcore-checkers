@@ -406,3 +406,9 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Redeployed `https://agentcore-fast-router.vercel.app/api/agentcore-chat` with the logging/context changes.
 - Confirmed a message sent in the existing Brian <-> `scottishramp` DM does not reach the Vercel router; that DM still uses the async polling workflow.
 - Created new Google Cloud project `agentcore-chat-brian` under `briandherbert@gmail.com` and enabled Chat API. Browser configuration is blocked until Brian completes Google Cloud Console sign-in with his passkey.
+
+## [2026-06-27] ops | AgentCore architecture memory
+
+- Created `agentcore/knowledge/architecture/system-architecture.md` as the primary architecture map for communication surfaces, workflows, hosted endpoints, polling cadence, data stores, secrets, blockers, and update invariants.
+- Added `.cursor/rules/architecture-memory.mdc` so future Cursor sessions read and maintain the architecture map when AgentCore systems change.
+- Linked the architecture docs from `agentcore/index.md`, surfaced them in `agentcore/hot-cache.md`, and updated `AGENTS.md` to require architecture-doc maintenance for system changes.

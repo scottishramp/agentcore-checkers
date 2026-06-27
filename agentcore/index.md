@@ -32,6 +32,8 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Kristin Herbert](knowledge/people/kristin-herbert.md): Brian's spouse and immediate family context.
 - [Herbert Children](knowledge/people/herbert-children.md): Brian and Kristin's children for family administration context.
 - [Organizations](knowledge/organizations/): organizations relevant to projects.
+- [Architecture](knowledge/architecture/): current AgentCore system architecture, communication surfaces, workflows, data stores, and operational invariants.
+- [AgentCore System Architecture](knowledge/architecture/system-architecture.md): primary map of Google Chat, email, fast router, workflows, polling cadence, secrets, and update requirements.
 - [Communications](knowledge/communications/README.md): deterministic communication ingestion summaries, email thread state, and ledgers.
 - [Concepts](knowledge/concepts/): reusable ideas, frameworks, and research themes.
 - [UX Message Design](knowledge/concepts/ux-message-design.md): precise failure classification for user-facing status messages.

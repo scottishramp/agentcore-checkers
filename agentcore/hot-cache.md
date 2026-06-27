@@ -33,6 +33,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: runner notification hardening. If an async task's repo push is rejected, the runner should still send the Email/Chat response and continue ledger/finalization steps.
 - Active initiative: Brian personal operating system and family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
 - Operating hub: `agentcore/knowledge/projects/personal-operating-system.md` covers diet, scheduling, kid school logistics, app ideas, and personal management defaults.
+- System architecture hub: `agentcore/knowledge/architecture/system-architecture.md` documents communication surfaces, workflows, hosted endpoints, polling cadence, data stores, secrets, blockers, and architecture update requirements.
 - Google access inventory: Gmail, Brian DM Google Chat, Brian shared Calendar, and shared Drive/Docs are live. Maps location share emails are visible but personal live Maps location has no supported API. Keep body remains blocked. Broad Photos reads remain blocked, but user-selected Photos intake can use the Picker helper after OAuth is refreshed with `photospicker.mediaitems.readonly`.
 - Brian family context: Brian was born 1983-09-10; married Kristin Herbert on 2006-05-27; children are Daniel, Nathan, Ezra, Silver, and Levi.
 - Open blockers: HTTP Google Chat app visibility/live testing for Brian is not yet verified and currently needs Brian browser passkey sign-in; Google Keep note content is not available to AgentCore's personal Google account through the official Keep API; broad unattended Google Photos library reads are no longer available through the official Library API.
@@ -50,6 +51,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - If Brian says exactly `sync`, use the project `github-sync` skill to sync local and remote GitHub state with Cursor agent judgment. Do not rely on a custom sync script.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
+- For substantial AgentCore system work, read and maintain `agentcore/knowledge/architecture/system-architecture.md`; update it whenever communication channels, workflows, hosted endpoints, OAuth scopes, polling cadence, queue semantics, data stores, or durable knowledge locations change.
 - Commit, push, and deployment/activation are implicit parts of any completed change unless Brian explicitly says to keep changes local, avoid committing, avoid pushing, or not deploy.
 - Google Keep share notification `Stage` is visible in Gmail from `keep-shares-dm-noreply@google.com`, but reading note content through the official Keep API is not available for AgentCore's personal Google account.
 - Google Photos no longer permits broad unattended library reads through the official Library API; AgentCore can manage app-created Photos media, while Brian photo intake should use Drive/email/share workflows unless a future Photos Picker flow is built.
@@ -63,13 +65,13 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Added `agentcore/knowledge/architecture/system-architecture.md` and `.cursor/rules/architecture-memory.mdc` so AgentCore system architecture is documented and future architecture changes update the docs.
 - Added fast-router request logging and compact recent Chat automation context; deployed to Vercel. Created Brian-owned Cloud project `agentcore-chat-brian`; setup is paused at Brian browser passkey sign-in.
 - Deployed Google Chat fast router to Vercel: `https://agentcore-fast-router.vercel.app/api/agentcore-chat`, set production secrets, saved Google Chat API HTTP endpoint config, and documented the remaining visibility/live-test blocker.
 - Added Google Photos Picker support path: OAuth helper requests `photospicker.mediaitems.readonly`, `scripts/photos/picker_session.py` can create/get/list/delete Picker sessions after consent refresh, and docs/blockers explain the interactive flow.
 - `agentcore/knowledge/projects/personal-operating-system.md` and `agentcore/knowledge/people/brian-herbert.md` — recorded current Google access inventory: Gmail, Chat, Calendar, Drive/Docs active; Maps share emails visible but no live-location API; Keep/Photos limitations remain.
 - `agentcore/knowledge/projects/personal-operating-system.md` — created operating hub for diet, scheduling, kid school logistics, app ideas, personal management, intake defaults, and sensitivity defaults.
 - `agentcore/knowledge/people/brian-herbert-food-log.md` — logged 2026-06-26 breakfast (2 eggs, Colby jack, sourdough) + lunch (4 slices pepperoni bread, Twix, Fritos Twists, cookie); ~2,030 cal so far.
-- Fixed missed successive Chat messages: `fetch_messages.py` now requests `orderBy=createTime desc` so the newest messages are always on page 1 (the Chat API defaults to oldest-first + pagination, so recent messages were dropped once history passed 50). Agent-runner fetch uses `--bootstrap-window 30` so a cache loss recovers recent messages; the git-tracked ledger prevents duplicate replies.
 - Food check-ins at noon and 6 PM ask "What'd you eat since last time?" (ids `food-checkin-midday`/`food-checkin-evening`). `send_scheduled_messages.py` migrates legacy dedup keys (`food-checkin-dinner` → `food-checkin-evening`) so renamed ids do not re-send within the same window.
 - Food-log reply style (Brian, 2026-06-26): do NOT repeat Brian's food back to him. Log the meal and reply with totals/notes only — never echo the items he just reported.
 - Fixed duplicate Chat messages: proactive sends now owned ONLY by agent-runner; dedup state is git-tracked.
