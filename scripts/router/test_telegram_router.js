@@ -82,6 +82,52 @@ async function run() {
   assert.equal(taskRouted._meta.route, "task");
   assert.equal(taskRouted._meta.queue_status, "skipped");
 
+  const photoUpdate = {
+    update_id: 126,
+    message: {
+      message_id: 459,
+      caption: "Receipt from lunch",
+      photo: [
+        { file_id: "small", width: 90, height: 90, file_size: 1000 },
+        { file_id: "large-photo-id", width: 1280, height: 960, file_size: 50000 },
+      ],
+      chat: { id: 999001, type: "private" },
+      from: { id: 111, first_name: "Brian", username: "brianh" },
+    },
+  };
+  const photoEvent = updateToEvent(photoUpdate);
+  assert(photoEvent, "photo update should map to router event");
+  assert.equal(photoEvent.message.text, "Receipt from lunch");
+  assert.equal(photoEvent.agentcore.media.telegram_file_id, "large-photo-id");
+  assert.equal(photoEvent.agentcore.media.type, "photo");
+
+  const captionlessPhoto = updateToEvent({
+    update_id: 127,
+    message: {
+      message_id: 460,
+      photo: [{ file_id: "solo-photo", width: 800, height: 600 }],
+      chat: { id: 999001, type: "private" },
+      from: { id: 111, first_name: "Brian" },
+    },
+  });
+  assert.equal(captionlessPhoto.message.text, "[photo attached]");
+  assert.equal(captionlessPhoto.agentcore.media.telegram_file_id, "solo-photo");
+
+  const photoRouted = await routeChatEvent(photoEvent, {
+    history: [],
+    env: { AGENTCORE_FAST_VISION: "false" },
+    describePhotoClient: async () => ({
+      description: "A crumpled paper receipt with itemized lunch charges.",
+    }),
+  });
+  assert.equal(photoRouted._meta.route, "knowledge_update");
+  assert.equal(photoRouted._meta.has_media, true);
+  assert.match(photoRouted._meta.photo_label, /^brianh_/);
+  assert.match(photoRouted.text, /Photo label:/);
+  assert.match(photoRouted.text, /receipt/i);
+  assert.ok(photoRouted.text.includes("\n\n"), "photo reply should keep paragraph breaks");
+  assert.doesNotMatch(photoRouted.text, /Caption:.*Got the receipt/);
+
   console.log("telegram router tests passed");
 }
 

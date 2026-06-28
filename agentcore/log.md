@@ -419,6 +419,16 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Documented setup in `agentcore/knowledge/playbooks/telegram-fast-router.md`.
 - Live activation complete: bot `@AgentCoreFam_bot`, webhook registered, secrets stored in Vercel/GitHub only.
 
+## [2026-06-27] feature | Telegram photo labels + registry (v2.2.0)
+
+- Fast agent assigns `{username}_{YYYYMMDDHHmmss}` labels and detailed vision descriptions in chat replies.
+- `telegram-photo-registry.json` maps labels to Drive URLs; Cursor tasks reply with label + Drive link.
+
+## [2026-06-27] feature | Telegram photo+caption support (v2.1.0)
+
+- Fast router parses `message.photo` + caption; optional Gemini vision via Telegram file download.
+- Redis inbox records include `media` metadata; triage queues photo messages; runner uploads to Drive and writes `agentcore/inbox/photos/`.
+
 ## [2026-06-27] architecture | Telegram-only async agent (v2.0.0)
 
 - Removed Google Chat polling, HTTP app endpoint, and live `repository_dispatch` / `router-task.yml`.

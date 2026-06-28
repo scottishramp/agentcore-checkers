@@ -79,6 +79,30 @@ jobs:
       - name: Triage Telegram messages
         run: python3 scripts/telegram/triage_messages.py
 
+      - name: Materialize Telegram photos to Drive
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_DRIVE_PHOTOS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_PHOTOS_FOLDER_ID }}
+        run: python3 scripts/telegram/materialize_media.py
+
+      - name: Commit Telegram photo materialization
+        continue-on-error: true
+        run: |
+          python3 scripts/agent/ensure_no_conflict_markers.py
+          git add agentcore/inbox/telegram agentcore/inbox/photos agentcore/knowledge/communications/telegram-photo-registry.json
+          if git diff --cached --quiet; then
+            echo "No Telegram photo materialization changes to commit."
+          else
+            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Materialize Telegram photos to Drive"
+            git -c rebase.autoStash=true pull --rebase origin main
+            git push
+          fi
+
       - name: Send scheduled Telegram messages
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
@@ -293,7 +317,7 @@ jobs:
         continue-on-error: true
         run: |
           python3 scripts/agent/ensure_no_conflict_markers.py
-          git add agentcore/knowledge/communications/email-thread-ledger.json agentcore/knowledge/communications/chat-thread-ledger.json agentcore/inbox/tasks agentcore/inbox/telegram
+          git add agentcore/knowledge/communications/email-thread-ledger.json agentcore/knowledge/communications/chat-thread-ledger.json agentcore/inbox/tasks agentcore/inbox/telegram agentcore/inbox/photos agentcore/knowledge/communications/telegram-photo-registry.json
           if git diff --cached --quiet; then
             echo "No ledger changes to commit."
           else

@@ -95,6 +95,7 @@ module.exports = async function handler(request, response) {
       user_id: userId,
       username: event.agentcore.telegram_username,
       text_preview: event.message.text.slice(0, 120),
+      has_media: Boolean(event.agentcore.media),
     });
 
     const routed = await routeChatEvent(event, { context: buildContext() });

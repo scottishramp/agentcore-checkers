@@ -1,5 +1,7 @@
 const { buildContext, runtimeClock, tryDeterministicFoodAnswer } = require("./context");
 const { enqueueTelegramMessage } = require("./inbox-queue");
+const { processPhotoMessage } = require("./photo-labels");
+const { downloadTelegramFile } = require("./telegram");
 const { getHistory, saveHistory } = require("./store");
 const { loadVersionRegistry, tryDeterministicVersionAnswer, versionMetadata } = require("./version");
 
@@ -44,8 +46,18 @@ function chatSpaceName(event) {
       : "";
 }
 
-function fallbackDecision(text) {
+function fallbackDecision(text, options = {}) {
+  const hasMedia = Boolean(options.hasMedia);
   const lowered = text.toLowerCase();
+  if (hasMedia) {
+    return {
+      route: "knowledge_update",
+      response: "Got the photo — the scheduled agent will file it with your note.",
+      async_task_title: "Ingest Telegram photo",
+      async_task_body: text && text !== "[photo attached]" ? text : "Ingest attached Telegram photo.",
+      confidence: 0.72,
+    };
+  }
   if (!text) {
     return {
       route: "lightweight_answer",
@@ -93,10 +105,13 @@ function parseJsonFromText(text) {
   return JSON.parse(candidate);
 }
 
-function normalizeDecision(decision, fallbackText) {
+function normalizeDecision(decision, fallbackText, options = {}) {
   const allowed = new Set(["lightweight_answer", "knowledge_update", "task", "needs_clarification", "ignore"]);
   const route = allowed.has(decision.route) ? decision.route : "task";
-  const response = compactWhitespace(decision.response) || fallbackDecision(fallbackText).response;
+  const rawResponse = String(decision.response || "");
+  const response = options.preserveNewlines
+    ? rawResponse.trim() || fallbackDecision(fallbackText, options).response
+    : compactWhitespace(rawResponse) || fallbackDecision(fallbackText, options).response;
   const rawConfidence = Number(decision.confidence || 0);
   const confidence = rawConfidence > 1 ? rawConfidence / 10 : rawConfidence;
   return {
@@ -112,10 +127,10 @@ function geminiApiKey(env = process.env) {
   return env.GOOGLE_AI_STUDIO_API_KEY || env.GEMINI_API_KEY || env.GOOGLE_API_KEY || "";
 }
 
-async function callGemini({ text, context, history, sender, env = process.env }) {
+async function callGemini({ text, context, history, sender, env = process.env, inlineMedia = null, hasMedia = false }) {
   const apiKey = geminiApiKey(env);
   if (!apiKey) {
-    return fallbackDecision(text);
+    return fallbackDecision(text, { hasMedia });
   }
   const model = env.AGENTCORE_FAST_MODEL || DEFAULT_MODEL;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
@@ -134,6 +149,9 @@ async function callGemini({ text, context, history, sender, env = process.env })
     "Classify each message into exactly one route: lightweight_answer, knowledge_update, task, needs_clarification, or ignore.",
     "For knowledge_update or task: acknowledge naturally in one short sentence. The scheduled agent will see the message later — do not over-explain the pipeline.",
     "For lightweight_answer: answer from context when possible.",
+    hasMedia
+      ? "The user sent a photo. Use the attached image plus caption text. Prefer knowledge_update when the photo or note should be filed for the scheduled agent."
+      : "",
     "Keep responses concise and natural for chat.",
     "Return only JSON with keys route, response, async_task_title, async_task_body, confidence.",
   ].join("\n");
@@ -153,15 +171,25 @@ async function callGemini({ text, context, history, sender, env = process.env })
     historyText || "(none)",
     "",
     `Sender: ${sender.displayName || sender.email || sender.name || "unknown"}`,
+    hasMedia ? "Incoming message includes a photo attachment for this turn." : "",
     "Incoming message:",
     text,
   ].join("\n");
+  const userParts = [{ text: prompt }];
+  if (inlineMedia && inlineMedia.buffer && inlineMedia.mime_type) {
+    userParts.push({
+      inlineData: {
+        mimeType: inlineMedia.mime_type,
+        data: inlineMedia.buffer.toString("base64"),
+      },
+    });
+  }
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       systemInstruction: { parts: [{ text: system }] },
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      contents: [{ role: "user", parts: userParts }],
       generationConfig: {
         temperature: 0.2,
         maxOutputTokens: 700,
@@ -175,13 +203,17 @@ async function callGemini({ text, context, history, sender, env = process.env })
   }
   const parts = (((payload.candidates || [])[0] || {}).content || {}).parts || [];
   const modelText = parts.map((part) => part.text || "").join("\n").trim();
-  return normalizeDecision(parseJsonFromText(modelText), text);
+  return normalizeDecision(parseJsonFromText(modelText), text, { hasMedia });
+}
+
+function eventMedia(event) {
+  return event && event.agentcore && event.agentcore.media ? event.agentcore.media : null;
 }
 
 function dispatchMetaFromEvent(event) {
   const meta = event && event.agentcore && typeof event.agentcore === "object" ? event.agentcore : {};
   return {
-    source_kind: meta.source_kind || "google_chat",
+    source_kind: meta.source_kind || "telegram",
     chat_message_name: meta.message_id || chatMessageName(event),
     chat_space: meta.conversation_id || chatSpaceName(event),
     chat_sender_name: meta.sender_id || senderForEvent(event).name,
@@ -190,14 +222,17 @@ function dispatchMetaFromEvent(event) {
     telegram_user_id: meta.telegram_user_id || "",
     telegram_username: meta.telegram_username || "",
     conversation_key: meta.conversation_key || conversationKeyForEvent(event),
+    media: meta.media || null,
   };
 }
 
-async function enqueueInboxMessage({ event, text, decision, env = process.env }) {
+async function enqueueInboxMessage({ event, text, decision, photoMeta = {}, env = process.env }) {
   const meta = dispatchMetaFromEvent(event);
   if (meta.source_kind !== "telegram") {
     return { status: "not_applicable" };
   }
+  const media = meta.media;
+  const taskBody = decision.async_task_body || text;
   return enqueueTelegramMessage(
     {
       message_id: meta.chat_message_name,
@@ -210,8 +245,11 @@ async function enqueueInboxMessage({ event, text, decision, env = process.env })
       route: decision.route,
       confidence: decision.confidence,
       fast_response: decision.response,
-      async_task_title: decision.async_task_title || "",
-      async_task_body: decision.async_task_body || text,
+      async_task_title: decision.async_task_title || (media ? "Ingest Telegram photo" : ""),
+      async_task_body: taskBody,
+      photo_label: photoMeta.label || (media && media.photo_label) || "",
+      photo_description: photoMeta.description || (media && media.photo_description) || "",
+      media,
       received_at: new Date().toISOString(),
     },
     env,
@@ -283,38 +321,64 @@ async function routeChatEvent(event, options = {}) {
 
   const text = extractMessageText(event);
   const sender = senderForEvent(event);
+  const media = eventMedia(event);
+  const hasMedia = Boolean(media);
   const conversationKey = conversationKeyForEvent(event);
   const context = options.context || buildContext({ rootDir: options.rootDir });
   const history = options.history || (await getHistory(conversationKey, env).catch(() => []));
+  let inlineMedia = null;
+  if (hasMedia && media.telegram_file_id && env.AGENTCORE_FAST_VISION !== "false") {
+    inlineMedia = await downloadTelegramFile(media.telegram_file_id, env).catch(() => null);
+  }
+  let photoMeta = {};
   let decision;
-  const versionAnswer = tryDeterministicVersionAnswer(text, {
-    rootDir: options.rootDir,
-    env,
-    event,
-  });
-  const deterministic =
-    versionAnswer ||
-    tryDeterministicFoodAnswer(text, {
+  if (hasMedia) {
+    const photoResult = await processPhotoMessage({
+      event,
+      text,
+      inlineMedia,
+      env,
+      describeClient: options.describePhotoClient,
+    });
+    decision = normalizeDecision(photoResult.decision, text, { hasMedia, preserveNewlines: true });
+    photoMeta = { label: photoResult.label, description: photoResult.description };
+    if (event.agentcore) {
+      event.agentcore.media = photoResult.media;
+    }
+  } else {
+    const versionAnswer = tryDeterministicVersionAnswer(text, {
       rootDir: options.rootDir,
       env,
-      clock: options.clock,
+      event,
     });
-  if (deterministic) {
-    decision = normalizeDecision(deterministic, text);
-  } else {
-    try {
-      const modelClient = options.modelClient || callGemini;
-      decision = normalizeDecision(await modelClient({ text, context, history, sender, env }), text);
-    } catch (error) {
-      decision = fallbackDecision(text);
-      decision.response = `${decision.response}\n\n(Fast model routing fell back locally.)`;
+    const deterministic =
+      versionAnswer ||
+      tryDeterministicFoodAnswer(text, {
+        rootDir: options.rootDir,
+        env,
+        clock: options.clock,
+      });
+    if (deterministic) {
+      decision = normalizeDecision(deterministic, text, { hasMedia });
+    } else {
+      try {
+        const modelClient = options.modelClient || callGemini;
+        decision = normalizeDecision(
+          await modelClient({ text, context, history, sender, env, inlineMedia, hasMedia }),
+          text,
+          { hasMedia },
+        );
+      } catch (error) {
+        decision = fallbackDecision(text, { hasMedia });
+        decision.response = `${decision.response}\n\n(Fast model routing fell back locally.)`;
+      }
     }
   }
 
   let queueStatus = { status: "not_needed" };
   const sourceKind = event && event.agentcore && event.agentcore.source_kind;
   if (sourceKind === "telegram") {
-    queueStatus = await enqueueInboxMessage({ event, text, decision, env }).catch(() => ({
+    queueStatus = await enqueueInboxMessage({ event, text, decision, photoMeta, env }).catch(() => ({
       status: "error",
     }));
   }
@@ -322,7 +386,13 @@ async function routeChatEvent(event, options = {}) {
   const nextHistory = [
     ...history,
     { role: "user", text, at: new Date().toISOString() },
-    { role: "assistant", text: decision.response, route: decision.route, at: new Date().toISOString() },
+    {
+      role: "assistant",
+      text: decision.response,
+      route: decision.route,
+      photo_label: photoMeta.label || "",
+      at: new Date().toISOString(),
+    },
   ];
   await saveHistory(conversationKey, nextHistory, env).catch(() => null);
   const registry = loadVersionRegistry({ rootDir: options.rootDir });
@@ -332,6 +402,8 @@ async function routeChatEvent(event, options = {}) {
       route: decision.route,
       confidence: decision.confidence,
       queue_status: queueStatus.status,
+      has_media: hasMedia,
+      photo_label: photoMeta.label || "",
       ...versionMetadata(registry),
     },
     _debug: env.AGENTCORE_ROUTER_DEBUG === "true" ? { decision, queueStatus } : undefined,

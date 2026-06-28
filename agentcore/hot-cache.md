@@ -42,7 +42,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Google operating model: know what Brian shares with `scottishramp@gmail.com`, treat Brian-shared resources as read surfaces unless explicit edit authority is granted, and write/organize durable artifacts in AgentCore's own Google space.
 - Use `briandherbert@gmail.com` and Brian's direct Google Chat with AgentCore as trusted client channels for questions, updates, and task requests.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
-- Fast chat via `@AgentCoreFam_bot`; send `version` for live router semver (currently v2.0.0). Async agent runs on GitHub Actions schedule, not per message.
+- Fast chat via `@AgentCoreFam_bot`; send `version` for live router semver (currently v2.2.0). Async agent runs on GitHub Actions schedule, not per message.
 - If Brian says exactly `sync`, use the project `github-sync` skill to sync local and remote GitHub state with Cursor agent judgment. Do not rely on a custom sync script.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
@@ -60,6 +60,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Telegram photo+caption support (v2.2.0): fast agent assigns photo labels, writes detailed descriptions, registry maps label→Drive; Cursor replies with label+URL.
 - Architecture v2.0.0: Telegram-only chat; async Cursor via scheduled inbox triage; Google Chat removed.
 - Upstash Redis conversation history live for Telegram fast router (v1.3.0); health check reports `history_configured`.
 - Added chatbot versioning (`chatbot-version.json`, `version` command → v1.2.0) with architecture docs and health-check injection.

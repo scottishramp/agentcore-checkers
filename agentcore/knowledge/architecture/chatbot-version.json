@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
-  "router_version": "2.0.0",
-  "context_bundle_version": "2.0.0",
+  "router_version": "2.2.1",
+  "context_bundle_version": "2.2.1",
   "released_at": "2026-06-27",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.2.1",
+      "context_bundle_version": "2.2.1",
+      "date": "2026-06-27",
+      "summary": "Photo replies: preserve newlines (label, description, caption only); remove LLM ack line"
+    },
     {
       "router_version": "2.0.0",
       "context_bundle_version": "2.0.0",

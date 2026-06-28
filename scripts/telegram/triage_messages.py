@@ -66,10 +66,16 @@ def normalized_task_filename(message_id: str) -> str:
     return f"task__telegram__{safe}.md"
 
 
+def record_media(record: dict) -> dict | None:
+    media = record.get("media")
+    return media if isinstance(media, dict) and media.get("telegram_file_id") else None
+
+
 def write_telegram_record(path: Path, record: dict) -> bool:
     if path.exists():
         return False
     body = str(record.get("text", "")).strip()
+    media = record_media(record)
     lines = [
         "---",
         f'message_id: "{quote_meta(record.get("message_id", ""))}"',
@@ -81,17 +87,47 @@ def write_telegram_record(path: Path, record: dict) -> bool:
         f'route: "{quote_meta(record.get("route", ""))}"',
         f'received_at: "{quote_meta(record.get("received_at", ""))}"',
         f'triaged_at: "{quote_meta(utc_now_iso())}"',
-        "---",
-        "",
-        "## Raw Telegram Message",
-        "",
-        body if body else "_No message text parsed._",
-        "",
-        "## Fast Router Reply",
-        "",
-        str(record.get("fast_response", "")).strip() or "_No fast reply recorded._",
-        "",
     ]
+    if media:
+        lines.extend(
+            [
+                f'media_type: "{quote_meta(media.get("type", "photo"))}"',
+                f'telegram_file_id: "{quote_meta(media.get("telegram_file_id", ""))}"',
+                f'mime_type: "{quote_meta(media.get("mime_type", ""))}"',
+                f'file_size: "{quote_meta(media.get("file_size", ""))}"',
+            ]
+        )
+    photo_label = str(record.get("photo_label", "") or (media or {}).get("photo_label", "")).strip()
+    photo_description = compact_whitespace(
+        str(record.get("photo_description", "") or (media or {}).get("photo_description", ""))
+    )
+    if photo_label:
+        lines.append(f'photo_label: "{quote_meta(photo_label)}"')
+    if photo_description:
+        lines.append(f'photo_description: "{quote_meta(photo_description)}"')
+    lines.extend(
+        [
+            "---",
+            "",
+            "## Raw Telegram Message",
+            "",
+            body if body else "_No message text parsed._",
+            "",
+            "## Fast Router Reply",
+            "",
+            str(record.get("fast_response", "")).strip() or "_No fast reply recorded._",
+            "",
+        ]
+    )
+    if photo_description:
+        lines.extend(
+            [
+                "## Fast-agent Photo Description",
+                "",
+                photo_description,
+                "",
+            ]
+        )
     path.write_text("\n".join(lines), encoding="utf-8")
     return True
 
@@ -105,6 +141,7 @@ def write_task_record(path: Path, record: dict) -> tuple[bool, str]:
 
     body = str(record.get("async_task_body", "") or record.get("text", "")).strip()
     title = compact_whitespace(str(record.get("async_task_title", ""))) or compact_whitespace(body)[:72] or "Telegram request"
+    photo_label = str(record.get("photo_label", "") or (record_media(record) or {}).get("photo_label", "")).strip()
     now = utc_now_iso()
     lines = [
         "---",
@@ -130,23 +167,50 @@ def write_task_record(path: Path, record: dict) -> tuple[bool, str]:
         'snagged_at: ""',
         'last_error: ""',
         'result_path: ""',
-        "---",
-        "",
-        f"# {title}",
-        "",
-        "## Requested Work",
-        "",
-        body if body else "_No message text parsed._",
-        "",
-        "## Intake Notes",
-        "",
-        f"- Source channel: Telegram",
-        f"- Fast-router route: {record.get('route', '')}",
-        f"- Message id: {message_id}",
-        "",
     ]
+    if photo_label:
+        lines.append(f'photo_label: "{quote_meta(photo_label)}"')
+    lines.extend(
+        [
+            "---",
+            "",
+            f"# {title}",
+            "",
+            "## Requested Work",
+            "",
+            body if body else "_No message text parsed._",
+            "",
+            "## Intake Notes",
+            "",
+            f"- Source channel: Telegram",
+            f"- Fast-router route: {record.get('route', '')}",
+            f"- Message id: {message_id}",
+        ]
+    )
+    media = record_media(record)
+    if media:
+        lines.extend(
+            [
+                f"- Media type: {media.get('type', 'photo')}",
+                f"- Telegram file id: {media.get('telegram_file_id', '')}",
+            ]
+        )
+        if photo_label:
+            lines.append(f"- Photo label: {photo_label}")
+        lines.extend(
+            [
+                "- Drive link: pending materialization",
+                "",
+            ]
+        )
+    else:
+        lines.append("")
     path.write_text("\n".join(lines), encoding="utf-8")
     return True, task_id
+
+
+def is_actionable(record: dict, route: str) -> bool:
+    return route in ACTIONABLE_ROUTES or bool(record_media(record))
 
 
 def main() -> int:
@@ -184,7 +248,7 @@ def main() -> int:
 
         task_id = ""
         task_status = "ignored"
-        if route in ACTIONABLE_ROUTES:
+        if is_actionable(record, route):
             task_path = task_dir / normalized_task_filename(message_id)
             created, task_id = write_task_record(task_path, record)
             if created:

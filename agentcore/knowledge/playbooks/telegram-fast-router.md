@@ -38,19 +38,16 @@ Webhook: `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`
 
 ## Flow
 
-1. User messages bot → Gemini classifies (`lightweight_answer`, `knowledge_update`, `task`, …).
-2. Bot replies immediately; message queued to Redis with route metadata.
-3. Every 30–60 min, Actions fetch + triage → tasks for `knowledge_update` / `task`.
-4. Runner sends “Working on: …”, runs Cursor, commits, sends completion, redeploys Vercel.
-
-## Versioning
-
-Bump `chatbot-version.json`, deploy, verify with `version` in chat.
+1. User messages bot (text or photo + caption) → for photos, fast agent assigns label `{username}_{YYYYMMDDHHmmss}`, describes the image in detail, and replies with label + description.
+2. Bot queues message to Redis with `photo_label`, `photo_description`, and media metadata.
+3. Actions fetch + triage → tasks for photos; runner uploads to Drive and writes `agentcore/knowledge/communications/telegram-photo-registry.json`.
+4. Cursor files knowledge from the description, updates the registry, and replies with `Photo label:` + `Drive:` lines.
 
 ## Scripts
 
 - `scripts/telegram/fetch_pending.py` — pull Redis inbox
 - `scripts/telegram/triage_messages.py` — inbox + task queue
+- `scripts/telegram/materialize_media.py` — Telegram photo → Drive + photo inbox records
 - `scripts/telegram/send_working_notice.py` — task start notification
 - `scripts/telegram/send_task_response.py` — task completion
 - `scripts/telegram/send_scheduled_messages.py` — food check-ins, morning prompts
