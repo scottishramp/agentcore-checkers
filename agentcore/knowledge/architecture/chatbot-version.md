@@ -7,9 +7,9 @@ Canonical version record for the fast chat router (Telegram + Google Chat webhoo
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **1.2.0** |
-| Context bundle version | **1.2.0** |
-| Released | 2026-06-27 |
+| Router version | **2.3.0** |
+| Context bundle version | **2.2.1** |
+| Released | 2026-06-29 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
 | Endpoint | `https://agentcore-fast-router.vercel.app/api/agentcore-telegram` |
 
@@ -48,6 +48,11 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.3.0 — 2026-06-29
+
+- Unanswered text questions now return exactly: `*DEFER* The slower, smarter agent might be able to help with this`.
+- Removed the extra `Fast model routing fell back locally.` chat suffix to keep defer replies stable.
 
 ### 1.2.0 — 2026-06-27
 

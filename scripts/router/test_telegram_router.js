@@ -81,6 +81,32 @@ async function run() {
   });
   assert.equal(taskRouted._meta.route, "task");
   assert.equal(taskRouted._meta.queue_status, "skipped");
+  assert.equal(
+    taskRouted.text,
+    "On it.",
+    "model-provided task responses should pass through when the model responds successfully",
+  );
+
+  const deferred = await routeChatEvent(
+    updateToEvent({
+      update_id: 1251,
+      message: {
+        message_id: 4581,
+        text: "What's Nathan's age?",
+        chat: { id: 999001, type: "private" },
+        from: { id: 111, first_name: "Brian", username: "brianh" },
+      },
+    }),
+    {
+      history: [],
+      env: { GOOGLE_AI_STUDIO_API_KEY: "fake-key" },
+      modelClient: async () => {
+        throw new Error("Gemini unavailable");
+      },
+    },
+  );
+  assert.equal(deferred._meta.route, "task");
+  assert.equal(deferred.text, "*DEFER* The slower, smarter agent might be able to help with this");
 
   const photoUpdate = {
     update_id: 126,

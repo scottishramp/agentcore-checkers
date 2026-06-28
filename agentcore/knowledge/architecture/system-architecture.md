@@ -1,6 +1,6 @@
 # AgentCore System Architecture
 
-Last updated: 2026-06-28
+Last updated: 2026-06-29
 
 ## Purpose
 
@@ -24,7 +24,7 @@ Two layers: **fast chat** (Vercel + Gemini) and **async agent** (GitHub Actions 
 1. User DMs `@AgentCoreFam_bot`.
 2. Telegram POSTs to the Vercel webhook.
 3. Allowlist check (fail closed); unknown users dropped silently.
-4. Gemini replies using repo context bundle + Upstash conversation history (20 messages, persistent). Photos receive a unique label (`{username}_{YYYYMMDDHHmmss}`), a detailed fast-agent vision description in the reply, and are queued with label + description metadata.
+4. Gemini replies using repo context bundle + Upstash conversation history (20 messages, persistent). For text questions the fast layer answers only when context has the fact; otherwise it returns `*DEFER* The slower, smarter agent might be able to help with this`. Photos receive a unique label (`{username}_{YYYYMMDDHHmmss}`), a detailed fast-agent vision description in the reply, and are queued with label + description metadata.
 5. Every allowed message is appended to the Upstash inbox queue (`agentcore:telegram:inbox`) with route metadata and optional `media` — **no Cursor dispatch from Vercel**.
 
 #### Async agent (scheduled)

@@ -6,6 +6,7 @@ const { getHistory, saveHistory } = require("./store");
 const { loadVersionRegistry, tryDeterministicVersionAnswer, versionMetadata } = require("./version");
 
 const DEFAULT_MODEL = "gemini-2.5-flash";
+const DEFER_RESPONSE = "*DEFER* The slower, smarter agent might be able to help with this";
 
 function compactWhitespace(text) {
   return String(text || "").replace(/\s+/g, " ").trim();
@@ -83,8 +84,8 @@ function fallbackDecision(text, options = {}) {
   }
   return {
     route: "task",
-    response: "Got it. I’ll hand this to the repo-backed Cursor agent for a deeper pass.",
-    async_task_title: "Handle Telegram task",
+    response: DEFER_RESPONSE,
+    async_task_title: "",
     async_task_body: text,
     confidence: 0.45,
   };
@@ -147,8 +148,10 @@ async function callGemini({ text, context, history, sender, env = process.env, i
     "Never claim durable repo knowledge was updated in this chat turn. A separate scheduled tool-enabled agent ingests knowledge and runs tasks later.",
     "Never say Cursor is running right now or that you dispatched a GitHub workflow.",
     "Classify each message into exactly one route: lightweight_answer, knowledge_update, task, needs_clarification, or ignore.",
-    "For knowledge_update or task: acknowledge naturally in one short sentence. The scheduled agent will see the message later — do not over-explain the pipeline.",
-    "For lightweight_answer: answer from context when possible.",
+    "For lightweight_answer: answer from context only when the fact is clearly present.",
+    `If this is a question and the answer is not clearly present in context, return route=task and response exactly: ${DEFER_RESPONSE}`,
+    "For task route, keep async_task_title empty and pass the user's exact text in async_task_body.",
+    "For knowledge_update route, acknowledge in one short sentence.",
     hasMedia
       ? "The user sent a photo. Use the attached image plus caption text. Prefer knowledge_update when the photo or note should be filed for the scheduled agent."
       : "",
@@ -370,7 +373,6 @@ async function routeChatEvent(event, options = {}) {
         );
       } catch (error) {
         decision = fallbackDecision(text, { hasMedia });
-        decision.response = `${decision.response}\n\n(Fast model routing fell back locally.)`;
       }
     }
   }

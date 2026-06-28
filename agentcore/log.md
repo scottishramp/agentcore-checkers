@@ -2,6 +2,13 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-06-29] router | Stable defer reply for unanswered Telegram questions
+
+- Updated `api/_agentcore/fast-router.js` so fallback/unanswered text questions use fixed reply: `*DEFER* The slower, smarter agent might be able to help with this`.
+- Removed the extra local-fallback explanatory suffix from user-visible chat replies.
+- Updated router tests (`test_fast_router.js`, `test_telegram_router.js`) to lock the defer behavior.
+- Updated fast-router docs/version registry (`chatbot-version.json`, `chatbot-version.md`, `telegram-fast-router.md`, `system-architecture.md`).
+
 ## [2026-06-28] architecture | Knowledge content ingest pipeline
 
 - Root cause: Life 2026 content ingest was deferred because `export_flagged_docs.py`, allowlist, and workflow step were designed but never implemented; runner only claims `queued` tasks.

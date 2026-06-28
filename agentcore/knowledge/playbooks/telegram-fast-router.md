@@ -43,6 +43,13 @@ Webhook: `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`
 3. Actions fetch + triage → tasks for photos; runner uploads to Drive and writes `agentcore/knowledge/communications/telegram-photo-registry.json`.
 4. Cursor files knowledge from the description, updates the registry, and replies with `Photo label:` + `Drive:` lines.
 
+### Defer contract for unanswered questions
+
+- If the fast layer cannot answer a text question from context, it replies exactly:
+  - `*DEFER* The slower, smarter agent might be able to help with this`
+- The original message is still queued to Redis for scheduled async triage.
+- The fast layer should not invent task-specific assignment text in chat for deferred questions.
+
 ## Scripts
 
 - `scripts/telegram/fetch_pending.py` — pull Redis inbox
