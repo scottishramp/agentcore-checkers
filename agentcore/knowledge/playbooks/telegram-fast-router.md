@@ -36,6 +36,12 @@ TELEGRAM_BOT_TOKEN=... npm run telegram:setup-webhook
 
 Webhook: `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`
 
+### 5. Deploy auth model (important)
+
+- Local/manual deploys can use Vercel CLI session auth (`npx vercel deploy --prod --yes`) when this repo is linked to the project in `.vercel/project.json`.
+- Current local project link points at `agentcore-fast-router` (team/org id `team_in3HNh0USnTggSAU4DyssUKT`).
+- GitHub Actions redeploy is separate and requires `VERCEL_TOKEN` repo secret; without it, CI will not update Vercel production.
+
 ## Flow
 
 1. User messages bot (text or photo + caption) → for photos, fast agent assigns label `{username}_{YYYYMMDDHHmmss}`, describes the image in detail, and replies with label + description.

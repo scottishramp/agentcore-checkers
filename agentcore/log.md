@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-06-29] architecture | Clarified Vercel deploy path for fast router
+
+- Recorded that fast-router production deploys have been running from local Vercel CLI session auth (`npx vercel deploy --prod --yes`) with linked project metadata in `.vercel/project.json` (`agentcore-fast-router`).
+- Documented separation between manual/local deploys and headless GitHub Actions redeploys that require `VERCEL_TOKEN`.
+- Updated `system-architecture.md`, `telegram-fast-router.md`, `hot-cache.md`, and `blockers.md` to prevent future confusion about what actually updates production.
+
 ## [2026-06-29] router | Stable defer reply for unanswered Telegram questions
 
 - Updated `api/_agentcore/fast-router.js` so fallback/unanswered text questions use fixed reply: `*DEFER* The slower, smarter agent might be able to help with this`.

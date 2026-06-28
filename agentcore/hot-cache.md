@@ -28,6 +28,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: Calendar readonly access. Brian shared `briandherbert@googlemail.com` with `scottishramp@gmail.com`; AgentCore can list it through Google Calendar API as `reader` and read upcoming events.
 - Delivered: broad admin-assistant OAuth bundle. AgentCore has read access for shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive/Docs/Sheets/Slides/Tasks/app-created Photos artifacts.
 - Delivered: Telegram-only chat via `@AgentCoreFam_bot`. Fast Gemini replies on Vercel; every message queued to Upstash; GitHub Actions triage + Cursor on schedule; Telegram working/done notifications; optional Vercel redeploy after knowledge commits. Google Chat removed.
+- Deploy reality: fast-router production has been updated via local Vercel CLI session auth (`npx vercel deploy --prod --yes`) using repo link in `.vercel/project.json`; GitHub Actions headless redeploy still needs `VERCEL_TOKEN`.
 - Delivered: runner notification hardening. If an async task's repo push is rejected, the runner should still send the Email/Chat response and continue ledger/finalization steps.
 - Active initiative: Brian personal operating system and family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
 - Operating hub: `agentcore/knowledge/projects/personal-operating-system.md` covers diet, scheduling, kid school logistics, app ideas, and personal management defaults.
@@ -60,6 +61,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Clarified deploy path: Vercel production updates have been coming from local CLI session auth + `.vercel/project.json` link, not CI token-based redeploy.
 - Knowledge content ingest pipeline: Gmail + Telegram + shared Drive doc exports every 4h via `knowledge-content-ingest.yml`; Life 2026 birthdates ingested.
 - Telegram photo+caption support (v2.2.0): fast agent assigns photo labels, writes detailed descriptions, registry maps label→Drive; Cursor replies with label+URL.
 - Architecture v2.0.0: Telegram-only chat; async Cursor via scheduled inbox triage; Google Chat removed.

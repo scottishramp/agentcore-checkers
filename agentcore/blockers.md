@@ -4,6 +4,15 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ## Open Blockers
 
+### 2026-06-29 | Fast router deploy automation | Missing headless Vercel token
+
+- Status: open
+- Blocker: Fast-router production deploys have been run manually from local CLI session auth (`npx vercel deploy --prod --yes`) using repo link `.vercel/project.json`. GitHub Actions redeploy path is configured but `VERCEL_TOKEN` is not set in repo secrets.
+- Why it matters: Knowledge and router code can be up to date in GitHub while Vercel production still serves an older bundle, causing "latest repo knowledge" drift in fast Telegram replies.
+- Proposed default: Keep manual CLI deploys after fast-router/context changes until `VERCEL_TOKEN` is provisioned; once set, treat CI redeploy as the primary activation path.
+- Needed from user: Add `VERCEL_TOKEN` to GitHub repository secrets (or explicitly choose to keep manual CLI deploys as the long-term model).
+- Resolution:
+
 ### 2026-06-25 | Travel/flight research | No live web access in async runner
 
 - Status: open

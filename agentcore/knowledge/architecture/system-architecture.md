@@ -92,6 +92,19 @@ Playbook: `agentcore/knowledge/playbooks/knowledge-content-ingest.md`
 - **Vercel:** `TELEGRAM_BOT_TOKEN`, `AGENTCORE_TELEGRAM_ALLOWED_USER_IDS`, Gemini key, `KV_REST_API_*`.
 - **GitHub Actions:** Gmail OAuth, `CURSOR_API_KEY`, `TELEGRAM_BOT_TOKEN`, `KV_REST_API_*`, optional `VERCEL_TOKEN` for bot context redeploy.
 
+## Vercel Deployment Modes
+
+Production fast-router deploys currently happen through **local Vercel CLI session auth**, not GitHub Actions:
+
+1. Local command: `npx vercel deploy --prod --yes`
+2. This works because the local machine is logged into Vercel CLI and the repo is linked via `.vercel/project.json`.
+3. Current linked project metadata: project `agentcore-fast-router`, org/team id `team_in3HNh0USnTggSAU4DyssUKT`.
+
+This is separate from headless CI redeploy:
+
+- GitHub Actions requires repository secret `VERCEL_TOKEN` to run `scripts/deploy/redeploy_fast_router.sh`.
+- If `VERCEL_TOKEN` is unset, workflow commits update GitHub but do not refresh Vercel production.
+
 ## Chatbot Versioning
 
 - Registry: `agentcore/knowledge/architecture/chatbot-version.json`
