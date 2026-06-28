@@ -10,7 +10,9 @@
     ]
   },
   "food-checkin-midday": {
-    "last_sent_utc": "2026-06-27T17:39:06.901500+00:00",
-    "last_message_name": "spaces/6RZ69yAAAAE/messages/ZgiFWm-BxmA.ZgiFWm-BxmA"
+    "last_sent_utc": "2026-06-28T17:45:58.501721+00:00",
+    "telegram_message_ids": [
+      "47"
+    ]
   }
 }
