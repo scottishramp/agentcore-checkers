@@ -162,3 +162,20 @@ Brian reported: Egg McMuffin, McDonald's pancakes, 1 scrambled egg.
 **Meal total:** ~970 cal | ~32g protein | ~133g carbs | ~34g fat
 
 **Day running total (so far):** ~970 cal | ~32g protein | ~133g carbs | ~34g fat
+
+## 2026-06-28
+
+### Meal (logged ~12:47 CT)
+
+Brian reported: 2 eggs, 3 slices homemade white bread, 1 avocado, 2 slices tomato, a bag of Lays sour cream and onion chips, some shredded Colby jack.
+
+- 2 eggs (~140 cal)
+- 3 slices homemade white bread (~240 cal)
+- 1 avocado (~240 cal)
+- 2 slices tomato (~10 cal)
+- Bag Lays sour cream and onion chips (~230 cal)
+- Shredded Colby jack cheese (~110 cal)
+
+**Meal total:** ~970 cal | ~33g protein | ~83g carbs | ~58g fat
+
+**Day running total (so far):** ~970 cal | ~33g protein | ~83g carbs | ~58g fat

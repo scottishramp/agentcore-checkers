@@ -1,5 +1,14 @@
 {
   "version": 1,
-  "updated_at": "2026-06-28T17:45:57.675058+00:00",
-  "messages": {}
+  "updated_at": "2026-06-28T18:13:10.499640+00:00",
+  "messages": {
+    "telegram:407016335": {
+      "message_id": "telegram:407016335",
+      "route": "knowledge_update",
+      "status": "queued",
+      "task_id": "task-telegram-407016335-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-06-28T18:13:10.499630+00:00"
+    }
+  }
 }
