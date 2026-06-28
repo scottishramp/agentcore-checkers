@@ -1,3 +1,4 @@
+const { buildContext } = require("./_agentcore/context");
 const { loadVersionRegistry } = require("./_agentcore/version");
 const { routeChatEvent } = require("./_agentcore/fast-router");
 const {
@@ -92,7 +93,13 @@ module.exports = async function handler(request, response) {
     });
 
     const routed = await routeChatEvent(event, { context: buildContext() });
-    await sendTelegramMessage(event.agentcore.telegram_chat_id, routed.text || "Got it.");
+    try {
+      await sendTelegramMessage(event.agentcore.telegram_chat_id, routed.text || "Got it.");
+    } catch (sendError) {
+      logRouterEvent("telegram_send_error", {
+        message: String(sendError && sendError.message ? sendError.message : sendError).slice(0, 300),
+      });
+    }
     logRouterEvent("telegram_message_routed", routed._meta || {});
     response.status(200).json({ ok: true });
   } catch (error) {

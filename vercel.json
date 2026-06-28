@@ -1,10 +1,12 @@
 {
   "functions": {
     "api/agentcore-chat.js": {
-      "maxDuration": 30
+      "maxDuration": 30,
+      "includeFiles": "agentcore/**"
     },
     "api/agentcore-telegram.js": {
-      "maxDuration": 30
+      "maxDuration": 30,
+      "includeFiles": "agentcore/**"
     }
   }
 }
