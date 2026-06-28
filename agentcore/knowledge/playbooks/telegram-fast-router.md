@@ -4,7 +4,7 @@
 
 **Fast layer (Vercel):** Gemini + repo context + Redis history → instant reply. No Cursor startup.
 
-**Async layer (GitHub Actions):** Scheduled pull from Redis inbox → triage → Cursor tasks → Telegram notifications → Vercel redeploy.
+**Async layer (GitHub Actions):** Scheduled pull from Redis inbox → triage → Cursor review/tasks → Telegram notifications → Vercel redeploy.
 
 ## Setup
 
@@ -46,15 +46,16 @@ Webhook: `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`
 
 1. User messages bot (text or photo + caption) → for photos, fast agent assigns label `{username}_{YYYYMMDDHHmmss}`, describes the image in detail, and replies with label + description.
 2. Bot queues message to Redis with `photo_label`, `photo_description`, and media metadata.
-3. Actions fetch + triage → tasks for photos; runner uploads to Drive and writes `agentcore/knowledge/communications/telegram-photo-registry.json`.
-4. Cursor files knowledge from the description, updates the registry, and replies with `Photo label:` + `Drive:` lines.
+3. Actions fetch + triage and write normalized inbox records; all non-ignore messages are queued for async Cursor review.
+4. Cursor decides per message whether it is durable knowledge, coding/action work, or no-op; applies updates, then replies if needed.
+5. For photos, runner uploads to Drive and updates `agentcore/knowledge/communications/telegram-photo-registry.json`; Cursor can file follow-on knowledge from the description.
 
 ### Defer contract for unanswered questions
 
 - If the fast layer cannot answer a text question from context, it replies exactly:
   - `*DEFER* The slower, smarter agent might be able to help with this`
 - The original message is still queued to Redis for scheduled async triage.
-- The fast layer should not invent task-specific assignment text in chat for deferred questions.
+- The fast layer should not invent task-specific assignment text in chat for deferred questions; async Cursor decides what to do.
 
 ## Scripts
 

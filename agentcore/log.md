@@ -2,6 +2,13 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-06-29] architecture | Async Cursor is the authoritative Telegram reviewer
+
+- Captured architecture goal: repo is Brian's canonical context memory; new context can come from chat, email, and shared docs.
+- Updated Telegram ingest contract so async Cursor (not fast router heuristics) decides whether queued messages are durable knowledge, action tasks, or no-op.
+- Updated `triage_messages.py` to queue all non-ignore Telegram routes for async review.
+- Updated `knowledge-content-ingest.yml` to attempt fast-router redeploy after ingest runs when `VERCEL_TOKEN` is available.
+
 ## [2026-06-29] architecture | Clarified Vercel deploy path for fast router
 
 - Recorded that fast-router production deploys have been running from local Vercel CLI session auth (`npx vercel deploy --prod --yes`) with linked project metadata in `.vercel/project.json` (`agentcore-fast-router`).

@@ -6,6 +6,13 @@ Last updated: 2026-06-29
 
 AgentCore is Brian Herbert's private administrative assistant. This repository is the durable control plane and memory: code, workflows, rules, metadata, ledgers, and synthesized knowledge live here. Source documents, scans, photos, and organized files should live in AgentCore-owned Google Drive when possible.
 
+Operational goal:
+
+- This repository is the canonical personal context store for Brian.
+- New context can enter through trusted chat/email messages and shared Google docs.
+- Fast Telegram chat should answer from the latest repo knowledge when possible.
+- The async Cursor agent is the authoritative worker that ingests new info, decides what is durable knowledge vs coding/action task, updates repo knowledge, and refreshes fast-layer deployment.
+
 ## Identities
 
 - AgentCore Google identity: `scottishramp@gmail.com`.
@@ -30,7 +37,7 @@ Two layers: **fast chat** (Vercel + Gemini) and **async agent** (GitHub Actions 
 #### Async agent (scheduled)
 
 1. `email-sync.yml` (every 30 min) and `agent-runner.yml` (hourly) pull pending messages from Upstash.
-2. `scripts/telegram/triage_messages.py` writes inbox records under `agentcore/inbox/telegram/` and queues tasks for `knowledge_update` / `task` routes (photos always queue).
+2. `scripts/telegram/triage_messages.py` writes inbox records under `agentcore/inbox/telegram/` and queues all non-ignore messages for async review so Cursor can decide whether each message is durable knowledge, actionable work, or no-op.
 3. `scripts/telegram/materialize_media.py` downloads Telegram photos, uploads to Drive, writes `agentcore/inbox/photos/`, and updates `agentcore/knowledge/communications/telegram-photo-registry.json` (label → Drive URL + description).
 4. Cursor photo tasks file knowledge from the fast-agent description and reply on Telegram with `Photo label:` and `Drive:` lines.
 5. `agent-runner.yml` claims tasks, sends **“Working on: …”** via Telegram, runs Cursor, commits knowledge, notifies completion via Telegram, redeploys Vercel when `VERCEL_TOKEN` is set.
@@ -50,7 +57,7 @@ Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 
 - `.github/workflows/email-sync.yml`: email + Telegram inbox fetch/triage, Drive metadata ingest, runner dispatch (every 30 min).
 - `.github/workflows/agent-runner.yml`: Telegram triage, task execution, Telegram notifications, Vercel redeploy (hourly).
-- `.github/workflows/knowledge-content-ingest.yml`: **knowledge content ingest** — Gmail bodies, Telegram inbox records, and allowlisted shared Drive doc exports; activates deferred content tasks; commits exported text; dispatches runner when tasks activate (every 4 hours).
+- `.github/workflows/knowledge-content-ingest.yml`: **knowledge content ingest** — Gmail bodies, Telegram inbox records, and allowlisted shared Drive doc exports; activates deferred content tasks; commits exported text; dispatches runner when tasks activate; attempts fast-router redeploy when `VERCEL_TOKEN` is present (every 4 hours).
 
 **Removed:** Google Chat polling, Google Chat HTTP app (`/api/agentcore-chat`), and `router-task.yml` live `repository_dispatch`.
 

@@ -19,7 +19,7 @@ from task_queue import next_task_id  # noqa: E402
 DEFAULT_INPUT_PATH = ".agentcore/state/telegram-fetch/latest.json"
 DEFAULT_SUMMARY_PATH = ".agentcore/state/telegram-sync-summary.json"
 DEFAULT_LEDGER_PATH = "agentcore/knowledge/communications/telegram-thread-ledger.json"
-ACTIONABLE_ROUTES = {"knowledge_update", "task"}
+ACTIONABLE_ROUTES = {"lightweight_answer", "knowledge_update", "task", "needs_clarification"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -210,6 +210,8 @@ def write_task_record(path: Path, record: dict) -> tuple[bool, str]:
 
 
 def is_actionable(record: dict, route: str) -> bool:
+    # Let the slower tool-assisted agent decide what is durable knowledge vs actionable work.
+    # Queue all non-ignore Telegram messages (plus media) for async review.
     return route in ACTIONABLE_ROUTES or bool(record_media(record))
 
 

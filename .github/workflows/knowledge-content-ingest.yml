@@ -69,6 +69,12 @@ jobs:
             git push
           fi
 
+      - name: Redeploy fast router for fresh context
+        if: always()
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: bash scripts/deploy/redeploy_fast_router.sh
+
       - name: Publish ingest summary
         if: always()
         run: |
