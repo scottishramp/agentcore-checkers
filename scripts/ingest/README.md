@@ -1,10 +1,17 @@
 # AgentCore Ingestion Scripts
 
-Cross-channel ingestion utilities for Drive documents and Android photo uploads.
+Cross-channel ingestion utilities for Drive documents, Android photo uploads, and periodic knowledge content ingest.
 
 ## Commands
 
-- Drive + photo ingest:
+- Periodic knowledge content ingest (Gmail + Telegram + shared Drive doc bodies):
+  - `npm run ingest:knowledge-content`
+  - GitHub Actions: `.github/workflows/knowledge-content-ingest.yml` (every 4 hours)
+- Export allowlisted Drive doc bodies:
+  - `npm run ingest:export-docs`
+- Activate deferred content-ingest tasks after export:
+  - `npm run ingest:activate-content-tasks`
+- Drive + photo metadata ingest:
   - `npm run ingest:drive`
 - Google Photos Picker session helper:
   - `npm run photos:picker -- create --max-items 20`

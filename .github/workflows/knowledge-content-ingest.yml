@@ -1,0 +1,110 @@
+name: AgentCore Knowledge Content Ingest
+
+on:
+  schedule:
+    # Every 4 hours at :15 past the hour (offset from email-sync and agent-runner).
+    - cron: "15 */4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: agentcore-knowledge-content-ingest
+  cancel-in-progress: false
+
+jobs:
+  knowledge-content-ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Prepare directories
+        run: |
+          mkdir -p .agentcore/state/drive-content \
+            agentcore/inbox/email agentcore/inbox/telegram agentcore/inbox/drive \
+            agentcore/inbox/tasks agentcore/knowledge/documents
+
+      - name: Run knowledge content ingest
+        env:
+          AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
+          AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
+          AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+          AGENTCORE_DRIVE_DOCS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_DOCS_FOLDER_ID }}
+          AGENTCORE_DRIVE_PHOTOS_FOLDER_ID: ${{ secrets.AGENTCORE_DRIVE_PHOTOS_FOLDER_ID }}
+          AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME: ${{ secrets.AGENTCORE_DRIVE_INCLUDE_SHARED_WITH_ME || 'true' }}
+          KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
+          KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.KV_REST_API_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+        run: |
+          python3 scripts/ingest/knowledge_content_ingest.py \
+            --email-bootstrap-window 168 \
+            --dispatch-runner
+
+      - name: Commit knowledge content ingest artifacts
+        continue-on-error: true
+        run: |
+          python3 scripts/agent/ensure_no_conflict_markers.py
+          git add agentcore/inbox agentcore/knowledge agentcore/knowledge/documents
+          git add -f .agentcore/state/drive-content || true
+          if git diff --cached --quiet; then
+            echo "No knowledge content ingest changes to commit."
+          else
+            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" \
+              commit -m "Knowledge content ingest: Gmail, Telegram, and shared Drive exports"
+            git -c rebase.autoStash=true pull --rebase origin main
+            git push
+          fi
+
+      - name: Publish ingest summary
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          summary_path = Path(".agentcore/state/knowledge-content-ingest-summary.json")
+          summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
+          channels = summary.get("channels", {})
+          activation = summary.get("activation", {})
+          lines = [
+              "# AgentCore Knowledge Content Ingest",
+              "",
+              f"- Completed at: {summary.get('completed_at', '')}",
+              f"- Gmail inbox records: {channels.get('gmail_records', 0)}",
+              f"- Telegram inbox records: {channels.get('telegram_records', 0)}",
+              f"- Drive metadata records: {channels.get('drive_records', 0)}",
+              f"- Exported Drive doc bodies: {channels.get('exported_drive_docs', 0)}",
+              f"- Deferred tasks activated: {len(activation.get('activated', []))}",
+              f"- Still deferred: {len(activation.get('still_deferred', []))}",
+              f"- Errors: {summary.get('errors', [])}",
+          ]
+          output = "\n".join(lines) + "\n"
+          Path(".agentcore/state/knowledge-content-ingest-summary.md").write_text(output, encoding="utf-8")
+          Path(__import__("os").environ["GITHUB_STEP_SUMMARY"]).write_text(output, encoding="utf-8")
+          PY
+
+      - name: Upload ingest artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: knowledge-content-ingest
+          path: |
+            .agentcore/state/knowledge-content-ingest-summary.json
+            .agentcore/state/knowledge-content-ingest-summary.md
+            .agentcore/state/drive-content-export-summary.json
+            .agentcore/state/content-task-activation-summary.json
+            .agentcore/state/drive-content/

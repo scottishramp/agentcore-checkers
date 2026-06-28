@@ -1,6 +1,6 @@
 # AgentCore System Architecture
 
-Last updated: 2026-06-27
+Last updated: 2026-06-28
 
 ## Purpose
 
@@ -48,10 +48,33 @@ Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 
 ## Workflows
 
-- `.github/workflows/email-sync.yml`: email + Telegram inbox fetch/triage, Drive ingest, runner dispatch.
-- `.github/workflows/agent-runner.yml`: Telegram triage, task execution, Telegram notifications, Vercel redeploy.
+- `.github/workflows/email-sync.yml`: email + Telegram inbox fetch/triage, Drive metadata ingest, runner dispatch (every 30 min).
+- `.github/workflows/agent-runner.yml`: Telegram triage, task execution, Telegram notifications, Vercel redeploy (hourly).
+- `.github/workflows/knowledge-content-ingest.yml`: **knowledge content ingest** — Gmail bodies, Telegram inbox records, and allowlisted shared Drive doc exports; activates deferred content tasks; commits exported text; dispatches runner when tasks activate (every 4 hours).
 
 **Removed:** Google Chat polling, Google Chat HTTP app (`/api/agentcore-chat`), and `router-task.yml` live `repository_dispatch`.
+
+## Knowledge Content Ingest
+
+Separate from fast email/Telegram triage (which creates tasks) and Drive metadata ingest (which records file metadata only). Runs on a slower cadence because full document bodies and cross-channel fact extraction are heavier and change less often.
+
+### Sources
+
+1. **Gmail** — fetch + triage trusted-client and share-notification email; normalized records under `agentcore/inbox/email/`.
+2. **Telegram** — fetch Upstash inbox queue + triage; normalized records under `agentcore/inbox/telegram/` (includes `knowledge_update` and `task` routes).
+3. **Shared Drive docs** — metadata via `ingest_drive_updates.py`; **full body export** for allowlisted docs via `export_flagged_docs.py` into `.agentcore/state/drive-content/{file_id}.txt`.
+
+Allowlist: `agentcore/knowledge/documents/content-ingest-allowlist.json`
+
+### Pipeline
+
+1. `scripts/ingest/knowledge_content_ingest.py` orchestrates fetch/triage/export/activate.
+2. `scripts/ingest/export_flagged_docs.py` exports Google Docs/Sheets/Slides via Drive API.
+3. `scripts/ingest/activate_content_tasks.py` flips `deferred` content-ingest tasks to `queued` when exported text is present.
+4. Workflow commits exported text + inbox updates; dispatches async runner when tasks activate.
+5. Cursor tasks (e.g. Life 2026 birthdates) extract durable facts into `agentcore/knowledge/` pages.
+
+Playbook: `agentcore/knowledge/playbooks/knowledge-content-ingest.md`
 
 ## Data Stores
 
@@ -61,6 +84,8 @@ Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 - `agentcore/knowledge/communications/telegram-thread-ledger.json`: Telegram triage idempotency.
 - Upstash Redis: conversation history + inbound inbox queue.
 - Standard repo stores: `hot-cache.md`, `index.md`, `blockers.md`, `log.md`, `inbox/tasks/`, etc.
+- `.agentcore/state/drive-content/`: exported text bodies for allowlisted shared Drive docs (committed by knowledge-content-ingest workflow).
+- `agentcore/knowledge/documents/content-ingest-allowlist.json`: Drive file ids for full-body export.
 
 ## Secrets
 

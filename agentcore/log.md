@@ -2,6 +2,13 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-06-28] architecture | Knowledge content ingest pipeline
+
+- Root cause: Life 2026 content ingest was deferred because `export_flagged_docs.py`, allowlist, and workflow step were designed but never implemented; runner only claims `queued` tasks.
+- Added: `content-ingest-allowlist.json`, `export_flagged_docs.py`, `activate_content_tasks.py`, `knowledge_content_ingest.py`, `.github/workflows/knowledge-content-ingest.yml` (every 4h).
+- Ingested Life 2026 birthdates: Daniel 2011-09-27, Nathan 2013-02-26, Ezra 2015-04-09, Silver 2017-01-25, Levi 2020-02-10.
+- Updated `herbert-children.md`, `life-2026.md`, `system-architecture.md`, playbook `knowledge-content-ingest.md`.
+
 ## [2026-04-24] setup | Initial AgentCore structure
 
 - Created the initial Markdown knowledge-base structure for AgentCore.

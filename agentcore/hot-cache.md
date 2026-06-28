@@ -60,6 +60,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Knowledge content ingest pipeline: Gmail + Telegram + shared Drive doc exports every 4h via `knowledge-content-ingest.yml`; Life 2026 birthdates ingested.
 - Telegram photo+caption support (v2.2.0): fast agent assigns photo labels, writes detailed descriptions, registry maps label→Drive; Cursor replies with label+URL.
 - Architecture v2.0.0: Telegram-only chat; async Cursor via scheduled inbox triage; Google Chat removed.
 - Upstash Redis conversation history live for Telegram fast router (v1.3.0); health check reports `history_configured`.

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "description": "Drive documents whose full body should be exported for knowledge content ingest.",
+  "drive_files": [
+    {
+      "drive_file_id": "1QJtmSeUCqIZ53uz4OIWTRVMC9s8yvq2kqm8hnHaSqpk",
+      "title": "Life 2026",
+      "index_page": "agentcore/knowledge/documents/life-2026.md",
+      "deferred_task_id": "task-internal-life-2026-content-ingest",
+      "export_mime": "text/plain"
+    }
+  ],
+  "channel_sources": {
+    "gmail": {
+      "enabled": true,
+      "lookback_hours": 168,
+      "note": "Trusted-client and share-notification email bodies for durable fact extraction."
+    },
+    "telegram": {
+      "enabled": true,
+      "note": "Normalized Telegram inbox records from async triage (knowledge_update and task routes)."
+    },
+    "shared_drive": {
+      "enabled": true,
+      "note": "Allowlisted Drive doc exports plus shared-with-me metadata records."
+    }
+  }
+}

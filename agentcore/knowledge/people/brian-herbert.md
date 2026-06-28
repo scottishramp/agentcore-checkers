@@ -17,7 +17,7 @@ Brian Herbert is AgentCore's trusted client and the person AgentCore assists wit
 ## Family Context
 
 - Married to Kristin Herbert since 2006-05-27.
-- Children: Daniel Herbert, Nathan Herbert, Ezra Herbert, Silver Herbert, Levi Herbert.
+- Children: Daniel Herbert (2011-09-27), Nathan Herbert (2013-02-26), Ezra Herbert (2015-04-09), Silver Herbert (2017-01-25), Levi Herbert (2020-02-10).
 - Key family/admin entities now include Kristin and the five children for document, calendar, school, medical, travel, and household administration context.
 
 ## Food Tracking

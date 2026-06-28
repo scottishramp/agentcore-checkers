@@ -31,6 +31,8 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Brian Herbert Food Log](knowledge/people/brian-herbert-food-log.md): rolling meal intake log with rough estimates.
 - [Kristin Herbert](knowledge/people/kristin-herbert.md): Brian's spouse and immediate family context.
 - [Herbert Children](knowledge/people/herbert-children.md): Brian and Kristin's children for family administration context.
+- [Life 2026](knowledge/documents/life-2026.md): Brian's shared life-planning doc index and important dates.
+- [Knowledge Content Ingest](knowledge/playbooks/knowledge-content-ingest.md): periodic Gmail/Telegram/shared-Drive content ingest playbook.
 - [Organizations](knowledge/organizations/): organizations relevant to projects.
 - [Architecture](knowledge/architecture/): current AgentCore system architecture, communication surfaces, workflows, data stores, and operational invariants.
 - [AgentCore System Architecture](knowledge/architecture/system-architecture.md): Telegram + email async agent, workflows, secrets, and update requirements.
