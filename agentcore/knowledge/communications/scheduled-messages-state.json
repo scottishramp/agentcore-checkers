@@ -4,8 +4,10 @@
     "last_message_name": "spaces/6RZ69yAAAAE/messages/XOEhHWqmgkU.XOEhHWqmgkU"
   },
   "morning-checkin": {
-    "last_sent_utc": "2026-06-26T13:32:13.938681+00:00",
-    "last_message_name": "spaces/6RZ69yAAAAE/messages/om902TYawQ4.om902TYawQ4"
+    "last_sent_utc": "2026-06-28T14:07:58.379629+00:00",
+    "telegram_message_ids": [
+      "46"
+    ]
   },
   "food-checkin-midday": {
     "last_sent_utc": "2026-06-27T17:39:06.901500+00:00",
