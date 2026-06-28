@@ -1,6 +1,6 @@
 ---
 task_id: "task-internal-life-2026-content-ingest"
-status: "done"
+status: "deferred"
 priority: "normal"
 source_message_id: "internal:life-2026-content-ingest"
 source_uid: "internal-life-2026-content-ingest"
@@ -11,16 +11,16 @@ chat_message_name: ""
 chat_space: "spaces/6RZ69yAAAAE"
 source_kind: "google_chat"
 reply_style: "natural"
+activation_note: "deferred until the credentialed export step writes the doc body; export_flagged_docs.py flips this to queued"
 queued_at: "2026-06-27T20:20:00+00:00"
-updated_at: "2026-06-28T15:10:00+00:00"
-attempts: 1
-claimed_at: "2026-06-28T15:10:00+00:00"
-run_id: "local-content-ingest"
-completed_at: "2026-06-28T15:10:00+00:00"
+updated_at: "2026-06-27T20:20:00+00:00"
+attempts: 0
+claimed_at: ""
+run_id: ""
+completed_at: ""
 snagged_at: ""
 last_error: ""
 result_path: ""
-activation_note: "Activated after Drive export for 1QJtmSeUCqIZ53uz4OIWTRVMC9s8yvq2kqm8hnHaSqpk"
 ---
 
 # Ingest Life 2026 doc content (important dates / kids' birthdates)
@@ -55,9 +55,3 @@ Steps for the run that processes this task:
   `spaces/6RZ69yAAAAE/messages/crZRT_HDGWc.crZRT_HDGWc` ("Yeah next time you do a
   run ingest that info").
 - Allowlist entry: `agentcore/knowledge/documents/content-ingest-allowlist.json`.
-
-## Completion Notes
-
-- Exported Life 2026 body via `export_flagged_docs.py` (60 KB text).
-- Recorded children birthdates in `agentcore/knowledge/people/herbert-children.md` and `agentcore/knowledge/documents/life-2026.md`.
-- Daniel 2011-09-27, Nathan 2013-02-26, Ezra 2015-04-09, Silver 2017-01-25, Levi 2020-02-10.
