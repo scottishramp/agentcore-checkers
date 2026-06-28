@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "timezone": "America/Chicago",
+  "messages": [
+    {
+      "id": "morning-checkin",
+      "enabled": true,
+      "schedule": {"hour": 8, "minute": 30},
+      "window_minutes": 90,
+      "variants": [
+        "Morning, Brian. I'm here if you need anything today.",
+        "Good morning — ready when you are. Let me know if anything comes up.",
+        "Morning. Anything I can help with today?"
+      ],
+      "description": "Daily morning availability check-in"
+    },
+    {
+      "id": "food-checkin-midday",
+      "enabled": true,
+      "schedule": {"hour": 12, "minute": 0},
+      "window_minutes": 90,
+      "text": "What'd you eat since last time?",
+      "description": "Daily midday food tracking check-in"
+    },
+    {
+      "id": "food-checkin-evening",
+      "enabled": true,
+      "schedule": {"hour": 18, "minute": 0},
+      "window_minutes": 90,
+      "text": "What'd you eat since last time?",
+      "description": "Daily evening food tracking check-in"
+    }
+  ]
+}

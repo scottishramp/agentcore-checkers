@@ -1,7 +1,9 @@
 const { buildContext } = require("./_agentcore/context");
+const { historyConfigured, historyMessageLimit, historyTtlSeconds } = require("./_agentcore/store");
 const { loadVersionRegistry } = require("./_agentcore/version");
 const { routeChatEvent } = require("./_agentcore/fast-router");
 const {
+  allowedUserIds,
   botToken,
   isUserAllowed,
   sendTelegramMessage,
@@ -54,6 +56,10 @@ module.exports = async function handler(request, response) {
       service: "agentcore-telegram",
       fast_model: process.env.AGENTCORE_FAST_MODEL || "gemini-2.5-flash",
       bot_configured: Boolean(botToken()),
+      allowlist_count: allowedUserIds().length,
+      history_configured: historyConfigured(),
+      history_message_limit: historyMessageLimit(),
+      history_persistent: historyTtlSeconds() === 0,
       router_version: registry.router_version,
       context_bundle_version: registry.context_bundle_version,
     });
@@ -77,12 +83,11 @@ module.exports = async function handler(request, response) {
 
     const userId = event.agentcore.telegram_user_id;
     if (!isUserAllowed(userId)) {
-      logRouterEvent("user_not_allowed", { user_id: userId });
-      await sendTelegramMessage(
-        event.agentcore.telegram_chat_id,
-        "This bot is private. Ask Brian to add your Telegram user id to the allowlist.",
-      );
-      response.status(200).json({ ok: true, allowed: false });
+      logRouterEvent("user_not_allowed", {
+        user_id: userId,
+        username: event.agentcore.telegram_username,
+      });
+      response.status(200).json({ ok: true, ignored: true, allowed: false });
       return;
     }
 

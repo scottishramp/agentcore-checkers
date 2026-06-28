@@ -419,6 +419,17 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Documented setup in `agentcore/knowledge/playbooks/telegram-fast-router.md`.
 - Live activation complete: bot `@AgentCoreFam_bot`, webhook registered, secrets stored in Vercel/GitHub only.
 
+## [2026-06-27] architecture | Telegram-only async agent (v2.0.0)
+
+- Removed Google Chat polling, HTTP app endpoint, and live `repository_dispatch` / `router-task.yml`.
+- Telegram fast router queues every message to Upstash; GitHub Actions triage + Cursor on schedule.
+- Runner notifies via Telegram (working + done), redeploys Vercel when `VERCEL_TOKEN` set.
+
+## [2026-06-27] ops | Telegram conversation history via Upstash Redis
+
+- Provisioned free Upstash Redis `agentcore-chat-history` through Vercel marketplace integration; connected to `agentcore-fast-router` production with `KV_REST_API_URL` / `KV_REST_API_TOKEN`.
+- Router v1.3.0: health checks report `history_configured`; last ~6 turn pairs per chat user, 6-hour TTL.
+
 ## [2026-06-27] ops | AgentCore architecture memory
 - Added `.cursor/rules/architecture-memory.mdc` so future Cursor sessions read and maintain the architecture map when AgentCore systems change.
 - Linked the architecture docs from `agentcore/index.md`, surfaced them in `agentcore/hot-cache.md`, and updated `AGENTS.md` to require architecture-doc maintenance for system changes.

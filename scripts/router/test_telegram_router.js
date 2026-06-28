@@ -1,9 +1,16 @@
 #!/usr/bin/env node
 const assert = require("assert");
 const { routeChatEvent } = require("../../api/_agentcore/fast-router");
-const { updateToEvent } = require("../../api/_agentcore/telegram");
+const { isUserAllowed, updateToEvent } = require("../../api/_agentcore/telegram");
 
 async function run() {
+  assert.equal(isUserAllowed("8983527816", { AGENTCORE_TELEGRAM_ALLOWED_USER_IDS: "" }), false);
+  assert.equal(isUserAllowed("8983527816", { AGENTCORE_TELEGRAM_ALLOWED_USER_IDS: "8983527816" }), true);
+  assert.equal(isUserAllowed("999", { AGENTCORE_TELEGRAM_ALLOWED_USER_IDS: "8983527816" }), false);
+  assert.equal(
+    isUserAllowed("222", { AGENTCORE_TELEGRAM_ALLOWED_USER_IDS: "8983527816, 222" }),
+    true,
+  );
   const update = {
     update_id: 123,
     message: {
@@ -52,7 +59,6 @@ async function run() {
   });
   assert.match(food.text, /2026-06-26/);
 
-  let payload = null;
   const taskEvent = updateToEvent({
     update_id: 125,
     message: {
@@ -62,7 +68,7 @@ async function run() {
       from: { id: 111, first_name: "Brian", username: "brianh" },
     },
   });
-  await routeChatEvent(taskEvent, {
+  const taskRouted = await routeChatEvent(taskEvent, {
     history: [],
     env: {},
     modelClient: async () => ({
@@ -72,13 +78,9 @@ async function run() {
       async_task_body: "Find flights OKC to PHL",
       confidence: 0.8,
     }),
-    dispatcher: async ({ event: routedEvent, decision }) => {
-      payload = { source_kind: routedEvent.agentcore.source_kind, route: decision.route };
-      return { status: "dispatched" };
-    },
   });
-  assert(payload);
-  assert.equal(payload.source_kind, "telegram");
+  assert.equal(taskRouted._meta.route, "task");
+  assert.equal(taskRouted._meta.queue_status, "skipped");
 
   console.log("telegram router tests passed");
 }

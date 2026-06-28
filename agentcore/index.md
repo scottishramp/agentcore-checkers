@@ -13,7 +13,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 
 - [Inbox](inbox/README.md): temporary holding area for unprocessed notes and materials.
 - [Email Inbox Records](inbox/email/README.md): normalized inbound email records.
-- [Google Chat Inbox Records](inbox/chat/README.md): normalized direct Google Chat messages from Brian.
+- [Telegram Inbox Records](inbox/telegram/README.md): normalized Telegram messages for async triage.
 - [Drive Inbox Records](inbox/drive/README.md): normalized inbound Google Drive document records.
 - [Photo Inbox Records](inbox/photos/README.md): normalized inbound Android photo upload records.
 - [Email Task Queue](inbox/tasks/README.md): queued tasks derived from inbound task intent.
@@ -33,7 +33,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Herbert Children](knowledge/people/herbert-children.md): Brian and Kristin's children for family administration context.
 - [Organizations](knowledge/organizations/): organizations relevant to projects.
 - [Architecture](knowledge/architecture/): current AgentCore system architecture, communication surfaces, workflows, data stores, and operational invariants.
-- [AgentCore System Architecture](knowledge/architecture/system-architecture.md): primary map of Google Chat, email, fast router, workflows, polling cadence, secrets, and update requirements.
+- [AgentCore System Architecture](knowledge/architecture/system-architecture.md): Telegram + email async agent, workflows, secrets, and update requirements.
 - [Chatbot Version Registry](knowledge/architecture/chatbot-version.md): fast router semver, context bundle version, changelog, and `version` command.
 - [Communications](knowledge/communications/README.md): deterministic communication ingestion summaries, email thread state, and ledgers.
 - [Concepts](knowledge/concepts/): reusable ideas, frameworks, and research themes.

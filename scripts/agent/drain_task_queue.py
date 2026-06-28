@@ -19,9 +19,9 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent.parent
 EMAIL_DIR = SCRIPT_DIR.parent / "email"
-CHAT_DIR = SCRIPT_DIR.parent / "chat"
+TELEGRAM_DIR = SCRIPT_DIR.parent / "telegram"
 
-for p in (str(EMAIL_DIR), str(CHAT_DIR)):
+for p in (str(EMAIL_DIR), str(TELEGRAM_DIR)):
     if p not in sys.path:
         sys.path.insert(0, p)
 
@@ -121,18 +121,17 @@ def send_response(task_file: Path, result: dict) -> dict:
     source_kind = str(task.meta.get("source_kind", "")).strip().lower()
     status = result.get("status", TASK_STATUS_SNAG)
 
-    if source_kind == "google_chat":
+    tmp_result = REPO_ROOT / ".agentcore" / "state" / "drain-task-result.json"
+    tmp_result.parent.mkdir(parents=True, exist_ok=True)
+    write_json(tmp_result, {"status": status, "summary": result.get("summary", ""), "error": result.get("error", "")})
+
+    if source_kind == "telegram":
         cmd = [
-            sys.executable, str(CHAT_DIR / "send_task_response.py"),
+            sys.executable, str(TELEGRAM_DIR / "send_task_response.py"),
             "--task-file", str(task_file),
             "--status", "done" if status == TASK_STATUS_DONE else "snag",
-            "--result-json", "/dev/null",
+            "--result-json", str(tmp_result),
         ]
-        # Write a temp result file for the response script
-        tmp_result = REPO_ROOT / ".agentcore" / "state" / "drain-task-result.json"
-        tmp_result.parent.mkdir(parents=True, exist_ok=True)
-        write_json(tmp_result, {"status": status, "summary": result.get("summary", ""), "error": result.get("error", "")})
-        cmd[cmd.index("/dev/null")] = str(tmp_result)
     else:
         cmd = [
             sys.executable, str(EMAIL_DIR / "send_task_status.py"),
@@ -163,13 +162,8 @@ def record_ledger(task_file: Path, result: dict, notification: dict) -> None:
     write_json(tmp_result, {"status": result.get("status", ""), "summary": result.get("summary", "")})
     write_json(tmp_notify, notification)
 
-    if source_kind == "google_chat":
-        cmd = [
-            sys.executable, str(CHAT_DIR / "record_chat_response.py"),
-            "--task-file", str(task_file),
-            "--result-json", str(tmp_result),
-            "--notification-json", str(tmp_notify),
-        ]
+    if source_kind == "telegram":
+        pass
     else:
         cmd = [
             sys.executable, str(EMAIL_DIR / "record_email_response.py"),

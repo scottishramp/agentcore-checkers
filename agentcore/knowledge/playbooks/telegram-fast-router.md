@@ -1,57 +1,56 @@
 # Telegram Fast Router
 
-## Purpose
+## Architecture
 
-Instant 1:1 family chat with shared AgentCore knowledge. Each person DMs the same Telegram bot; replies come from the Vercel fast router (Gemini + repo context). Deeper work dispatches to Cursor async.
+**Fast layer (Vercel):** Gemini + repo context + Redis history → instant reply. No Cursor startup.
+
+**Async layer (GitHub Actions):** Scheduled pull from Redis inbox → triage → Cursor tasks → Telegram notifications → Vercel redeploy.
 
 ## Setup
 
-### 1. Create the bot
+### 1. Bot
 
-1. In Telegram, open `@BotFather`.
-2. Send `/newbot`.
-3. Name it `AgentCore`.
-4. Pick a username like `AgentCoreFamilyBot` (must end in `bot`).
-5. Copy the bot token.
+`@AgentCoreFam_bot` via `@BotFather`. Token in Vercel + GitHub as `TELEGRAM_BOT_TOKEN`.
 
-### 2. Configure Vercel
+### 2. Vercel env
 
-Set production env vars on `agentcore-fast-router`:
+- `TELEGRAM_BOT_TOKEN`
+- `AGENTCORE_TELEGRAM_ALLOWED_USER_IDS` — required, comma-separated (fail closed)
+- `KV_REST_API_URL` / `KV_REST_API_TOKEN` — Upstash (history + inbox queue)
+- `GOOGLE_AI_STUDIO_API_KEY`, `AGENTCORE_FAST_MODEL` (optional)
 
-- `TELEGRAM_BOT_TOKEN` — token from BotFather
-- `AGENTCORE_TELEGRAM_WEBHOOK_SECRET` — optional random secret for webhook verification
-- `AGENTCORE_TELEGRAM_ALLOWED_USER_IDS` — optional comma-separated Telegram user ids (empty = open to anyone who finds the bot)
+### 3. GitHub Actions secrets
 
-Existing Gemini/GitHub vars stay the same.
+- `TELEGRAM_BOT_TOKEN`
+- `AGENTCORE_TELEGRAM_ALLOWED_USER_IDS` or `AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS` (for scheduled messages + failure alerts)
+- `KV_REST_API_URL` / `KV_REST_API_TOKEN` (same Upstash instance)
+- `CURSOR_API_KEY`
+- `VERCEL_TOKEN` (optional — redeploy bot after knowledge commits)
 
-### 3. Deploy and register webhook
+### 4. Deploy
 
 ```sh
 npx vercel deploy --prod
 TELEGRAM_BOT_TOKEN=... npm run telegram:setup-webhook
 ```
 
-Webhook URL: `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`
+Webhook: `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`
 
-### 4. Start chatting
+## Flow
 
-Send **`version`** (or `/version`) to see the live router version.
+1. User messages bot → Gemini classifies (`lightweight_answer`, `knowledge_update`, `task`, …).
+2. Bot replies immediately; message queued to Redis with route metadata.
+3. Every 30–60 min, Actions fetch + triage → tasks for `knowledge_update` / `task`.
+4. Runner sends “Working on: …”, runs Cursor, commits, sends completion, redeploys Vercel.
 
 ## Versioning
 
-See `agentcore/knowledge/architecture/chatbot-version.md`. Bump `chatbot-version.json` on router changes, deploy, then verify with `version`.
+Bump `chatbot-version.json`, deploy, verify with `version` in chat.
 
-## Family sharing
+## Scripts
 
-One bot, many 1:1 DMs. Everyone shares the same repo-backed knowledge context. Optional allowlist via `AGENTCORE_TELEGRAM_ALLOWED_USER_IDS`.
-
-To find a Telegram user id: message `@userinfobot` or read webhook logs after the first message.
-
-## Endpoint
-
-- `GET /api/agentcore-telegram` — health check
-- `POST /api/agentcore-telegram` — Telegram webhook
-
-## Async handoff
-
-Knowledge updates and tasks dispatch to `.github/workflows/router-task.yml`. Completion replies go back via `scripts/telegram/send_task_response.py`.
+- `scripts/telegram/fetch_pending.py` — pull Redis inbox
+- `scripts/telegram/triage_messages.py` — inbox + task queue
+- `scripts/telegram/send_working_notice.py` — task start notification
+- `scripts/telegram/send_task_response.py` — task completion
+- `scripts/telegram/send_scheduled_messages.py` — food check-ins, morning prompts

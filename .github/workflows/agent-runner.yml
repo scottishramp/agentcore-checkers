@@ -30,20 +30,19 @@ jobs:
           python-version: "3.12"
 
       - name: Prepare directories
-        run: mkdir -p .agentcore/state .agentcore/state/chat-fetch .agentcore/state/task-runs agentcore/inbox/email agentcore/inbox/chat agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks
+        run: mkdir -p .agentcore/state .agentcore/state/telegram-fetch .agentcore/state/task-runs agentcore/inbox/email agentcore/inbox/chat agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks
 
       - name: Restore queue state cache
         uses: actions/cache/restore@v4
         with:
           path: |
             .agentcore/state/email-last-uid.json
-            .agentcore/state/chat-last-message.json
-            .agentcore/state/drive-ingest-state.json
+                        .agentcore/state/drive-ingest-state.json
             agentcore/knowledge/communications/email-thread-ledger.json
-            agentcore/knowledge/communications/chat-thread-ledger.json
+            agentcore/knowledge/communications/telegram-thread-ledger.json
             agentcore/knowledge/communications/scheduled-messages-state.json
             agentcore/inbox/email
-            agentcore/inbox/chat
+            agentcore/inbox/telegram
             agentcore/inbox/drive
             agentcore/inbox/photos
             agentcore/inbox/tasks
@@ -69,32 +68,22 @@ jobs:
       - name: Triage messages
         run: python3 scripts/email/triage_messages.py
 
-      - name: Fetch Chat messages
+      - name: Fetch Telegram inbox
         env:
-          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
-          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
-          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
-          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
-          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
-          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
-          AGENTCORE_CHAT_SELF_USER_NAME: ${{ secrets.AGENTCORE_CHAT_SELF_USER_NAME || 'users/112143982168307832773' }}
-        # bootstrap-window 30: if the cursor cache is ever lost, recover the
-        # most recent messages instead of silently dropping them. The
-        # git-tracked chat-thread-ledger dedups anything already answered, so
-        # this cannot cause duplicate replies.
-        run: python3 scripts/chat/fetch_messages.py --limit 50 --bootstrap-window 30
+          KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
+          KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.KV_REST_API_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+        run: python3 scripts/telegram/fetch_pending.py
 
-      - name: Triage Chat messages
-        run: python3 scripts/chat/triage_messages.py
+      - name: Triage Telegram messages
+        run: python3 scripts/telegram/triage_messages.py
 
-      - name: Send scheduled Chat messages
+      - name: Send scheduled Telegram messages
         env:
-          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
-          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
-          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
-          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
-          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
-        run: python3 scripts/chat/send_scheduled_messages.py
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
+          AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS: ${{ secrets.AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS || secrets.AGENTCORE_TELEGRAM_ALLOWED_USER_IDS }}
+        run: python3 scripts/telegram/send_scheduled_messages.py
 
       - name: Persist scheduled message state
         continue-on-error: true
@@ -152,6 +141,14 @@ jobs:
             fh.write(f"thread_key={claim.get('thread_key', '')}\n")
             fh.write(f"source_kind={source_kind}\n")
           PY
+
+      - name: Send Telegram working notice
+        if: steps.claim.outputs.claimed == 'true' && steps.claim.outputs.source_kind == 'telegram'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
+        run: |
+          python3 scripts/telegram/send_working_notice.py \
+            --task-file "${{ steps.claim.outputs.task_file }}"
 
       - name: Install Cursor CLI
         if: steps.claim.outputs.claimed == 'true'
@@ -211,8 +208,15 @@ jobs:
             git push
           fi
 
+
+      - name: Redeploy fast router for fresh bot context
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: bash scripts/deploy/redeploy_fast_router.sh
+
       - name: Send completion notification
-        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done' && steps.claim.outputs.source_kind != 'google_chat'
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done' && steps.claim.outputs.source_kind != 'telegram'
         env:
           AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
           AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
@@ -230,7 +234,7 @@ jobs:
             --project AsyncLoop | tee .agentcore/state/task-notify-result.json
 
       - name: Send snag notification
-        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status != 'done' && steps.claim.outputs.source_kind != 'google_chat'
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status != 'done' && steps.claim.outputs.source_kind != 'telegram'
         env:
           AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
           AGENTCORE_EMAIL_APP_PASSWORD: ${{ secrets.AGENTCORE_EMAIL_APP_PASSWORD }}
@@ -247,8 +251,8 @@ jobs:
             --result-json .agentcore/state/task-run-result.json \
             --project AsyncLoop | tee .agentcore/state/task-notify-result.json
 
-      - name: Send Chat completion notification
-        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done' && steps.claim.outputs.source_kind == 'google_chat'
+      - name: Send Telegram completion notification
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done' && steps.claim.outputs.source_kind == 'telegram'
         env:
           AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
           AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
@@ -256,13 +260,13 @@ jobs:
           AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
           AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
         run: |
-          python3 scripts/chat/send_task_response.py \
+          python3 scripts/telegram/send_task_response.py \
             --task-file "${{ steps.claim.outputs.task_file }}" \
             --status done \
             --result-json .agentcore/state/task-run-result.json | tee .agentcore/state/task-notify-result.json
 
-      - name: Send Chat snag notification
-        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status != 'done' && steps.claim.outputs.source_kind == 'google_chat'
+      - name: Send Telegram snag notification
+        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status != 'done' && steps.claim.outputs.source_kind == 'telegram'
         env:
           AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
           AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
@@ -270,33 +274,26 @@ jobs:
           AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
           AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
         run: |
-          python3 scripts/chat/send_task_response.py \
+          python3 scripts/telegram/send_task_response.py \
             --task-file "${{ steps.claim.outputs.task_file }}" \
             --status snag \
             --result-json .agentcore/state/task-run-result.json | tee .agentcore/state/task-notify-result.json
 
       - name: Record email response ledger
-        if: steps.claim.outputs.claimed == 'true' && steps.claim.outputs.source_kind != 'google_chat'
+        if: steps.claim.outputs.claimed == 'true' && steps.claim.outputs.source_kind != 'telegram'
         run: |
           python3 scripts/email/record_email_response.py \
             --task-file "${{ steps.claim.outputs.task_file }}" \
             --result-json .agentcore/state/task-run-result.json \
             --notification-json .agentcore/state/task-notify-result.json
 
-      - name: Record Chat response ledger
-        if: steps.claim.outputs.claimed == 'true' && steps.claim.outputs.source_kind == 'google_chat'
-        run: |
-          python3 scripts/chat/record_chat_response.py \
-            --task-file "${{ steps.claim.outputs.task_file }}" \
-            --result-json .agentcore/state/task-run-result.json \
-            --notification-json .agentcore/state/task-notify-result.json
 
       - name: Commit communication ledger update
         if: steps.claim.outputs.claimed == 'true'
         continue-on-error: true
         run: |
           python3 scripts/agent/ensure_no_conflict_markers.py
-          git add agentcore/knowledge/communications/email-thread-ledger.json agentcore/knowledge/communications/chat-thread-ledger.json agentcore/inbox/tasks agentcore/inbox/chat
+          git add agentcore/knowledge/communications/email-thread-ledger.json agentcore/knowledge/communications/chat-thread-ledger.json agentcore/inbox/tasks agentcore/inbox/telegram
           if git diff --cached --quiet; then
             echo "No ledger changes to commit."
           else
@@ -305,30 +302,6 @@ jobs:
             git push
           fi
 
-      - name: Maintain synchronous Chat session
-        if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done' && steps.claim.outputs.source_kind == 'google_chat'
-        env:
-          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
-          AGENTCORE_TASK_RUN_COMMAND: ${{ secrets.AGENTCORE_TASK_RUN_COMMAND || 'python3 scripts/agent/run_cursor_task.py --task-file {{TASK_FILE}} --workspace .' }}
-          AGENTCORE_TASK_RUN_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_TASK_RUN_TIMEOUT_SECONDS || '900' }}
-          AGENTCORE_CURSOR_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_CURSOR_TIMEOUT_SECONDS || '1200' }}
-          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'auto' }}
-          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
-          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
-          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
-          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
-          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
-          AGENTCORE_CHAT_SELF_USER_NAME: ${{ secrets.AGENTCORE_CHAT_SELF_USER_NAME || 'users/112143982168307832773' }}
-          AGENTCORE_CHAT_SYNC_WINDOW_ENABLED: ${{ secrets.AGENTCORE_CHAT_SYNC_WINDOW_ENABLED || 'true' }}
-          AGENTCORE_CHAT_SYNC_MAX_MINUTES: ${{ secrets.AGENTCORE_CHAT_SYNC_MAX_MINUTES || '15' }}
-          AGENTCORE_CHAT_SYNC_POLL_SECONDS: ${{ secrets.AGENTCORE_CHAT_SYNC_POLL_SECONDS || '20' }}
-          AGENTCORE_CHAT_SYNC_TIMEZONE: ${{ secrets.AGENTCORE_CHAT_SYNC_TIMEZONE || 'America/Chicago' }}
-          AGENTCORE_CHAT_SYNC_START_HOUR: ${{ secrets.AGENTCORE_CHAT_SYNC_START_HOUR || '9' }}
-          AGENTCORE_CHAT_SYNC_END_HOUR: ${{ secrets.AGENTCORE_CHAT_SYNC_END_HOUR || '20' }}
-        run: |
-          python3 scripts/chat/synchronous_loop.py \
-            --seed-task-file "${{ steps.claim.outputs.task_file }}" \
-            --summary-output .agentcore/state/chat-sync-loop-summary.json
 
       - name: Drain remaining queued tasks
         if: always()
@@ -344,7 +317,7 @@ jobs:
           AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
           AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
           AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
-          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
         run: python3 scripts/agent/drain_task_queue.py
 
       - name: Commit drain changes
@@ -366,21 +339,18 @@ jobs:
         if: failure()
         continue-on-error: true
         env:
-          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
-          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
-          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
-          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
-          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
+          AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS: ${{ secrets.AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS || secrets.AGENTCORE_TELEGRAM_ALLOWED_USER_IDS }}
         run: |
-          python3 -c "
-          import sys; sys.path.insert(0, 'scripts/chat')
-          import chat_api
-          env_map = chat_api.load_env_file('.env')
-          space = chat_api.default_space_name(env_map=env_map)
-          if space:
-              token = chat_api.access_token(env_map=env_map)
-              chat_api.send_message(token=token, space_name=space, text='Hit a snag processing your last message — I\\'ll retry on the next cycle. (Runner workflow error)')
-          "
+          python3 - <<'PY'
+          import json, os, sys, urllib.request
+          from pathlib import Path
+          sys.path.insert(0, "scripts/telegram")
+          from send_task_response import send_message
+          ids = [p.strip() for p in os.getenv("AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS", "").split(",") if p.strip()]
+          for chat_id in ids:
+              send_message(chat_id, "Hit a snag in the scheduled agent run — I'll retry on the next cycle.")
+          PY
 
       - name: Publish runner summary
         run: |
@@ -390,7 +360,7 @@ jobs:
 
           claim_path = Path(".agentcore/state/task-claim.json")
           result_path = Path(".agentcore/state/task-run-result.json")
-          sync_loop_path = Path(".agentcore/state/chat-sync-loop-summary.json")
+          sync_loop_path = Path(".agentcore/state/telegram-sync-summary.json")
           claim = json.loads(claim_path.read_text(encoding="utf-8")) if claim_path.exists() else {}
           result = json.loads(result_path.read_text(encoding="utf-8")) if result_path.exists() else {}
           sync_loop = json.loads(sync_loop_path.read_text(encoding="utf-8")) if sync_loop_path.exists() else {}
@@ -404,9 +374,9 @@ jobs:
               f"- Stale requeued: {claim.get('stale_requeued', 0)}",
               f"- Final status: {result.get('status', '')}",
               f"- Run ID: {result.get('run_id', '')}",
-              f"- Chat sync loop entered: {sync_loop.get('entered_loop', False)}",
-              f"- Chat sync loop reason: {sync_loop.get('reason', '')}",
-              f"- Chat sync loop processed tasks: {len(sync_loop.get('processed_tasks', [])) if isinstance(sync_loop.get('processed_tasks', []), list) else 0}",
+              f"- Telegram triage summary available: {bool(sync_loop)}",
+              f"- Telegram triage count: {sync_loop.get('created_tasks', '')}",
+              
           ]
           output = "\\n".join(lines) + "\\n"
           summary_file = Path(".agentcore/state/agent-runner-summary.md")
@@ -441,13 +411,12 @@ jobs:
         with:
           path: |
             .agentcore/state/email-last-uid.json
-            .agentcore/state/chat-last-message.json
-            .agentcore/state/drive-ingest-state.json
+                        .agentcore/state/drive-ingest-state.json
             agentcore/knowledge/communications/email-thread-ledger.json
-            agentcore/knowledge/communications/chat-thread-ledger.json
+            agentcore/knowledge/communications/telegram-thread-ledger.json
             agentcore/knowledge/communications/scheduled-messages-state.json
             agentcore/inbox/email
-            agentcore/inbox/chat
+            agentcore/inbox/telegram
             agentcore/inbox/drive
             agentcore/inbox/photos
             agentcore/inbox/tasks

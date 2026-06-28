@@ -50,16 +50,49 @@ async function getHistory(conversationKey, env = process.env) {
   }
 }
 
+function historyMessageLimit(env = process.env) {
+  const explicit = Number(env.AGENTCORE_FAST_HISTORY_MESSAGES);
+  if (Number.isFinite(explicit) && explicit > 0) {
+    return Math.floor(explicit);
+  }
+  const turns = Number(env.AGENTCORE_FAST_HISTORY_TURNS || 10);
+  return Math.floor(turns * 2);
+}
+
+function historyTtlSeconds(env = process.env) {
+  const raw = env.AGENTCORE_FAST_HISTORY_TTL_SECONDS;
+  if (raw === "0" || raw === "false" || raw === "none" || raw === "off") {
+    return 0;
+  }
+  if (raw !== undefined && String(raw).trim() !== "") {
+    const parsed = Number(raw);
+    return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : 0;
+  }
+  return 0;
+}
+
 async function saveHistory(conversationKey, history, env = process.env) {
   const key = `agentcore:router:${hashKey(conversationKey)}`;
-  const turns = Number(env.AGENTCORE_FAST_HISTORY_TURNS || 6);
-  const ttlSeconds = Number(env.AGENTCORE_FAST_HISTORY_TTL_SECONDS || 21600);
-  const trimmed = history.slice(Math.max(0, history.length - turns * 2));
-  return redisCommand(["SET", key, JSON.stringify(trimmed), "EX", String(ttlSeconds)], env);
+  const limit = historyMessageLimit(env);
+  const ttlSeconds = historyTtlSeconds(env);
+  const trimmed = history.slice(Math.max(0, history.length - limit));
+  const command =
+    ttlSeconds > 0
+      ? ["SET", key, JSON.stringify(trimmed), "EX", String(ttlSeconds)]
+      : ["SET", key, JSON.stringify(trimmed)];
+  return redisCommand(command, env);
+}
+
+function historyConfigured(env = process.env) {
+  const { url, token } = redisConfig(env);
+  return Boolean(url && token);
 }
 
 module.exports = {
   getHistory,
   saveHistory,
   redisCommand,
+  historyConfigured,
+  historyMessageLimit,
+  historyTtlSeconds,
 };

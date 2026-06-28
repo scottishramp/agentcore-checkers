@@ -22,7 +22,7 @@ jobs:
           python-version: "3.12"
 
       - name: Prepare directories
-        run: mkdir -p .agentcore/state .agentcore/state/chat-fetch agentcore/inbox/email agentcore/inbox/chat agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks agentcore/knowledge/communications
+        run: mkdir -p .agentcore/state .agentcore/state/telegram-fetch agentcore/inbox/email agentcore/inbox/telegram agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks agentcore/knowledge/communications
 
       - name: Fetch inbox
         env:
@@ -39,25 +39,18 @@ jobs:
       - name: Triage messages
         run: python3 scripts/email/triage_messages.py
 
-      - name: Fetch Chat messages
+      - name: Fetch Telegram inbox
         env:
-          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
-          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
-          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
-          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
-          AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
-          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
-          AGENTCORE_CHAT_SELF_USER_NAME: ${{ secrets.AGENTCORE_CHAT_SELF_USER_NAME || 'users/112143982168307832773' }}
-        run: python3 scripts/chat/fetch_messages.py --limit 50 --bootstrap-window 0
+          KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
+          KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.KV_REST_API_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+        run: python3 scripts/telegram/fetch_pending.py
 
-      - name: Triage Chat messages
-        run: python3 scripts/chat/triage_messages.py
+      - name: Triage Telegram messages
+        run: python3 scripts/telegram/triage_messages.py
 
-      # NOTE: Proactive outbound Chat sends (scheduled check-ins, acks) are
-      # intentionally NOT done here. This workflow has `contents: read` and
-      # cannot persist the git-tracked dedup state, so sending from here
-      # produced duplicate messages. All proactive sends are owned by the
-      # agent-runner workflow, which has write permission and commits state.
+      # NOTE: Proactive Telegram sends are owned by agent-runner (write permission + git-tracked dedup state).
 
       - name: Ingest Drive docs and photos
         env:

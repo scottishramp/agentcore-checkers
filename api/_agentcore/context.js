@@ -44,24 +44,25 @@ function rawChatMessage(content) {
   return compactWhitespace(String(content).slice(index + marker.length));
 }
 
-function buildRecentChatContext(rootDir, options = {}) {
-  const chatDir = path.join(rootDir, "agentcore/inbox/chat");
+function buildRecentTelegramContext(rootDir, options = {}) {
+  const chatDir = path.join(rootDir, "agentcore/inbox/telegram");
   let entries = [];
   try {
     entries = fs
       .readdirSync(chatDir, { withFileTypes: true })
       .filter((entry) => entry.isFile() && entry.name.endsWith(".md") && entry.name !== "README.md")
       .map((entry) => {
-        const relativePath = path.join("agentcore/inbox/chat", entry.name);
+        const relativePath = path.join("agentcore/inbox/telegram", entry.name);
         const content = readTextIfExists(rootDir, relativePath);
         return {
-          createdAt: parseFrontmatterValue(content, "created_at"),
-          sender: parseFrontmatterValue(content, "sender_display_name") || parseFrontmatterValue(content, "sender_name"),
+          receivedAt: parseFrontmatterValue(content, "received_at"),
+          sender: parseFrontmatterValue(content, "sender_display_name") || parseFrontmatterValue(content, "telegram_user_id"),
+          route: parseFrontmatterValue(content, "route"),
           text: rawChatMessage(content),
         };
       })
-      .filter((entry) => entry.createdAt && entry.text)
-      .sort((left, right) => right.createdAt.localeCompare(left.createdAt))
+      .filter((entry) => entry.receivedAt && entry.text)
+      .sort((left, right) => right.receivedAt.localeCompare(left.receivedAt))
       .slice(0, Number(options.limit || 10));
   } catch (error) {
     if (!error || error.code !== "ENOENT") {
@@ -72,9 +73,9 @@ function buildRecentChatContext(rootDir, options = {}) {
   const scheduledState = readTextIfExists(rootDir, "agentcore/knowledge/communications/scheduled-messages-state.json").trim();
   const lines = [];
   if (entries.length) {
-    lines.push("Recent Brian DM messages tracked by the async Chat polling workflow:");
+    lines.push("Recent Telegram messages tracked for async processing:");
     for (const entry of entries) {
-      lines.push(`- ${entry.createdAt} | ${entry.sender || "unknown"}: ${entry.text}`);
+      lines.push(`- ${entry.receivedAt} | ${entry.sender || "unknown"} | ${entry.route || "unknown"}: ${entry.text}`);
     }
   }
   if (scheduledState) {
@@ -240,9 +241,9 @@ function buildContext(options = {}) {
     }
     sections.push(`## ${relativePath}\n\n${content}`);
   }
-  const recentChatContext = buildRecentChatContext(rootDir);
-  if (recentChatContext) {
-    sections.push(`## Recent Google Chat Context\n\n${recentChatContext}`);
+  const recentTelegramContext = buildRecentTelegramContext(rootDir);
+  if (recentTelegramContext) {
+    sections.push(`## Recent Telegram Context\n\n${recentTelegramContext}`);
   }
 
   return trimMiddle(sections.join("\n\n---\n\n"), maxChars);
@@ -251,7 +252,7 @@ function buildContext(options = {}) {
 module.exports = {
   DEFAULT_CONTEXT_FILES,
   addDaysToIsoDate,
-  buildRecentChatContext,
+  buildRecentTelegramContext,
   buildContext,
   extractFoodDaySummary,
   parseFoodLogByDate,

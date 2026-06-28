@@ -11,144 +11,66 @@ AgentCore is Brian Herbert's private administrative assistant. This repository i
 - AgentCore Google identity: `scottishramp@gmail.com`.
 - Brian trusted client identity: `briandherbert@gmail.com`.
 - GitHub account/repo: `scottishramp/agentcore-checkers`.
-- Primary fast chat: **Telegram bot** at `https://agentcore-fast-router.vercel.app/api/agentcore-telegram` (instant 1:1 DMs, shared repo knowledge). Setup blocked on BotFather token.
-- Legacy Google Chat: human DM polling remains for async tasks; Google Chat app webhook blocked by Gmail visibility limits.
+- Primary chat: **Telegram** `@AgentCoreFam_bot` at `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`.
 
 ## Communication Surfaces
 
-### Telegram Bot (Primary Fast Chat)
+### Telegram (Primary)
 
-One shared bot; each family member gets their own 1:1 DM with instant replies.
+Two layers: **fast chat** (Vercel + Gemini) and **async agent** (GitHub Actions + Cursor).
 
-Flow:
+#### Fast chat (synchronous)
 
-1. User sends a Telegram message to the AgentCore bot.
-2. Telegram POSTs to `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`.
-3. Vercel verifies optional webhook secret, checks allowlist, routes via Gemini + repo context + Redis history.
-4. Bot replies synchronously via Telegram `sendMessage`.
-5. Knowledge updates/tasks dispatch to `.github/workflows/router-task.yml`; completion replies via `scripts/telegram/send_task_response.py`.
+1. User DMs `@AgentCoreFam_bot`.
+2. Telegram POSTs to the Vercel webhook.
+3. Allowlist check (fail closed); unknown users dropped silently.
+4. Gemini replies using repo context bundle + Upstash conversation history (20 messages, persistent).
+5. Every allowed message is appended to the Upstash inbox queue (`agentcore:telegram:inbox`) with route metadata — **no Cursor dispatch from Vercel**.
+
+#### Async agent (scheduled)
+
+1. `email-sync.yml` (every 30 min) and `agent-runner.yml` (hourly) pull pending messages from Upstash.
+2. `scripts/telegram/triage_messages.py` writes inbox records under `agentcore/inbox/telegram/` and queues tasks for `knowledge_update` / `task` routes.
+3. `agent-runner.yml` claims tasks, sends **“Working on: …”** via Telegram, runs Cursor, commits knowledge, notifies completion via Telegram, redeploys Vercel when `VERCEL_TOKEN` is set.
+4. Food check-ins and morning prompts go to Telegram via `scripts/telegram/send_scheduled_messages.py`.
 
 Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 
-Bot: `@AgentCoreFam_bot`
-
-Send **`version`** in chat to see the live router version (`chatbot-version.json`).
-
-## Chatbot Versioning
-
-- Canonical registry: `agentcore/knowledge/architecture/chatbot-version.json`
-- Human doc: `agentcore/knowledge/architecture/chatbot-version.md`
-- **Router version** — routing code, deterministic commands, prompts, channel handlers
-- **Context bundle version** — repo files included in shallow-chat context
-- User command: `version` or `/version` returns live deployed semver
-- Health checks (`GET /api/agentcore-telegram`, `GET /api/agentcore-chat`) include `router_version`
-
-### Normal Google Chat DM
-
-Brian currently messages the normal Google account `scottishramp@gmail.com`.
-
-Flow:
-
-1. Brian sends a normal Google Chat DM.
-2. GitHub Actions polls the Chat API for `spaces/6RZ69yAAAAE`.
-3. New Brian-authored messages become Markdown inbox records under `agentcore/inbox/chat/`.
-4. Triage creates tasks under `agentcore/inbox/tasks/`.
-5. `agent-runner.yml` runs Cursor/agent work, sends replies back to the same Chat DM, records ledgers, commits, and pushes.
-
-Current cadence:
-
-- `email-sync.yml`: scheduled at `0,30 * * * *`, fetches Chat with `bootstrap-window 0`.
-- `agent-runner.yml`: scheduled at `5 * * * *`, fetches Chat with `bootstrap-window 30`.
-- `email-sync.yml` can dispatch `agent-runner.yml` immediately when it creates tasks.
-- After a completed Google Chat task, `agent-runner.yml` can keep a bounded pseudo-synchronous loop open for 15 minutes, polling every 20 seconds, during 09:00-20:00 `America/Chicago`.
-
-Important constraint:
-
-- Normal human-to-human Google Chat DMs do not call a webhook. They can only be seen by polling the Chat API.
-
-### Google Chat Fast Router App
-
-The Vercel fast router is intended for shallow, immediate replies from a Google Chat app/bot surface.
-
-Flow:
-
-1. User messages the Google Chat app.
-2. Google Chat sends an HTTP event to `https://agentcore-fast-router.vercel.app/api/agentcore-chat`.
-3. The Vercel function verifies the Google Chat OIDC bearer token.
-4. The router builds compact context from repo files plus recent tracked Chat automation context.
-5. Gemini classifies the message as `lightweight_answer`, `knowledge_update`, `task`, `needs_clarification`, or `ignore`.
-6. Lightweight answers return synchronously to Chat.
-7. Knowledge updates/tasks also dispatch GitHub `repository_dispatch` for async Cursor handling.
-
-Current deployment:
-
-- Vercel project: `agentcore/agentcore-fast-router`.
-- Endpoint: `https://agentcore-fast-router.vercel.app/api/agentcore-chat`.
-- Model: `gemini-2.5-flash`.
-- Health check: `GET /api/agentcore-chat`.
-- Code: `api/agentcore-chat.js`, `api/_agentcore/fast-router.js`, `api/_agentcore/context.js`, `api/_agentcore/store.js`.
-- Async handoff workflow: `.github/workflows/router-task.yml`.
-- Tests: `npm run router:test`.
-
-Current blocker:
-
-- Brian-facing Chat app verification is not complete. `scottishramp`-owned Chat app configs strip `briandherbert@gmail.com` from tester visibility. A Brian-owned project `agentcore-chat-brian` exists with Chat API enabled, but Cloud Console browser configuration needs Brian passkey sign-in.
-
-Product direction:
-
-- Keep the normal `scottishramp@gmail.com` DM as the family-friendly primary surface unless Brian chooses otherwise.
-- Use the Chat app/router as optional instant mode, or continue adapting the normal DM path with faster polling/shallow-first behavior.
-
 ### Email
 
-Flow:
-
 1. Gmail API fetches trusted-client email.
-2. Normalized records live under `agentcore/inbox/email/`.
+2. Normalized records under `agentcore/inbox/email/`.
 3. Triage creates tasks under `agentcore/inbox/tasks/`.
 4. Cursor runner replies into the original Gmail thread.
-5. `email-thread-ledger.json` tracks idempotency and response state.
-
-Important rule:
-
-- For email chains, process only when Brian is the latest meaningful sender. AgentCore's reply should be the latest thread message until Brian replies again.
+5. `email-thread-ledger.json` tracks idempotency.
 
 ## Workflows
 
-- `.github/workflows/email-sync.yml`: scheduled intake, deterministic publishing, and runner dispatch.
-- `.github/workflows/agent-runner.yml`: task execution, scheduled Chat messages, pseudo-synchronous Chat loop, queue draining, commits, and notifications.
-- `.github/workflows/router-task.yml`: async task creation/execution from the Vercel fast router.
+- `.github/workflows/email-sync.yml`: email + Telegram inbox fetch/triage, Drive ingest, runner dispatch.
+- `.github/workflows/agent-runner.yml`: Telegram triage, task execution, Telegram notifications, Vercel redeploy.
+
+**Removed:** Google Chat polling, Google Chat HTTP app (`/api/agentcore-chat`), and `router-task.yml` live `repository_dispatch`.
 
 ## Data Stores
 
-- `agentcore/hot-cache.md`: compact current state and operating preferences.
-- `agentcore/index.md`: knowledge map.
-- `agentcore/blockers.md`: major unresolved blockers.
-- `agentcore/log.md`: append-only event log.
-- `agentcore/inbox/`: normalized source records and queued tasks.
-- `agentcore/knowledge/communications/`: ledgers and deterministic communication state.
-- `.agentcore/state/`: transient local/runner state; do not rely on it for durable knowledge.
-- Google Drive: preferred home for source docs, scans, photos, and organized files.
+- `agentcore/inbox/telegram/`: normalized Telegram messages from async triage.
+- `agentcore/knowledge/communications/telegram-thread-ledger.json`: Telegram triage idempotency.
+- Upstash Redis: conversation history + inbound inbox queue.
+- Standard repo stores: `hot-cache.md`, `index.md`, `blockers.md`, `log.md`, `inbox/tasks/`, etc.
 
-## Secrets And Auth
+## Secrets
 
-- `.env` and `.secrets/` are gitignored and must never be committed.
-- GitHub Actions secrets hold Gmail/Chat OAuth material, Cursor API key, and runner configuration.
-- Vercel production environment holds Gemini API key and GitHub dispatch token for the fast router.
-- AgentCore should use `scottishramp@gmail.com` for external sign-ups unless Brian directs otherwise.
+- **Vercel:** `TELEGRAM_BOT_TOKEN`, `AGENTCORE_TELEGRAM_ALLOWED_USER_IDS`, Gemini key, `KV_REST_API_*`.
+- **GitHub Actions:** Gmail OAuth, `CURSOR_API_KEY`, `TELEGRAM_BOT_TOKEN`, `KV_REST_API_*`, optional `VERCEL_TOKEN` for bot context redeploy.
 
-## Operational Invariants
+## Chatbot Versioning
 
-- Keep secrets out of git.
-- Commit, push, and activation/deployment are expected after successful changes unless Brian says not to.
-- Preserve existing user changes; do not revert unrelated work.
-- Update architecture docs when changing channels, workflows, hosted endpoints, OAuth scopes, queue semantics, or durable state locations.
-- Update `agentcore/hot-cache.md`, `agentcore/index.md`, and `agentcore/log.md` after significant architecture changes.
-- If architecture work is blocked by authority, login, passkey, 2FA, missing API access, or a major ambiguity, record it in `agentcore/blockers.md`.
+- Registry: `agentcore/knowledge/architecture/chatbot-version.json`
+- User command: `version` in Telegram
+- After runner knowledge commits, redeploy refreshes the bundled context files on Vercel
 
 ## Related Docs
 
-- `agentcore/knowledge/playbooks/google-chat-fast-router.md`
+- `agentcore/knowledge/playbooks/telegram-fast-router.md`
 - `agentcore/knowledge/playbooks/email-ops.md`
 - `agentcore/knowledge/playbooks/communication-intake-contracts.md`
-- `agentcore/knowledge/projects/personal-operating-system.md`

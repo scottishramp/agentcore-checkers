@@ -13,7 +13,7 @@ function allowedUserIds(env = process.env) {
 function isUserAllowed(userId, env = process.env) {
   const allowed = allowedUserIds(env);
   if (!allowed.length) {
-    return true;
+    return false;
   }
   return allowed.includes(String(userId));
 }

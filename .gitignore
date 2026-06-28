@@ -12,3 +12,4 @@ scripts/email/__pycache__/
 client_secret_*.apps.googleusercontent.com.json
 oauth-client*.json
 credentials*.json
+.env*

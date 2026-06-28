@@ -45,8 +45,8 @@ async function run() {
       throw new Error("Gemini should not run for version command");
     },
   });
-  assert.match(version.text, /AgentCore Fast Router v1\.2\.1/);
-  assert.match(version.text, /Context bundle: v1\.2\.0/);
+  assert.match(version.text, /AgentCore Fast Router v2\.0\.0/);
+  assert.match(version.text, /Context bundle: v2\.0\.0/);
 
   const lightweight = await routeChatEvent(eventWithText("What is my food check-in prompt?"), {
     context,
@@ -60,46 +60,57 @@ async function run() {
   });
   assert.match(lightweight.text, /What'd you eat since last time/);
 
-  let dispatchedPayload = null;
-  const update = await routeChatEvent(eventWithText("I had eggs and sourdough for breakfast"), {
+  const knowledgeEvent = {
+    ...eventWithText("I had eggs and sourdough for breakfast"),
+    agentcore: {
+      source_kind: "telegram",
+      message_id: "telegram:test-knowledge",
+      telegram_chat_id: "999001",
+      telegram_user_id: "111",
+      conversation_key: "telegram:dm:999001",
+    },
+    space: { name: "telegram:dm:999001" },
+  };
+  const update = await routeChatEvent(knowledgeEvent, {
     context,
     history: [],
     env: { AGENTCORE_ROUTER_DEBUG: "true" },
     modelClient: async () => ({
       route: "knowledge_update",
-      response: "Got it. I’ll queue that for the food log.",
+      response: "Got it — I'll note that for the scheduled agent.",
       async_task_title: "Log Brian breakfast",
       async_task_body: "Brian had eggs and sourdough for breakfast.",
       confidence: 0.9,
     }),
-    dispatcher: async (payload) => {
-      dispatchedPayload = payload;
-      return { status: "dispatched" };
-    },
   });
-  assert.match(update.text, /queue that/);
-  assert(dispatchedPayload, "knowledge update should dispatch async task");
-  assert.equal(dispatchedPayload.decision.route, "knowledge_update");
+  assert.match(update.text, /scheduled agent/i);
+  assert.equal(update._meta.queue_status, "skipped");
 
-  let taskDispatched = false;
-  const task = await routeChatEvent(eventWithText("Build me a little scheduling app"), {
+  const taskEvent = {
+    ...eventWithText("Build me a little scheduling app"),
+    agentcore: {
+      source_kind: "telegram",
+      message_id: "telegram:test-task",
+      telegram_chat_id: "999001",
+      telegram_user_id: "111",
+      conversation_key: "telegram:dm:999001",
+    },
+    space: { name: "telegram:dm:999001" },
+  };
+  const task = await routeChatEvent(taskEvent, {
     context,
     history: [],
     env: {},
     modelClient: async () => ({
       route: "task",
-      response: "Got it. I’ll hand that to the repo-backed agent.",
+      response: "Got it — the scheduled repo agent will pick this up.",
       async_task_title: "Build scheduling app",
       async_task_body: "Build a small scheduling app prototype.",
       confidence: 0.88,
     }),
-    dispatcher: async () => {
-      taskDispatched = true;
-      return { status: "dispatched" };
-    },
   });
-  assert.match(task.text, /repo-backed agent/);
-  assert.equal(taskDispatched, true);
+  assert.match(task.text, /scheduled repo agent/i);
+  assert.equal(task._meta.queue_status, "skipped");
 
   console.log("fast router tests passed");
 }

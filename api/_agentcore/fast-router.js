@@ -1,4 +1,5 @@
 const { buildContext, runtimeClock, tryDeterministicFoodAnswer } = require("./context");
+const { enqueueTelegramMessage } = require("./inbox-queue");
 const { getHistory, saveHistory } = require("./store");
 const { loadVersionRegistry, tryDeterministicVersionAnswer, versionMetadata } = require("./version");
 
@@ -63,7 +64,7 @@ function fallbackDecision(text) {
     return {
       route: "knowledge_update",
       response: "Got it. I’ll remember this here for the conversation and queue it for durable filing in the knowledge base.",
-      async_task_title: "Ingest personal update from Google Chat",
+      async_task_title: "Ingest personal update from Telegram",
       async_task_body: text,
       confidence: 0.5,
     };
@@ -71,7 +72,7 @@ function fallbackDecision(text) {
   return {
     route: "task",
     response: "Got it. I’ll hand this to the repo-backed Cursor agent for a deeper pass.",
-    async_task_title: "Handle Google Chat task",
+    async_task_title: "Handle Telegram task",
     async_task_body: text,
     confidence: 0.45,
   };
@@ -122,16 +123,17 @@ async function callGemini({ text, context, history, sender, env = process.env })
   const registry = loadVersionRegistry();
   const versionLine = `Chatbot version: ${registry.name} v${registry.router_version} (context v${registry.context_bundle_version}, released ${registry.released_at || "unknown"}).`;
   const system = [
-    "You are AgentCore's fast chat router for Brian Herbert and family (Telegram/Google Chat).",
+    "You are AgentCore's fast Telegram chat assistant for Brian Herbert and family.",
     versionLine,
     `Authoritative runtime clock: ${clock.localDisplay} (${clock.timezone}). Local date: ${clock.localDate}. Use this for today/yesterday; never guess the date.`,
     "Answer ONLY from the compact repo context below. If the context lacks the fact, say you do not have it yet — never invent meals, dates, or personal details.",
     "The food log is in agentcore/knowledge/people/brian-herbert-food-log.md under ## YYYY-MM-DD headings.",
     "For Brian meal answers: give totals/notes only; do not repeat back the list of foods he ate.",
-    "Do not claim that durable repo knowledge was updated; only the async Cursor agent can write durable updates.",
+    "Never claim durable repo knowledge was updated in this chat turn. A separate scheduled tool-enabled agent ingests knowledge and runs tasks later.",
+    "Never say Cursor is running right now or that you dispatched a GitHub workflow.",
     "Classify each message into exactly one route: lightweight_answer, knowledge_update, task, needs_clarification, or ignore.",
-    "For knowledge_update, acknowledge that the info will be filed later and produce an async task body for Cursor.",
-    "For task, acknowledge that the repo-backed Cursor agent will handle it and produce an async task body.",
+    "For knowledge_update or task: acknowledge naturally in one short sentence. The scheduled agent will see the message later — do not over-explain the pipeline.",
+    "For lightweight_answer: answer from context when possible.",
     "Keep responses concise and natural for chat.",
     "Return only JSON with keys route, response, async_task_title, async_task_body, confidence.",
   ].join("\n");
@@ -191,6 +193,31 @@ function dispatchMetaFromEvent(event) {
   };
 }
 
+async function enqueueInboxMessage({ event, text, decision, env = process.env }) {
+  const meta = dispatchMetaFromEvent(event);
+  if (meta.source_kind !== "telegram") {
+    return { status: "not_applicable" };
+  }
+  return enqueueTelegramMessage(
+    {
+      message_id: meta.chat_message_name,
+      telegram_chat_id: meta.telegram_chat_id,
+      telegram_user_id: meta.telegram_user_id,
+      telegram_username: meta.telegram_username,
+      sender_display_name: meta.sender_display_name,
+      conversation_key: meta.conversation_key,
+      text,
+      route: decision.route,
+      confidence: decision.confidence,
+      fast_response: decision.response,
+      async_task_title: decision.async_task_title || "",
+      async_task_body: decision.async_task_body || text,
+      received_at: new Date().toISOString(),
+    },
+    env,
+  );
+}
+
 async function dispatchAsyncTask({ event, text, decision, env = process.env }) {
   const token = env.GITHUB_DISPATCH_TOKEN || env.GH_DISPATCH_TOKEN || "";
   const repository = env.GITHUB_REPOSITORY || env.AGENTCORE_GITHUB_REPOSITORY || "";
@@ -212,7 +239,7 @@ async function dispatchAsyncTask({ event, text, decision, env = process.env }) {
             : "Ingest Google Chat update"
           : meta.source_kind === "telegram"
             ? "Handle Telegram task"
-            : "Handle Google Chat task"),
+            : "Handle Telegram task"),
       async_task_body: decision.async_task_body || text,
       source_kind: meta.source_kind,
       chat_message_name: meta.chat_message_name,
@@ -284,15 +311,12 @@ async function routeChatEvent(event, options = {}) {
     }
   }
 
-  let dispatch = { status: "not_needed" };
-  if (decision.route === "knowledge_update" || decision.route === "task") {
-    const dispatcher = options.dispatcher || dispatchAsyncTask;
-    dispatch = await dispatcher({ event, text, decision, env });
-    if (dispatch.status === "skipped") {
-      decision.response = `${decision.response}\n\nAsync handoff is not configured yet, so I may need Brian to run this from Cursor.`;
-    } else if (dispatch.status === "error") {
-      decision.response = `${decision.response}\n\nI hit a snag handing this to the async runner; I’ll need a Cursor pass to fix the handoff.`;
-    }
+  let queueStatus = { status: "not_needed" };
+  const sourceKind = event && event.agentcore && event.agentcore.source_kind;
+  if (sourceKind === "telegram") {
+    queueStatus = await enqueueInboxMessage({ event, text, decision, env }).catch(() => ({
+      status: "error",
+    }));
   }
 
   const nextHistory = [
@@ -307,16 +331,17 @@ async function routeChatEvent(event, options = {}) {
     _meta: {
       route: decision.route,
       confidence: decision.confidence,
-      dispatch_status: dispatch.status,
+      queue_status: queueStatus.status,
       ...versionMetadata(registry),
     },
-    _debug: env.AGENTCORE_ROUTER_DEBUG === "true" ? { decision, dispatch } : undefined,
+    _debug: env.AGENTCORE_ROUTER_DEBUG === "true" ? { decision, queueStatus } : undefined,
   };
 }
 
 module.exports = {
   callGemini,
   dispatchAsyncTask,
+  enqueueInboxMessage,
   extractMessageText,
   fallbackDecision,
   normalizeDecision,

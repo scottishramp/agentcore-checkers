@@ -27,16 +27,13 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: trusted third-party share notification intake. Google Drive/Keep share emails are accepted when the body names Brian's trusted email and the message is addressed to AgentCore.
 - Delivered: Calendar readonly access. Brian shared `briandherbert@googlemail.com` with `scottishramp@gmail.com`; AgentCore can list it through Google Calendar API as `reader` and read upcoming events.
 - Delivered: broad admin-assistant OAuth bundle. AgentCore has read access for shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive/Docs/Sheets/Slides/Tasks/app-created Photos artifacts.
-- Delivered: Google Chat browser/API send and polling baseline. AgentCore can send Chat DMs, fetch Brian's DM messages, queue them as async tasks, and reply back into Chat after runner completion.
-- Delivered: bounded pseudo-synchronous Google Chat mode in GitHub Actions. For conversational Chat tasks during 09:00-20:00 `America/Chicago`, the runner can keep polling/replying for a short session.
-- Delivered: Telegram fast chat via `@AgentCoreFam_bot`. Webhook live at `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`; Gemini shallow replies + async Cursor handoff. Kristin can DM the same bot for her own 1:1 chat with shared knowledge.
+- Delivered: Telegram-only chat via `@AgentCoreFam_bot`. Fast Gemini replies on Vercel; every message queued to Upstash; GitHub Actions triage + Cursor on schedule; Telegram working/done notifications; optional Vercel redeploy after knowledge commits. Google Chat removed.
 - Delivered: runner notification hardening. If an async task's repo push is rejected, the runner should still send the Email/Chat response and continue ledger/finalization steps.
 - Active initiative: Brian personal operating system and family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
 - Operating hub: `agentcore/knowledge/projects/personal-operating-system.md` covers diet, scheduling, kid school logistics, app ideas, and personal management defaults.
 - System architecture hub: `agentcore/knowledge/architecture/system-architecture.md` documents communication surfaces, workflows, hosted endpoints, polling cadence, data stores, secrets, blockers, and architecture update requirements.
-- Google access inventory: Gmail, Brian DM Google Chat, Brian shared Calendar, and shared Drive/Docs are live. Maps location share emails are visible but personal live Maps location has no supported API. Keep body remains blocked. Broad Photos reads remain blocked, but user-selected Photos intake can use the Picker helper after OAuth is refreshed with `photospicker.mediaitems.readonly`.
-- Brian family context: Brian was born 1983-09-10; married Kristin Herbert on 2006-05-27; children are Daniel, Nathan, Ezra, Silver, and Levi.
-- Open blockers: Google Chat app visibility still blocked for free Gmail accounts; Google Keep note content unavailable; broad Google Photos library reads unavailable.
+- Google access inventory: Gmail, Brian shared Calendar, and shared Drive/Docs are live. Maps/Keep/Photos limitations unchanged.
+- Open blockers: Google Keep note content unavailable; broad Google Photos library reads unavailable.
 
 ## Operating Preferences
 
@@ -45,7 +42,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Google operating model: know what Brian shares with `scottishramp@gmail.com`, treat Brian-shared resources as read surfaces unless explicit edit authority is granted, and write/organize durable artifacts in AgentCore's own Google space.
 - Use `briandherbert@gmail.com` and Brian's direct Google Chat with AgentCore as trusted client channels for questions, updates, and task requests.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
-- Fast chat via `@AgentCoreFam_bot`; send `version` for live router semver (currently v1.2.0).
+- Fast chat via `@AgentCoreFam_bot`; send `version` for live router semver (currently v2.0.0). Async agent runs on GitHub Actions schedule, not per message.
 - If Brian says exactly `sync`, use the project `github-sync` skill to sync local and remote GitHub state with Cursor agent judgment. Do not rely on a custom sync script.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
@@ -63,6 +60,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Architecture v2.0.0: Telegram-only chat; async Cursor via scheduled inbox triage; Google Chat removed.
+- Upstash Redis conversation history live for Telegram fast router (v1.3.0); health check reports `history_configured`.
 - Added chatbot versioning (`chatbot-version.json`, `version` command → v1.2.0) with architecture docs and health-check injection.
 - Added fast-router request logging and compact recent Chat automation context; deployed to Vercel. Created Brian-owned Cloud project `agentcore-chat-brian`; setup is paused at Brian browser passkey sign-in.
 - Deployed Google Chat fast router to Vercel: `https://agentcore-fast-router.vercel.app/api/agentcore-chat`, set production secrets, saved Google Chat API HTTP endpoint config, and documented the remaining visibility/live-test blocker.
