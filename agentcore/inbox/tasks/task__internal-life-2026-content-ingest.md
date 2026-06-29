@@ -1,6 +1,6 @@
 ---
 task_id: "task-internal-life-2026-content-ingest"
-status: "queued"
+status: "done"
 priority: "normal"
 source_message_id: "internal:life-2026-content-ingest"
 source_uid: "internal-life-2026-content-ingest"
@@ -12,14 +12,14 @@ chat_space: "spaces/6RZ69yAAAAE"
 source_kind: "google_chat"
 reply_style: "natural"
 queued_at: "2026-06-27T20:20:00+00:00"
-updated_at: "2026-06-29T05:00:20.528844+00:00"
-attempts: 0
-claimed_at: ""
-run_id: ""
-completed_at: ""
+updated_at: "2026-06-29T05:15:38.689560+00:00"
+attempts: 1
+claimed_at: "2026-06-29T05:14:22.290077+00:00"
+run_id: "28350204492"
+completed_at: "2026-06-29T05:15:38.689560+00:00"
 snagged_at: ""
 last_error: ""
-result_path: ""
+result_path: ".agentcore/state/task-run-result.json"
 activation_note: "Activated after Drive export for 1QJtmSeUCqIZ53uz4OIWTRVMC9s8yvq2kqm8hnHaSqpk"
 ---
 

@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-06-29] ingest | Re-verified Life 2026 important dates against fresh export
+
+- Processed queued task `task-internal-life-2026-content-ingest` against this cycle's credentialed export of the Life 2026 doc.
+- Re-validated all five children's birthdates from the doc's important-dates header — unchanged and correct: Daniel 2011-09-27, Nathan 2013-02-26, Ezra 2015-04-09, Silver 2017-01-25, Levi 2020-02-10.
+- `herbert-children.md`, `life-2026.md`, and `hot-cache.md` already held accurate values from the 2026-06-28 ingest; no content changes required. Full journal body was not stored in-repo.
+
 ## [2026-06-29] ops | Added fast-router context freshness health fields
 
 - Root signal: Telegram production still reported router v2.2.1 after repo had v2.3.x knowledge/context changes, proving Vercel was serving a stale snapshot.
