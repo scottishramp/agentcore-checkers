@@ -1,6 +1,6 @@
 ---
 task_id: "task-internal-life-2026-content-ingest"
-status: "deferred"
+status: "queued"
 priority: "normal"
 source_message_id: "internal:life-2026-content-ingest"
 source_uid: "internal-life-2026-content-ingest"
@@ -11,9 +11,8 @@ chat_message_name: ""
 chat_space: "spaces/6RZ69yAAAAE"
 source_kind: "google_chat"
 reply_style: "natural"
-activation_note: "deferred until the credentialed export step writes the doc body; export_flagged_docs.py flips this to queued"
 queued_at: "2026-06-27T20:20:00+00:00"
-updated_at: "2026-06-27T20:20:00+00:00"
+updated_at: "2026-06-29T05:00:20.528844+00:00"
 attempts: 0
 claimed_at: ""
 run_id: ""
@@ -21,6 +20,7 @@ completed_at: ""
 snagged_at: ""
 last_error: ""
 result_path: ""
+activation_note: "Activated after Drive export for 1QJtmSeUCqIZ53uz4OIWTRVMC9s8yvq2kqm8hnHaSqpk"
 ---
 
 # Ingest Life 2026 doc content (important dates / kids' birthdates)
