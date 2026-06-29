@@ -178,4 +178,15 @@ Brian reported: 2 eggs, 3 slices homemade white bread, 1 avocado, 2 slices tomat
 
 **Meal total:** ~970 cal | ~33g protein | ~83g carbs | ~58g fat
 
-**Day running total (so far):** ~970 cal | ~33g protein | ~83g carbs | ~58g fat
+### Dinner (logged ~19:17 CT)
+
+Brian reported: cheeseburger, Italian sausage, handful of Doritos, some bean salad.
+
+- Cheeseburger (~400 cal)
+- Italian sausage link (~290 cal)
+- Handful of Doritos (~150 cal)
+- Bean salad, small serving (~120 cal)
+
+**Meal total:** ~960 cal | ~45g protein | ~72g carbs | ~55g fat
+
+**Day running total (so far):** ~1,930 cal | ~78g protein | ~155g carbs | ~113g fat
