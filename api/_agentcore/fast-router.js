@@ -259,59 +259,6 @@ async function enqueueInboxMessage({ event, text, decision, photoMeta = {}, env 
   );
 }
 
-async function dispatchAsyncTask({ event, text, decision, env = process.env }) {
-  const token = env.GITHUB_DISPATCH_TOKEN || env.GH_DISPATCH_TOKEN || "";
-  const repository = env.GITHUB_REPOSITORY || env.AGENTCORE_GITHUB_REPOSITORY || "";
-  const eventType = env.AGENTCORE_ROUTER_EVENT_TYPE || "agentcore-router-task";
-  if (!token || !repository) {
-    return { status: "skipped", reason: "missing_github_dispatch_config" };
-  }
-  const meta = dispatchMetaFromEvent(event);
-  const body = {
-    event_type: eventType,
-    client_payload: {
-      route: decision.route,
-      response: decision.response,
-      async_task_title:
-        decision.async_task_title ||
-        (decision.route === "knowledge_update"
-          ? meta.source_kind === "telegram"
-            ? "Ingest Telegram update"
-            : "Ingest Google Chat update"
-          : meta.source_kind === "telegram"
-            ? "Handle Telegram task"
-            : "Handle Telegram task"),
-      async_task_body: decision.async_task_body || text,
-      source_kind: meta.source_kind,
-      chat_message_name: meta.chat_message_name,
-      chat_space: meta.chat_space,
-      chat_sender_name: meta.chat_sender_name,
-      sender_display_name: meta.sender_display_name,
-      telegram_chat_id: meta.telegram_chat_id,
-      telegram_user_id: meta.telegram_user_id,
-      telegram_username: meta.telegram_username,
-      conversation_key: meta.conversation_key,
-      original_text: text,
-      received_at: new Date().toISOString(),
-    },
-  };
-  const response = await fetch(`https://api.github.com/repos/${repository}/dispatches`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/vnd.github+json",
-      "Content-Type": "application/json",
-      "User-Agent": "AgentCore-FastRouter",
-    },
-    body: JSON.stringify(body),
-  });
-  if (!response.ok) {
-    const detail = await response.text();
-    return { status: "error", statusCode: response.status, detail: detail.slice(0, 500) };
-  }
-  return { status: "dispatched", event_type: eventType };
-}
-
 async function routeChatEvent(event, options = {}) {
   const env = options.env || process.env;
   const eventType = event && event.type ? event.type : "MESSAGE";
@@ -414,7 +361,6 @@ async function routeChatEvent(event, options = {}) {
 
 module.exports = {
   callGemini,
-  dispatchAsyncTask,
   enqueueInboxMessage,
   extractMessageText,
   fallbackDecision,

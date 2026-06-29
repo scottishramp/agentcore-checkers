@@ -27,7 +27,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Delivered: trusted third-party share notification intake. Google Drive/Keep share emails are accepted when the body names Brian's trusted email and the message is addressed to AgentCore.
 - Delivered: Calendar readonly access. Brian shared `briandherbert@googlemail.com` with `scottishramp@gmail.com`; AgentCore can list it through Google Calendar API as `reader` and read upcoming events.
 - Delivered: broad admin-assistant OAuth bundle. AgentCore has read access for shared Gmail/Drive/Calendar/Workspace/Contacts surfaces and write access for AgentCore-owned Drive/Docs/Sheets/Slides/Tasks/app-created Photos artifacts.
-- Delivered: Telegram-only chat via `@AgentCoreFam_bot`. Fast Gemini replies on Vercel; every message queued to Upstash; GitHub Actions triage + Cursor on schedule; Telegram working/done notifications; optional Vercel redeploy after knowledge commits. Google Chat removed.
+- Delivered: Telegram-only chat via `@AgentCoreFam_bot`. Fast Gemini replies on Vercel from repo context snapshot + Redis history; every allowed message queued to Upstash; write-capable GitHub Actions triage writes inbox records + `telegram-transcript.md` + per-message Cursor review tasks; Telegram working/done notifications; optional Vercel redeploy after knowledge commits. Google Chat removed.
 - Deploy reality: fast-router production has been updated via local Vercel CLI session auth (`npx vercel deploy --prod --yes`) using repo link in `.vercel/project.json`; GitHub Actions headless redeploy still needs `VERCEL_TOKEN`.
 - Delivered: runner notification hardening. If an async task's repo push is rejected, the runner should still send the Email/Chat response and continue ledger/finalization steps.
 - Active initiative: Brian personal operating system and family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
@@ -44,7 +44,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Use `briandherbert@gmail.com` and Brian's direct Google Chat with AgentCore as trusted client channels for questions, updates, and task requests.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
 - Fast chat via `@AgentCoreFam_bot`; send `version` for live router semver. Health endpoint exposes `context_hash`, `context_files`, and `has_nathan_birthdate` to prove Vercel has the latest repo context. Async agent runs on GitHub Actions schedule, not per message.
-- Telegram operating contract: fast layer answers only from current repo context and uses fixed defer text when uncertain; async Cursor reviews queued Telegram messages and decides durable knowledge vs action tasks.
+- Telegram operating contract: fast layer answers only from current repo context and uses fixed defer text when uncertain; async Cursor reads committed Telegram inbox records plus `agentcore/knowledge/communications/telegram-transcript.md`, then decides durable knowledge vs action task vs no-op and may post back to Telegram.
 - If Brian says exactly `sync`, use the project `github-sync` skill to sync local and remote GitHub state with Cursor agent judgment. Do not rely on a custom sync script.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
@@ -62,21 +62,13 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Telegram async architecture correction: `email-sync.yml` no longer drains Telegram; write-capable workflows own Redis consumption, triage appends `telegram-transcript.md`, every allowed Telegram message becomes a Cursor review item, and Cursor can suppress duplicate replies with `NO_TELEGRAM_REPLY`.
 - Clarified deploy path: Vercel production updates have been coming from local CLI session auth + `.vercel/project.json` link, not CI token-based redeploy.
 - Knowledge content ingest pipeline: Gmail + Telegram + shared Drive doc exports every 4h via `knowledge-content-ingest.yml`; Life 2026 birthdates ingested.
 - Telegram photo+caption support (v2.2.0): fast agent assigns photo labels, writes detailed descriptions, registry maps label→Drive; Cursor replies with label+URL.
 - Architecture v2.0.0: Telegram-only chat; async Cursor via scheduled inbox triage; Google Chat removed.
 - Upstash Redis conversation history live for Telegram fast router (v1.3.0); health check reports `history_configured`.
 - Added chatbot versioning (`chatbot-version.json`, `version` command → v1.2.0) with architecture docs and health-check injection.
-- Added fast-router request logging and compact recent Chat automation context; deployed to Vercel. Created Brian-owned Cloud project `agentcore-chat-brian`; setup is paused at Brian browser passkey sign-in.
-- Deployed Google Chat fast router to Vercel: `https://agentcore-fast-router.vercel.app/api/agentcore-chat`, set production secrets, saved Google Chat API HTTP endpoint config, and documented the remaining visibility/live-test blocker.
-- Added Google Photos Picker support path: OAuth helper requests `photospicker.mediaitems.readonly`, `scripts/photos/picker_session.py` can create/get/list/delete Picker sessions after consent refresh, and docs/blockers explain the interactive flow.
-- `agentcore/knowledge/projects/personal-operating-system.md` and `agentcore/knowledge/people/brian-herbert.md` — recorded current Google access inventory: Gmail, Chat, Calendar, Drive/Docs active; Maps share emails visible but no live-location API; Keep/Photos limitations remain.
-- `agentcore/knowledge/projects/personal-operating-system.md` — created operating hub for diet, scheduling, kid school logistics, app ideas, personal management, intake defaults, and sensitivity defaults.
-- `agentcore/knowledge/people/brian-herbert-food-log.md` — logged 2026-06-26 breakfast (2 eggs, Colby jack, sourdough) + lunch (4 slices pepperoni bread, Twix, Fritos Twists, cookie); ~2,030 cal so far.
-- Food check-ins at noon and 6 PM ask "What'd you eat since last time?" (ids `food-checkin-midday`/`food-checkin-evening`). `send_scheduled_messages.py` migrates legacy dedup keys (`food-checkin-dinner` → `food-checkin-evening`) so renamed ids do not re-send within the same window.
-- Food-log reply style (Brian, 2026-06-26): do NOT repeat Brian's food back to him. Log the meal and reply with totals/notes only — never echo the items he just reported.
-- Fixed duplicate Chat messages: proactive sends now owned ONLY by agent-runner; dedup state is git-tracked.
 
 ## Operating Note: proactive Chat sends
 

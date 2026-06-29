@@ -103,8 +103,13 @@ def main() -> int:
     activation_path = Path(".agentcore/state/content-task-activation-summary.json")
     if activation_path.exists():
         activation = json.loads(activation_path.read_text(encoding="utf-8"))
+    telegram_sync = {}
+    telegram_sync_path = Path(".agentcore/state/telegram-sync-summary.json")
+    if telegram_sync_path.exists():
+        telegram_sync = json.loads(telegram_sync_path.read_text(encoding="utf-8"))
 
-    if args.dispatch_runner and activation.get("activated"):
+    should_dispatch = bool(activation.get("activated")) or int(telegram_sync.get("created_tasks", 0) or 0) > 0
+    if args.dispatch_runner and should_dispatch:
         dispatch_result = _run_step("dispatch_runner", ["python3", "scripts/ingest/dispatch_runner_trigger.py"])
         steps.append(dispatch_result)
 
@@ -123,6 +128,7 @@ def main() -> int:
             "exported_drive_docs": _count_records(drive_content_dir, "*.txt"),
         },
         "activation": activation,
+        "telegram_sync": telegram_sync,
         "steps": steps,
         "errors": [step["error"] for step in steps if step.get("error")],
     }

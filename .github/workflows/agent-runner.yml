@@ -30,7 +30,7 @@ jobs:
           python-version: "3.12"
 
       - name: Prepare directories
-        run: mkdir -p .agentcore/state .agentcore/state/telegram-fetch .agentcore/state/task-runs agentcore/inbox/email agentcore/inbox/chat agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks
+        run: mkdir -p .agentcore/state .agentcore/state/telegram-fetch .agentcore/state/task-runs agentcore/inbox/email agentcore/inbox/chat agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks agentcore/knowledge/communications
 
       - name: Restore queue state cache
         uses: actions/cache/restore@v4
@@ -40,6 +40,7 @@ jobs:
                         .agentcore/state/drive-ingest-state.json
             agentcore/knowledge/communications/email-thread-ledger.json
             agentcore/knowledge/communications/telegram-thread-ledger.json
+            agentcore/knowledge/communications/telegram-transcript.md
             agentcore/knowledge/communications/scheduled-messages-state.json
             agentcore/inbox/email
             agentcore/inbox/telegram
@@ -78,6 +79,19 @@ jobs:
 
       - name: Triage Telegram messages
         run: python3 scripts/telegram/triage_messages.py
+
+      - name: Commit Telegram triage artifacts
+        continue-on-error: true
+        run: |
+          python3 scripts/agent/ensure_no_conflict_markers.py
+          git add agentcore/inbox/telegram agentcore/inbox/tasks agentcore/knowledge/communications/telegram-thread-ledger.json agentcore/knowledge/communications/telegram-transcript.md
+          if git diff --cached --quiet; then
+            echo "No Telegram triage changes to commit."
+          else
+            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Record Telegram inbox review items"
+            git -c rebase.autoStash=true pull --rebase origin main
+            git push
+          fi
 
       - name: Materialize Telegram photos to Drive
         env:
@@ -278,11 +292,7 @@ jobs:
       - name: Send Telegram completion notification
         if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status == 'done' && steps.claim.outputs.source_kind == 'telegram'
         env:
-          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
-          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
-          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
-          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
-          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
         run: |
           python3 scripts/telegram/send_task_response.py \
             --task-file "${{ steps.claim.outputs.task_file }}" \
@@ -292,11 +302,7 @@ jobs:
       - name: Send Telegram snag notification
         if: steps.claim.outputs.claimed == 'true' && steps.result.outputs.status != 'done' && steps.claim.outputs.source_kind == 'telegram'
         env:
-          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
-          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
-          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
-          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
-          AGENTCORE_CHAT_DM_SPACE: ${{ secrets.AGENTCORE_CHAT_DM_SPACE || 'spaces/6RZ69yAAAAE' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
         run: |
           python3 scripts/telegram/send_task_response.py \
             --task-file "${{ steps.claim.outputs.task_file }}" \
@@ -438,6 +444,7 @@ jobs:
                         .agentcore/state/drive-ingest-state.json
             agentcore/knowledge/communications/email-thread-ledger.json
             agentcore/knowledge/communications/telegram-thread-ledger.json
+            agentcore/knowledge/communications/telegram-transcript.md
             agentcore/knowledge/communications/scheduled-messages-state.json
             agentcore/inbox/email
             agentcore/inbox/telegram

@@ -1,14 +1,14 @@
 # AgentCore Chatbot Version Registry
 
-Canonical version record for the fast chat router (Telegram + Google Chat webhook surfaces).
+Canonical version record for the fast Telegram router.
 
 ## Current Version
 
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.3.1** |
-| Context bundle version | **2.2.1** |
+| Router version | **2.4.0** |
+| Context bundle version | **2.3.0** |
 | Released | 2026-06-29 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
 | Endpoint | `https://agentcore-fast-router.vercel.app/api/agentcore-telegram` |
@@ -17,7 +17,7 @@ Machine-readable source: `chatbot-version.json`
 
 ## User Command
 
-Send **`version`** (or `/version`) in Telegram or Google Chat to get the live deployed version.
+Send **`version`** (or `/version`) in Telegram to get the live deployed version.
 
 ## Versioning Rules
 
@@ -26,7 +26,7 @@ Bump **`router_version`** when changing:
 - Deterministic commands (`version`, food-log lookup, etc.)
 - Gemini system prompt / routing behavior
 - Webhook handlers or async handoff logic
-- Channel adapters (Telegram, Google Chat)
+- Channel adapters (Telegram)
 
 Bump **`context_bundle_version`** when changing:
 
@@ -48,6 +48,10 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.4.0 — 2026-06-29
+
+- Fast Telegram stays queue-only for async work; Cursor owns durable Telegram review from committed inbox records, `telegram-transcript.md`, and per-message review tasks.
 
 ### 2.3.1 — 2026-06-29
 

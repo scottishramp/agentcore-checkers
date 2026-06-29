@@ -163,7 +163,7 @@ def record_ledger(task_file: Path, result: dict, notification: dict) -> None:
     write_json(tmp_notify, notification)
 
     if source_kind == "telegram":
-        pass
+        return
     else:
         cmd = [
             sys.executable, str(EMAIL_DIR / "record_email_response.py"),

@@ -38,11 +38,17 @@ function parseFrontmatterValue(content, key) {
 }
 
 function rawChatMessage(content) {
-  const marker = "## Raw Chat Message";
-  const index = String(content || "").indexOf(marker);
-  if (index < 0) {
-    return "";
+  const markers = ["## Raw Telegram Message", "## Raw Chat Message"];
+  let marker = "";
+  let index = -1;
+  for (const candidate of markers) {
+    index = String(content || "").indexOf(candidate);
+    if (index >= 0) {
+      marker = candidate;
+      break;
+    }
   }
+  if (index < 0) return "";
   return compactWhitespace(String(content).slice(index + marker.length));
 }
 

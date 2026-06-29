@@ -476,3 +476,10 @@ Synthesized all learnings from the checkers project into AgentCore:
 ## [2026-06-27] ops | AgentCore architecture memory
 - Added `.cursor/rules/architecture-memory.mdc` so future Cursor sessions read and maintain the architecture map when AgentCore systems change.
 - Linked the architecture docs from `agentcore/index.md`, surfaced them in `agentcore/hot-cache.md`, and updated `AGENTS.md` to require architecture-doc maintenance for system changes.
+
+## [2026-06-29] architecture | Telegram transcript and Cursor review ownership
+
+- Corrected the Telegram intake contract: Vercel fast bot answers from a repo-context snapshot and queues messages only; it does not decide durable knowledge or action ownership.
+- Moved Telegram queue consumption out of read-only `email-sync.yml`; write-capable workflows now own Redis draining so normalized records, review tasks, and transcript updates can be committed.
+- Added durable `agentcore/knowledge/communications/telegram-transcript.md` and made every allowed Telegram message a Cursor review item with inbox/transcript context.
+- Fixed Telegram reply plumbing so Cursor can post back through `send_task_response.py` and can intentionally suppress duplicate replies with `NO_TELEGRAM_REPLY`.

@@ -79,6 +79,16 @@ def main() -> int:
     result = read_json(Path(args.result_json), default={})
     summary = str(result.get("summary", "")).strip()
     error = compact_whitespace(str(result.get("error", "")))
+    if args.status == "done" and summary == "NO_TELEGRAM_REPLY":
+        payload = {
+            "status": "skipped",
+            "reason": "no_telegram_reply_requested",
+            "task_file": args.task_file,
+            "task_id": str(task.meta.get("task_id", "")),
+            "sent_at": utc_now_iso(),
+        }
+        print(json.dumps(payload, ensure_ascii=True))
+        return 0
     body = direct_done_body(summary) if args.status == "done" else direct_snag_body(compact_whitespace(summary), error)
     chat_id = str(task.meta.get("telegram_chat_id", "")).strip()
     if not chat_id:

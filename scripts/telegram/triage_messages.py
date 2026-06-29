@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Normalize fetched Telegram records and enqueue async tasks for knowledge/task routes."""
+"""Normalize fetched Telegram records and enqueue async Cursor review tasks."""
 
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ from task_queue import next_task_id  # noqa: E402
 DEFAULT_INPUT_PATH = ".agentcore/state/telegram-fetch/latest.json"
 DEFAULT_SUMMARY_PATH = ".agentcore/state/telegram-sync-summary.json"
 DEFAULT_LEDGER_PATH = "agentcore/knowledge/communications/telegram-thread-ledger.json"
-ACTIONABLE_ROUTES = {"lightweight_answer", "knowledge_update", "task", "needs_clarification"}
+DEFAULT_TRANSCRIPT_PATH = "agentcore/knowledge/communications/telegram-transcript.md"
 
 
 def parse_args() -> argparse.Namespace:
@@ -29,6 +29,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--task-dir", default="agentcore/inbox/tasks", help="Task queue dir.")
     parser.add_argument("--summary-output", default=DEFAULT_SUMMARY_PATH, help="Machine-readable summary path.")
     parser.add_argument("--ledger", default=DEFAULT_LEDGER_PATH, help="Telegram idempotency ledger.")
+    parser.add_argument("--transcript", default=DEFAULT_TRANSCRIPT_PATH, help="Durable Telegram transcript markdown path.")
     return parser.parse_args()
 
 
@@ -132,15 +133,65 @@ def write_telegram_record(path: Path, record: dict) -> bool:
     return True
 
 
-def write_task_record(path: Path, record: dict) -> tuple[bool, str]:
+def quote_block(value: str) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return "> _No text._"
+    return "\n".join(f"> {line}" if line else ">" for line in text.splitlines())
+
+
+def append_transcript(path: Path, record: dict, telegram_record_path: Path) -> bool:
+    message_id = str(record.get("message_id", "")).strip()
+    if not message_id:
+        return False
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not path.exists():
+        path.write_text(
+            "# Telegram Transcript\n\n"
+            "Durable transcript of allowed Telegram messages queued from the fast router for async Cursor review.\n\n",
+            encoding="utf-8",
+        )
+
+    media = record_media(record)
+    photo_label = str(record.get("photo_label", "") or (media or {}).get("photo_label", "")).strip()
+    lines = [
+        f"## {record.get('received_at', '')} | {record.get('sender_display_name', '') or 'Telegram user'} | {message_id}",
+        "",
+        f"- Conversation: `{record.get('conversation_key', '')}`",
+        f"- Inbox record: `{telegram_record_path}`",
+        f"- Fast-router route: `{record.get('route', '')}`",
+    ]
+    if media:
+        lines.append(f"- Media: `{media.get('type', 'photo')}` / `{media.get('telegram_file_id', '')}`")
+    if photo_label:
+        lines.append(f"- Photo label: `{photo_label}`")
+    lines.extend(
+        [
+            "",
+            "User message:",
+            "",
+            quote_block(str(record.get("text", "")).strip()),
+            "",
+            "Fast router reply:",
+            "",
+            quote_block(str(record.get("fast_response", "")).strip()),
+            "",
+        ]
+    )
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write("\n".join(lines))
+    return True
+
+
+def write_task_record(path: Path, record: dict, telegram_record_path: Path, transcript_path: Path) -> tuple[bool, str]:
     message_id = str(record.get("message_id", "")).strip()
     thread_key = str(record.get("conversation_key", "")).strip() or str(record.get("telegram_chat_id", ""))
     task_id = next_task_id(message_id, thread_key)
     if path.exists():
         return False, task_id
 
-    body = str(record.get("async_task_body", "") or record.get("text", "")).strip()
-    title = compact_whitespace(str(record.get("async_task_title", ""))) or compact_whitespace(body)[:72] or "Telegram request"
+    body = str(record.get("text", "")).strip()
+    title = "Review Telegram photo" if record_media(record) else "Review Telegram message"
     photo_label = str(record.get("photo_label", "") or (record_media(record) or {}).get("photo_label", "")).strip()
     now = utc_now_iso()
     lines = [
@@ -178,6 +229,18 @@ def write_task_record(path: Path, record: dict) -> tuple[bool, str]:
             "",
             "## Requested Work",
             "",
+            "Review this Telegram message from Brian in the durable repo-backed inbox.",
+            "",
+            "Decide whether it should update knowledge, create or update an action task, or be treated as no-op/lightweight chat that needs no durable change.",
+            "",
+            "If it contains durable facts about Brian, family, preferences, documents, plans, food, logistics, or AgentCore behavior, update the appropriate knowledge files.",
+            "",
+            "If it asks AgentCore to do follow-up work, either complete it now or create/update a queued task file with enough context.",
+            "",
+            "If the fast Telegram reply already handled it and no further user-visible response is useful, reply exactly `NO_TELEGRAM_REPLY`.",
+            "",
+            "Incoming message:",
+            "",
             body if body else "_No message text parsed._",
             "",
             "## Intake Notes",
@@ -185,6 +248,9 @@ def write_task_record(path: Path, record: dict) -> tuple[bool, str]:
             f"- Source channel: Telegram",
             f"- Fast-router route: {record.get('route', '')}",
             f"- Message id: {message_id}",
+            f"- Matching inbox record: {telegram_record_path}",
+            f"- Full Telegram transcript: {transcript_path}",
+            f"- Fast router reply: {compact_whitespace(str(record.get('fast_response', '')))}",
         ]
     )
     media = record_media(record)
@@ -209,10 +275,10 @@ def write_task_record(path: Path, record: dict) -> tuple[bool, str]:
     return True, task_id
 
 
-def is_actionable(record: dict, route: str) -> bool:
-    # Let the slower tool-assisted agent decide what is durable knowledge vs actionable work.
-    # Queue all non-ignore Telegram messages (plus media) for async review.
-    return route in ACTIONABLE_ROUTES or bool(record_media(record))
+def should_queue_review(record: dict) -> bool:
+    # The fast router is not authoritative for durable knowledge or action decisions.
+    # Cursor reviews every allowed Telegram message that reaches this normalized inbox.
+    return bool(str(record.get("message_id", "")).strip())
 
 
 def main() -> int:
@@ -225,6 +291,7 @@ def main() -> int:
     messages = data.get("messages", []) if isinstance(data, dict) else []
     telegram_dir = Path(args.telegram_dir)
     task_dir = Path(args.task_dir)
+    transcript_path = Path(args.transcript)
     ensure_dir(telegram_dir)
     ensure_dir(task_dir)
     ledger = load_ledger(Path(args.ledger))
@@ -247,12 +314,13 @@ def main() -> int:
         telegram_path = telegram_dir / normalized_telegram_filename(message_id)
         if write_telegram_record(telegram_path, record):
             created_records += 1
+        append_transcript(transcript_path, record, telegram_path)
 
         task_id = ""
         task_status = "ignored"
-        if is_actionable(record, route):
+        if should_queue_review(record):
             task_path = task_dir / normalized_task_filename(message_id)
-            created, task_id = write_task_record(task_path, record)
+            created, task_id = write_task_record(task_path, record, telegram_path, transcript_path)
             if created:
                 created_tasks += 1
                 task_status = "queued"

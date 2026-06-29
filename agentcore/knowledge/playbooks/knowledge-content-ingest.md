@@ -13,7 +13,7 @@ Periodic cross-channel ingest that pulls **full content** from Gmail, Telegram, 
 | Channel | What gets ingested | Where it lands |
 |---------|-------------------|----------------|
 | Gmail | Trusted-client and share-notification bodies (7-day lookback) | `agentcore/inbox/email/` |
-| Telegram | Async triage records (`knowledge_update`, `task`, photos) | `agentcore/inbox/telegram/` |
+| Telegram | Async triage records, transcript entries, and per-message Cursor review tasks | `agentcore/inbox/telegram/` + `agentcore/knowledge/communications/telegram-transcript.md` |
 | Shared Drive | Metadata via `ingest_drive_updates.py`; **full body** for allowlisted docs | `agentcore/inbox/drive/` + `.agentcore/state/drive-content/` |
 
 ## Allowlist
@@ -25,7 +25,7 @@ Periodic cross-channel ingest that pulls **full content** from Gmail, Telegram, 
 1. `scripts/ingest/knowledge_content_ingest.py` — orchestrator
 2. `scripts/ingest/export_flagged_docs.py` — Drive API export to text
 3. `scripts/ingest/activate_content_tasks.py` — flip `deferred` → `queued`
-4. Workflow commits exports + inbox updates; dispatches async runner when tasks activate
+4. Workflow commits exports + inbox updates; dispatches async runner when content tasks activate or Telegram review tasks are created
 5. Cursor tasks extract durable facts into `agentcore/knowledge/` pages
 
 ## Local Commands

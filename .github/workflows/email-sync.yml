@@ -22,7 +22,7 @@ jobs:
           python-version: "3.12"
 
       - name: Prepare directories
-        run: mkdir -p .agentcore/state .agentcore/state/telegram-fetch agentcore/inbox/email agentcore/inbox/telegram agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks agentcore/knowledge/communications
+        run: mkdir -p .agentcore/state agentcore/inbox/email agentcore/inbox/drive agentcore/inbox/photos agentcore/inbox/tasks agentcore/knowledge/communications
 
       - name: Fetch inbox
         env:
@@ -39,18 +39,10 @@ jobs:
       - name: Triage messages
         run: python3 scripts/email/triage_messages.py
 
-      - name: Fetch Telegram inbox
-        env:
-          KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
-          KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
-          UPSTASH_REDIS_REST_URL: ${{ secrets.KV_REST_API_URL }}
-          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
-        run: python3 scripts/telegram/fetch_pending.py
-
-      - name: Triage Telegram messages
-        run: python3 scripts/telegram/triage_messages.py
-
-      # NOTE: Proactive Telegram sends are owned by agent-runner (write permission + git-tracked dedup state).
+      # NOTE: Telegram queue consumption is owned by write-capable workflows
+      # (agent-runner and knowledge-content-ingest) so Redis messages are never
+      # drained without committing normalized inbox records and review tasks.
+      # Proactive Telegram sends are also owned by agent-runner.
 
       - name: Ingest Drive docs and photos
         env:

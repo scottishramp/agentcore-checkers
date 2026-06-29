@@ -38,6 +38,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [AgentCore System Architecture](knowledge/architecture/system-architecture.md): Telegram + email async agent, workflows, secrets, and update requirements.
 - [Chatbot Version Registry](knowledge/architecture/chatbot-version.md): fast router semver, context bundle version, changelog, and `version` command.
 - [Communications](knowledge/communications/README.md): deterministic communication ingestion summaries, email thread state, and ledgers.
+- [Telegram Transcript](knowledge/communications/telegram-transcript.md): durable allowed-message transcript for async Cursor review context.
 - [Concepts](knowledge/concepts/): reusable ideas, frameworks, and research themes.
 - [UX Message Design](knowledge/concepts/ux-message-design.md): precise failure classification for user-facing status messages.
 - [Decisions](knowledge/decisions/): decision records and rationale.
