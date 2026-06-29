@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-06-29] knowledge | Recorded Herbert children full/middle names
+
+- Telegram review task `task-telegram-407016341` asked "What's his middle name"; preceding message asked Ezra's age, so "his" = Ezra.
+- Extracted full names (with middle names) from the Life 2026 milestone section and added a Full Names table to `herbert-children.md`: Daniel Shawn, Nathan Titus, Ezra Matthias, Silver Annalin, Levi Silas Herbert.
+- Replied on Telegram with Ezra's middle name (Matthias).
+
 ## [2026-06-29] ingest | Re-verified Life 2026 important dates against fresh export
 
 - Processed queued task `task-internal-life-2026-content-ingest` against this cycle's credentialed export of the Life 2026 doc.

@@ -4,11 +4,23 @@
 
 Brian Herbert and Kristin Herbert have five children:
 
-- Daniel Herbert
-- Nathan Herbert
-- Ezra Herbert
-- Silver Herbert
-- Levi Herbert
+- Daniel Shawn Herbert
+- Nathan Titus Herbert
+- Ezra Matthias Herbert
+- Silver Annalin Herbert
+- Levi Silas Herbert
+
+## Full Names
+
+Source: Brian's shared **Life 2026** Google Doc milestone section (ingested 2026-06-29).
+
+| Child | First | Middle | Last |
+|-------|-------|--------|------|
+| Daniel | Daniel | Shawn | Herbert |
+| Nathan | Nathan | Titus | Herbert |
+| Ezra | Ezra | Matthias | Herbert |
+| Silver | Silver | Annalin | Herbert |
+| Levi | Levi | Silas | Herbert |
 
 ## Birthdates
 
