@@ -7,7 +7,7 @@ Canonical version record for the fast chat router (Telegram + Google Chat webhoo
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.3.0** |
+| Router version | **2.3.1** |
 | Context bundle version | **2.2.1** |
 | Released | 2026-06-29 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
@@ -48,6 +48,10 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.3.1 — 2026-06-29
+
+- Health endpoint exposes fast-context hash, files, length, and Nathan birthdate sentinel for deployment freshness checks.
 
 ### 2.3.0 — 2026-06-29
 

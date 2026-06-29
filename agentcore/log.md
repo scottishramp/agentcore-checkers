@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-06-29] ops | Added fast-router context freshness health fields
+
+- Root signal: Telegram production still reported router v2.2.1 after repo had v2.3.x knowledge/context changes, proving Vercel was serving a stale snapshot.
+- Added fast-router health fields: `context_hash`, `context_length`, `context_files`, and `has_nathan_birthdate`.
+- Updated docs to define propagation complete only when Vercel production health matches the repo context snapshot.
+
 ## [2026-06-29] architecture | Async Cursor is the authoritative Telegram reviewer
 
 - Captured architecture goal: repo is Brian's canonical context memory; new context can come from chat, email, and shared docs.

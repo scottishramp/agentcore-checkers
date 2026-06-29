@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const assert = require("assert");
 const { routeChatEvent } = require("../../api/_agentcore/fast-router");
-const { buildContext } = require("../../api/_agentcore/context");
+const { buildContext, contextSnapshot } = require("../../api/_agentcore/context");
 
 function eventWithText(text) {
   return {
@@ -24,6 +24,9 @@ async function run() {
   const context = buildContext({ rootDir: process.cwd() });
   assert(context.includes("AgentCore"), "context should include AgentCore knowledge");
   assert(context.includes("herbert-children"), "context should include family knowledge pages");
+  const snapshot = contextSnapshot({ rootDir: process.cwd() });
+  assert.equal(snapshot.has_nathan_birthdate, true, "context snapshot should include Nathan's birthdate");
+  assert.match(snapshot.context_hash, /^[a-f0-9]{64}$/);
 
   const food = await routeChatEvent(eventWithText("what did I eat yesterday?"), {
     context,
@@ -45,7 +48,7 @@ async function run() {
       throw new Error("Gemini should not run for version command");
     },
   });
-  assert.match(version.text, /AgentCore Fast Router v2\.3\.0/);
+  assert.match(version.text, /AgentCore Fast Router v2\.3\.1/);
   assert.match(version.text, /Context bundle: v2\.2\.1/);
 
   const lightweight = await routeChatEvent(eventWithText("What is my food check-in prompt?"), {

@@ -112,6 +112,19 @@ This is separate from headless CI redeploy:
 - GitHub Actions requires repository secret `VERCEL_TOKEN` to run `scripts/deploy/redeploy_fast_router.sh`.
 - If `VERCEL_TOKEN` is unset, workflow commits update GitHub but do not refresh Vercel production.
 
+## Fast Context Freshness
+
+The Telegram health endpoint (`GET /api/agentcore-telegram`) exposes deployment freshness fields:
+
+- `router_version`
+- `context_bundle_version`
+- `context_hash`
+- `context_length`
+- `context_files`
+- `has_nathan_birthdate`
+
+Knowledge propagation is not complete until Vercel production reports a current router version and a context hash/sentinel matching the repo snapshot. `has_nathan_birthdate` is a current canary for whether the Life 2026 family facts reached Gemini's bundled context.
+
 ## Chatbot Versioning
 
 - Registry: `agentcore/knowledge/architecture/chatbot-version.json`

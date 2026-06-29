@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const DEFAULT_CONTEXT_FILES = [
   "agentcore/hot-cache.md",
@@ -250,11 +251,22 @@ function buildContext(options = {}) {
   return trimMiddle(sections.join("\n\n---\n\n"), maxChars);
 }
 
+function contextSnapshot(options = {}) {
+  const context = buildContext(options);
+  return {
+    context_hash: crypto.createHash("sha256").update(context).digest("hex"),
+    context_length: context.length,
+    context_files: options.files || DEFAULT_CONTEXT_FILES,
+    has_nathan_birthdate: context.includes("Nathan Herbert (2013-02-26)") || context.includes("Nathan Herbert | 2013-02-26"),
+  };
+}
+
 module.exports = {
   DEFAULT_CONTEXT_FILES,
   addDaysToIsoDate,
   buildRecentTelegramContext,
   buildContext,
+  contextSnapshot,
   extractFoodDaySummary,
   parseFoodLogByDate,
   resolveFoodQueryDate,

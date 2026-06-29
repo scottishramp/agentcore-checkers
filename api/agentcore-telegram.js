@@ -1,4 +1,4 @@
-const { buildContext } = require("./_agentcore/context");
+const { buildContext, contextSnapshot } = require("./_agentcore/context");
 const { historyConfigured, historyMessageLimit, historyTtlSeconds } = require("./_agentcore/store");
 const { loadVersionRegistry } = require("./_agentcore/version");
 const { routeChatEvent } = require("./_agentcore/fast-router");
@@ -51,6 +51,7 @@ module.exports = async function handler(request, response) {
   if (request.method === "GET") {
     logRouterEvent("health_check", { configured: Boolean(botToken()) });
     const registry = loadVersionRegistry();
+    const snapshot = contextSnapshot();
     response.status(200).json({
       status: "ok",
       service: "agentcore-telegram",
@@ -62,6 +63,10 @@ module.exports = async function handler(request, response) {
       history_persistent: historyTtlSeconds() === 0,
       router_version: registry.router_version,
       context_bundle_version: registry.context_bundle_version,
+      context_hash: snapshot.context_hash,
+      context_length: snapshot.context_length,
+      context_files: snapshot.context_files,
+      has_nathan_birthdate: snapshot.has_nathan_birthdate,
     });
     return;
   }

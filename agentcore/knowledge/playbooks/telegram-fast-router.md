@@ -42,6 +42,16 @@ Webhook: `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`
 - Current local project link points at `agentcore-fast-router` (team/org id `team_in3HNh0USnTggSAU4DyssUKT`).
 - GitHub Actions redeploy is separate and requires `VERCEL_TOKEN` repo secret; without it, CI will not update Vercel production.
 
+### 6. Verify context propagation
+
+After deploying, verify production health:
+
+```sh
+curl -sS https://agentcore-fast-router.vercel.app/api/agentcore-telegram | python3 -m json.tool
+```
+
+The response must show the expected `router_version`, `context_hash`, `context_files`, and `has_nathan_birthdate: true` when Life 2026 family facts are expected in Gemini context.
+
 ## Flow
 
 1. User messages bot (text or photo + caption) → for photos, fast agent assigns label `{username}_{YYYYMMDDHHmmss}`, describes the image in detail, and replies with label + description.
