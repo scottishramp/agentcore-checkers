@@ -190,3 +190,30 @@ Brian reported: cheeseburger, Italian sausage, handful of Doritos, some bean sal
 **Meal total:** ~960 cal | ~45g protein | ~72g carbs | ~55g fat
 
 **Day running total (so far):** ~1,930 cal | ~78g protein | ~155g carbs | ~113g fat
+
+## 2026-06-29
+
+### Breakfast (logged via Telegram)
+
+Brian reported: usual breakfast — 2 eggs, slice sourdough, some shredded Colby jack, banana and oatmeal.
+
+- 2 eggs (~140 cal)
+- 1 slice sourdough (~90 cal)
+- Shredded Colby jack cheese (~110 cal)
+- Banana (~105 cal)
+- Bowl of oatmeal (~150 cal)
+
+**Meal total:** ~595 cal | ~29g protein | ~74g carbs | ~23g fat
+
+### Second meal (logged via Telegram)
+
+Brian reported: two pieces grilled chicken, half a brat, rice, bean salad.
+
+- 2 pieces grilled chicken (~250 cal)
+- Half a bratwurst (~140 cal)
+- Rice, ~1 cup cooked (~200 cal)
+- Bean salad, small serving (~120 cal)
+
+**Meal total:** ~710 cal | ~59g protein | ~65g carbs | ~21g fat
+
+**Day running total (so far):** ~1,305 cal | ~88g protein | ~139g carbs | ~44g fat
