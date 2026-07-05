@@ -12,9 +12,9 @@
     ]
   },
   "food-checkin-midday": {
-    "last_sent_utc": "2026-07-04T17:15:53.395349+00:00",
+    "last_sent_utc": "2026-07-05T17:22:20.150466+00:00",
     "telegram_message_ids": [
-      "90"
+      "93"
     ]
   }
 }
