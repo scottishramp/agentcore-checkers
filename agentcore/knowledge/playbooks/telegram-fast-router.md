@@ -74,4 +74,4 @@ The response must show the expected `router_version`, `context_hash`, `context_f
 - `scripts/telegram/materialize_media.py` — Telegram photo → Drive + photo inbox records
 - `scripts/telegram/send_working_notice.py` — task start notification
 - `scripts/telegram/send_task_response.py` — task completion
-- `scripts/telegram/send_scheduled_messages.py` — food check-ins, morning prompts
+- `scripts/telegram/send_scheduled_messages.py` — morning prompts (food check-ins disabled 2026-07-05)

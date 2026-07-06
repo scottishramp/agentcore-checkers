@@ -62,6 +62,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Scheduled food check-ins disabled (2026-07-05): removed noon/6 PM "What'd you eat since last time?" from Telegram/Chat scheduled messages; food log is on-demand only.
 - Telegram async architecture correction: `email-sync.yml` no longer drains Telegram; write-capable workflows own Redis consumption, triage appends `telegram-transcript.md`, every allowed Telegram message becomes a Cursor review item, and Cursor can suppress duplicate replies with `NO_TELEGRAM_REPLY`.
 - Clarified deploy path: Vercel production updates have been coming from local CLI session auth + `.vercel/project.json` link, not CI token-based redeploy.
 - Knowledge content ingest pipeline: Gmail + Telegram + shared Drive doc exports every 4h via `knowledge-content-ingest.yml`; Life 2026 birthdates ingested.

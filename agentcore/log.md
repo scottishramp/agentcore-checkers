@@ -495,3 +495,9 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Moved Telegram queue consumption out of read-only `email-sync.yml`; write-capable workflows now own Redis draining so normalized records, review tasks, and transcript updates can be committed.
 - Added durable `agentcore/knowledge/communications/telegram-transcript.md` and made every allowed Telegram message a Cursor review item with inbox/transcript context.
 - Fixed Telegram reply plumbing so Cursor can post back through `send_task_response.py` and can intentionally suppress duplicate replies with `NO_TELEGRAM_REPLY`.
+
+## [2026-07-05] preference | Stop scheduled food check-ins
+
+- Brian asked to stop the recurring "What'd you eat since last time?" prompts.
+- Removed `food-checkin-midday` and `food-checkin-evening` from `scripts/telegram/scheduled_messages.json` and `scripts/chat/scheduled_messages.json`; cleared their dedup state from `scheduled-messages-state.json`.
+- Food log remains on-demand only when Brian reports meals.

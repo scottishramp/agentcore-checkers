@@ -4,9 +4,8 @@ Rolling food intake log for Brian. Estimates are rough when brands and quantitie
 
 ## Tracking Setup
 
-- Brian asked AgentCore to track meals via Google Chat check-ins around **12:00 PM** and **6:00 PM** `America/Chicago`.
-- Check-in prompt: **"What'd you eat since last time?"** (Brian, 2026-06-23).
-- Brian may reply ad hoc between check-ins; log those entries without requiring a report-back when he asks for internal-only logging.
+- Brian originally asked for twice-daily check-ins (2026-06-18); **scheduled food prompts are off** as of 2026-07-05. Log meals only when Brian reports them.
+- Brian may reply ad hoc anytime; log those entries without requiring a report-back when he asks for internal-only logging.
 - Estimate calories/macros from vague descriptions; note uncertainty when helpful.
 - **Do not repeat Brian's food back to him** (Brian, 2026-06-26). When he reports a meal, log it and reply with totals/notes only — do not restate the list of items he just told you. Keep replies brief (e.g. calorie/macro estimate or running total) rather than echoing the meal.
 

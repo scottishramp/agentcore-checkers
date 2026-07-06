@@ -41,7 +41,7 @@ Two layers: **fast chat** (Vercel + Gemini) and **async agent** (GitHub Actions 
 3. `scripts/telegram/materialize_media.py` downloads Telegram photos, uploads to Drive, writes `agentcore/inbox/photos/`, and updates `agentcore/knowledge/communications/telegram-photo-registry.json` (label → Drive URL + description).
 4. Cursor photo tasks file knowledge from the fast-agent description and reply on Telegram with `Photo label:` and `Drive:` lines.
 5. `agent-runner.yml` commits Telegram triage artifacts before claiming tasks, claims review tasks, sends **“Working on: …”** via Telegram, runs Cursor, commits knowledge, notifies completion via Telegram unless Cursor outputs `NO_TELEGRAM_REPLY`, and redeploys Vercel when `VERCEL_TOKEN` is set.
-6. Food check-ins and morning prompts go to Telegram via `scripts/telegram/send_scheduled_messages.py`.
+6. Morning prompts go to Telegram via `scripts/telegram/send_scheduled_messages.py` (food check-ins disabled 2026-07-05).
 
 Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 

@@ -25,8 +25,7 @@ Keep AgentCore ready to help Brian across personal projects, diet, scheduling, k
 
 ### Diet and Food
 
-- Maintain the rolling food log at `agentcore/knowledge/people/brian-herbert-food-log.md`.
-- Use Google Chat check-ins around noon and 6 PM `America/Chicago` with the prompt: "What'd you eat since last time?"
+- Maintain the rolling food log at `agentcore/knowledge/people/brian-herbert-food-log.md` when Brian reports meals; do not send scheduled food check-ins (Brian, 2026-07-05).
 - Estimate calories/macros when quantities are vague, and mark uncertainty rather than blocking on exact details.
 - Do not repeat Brian's food back to him (Brian, 2026-06-26). Log the meal and reply with totals/notes only — never restate the items he just reported.
 - Treat diet requests as personal support, not medical advice; ask before making health-sensitive recommendations or sharing information externally.

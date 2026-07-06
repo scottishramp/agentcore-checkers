@@ -1,20 +1,8 @@
 {
-  "food-checkin-evening": {
-    "last_sent_utc": "2026-07-05T23:11:56.711499+00:00",
-    "telegram_message_ids": [
-      "94"
-    ]
-  },
   "morning-checkin": {
     "last_sent_utc": "2026-07-05T14:00:07.709397+00:00",
     "telegram_message_ids": [
       "92"
-    ]
-  },
-  "food-checkin-midday": {
-    "last_sent_utc": "2026-07-05T17:22:20.150466+00:00",
-    "telegram_message_ids": [
-      "93"
     ]
   }
 }
