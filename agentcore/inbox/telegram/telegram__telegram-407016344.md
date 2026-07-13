@@ -12,7 +12,7 @@ triaged_at: "2026-07-13T17:20:15.752063+00:00"
 
 ## Raw Telegram Message
 
-Figure out how to send me the YouVersion verse of the day using YouVersion Platform platform.youversion.com this is your app key: ou9HlXIqMwnYTO2WTVpsEJKnvbs7vchHKOVdLNQMP0oNRnlz
+Figure out how to send me the YouVersion verse of the day using YouVersion Platform platform.youversion.com this is your app key: [REDACTED — stored as YOUVERSION_APP_KEY / .secrets/youversion-app-key]
 
 ## Fast Router Reply
 

@@ -89,7 +89,7 @@ Fast router reply:
 
 User message:
 
-> Figure out how to send me the YouVersion verse of the day using YouVersion Platform platform.youversion.com this is your app key: ou9HlXIqMwnYTO2WTVpsEJKnvbs7vchHKOVdLNQMP0oNRnlz
+> Figure out how to send me the YouVersion verse of the day using YouVersion Platform platform.youversion.com this is your app key: [REDACTED — stored as YOUVERSION_APP_KEY / .secrets/youversion-app-key]
 
 Fast router reply:
 

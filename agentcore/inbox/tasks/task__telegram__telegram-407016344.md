@@ -1,26 +1,26 @@
 ---
 task_id: "task-telegram-407016344-telegram-dm-8983527816"
-status: "queued"
+status: "done"
 priority: "normal"
 source_message_id: "telegram:407016344"
 source_uid: "telegram:407016344"
 source_from: "telegram:8983527816"
 source_subject: "Review Telegram message"
 thread_key: "telegram:dm:8983527816"
-telegram_chat_id: "8983527816"
-telegram_user_id: "8983527816"
-telegram_username: ""
 source_kind: "telegram"
 reply_style: "natural"
 queued_at: "2026-07-13T17:20:15.752318+00:00"
-updated_at: "2026-07-13T17:20:15.752318+00:00"
-attempts: 0
-claimed_at: ""
-run_id: ""
-completed_at: ""
+updated_at: "2026-07-13T17:22:30.549135+00:00"
+attempts: 1
+claimed_at: "2026-07-13T17:20:18.418017+00:00"
+run_id: "29270014250"
+completed_at: "2026-07-13T17:22:30.549135+00:00"
 snagged_at: ""
 last_error: ""
-result_path: ""
+result_path: ".agentcore/state/task-run-result.json"
+telegram_chat_id: "8983527816"
+telegram_user_id: "8983527816"
+telegram_username: ""
 ---
 
 # Review Telegram message
@@ -39,7 +39,7 @@ If the fast Telegram reply already handled it and no further user-visible respon
 
 Incoming message:
 
-Figure out how to send me the YouVersion verse of the day using YouVersion Platform platform.youversion.com this is your app key: ou9HlXIqMwnYTO2WTVpsEJKnvbs7vchHKOVdLNQMP0oNRnlz
+Figure out how to send me the YouVersion verse of the day using YouVersion Platform platform.youversion.com this is your app key: [REDACTED — stored as YOUVERSION_APP_KEY / .secrets/youversion-app-key]
 
 ## Intake Notes
 
