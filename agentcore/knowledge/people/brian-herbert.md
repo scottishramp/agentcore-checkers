@@ -31,6 +31,7 @@ Brian Herbert is AgentCore's trusted client and the person AgentCore assists wit
 - Source documents and scans should live in AgentCore Google Drive when AgentCore has permission to organize them.
 - This repository should store metadata, indexes, decisions, action queues, and operating notes rather than full sensitive source material.
 - Open questions for preferences, folder taxonomy, urgency thresholds, and photo intake are being sent by email.
+- YouVersion Platform app key (Brian, 2026-07-14): treat as **public**; safe to hardcode in repo source for the verse-of-the-day integration. See `agentcore/knowledge/projects/youversion-verse-of-the-day.md`.
 
 ## Shared Google Resources
 

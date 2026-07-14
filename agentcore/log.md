@@ -496,6 +496,12 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Added durable `agentcore/knowledge/communications/telegram-transcript.md` and made every allowed Telegram message a Cursor review item with inbox/transcript context.
 - Fixed Telegram reply plumbing so Cursor can post back through `send_task_response.py` and can intentionally suppress duplicate replies with `NO_TELEGRAM_REPLY`.
 
+## [2026-07-14] knowledge | YouVersion app key is public
+
+- Brian clarified via Telegram `telegram:407016345` that the YouVersion Platform app key is not a secret and may be hardcoded in repo source.
+- Added `agentcore/knowledge/projects/youversion-verse-of-the-day.md` and noted the policy on `agentcore/knowledge/people/brian-herbert.md`.
+- Prior redaction of the key from `telegram:407016344` inbox/transcript remains until the value is recovered or Brian re-sends it.
+
 ## [2026-07-05] preference | Stop scheduled food check-ins
 
 - Brian asked to stop the recurring "What'd you eat since last time?" prompts.

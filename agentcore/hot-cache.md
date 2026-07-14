@@ -62,6 +62,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- YouVersion app key policy (2026-07-14): Brian confirmed the YouVersion Platform app key is public and may be hardcoded in repo source for verse-of-the-day delivery; project page at `agentcore/knowledge/projects/youversion-verse-of-the-day.md`.
 - Scheduled food check-ins disabled (2026-07-05): removed noon/6 PM "What'd you eat since last time?" from Telegram/Chat scheduled messages; food log is on-demand only.
 - Telegram async architecture correction: `email-sync.yml` no longer drains Telegram; write-capable workflows own Redis consumption, triage appends `telegram-transcript.md`, every allowed Telegram message becomes a Cursor review item, and Cursor can suppress duplicate replies with `NO_TELEGRAM_REPLY`.
 - Clarified deploy path: Vercel production updates have been coming from local CLI session auth + `.vercel/project.json` link, not CI token-based redeploy.

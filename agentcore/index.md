@@ -25,6 +25,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Brian Personal Operating System](knowledge/projects/personal-operating-system.md): operating hub for diet, scheduling, school logistics, app ideas, and personal management.
 - [Family Admin System](knowledge/projects/family-admin-system.md): administrative-assistant system for Brian's documents, family logistics, Drive organization, and action tracking.
 - [Checkers Web Game](knowledge/projects/checkers-web-game.md): two-player browser checkers, live at https://scottishramp.github.io/agentcore-checkers/
+- [YouVersion Verse of the Day](knowledge/projects/youversion-verse-of-the-day.md): daily Bible verse delivery via YouVersion Platform + Telegram.
 - [Clients](knowledge/clients/): client and sponsor pages.
 - [People](knowledge/people/): people and stakeholder pages.
 - [Brian Herbert](knowledge/people/brian-herbert.md): trusted client and primary administrative-assistance context.
