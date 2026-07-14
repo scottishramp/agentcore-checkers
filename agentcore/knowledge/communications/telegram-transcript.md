@@ -94,3 +94,16 @@ User message:
 Fast router reply:
 
 > *DEFER* The slower, smarter agent might be able to help with this
+## 2026-07-14T21:35:52.046Z | Brian Herbert | telegram:407016345
+
+- Conversation: `telegram:dm:8983527816`
+- Inbox record: `agentcore/inbox/telegram/telegram__telegram-407016345.md`
+- Fast-router route: `knowledge_update`
+
+User message:
+
+> For that YouVersion app key, it's not a secret. You can hard code it
+
+Fast router reply:
+
+> Okay, I've noted that the YouVersion app key is not a secret and can be hardcoded.
