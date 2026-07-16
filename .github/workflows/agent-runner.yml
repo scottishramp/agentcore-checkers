@@ -2,7 +2,8 @@ name: AgentCore Async Runner
 
 on:
   schedule:
-    - cron: "5 * * * *"
+    # Daily 8:30 AM America/Chicago (13:30 UTC during CDT); covers morning Telegram check-in window.
+    - cron: "30 13 * * *"
   workflow_dispatch:
   workflow_run:
     workflows: ["AgentCore Email Sync"]

@@ -5,7 +5,7 @@ Periodic cross-channel ingest that pulls **full content** from Gmail, Telegram, 
 ## Schedule
 
 - GitHub Actions: `.github/workflows/knowledge-content-ingest.yml`
-- Cron: every 4 hours at `:15` UTC (`15 */4 * * *`)
+- Cron: daily 11:00 AM America/Chicago (`0 16 * * *` UTC during CDT)
 - Manual: `workflow_dispatch` or `npm run ingest:knowledge-content`
 
 ## Sources
@@ -38,7 +38,7 @@ npm run ingest:activate-content-tasks
 
 ## Why Separate from Email Sync
 
-Email-sync (every 30 min) and agent-runner (hourly) optimize for **responsiveness** — new messages become tasks quickly. Knowledge content ingest is heavier (Drive exports, multi-channel sweep) and targets facts that change slowly (family dates, shared doc content). A 4-hour cadence is sufficient.
+Email-sync (daily 6:00 AM CT) and agent-runner (daily 8:30 AM CT, plus after email-sync) handle routine inbox triage and task execution. Knowledge content ingest is heavier (Drive exports, multi-channel sweep) and targets facts that change slowly (family dates, shared doc content). A once-daily cadence is sufficient.
 
 ## Adding a New Doc to Content Ingest
 

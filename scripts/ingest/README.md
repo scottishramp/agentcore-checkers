@@ -6,7 +6,7 @@ Cross-channel ingestion utilities for Drive documents, Android photo uploads, an
 
 - Periodic knowledge content ingest (Gmail + Telegram + shared Drive doc bodies):
   - `npm run ingest:knowledge-content`
-  - GitHub Actions: `.github/workflows/knowledge-content-ingest.yml` (every 4 hours)
+  - GitHub Actions: `.github/workflows/knowledge-content-ingest.yml` (daily 11:00 AM America/Chicago)
 - Export allowlisted Drive doc bodies:
   - `npm run ingest:export-docs`
 - Activate deferred content-ingest tasks after export:

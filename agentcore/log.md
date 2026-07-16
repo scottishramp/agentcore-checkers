@@ -507,3 +507,11 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Brian asked to stop the recurring "What'd you eat since last time?" prompts.
 - Removed `food-checkin-midday` and `food-checkin-evening` from `scripts/telegram/scheduled_messages.json` and `scripts/chat/scheduled_messages.json`; cleared their dedup state from `scheduled-messages-state.json`.
 - Food log remains on-demand only when Brian reports meals.
+
+## [2026-07-10] architecture | Daily GitHub Actions schedule
+
+- Brian asked to run async workflows once per day instead of every 30 minutes / hourly / every 4 hours.
+- `email-sync.yml`: `0 11 * * *` (6:00 AM America/Chicago).
+- `agent-runner.yml`: `30 13 * * *` (8:30 AM America/Chicago; still triggered after email-sync completes).
+- `knowledge-content-ingest.yml`: `0 16 * * *` (11:00 AM America/Chicago).
+- Updated `system-architecture.md`, `knowledge-content-ingest.md`, and `hot-cache.md`.

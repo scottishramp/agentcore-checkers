@@ -2,8 +2,8 @@ name: AgentCore Knowledge Content Ingest
 
 on:
   schedule:
-    # Every 4 hours at :15 past the hour (offset from email-sync and agent-runner).
-    - cron: "15 */4 * * *"
+    # Daily 11:00 AM America/Chicago (16:00 UTC during CDT).
+    - cron: "0 16 * * *"
   workflow_dispatch:
 
 permissions:
