@@ -202,7 +202,7 @@ jobs:
           AGENTCORE_TASK_RUN_COMMAND: ${{ secrets.AGENTCORE_TASK_RUN_COMMAND || 'python3 scripts/agent/run_cursor_task.py --task-file {{TASK_FILE}} --workspace .' }}
           AGENTCORE_TASK_RUN_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_TASK_RUN_TIMEOUT_SECONDS || '900' }}
           AGENTCORE_CURSOR_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_CURSOR_TIMEOUT_SECONDS || '1200' }}
-          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'auto' }}
+          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'grok-4.5' }}
         run: |
           python3 scripts/email/run_task_adapter.py \
             --task-file "${{ steps.claim.outputs.task_file }}" \

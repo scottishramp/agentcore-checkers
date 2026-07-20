@@ -515,3 +515,9 @@ Synthesized all learnings from the checkers project into AgentCore:
 - `agent-runner.yml`: `30 13 * * *` (8:30 AM America/Chicago; still triggered after email-sync completes).
 - `knowledge-content-ingest.yml`: `0 16 * * *` (11:00 AM America/Chicago).
 - Updated `system-architecture.md`, `knowledge-content-ingest.md`, and `hot-cache.md`.
+
+## [2026-07-20] architecture | Async runner uses Grok 4.5
+
+- Brian asked the GitHub Actions async job to choose a smarter model: Grok 4.5.
+- Default `AGENTCORE_CURSOR_MODEL` changed from `auto` to `grok-4.5` in `agent-runner.yml` and `scripts/agent/run_cursor_task.py`.
+- Optional override remains via GitHub secret `AGENTCORE_CURSOR_MODEL`.

@@ -22,7 +22,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run a task with Cursor Agent and print an email-ready result.")
     parser.add_argument("--task-file", required=True, help="Queued task markdown file.")
     parser.add_argument("--workspace", default=".", help="Workspace path for Cursor Agent.")
-    parser.add_argument("--model", default=os.getenv("AGENTCORE_CURSOR_MODEL", "auto"), help="Cursor model id.")
+    parser.add_argument("--model", default=os.getenv("AGENTCORE_CURSOR_MODEL", "grok-4.5"), help="Cursor model id.")
     parser.add_argument("--timeout-seconds", type=int, default=int(os.getenv("AGENTCORE_CURSOR_TIMEOUT_SECONDS", "1200")))
     return parser.parse_args()
 
