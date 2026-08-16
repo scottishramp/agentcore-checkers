@@ -19,6 +19,7 @@ Operational goal:
 - Brian trusted client identity: `briandherbert@gmail.com`.
 - Brian personal Gmail access: separate `gmail.modify` OAuth token for `briandherbert@gmail.com` (read, label, archive, trash; no send).
 - GitHub account/repo: `scottishramp/agentcore-checkers`.
+- Public blog: `scottishramp/burningaltar` at https://burningaltar.com/ (Hugo + GitHub Pages; custom domain on GoDaddy DNS).
 - Primary chat: **Telegram** `@AgentCoreFam_bot` at `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`.
 
 ## Communication Surfaces
@@ -134,6 +135,11 @@ Knowledge propagation is not complete until Vercel production reports a current 
 - Registry: `agentcore/knowledge/architecture/chatbot-version.json`
 - User command: `version` in Telegram
 - After runner knowledge commits, redeploy refreshes the bundled context files on Vercel
+
+## Hosted Public Sites
+
+- Checkers: https://scottishramp.github.io/agentcore-checkers/ (`scottishramp/agentcore-checkers`).
+- Burning Altar blog: https://burningaltar.com/ (`scottishramp/burningaltar`). Apex A records and `www` CNAME on GoDaddy; GitHub Pages HTTPS enforced. Email DNS on the same domain left on GoDaddy `*.secureserver.net`.
 
 ## Related Docs
 

@@ -10,6 +10,7 @@ confidence: high
 related:
   - agentcore/knowledge/playbooks/godaddy-delegate-access.md
   - agentcore/knowledge/projects/personal-operating-system.md
+  - agentcore/knowledge/projects/burningaltar-blog.md
 ---
 
 # Project: Domain Management
@@ -20,17 +21,18 @@ Manage Brian's domains as his administrative assistant: DNS, nameservers, forwar
 
 ## Status
 
-- Phase: access live.
+- Phase: access live; `burningaltar.com` pointed at the new blog.
 - GoDaddy delegate access accepted 2026-08-16 for `scottishramp@gmail.com`.
 - Access level: **Products & Domains** (no purchase).
 - AgentCore GoDaddy account: `scottishramp@gmail.com`, customer `#743698597`, signed in via Google SSO.
 - Brian's GoDaddy account: Brian Herbert, customer `#34804617`.
+- Blog project: `agentcore/knowledge/projects/burningaltar-blog.md`. Live URL: https://burningaltar.com/
 
 ## Inventory (GoDaddy, 4 domains)
 
 | Domain | Registrar | Notes (2026-08-16) |
 | --- | --- | --- |
-| `burningaltar.com` | GoDaddy | Requested first. Renews Mar 16, 2027 at $22.99/yr. Domain lock on. Domain Privacy on. GoDaddy nameservers `ns23.domaincontrol.com` / `ns24.domaincontrol.com`. Apex A records `15.197.225.128` and `3.33.251.168`. GoDaddy email CNAMEs present (`email.secureserver.net`, etc.). 21 DNS records. |
+| `burningaltar.com` | GoDaddy | Public blog at https://burningaltar.com/ (Hugo on GitHub Pages). Renews Mar 16, 2027 at $22.99/yr. Domain lock on. Domain Privacy on. GoDaddy nameservers `ns23.domaincontrol.com` / `ns24.domaincontrol.com`. Apex A records `185.199.108.153` / `185.199.109.153` / `185.199.110.153`. `www` CNAME `scottishramp.github.io`. Domain forwarding removed. GoDaddy email CNAMEs/MX left in place. |
 | `burningaltar.org` | GoDaddy | Same account. Products list showed "2 Domains, Website" under My Business / burningaltar.org. |
 | `cleansane.com` | GoDaddy | Same account. Products list showed Domain + Website. Auto-renew noted around 2026-09-08 with a billing-details validation prompt. |
 | `notverydeep.com` | GoDaddy | Same account. Products list showed Domain + Website. |
@@ -51,5 +53,5 @@ Playbook: `agentcore/knowledge/playbooks/godaddy-delegate-access.md`
 
 ## Next Actions
 
-- Wait for Brian's first management task (DNS, site, email, or the other registrar/domain).
+- Optional: add the fourth GitHub Pages A record `185.199.111.153`.
 - Confirm whether `burningaltar.org`, `cleansane.com`, and `notverydeep.com` should stay in AgentCore's management scope.

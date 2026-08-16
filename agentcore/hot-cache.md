@@ -37,6 +37,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Open blockers: Google Keep note content unavailable; broad Google Photos library reads unavailable.
 - Delivered: Brian personal Gmail access. Separate `gmail.modify` token for `briandherbert@gmail.com` can read all mail, create/apply labels, archive, and trash. Do not send as Brian; do not persist full bodies in git. Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
 - Delivered: GoDaddy Products & Domains delegate access. AgentCore (`scottishramp@gmail.com`, customer `#743698597`) can manage Brian Herbert's domains, including `burningaltar.com`.
+- Delivered: `burningaltar.com` public blog (Hugo + GitHub Pages). Two posts copied from Bear: wheel and abacus. Live https://burningaltar.com/. Repo `scottishramp/burningaltar`.
 
 ## Operating Preferences
 
@@ -64,13 +65,13 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Burning Altar blog live (2026-08-16): https://burningaltar.com/; two Bear posts only; DNS apex/www → GitHub Pages; project `burningaltar-blog.md`.
 - Brian Gmail mailbox access (2026-08-16): separate `gmail.modify` token for `briandherbert@gmail.com`; CLI `npm run email:brian`; playbook `brian-gmail-mailbox.md`.
 - GoDaddy delegate access live (2026-08-16): Products & Domains on Brian Herbert's account; inventory at `agentcore/knowledge/projects/domain-management.md`.
 - Async runner Cursor model default set to `grok-4.5` (2026-07-20); override via secret `AGENTCORE_CURSOR_MODEL` if needed.
 - GitHub Actions schedules reduced to once daily (2026-07-10): email-sync 6:00 AM CT, agent-runner 8:30 AM CT (+ after email-sync), knowledge-content-ingest 11:00 AM CT.
 - YouVersion app key policy (2026-07-14): Brian confirmed the YouVersion Platform app key is public and may be hardcoded in repo source for verse-of-the-day delivery; project page at `agentcore/knowledge/projects/youversion-verse-of-the-day.md`.
 - Scheduled food check-ins disabled (2026-07-05): removed noon/6 PM "What'd you eat since last time?" from Telegram/Chat scheduled messages; food log is on-demand only.
-- Telegram async architecture correction: `email-sync.yml` no longer drains Telegram; write-capable workflows own Redis consumption, triage appends `telegram-transcript.md`, every allowed Telegram message becomes a Cursor review item, and Cursor can suppress duplicate replies with `NO_TELEGRAM_REPLY`.
 
 ## Operating Note: proactive Chat sends
 

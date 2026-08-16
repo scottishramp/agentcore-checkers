@@ -27,6 +27,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Checkers Web Game](knowledge/projects/checkers-web-game.md): two-player browser checkers, live at https://scottishramp.github.io/agentcore-checkers/
 - [YouVersion Verse of the Day](knowledge/projects/youversion-verse-of-the-day.md): daily Bible verse delivery via YouVersion Platform + Telegram.
 - [Domain Management](knowledge/projects/domain-management.md): GoDaddy delegate access and Brian's domain inventory.
+- [Burning Altar Blog](knowledge/projects/burningaltar-blog.md): Brian's public writing at https://burningaltar.com/ (Hugo on GitHub Pages).
 - [Clients](knowledge/clients/): client and sponsor pages.
 - [People](knowledge/people/): people and stakeholder pages.
 - [Brian Herbert](knowledge/people/brian-herbert.md): trusted client and primary administrative-assistance context.

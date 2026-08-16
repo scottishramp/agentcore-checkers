@@ -2,6 +2,13 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-16] deploy | burningaltar.com blog live with two Bear posts
+
+- Copied only two Bear posts onto the Hugo site: [Why AI is the biggest deal since the wheel](https://briandherbert.bearblog.dev/ai-and-the-wheel/) and [What the abacus predicts for AI](https://briandherbert.bearblog.dev/ai-and-the-abacus/). Did not clone the rest of the Bear site.
+- Delivery repo: https://github.com/scottishramp/burningaltar. Theme: vendored hugo-bearblog. Pages via GitHub Actions.
+- Removed GoDaddy domain forwarding, pointed apex A records at GitHub Pages, set `www` CNAME to `scottishramp.github.io`, left email DNS alone.
+- Live: https://burningaltar.com/ (HTTPS enforced). Project page: `agentcore/knowledge/projects/burningaltar-blog.md`.
+
 ## [2026-08-16] access | Brian Gmail mailbox read/label/archive/trash
 
 - Brian authorized AgentCore to read all mail in `briandherbert@gmail.com`, create labels, archive, and trash.
