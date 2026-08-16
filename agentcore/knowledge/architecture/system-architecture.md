@@ -57,7 +57,7 @@ Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 
 Brian's personal mailbox (`briandherbert@gmail.com`) is a separate Gmail API surface. AgentCore can read all mail there, create/apply labels, archive, and trash using `gmail.modify`. This is on-demand admin access, not an intake queue: do not copy Brian's mailbox into `agentcore/inbox/email/`. Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
 
-A daily **school communications digest** reads that mailbox, applies the `26-27 School` label, and sends a compact Telegram summary with `agent-runner.yml` at 8:30 AM America/Chicago. Playbook: `agentcore/knowledge/playbooks/school-comms-digest.md`.
+A daily **school communications digest** reads that mailbox, applies the `26-27 School` label, rebuilds a shared Google Doc (Important / per kid / General), and pings Telegram with the Important section plus the Doc link. Playbook: `agentcore/knowledge/playbooks/school-comms-digest.md`.
 
 ## Workflows
 

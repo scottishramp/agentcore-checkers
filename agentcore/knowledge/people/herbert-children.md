@@ -43,12 +43,8 @@ Brian confirmed 2026-08-16. Teacher names are from Infinite Campus schedule emai
 | Daniel | 9 | Edmond North High School | n/a (high school) | Basketball: Corbin Byford. English I: Samantha Choate with co-teacher Jacob Wolery. Full period list in the roster JSON. |
 | Nathan | 8 | Cheyenne Middle School | Devan Johnson (Rm 109) | GATE: Stacy Jackson. FACS: Kendall Wildman. English 8: Olivia Copenhaver. |
 | Ezra | 6 | Cheyenne Middle School | Madison Shafer (Rm 306, team Black Jack) | Also Science 6 with Shafer. GATE: Stacy Jackson. Band: JoeLee Mills. |
-| Silver | 4 | Frontier Elementary | Arabella Trofemuk | Partner/switch teacher: Ms. Schaefer. Homeroom inferred from the 4th-grade welcome email plus Silver's grade; the email does not name Silver. |
-| Levi | 1 | Frontier Elementary | unknown | Seesaw is posting to Levi's journal. 1st-grade teacher name is not in Gmail yet. |
-
-### Open
-
-- Levi's 1st-grade teacher name.
+| Silver | 4 | Frontier Elementary | Arabella Trofemuk | Partner/switch teacher: Ms. Schaefer. Brian confirmed 2026-08-16. |
+| Levi | 1 | Frontier Elementary | Mrs. Scott | Brian confirmed 2026-08-16. No matching teacher email in Gmail yet; Seesaw posts to Levi's journal. |
 
 ## Administrative Context
 

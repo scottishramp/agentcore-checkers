@@ -8,56 +8,62 @@ confidence: medium
 related:
   - ../people/herbert-children.md
   - ../school/2026-27-roster.json
+  - ../school/digest-doc.json
   - ./brian-gmail-mailbox.md
 ---
 
 # Playbook: Kids' School Communications Digest
 
-Daily compact digest of school mail from Brian's Gmail, sent on Telegram with the morning AgentCore runner.
+Living Google Doc of school mail from Brian's Gmail, rebuilt each morning. Telegram only pings the Important section plus the Doc link.
 
 ## Goal
 
-Brian should see **what needs a decision or bag/calendar change**, not every Edmond blast.
+Brian should see **what needs a decision or bag/calendar change**, with kid-specific notes and non-urgent school announcements in one shared Doc.
+
+## Doc layout
+
+1. **Important** — action items for any kid, with date and child name
+2. **Per child** — Daniel, Nathan, Ezra, Silver, Levi: other specific notes
+3. **General** — school announcements that are not urgent
 
 ## Sources
 
 - Mailbox: `briandherbert@gmail.com`
 - Label: `26-27 School` (auto-applied to matching mail)
-- Query window: last 24 hours of Edmond Schools, Remind, Seesaw, and already-labeled mail
+- Query window: last 7 days
 - Roster: `agentcore/knowledge/school/2026-27-roster.json`
+- Google Doc registry: `agentcore/knowledge/school/digest-doc.json`
 
-Do not copy full message bodies into git.
+The Doc lives in AgentCore Drive (`scottishramp@gmail.com`), folder `School`, shared writer with `briandherbert@gmail.com`. Do not copy full message bodies into git.
 
 ## Delivery
 
-- Channel: Telegram `@AgentCoreFam_bot`
+- Primary: Google Doc, replaced in place each run
+- Ping: Telegram `@AgentCoreFam_bot` with Important items + Doc link
 - Cadence: daily with `agent-runner.yml` (8:30 AM America/Chicago)
-- Command: `python3 scripts/email/school_digest.py --hours 24 --apply-label --send-telegram`
-- Local preview: `npm run email:school-digest -- --hours 48 --dry-run`
+- Command: `python3 scripts/email/school_digest.py --hours 168 --apply-label --update-doc --send-telegram`
+- Local preview: `npm run email:school-digest -- --hours 168 --dry-run`
 
-Empty windows do not send.
+## Importance model (v2)
 
-## Importance model (v1, iterate with Brian)
+**Important**
 
-**Show**
+- Action verbs: due, form, fee, supplies, conference, detention, no school, early release, missing homework, schedule change
 
-- Direct teacher emails
-- Child-named schedule/class changes
-- Action verbs: due, form, fee, supplies, conference, detention, no school, early release, missing homework
-- Seesaw posts (one line)
+**Per child**
 
-**Skip unless Brian says otherwise**
+- Direct teacher emails that are not action
+- Seesaw / classroom app posts
 
-- School-wide newsletters (Husky Pride, Mustang Round-Up, Falcon News Flash)
-- PTO fundraisers, candy grams, staff-appreciation food signups
-- Duplicate Kristin forwards of the same school message
-- District OSDE blasts
-- Before/after-care marketing
+**General**
+
+- School-wide newsletters (Husky Pride, Mustang Round-Up, Falcon News)
+- PTO and similar non-urgent announcements
 
 ## Filing
 
-`school_digest.py --apply-label` adds `26-27 School` to matching messages. Older years stay in `KidSchoolArchive/YYYY`.
+`school_digest.py --apply-label` adds `26-27 School` to matching messages.
 
 ## Learning loop
 
-When Brian says a digest item was noise or a skipped item mattered, update this playbook and the classifier in `scripts/email/school_digest.py`. Record durable teacher/school facts on `herbert-children.md` and the roster JSON.
+When Brian says an item was in the wrong section, update this playbook and the classifier in `scripts/email/school_digest.py`. Record durable teacher/school facts on `herbert-children.md` and the roster JSON.

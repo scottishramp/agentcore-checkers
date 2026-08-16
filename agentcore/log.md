@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-16] knowledge | School digest is a shared Google Doc; Levi's teacher is Mrs. Scott
+
+- Brian confirmed all 2026-27 teacher assignments and named Levi's 1st-grade teacher as Mrs. Scott.
+- Digest primary artifact is now an AgentCore Drive Google Doc: Important (action + date + kid), one section per child, then General.
+- Telegram only pings Important items plus the Doc link. Morning runner rebuilds the Doc over a 7-day window.
+
 ## [2026-08-16] knowledge | 2026-27 schools, teachers, and school digest v1
 
 - Brian confirmed 2026-27 schools: Daniel at Edmond North; Nathan and Ezra at Cheyenne Middle; Silver and Levi at Frontier Elementary.

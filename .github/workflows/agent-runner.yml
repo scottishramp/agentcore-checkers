@@ -127,9 +127,26 @@ jobs:
       - name: Send school communications digest
         env:
           AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
+          AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
+          AGENTCORE_GMAIL_CLIENT_SECRET: ${{ secrets.AGENTCORE_GMAIL_CLIENT_SECRET }}
+          AGENTCORE_GMAIL_REFRESH_TOKEN: ${{ secrets.AGENTCORE_GMAIL_REFRESH_TOKEN }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
           AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS: ${{ secrets.AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS || secrets.AGENTCORE_TELEGRAM_ALLOWED_USER_IDS }}
-        run: python3 scripts/email/school_digest.py --hours 24 --apply-label --send-telegram
+        run: python3 scripts/email/school_digest.py --hours 168 --apply-label --update-doc --send-telegram
+
+      - name: Persist school digest doc registry
+        continue-on-error: true
+        run: |
+          python3 scripts/agent/ensure_no_conflict_markers.py
+          git add agentcore/knowledge/school/digest-doc.json
+          if git diff --cached --quiet; then
+            echo "No school digest registry change to commit."
+          else
+            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Update school digest Google Doc registry"
+            git -c rebase.autoStash=true pull --rebase origin main
+            git push
+          fi
 
       - name: Persist scheduled message state
         continue-on-error: true

@@ -4,7 +4,7 @@
   "gmail_label": "26-27 School",
   "source_notes": [
     "Schools confirmed by Brian on 2026-08-16.",
-    "Teacher names taken from Infinite Campus schedule-release emails and teacher welcome messages in Brian's Gmail.",
+    "Teacher names taken from Infinite Campus schedule-release emails, teacher welcome messages, and Brian's confirmation (Levi: Mrs. Scott).",
     "Do not store full email bodies in git."
   ],
   "query_hints": {
@@ -74,14 +74,14 @@
       "grade": "4",
       "school": "Frontier Elementary",
       "school_short": "Frontier",
-      "confidence": "confirmed-school",
+      "confidence": "confirmed",
       "teachers": [
         {
           "role": "4th grade homeroom",
           "name": "Arabella Trofemuk",
           "email": "arabella.trofemuk@edmondschools.net",
-          "confidence": "inferred-grade",
-          "notes": "Welcome email names Mrs. Trofemuk as the 4th-grade homeroom teacher; Silver is the family's 4th grader. Email does not say Silver by name."
+          "confidence": "confirmed",
+          "notes": "Brian confirmed 2026-08-16."
         },
         {
           "role": "4th grade partner / switch teacher",
@@ -96,10 +96,16 @@
       "grade": "1",
       "school": "Frontier Elementary",
       "school_short": "Frontier",
-      "confidence": "confirmed-school",
-      "teachers": [],
-      "open_questions": ["1st-grade teacher name not in Gmail yet; Seesaw is posting to Levi's journal."],
-      "sender_needles": ["levi"]
+      "confidence": "confirmed",
+      "teachers": [
+        {
+          "role": "1st grade homeroom",
+          "name": "Mrs. Scott",
+          "confidence": "confirmed-by-brian",
+          "notes": "Brian confirmed 2026-08-16. No matching teacher email in Gmail yet."
+        }
+      ],
+      "sender_needles": ["levi", "mrs. scott"]
     }
   ],
   "prior_year_2025_26": [

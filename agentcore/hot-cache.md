@@ -37,7 +37,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Open blockers: Google Keep note content unavailable; broad Google Photos library reads unavailable.
 - Delivered: Brian personal Gmail access. Separate `gmail.modify` token for `briandherbert@gmail.com` can read all mail, create/apply labels, archive, and trash. Do not send as Brian; do not persist full bodies in git. Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
 - Delivered: GoDaddy Products & Domains delegate access. AgentCore (`scottishramp@gmail.com`, customer `#743698597`) can manage Brian Herbert's domains, including `burningaltar.com`.
-- Delivered: first kids' school-comms digest. Daily Telegram summary from Brian's Gmail; auto-label `26-27 School`; 2026-27 roster on `herbert-children.md`. Levi's 1st-grade teacher still unknown.
+- Delivered: first kids' school-comms digest. Living Google Doc (Important / per kid / General) shared with Brian; Telegram pings action items. Levi's teacher is Mrs. Scott.
 
 ## Operating Preferences
 
@@ -65,7 +65,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- School comms digest v1 (2026-08-16): daily Telegram digest from Brian's Gmail; `26-27 School` auto-label; roster at `knowledge/school/2026-27-roster.json`.
+- School comms digest v2 (2026-08-16): Google Doc in AgentCore Drive with Important / per-kid / General; Mrs. Scott recorded as Levi's teacher.
 - Burning Altar blog live (2026-08-16): https://burningaltar.com/; two Bear posts only; DNS apex/www → GitHub Pages; project `burningaltar-blog.md`.
 - Brian Gmail mailbox access (2026-08-16): separate `gmail.modify` token for `briandherbert@gmail.com`; CLI `npm run email:brian`; playbook `brian-gmail-mailbox.md`.
 - GoDaddy delegate access live (2026-08-16): Products & Domains on Brian Herbert's account; inventory at `agentcore/knowledge/projects/domain-management.md`.
