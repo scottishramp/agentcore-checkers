@@ -26,9 +26,7 @@ Brian should see **what needs a decision or bag/calendar change**, with kid-spec
 2. **Per child** — Daniel, Nathan, Ezra, Silver, Levi: standing sports/teams, then other specific notes
 3. **General** — school announcements that are not urgent
 
-Each bullet is a complete-sentence paraphrase (never clipped mid-word) plus a hyperlinked **Link** to the form/Smore/RankOne/Seesaw URL when present, otherwise the Gmail message.
-
-## Sources
+Each bullet is a complete-sentence paraphrase (never clipped mid-word) plus a hyperlinked **Link**. Under each bullet, a *Need:* / *FYI:* / *No action.* line says whether we have something to do after reading the full email.
 
 ## Sources
 
@@ -53,6 +51,7 @@ The Doc lives in AgentCore Drive (`scottishramp@gmail.com`), folder `School`, sh
 **Important**
 
 - Action verbs: due, form, fee, supplies, conference, detention, no school, early release, missing homework, schedule change
+- After reading the full body, items with **no parent to-do** (welcome notes, excitement-only sports mail) are moved out of Important even if the classifier first tagged them as action
 
 **Per child**
 

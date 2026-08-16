@@ -12,7 +12,7 @@ Give Brian a daily, child-grouped digest of school communications. The durable a
 - Telegram sends Important items plus the Doc link with the morning async runner.
 - Teacher roster for 2026-27 is in `agentcore/knowledge/school/2026-27-roster.json`.
 - Levi's 1st-grade teacher: Mrs. Scott (Brian, 2026-08-16).
-- Digest bullets are complete-sentence paraphrases with a hyperlinked Link; items due this week are bold.
+- Digest bullets are complete-sentence paraphrases with a hyperlinked Link and a Need/FYI/No-action line from the full email; items due this week are bold.
 - Morning sweep ingests new teachers and sports onto the roster.
 
 ## Why this shape

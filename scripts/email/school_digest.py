@@ -61,6 +61,33 @@ PREFERRED_URL_RE = re.compile(
     r"(smore\.com|rankone|docs\.google|forms\.gle|signupgenius|seesaw|edmondschools\.net)",
     re.I,
 )
+GREETING_RE = re.compile(
+    r"\b(hello|hi |hey |greetings|welcome to|hope you had|we are so excited|"
+    r"i(?:['’]m| am) excited|thrilled|can['’]?t wait|so glad|looking forward to "
+    r"(?:a |the )?(?:great |wonderful |new )?year|dear (?:families|parents|students|class))\b",
+    re.I,
+)
+NEED_RE = re.compile(
+    r"\b(bring|wear|dress|pack|turn in|turned in|complete|register|registration|"
+    r"sign up|signup|permission|waiver|pay|fee|\$|supply list|supplies|form|"
+    r"physical|rank one|picture day|due|deadline|must|need to|required|"
+    r"please (?:make sure|send|return|complete|sign|bring|wear|review)|"
+    r"carline|conference|no school|early release|virtual student)\b",
+    re.I,
+)
+NEGATED_NEED_RE = re.compile(
+    r"\b(?:do not|don't|does not|doesn't|no need to|not need to)\s+(?:bring|worry|pack|send|wear)",
+    re.I,
+)
+FACT_RE = re.compile(
+    r"\b(meet(?:s|ing)? (?:in|at|on)|report to|arrive|dismiss|pick(?: )?up|drop off|"
+    r"\d{1,2}:\d{2}\s*(?:a\.?m\.?|p\.?m\.?)?|[1-7](?:st|nd|rd|th)? hour|gym|"
+    r"auditorium|room \d+|english classes|off season|siberian|"
+    r"wednesday|thursday|friday|monday|tuesday|saturday|sunday|"
+    r"aug(?:ust)?|sept(?:ember)?|october|november|december|"
+    r"schedule|homeroom|advisory)\b",
+    re.I,
+)
 TEACHER_INTRO_RE = re.compile(
     r"(?:i am|i'm)\s+(?:so\s+)?(?:excited to (?:be|let you know that i am)\s+)?(?:your (?:child|student)['’]s\s+)?(?:the\s+)?(.{2,60}?)teacher",
     re.I,
@@ -298,10 +325,10 @@ ABBREV_RE = re.compile(
 )
 
 
-def complete_sentences(text: str, max_len: int = 320) -> str:
+def split_sentences(text: str) -> list[str]:
     cleaned = unescape(re.sub(r"\s+", " ", text or "")).strip()
     if not cleaned:
-        return ""
+        return []
     placeholders: list[str] = []
 
     def protect(match: re.Match[str]) -> str:
@@ -309,38 +336,113 @@ def complete_sentences(text: str, max_len: int = 320) -> str:
         return f"@@ABBREV{len(placeholders) - 1}@@"
 
     protected = ABBREV_RE.sub(protect, cleaned)
-    parts = re.split(r"(?<=[.!?])\s+", protected)
-    kept: list[str] = []
-    for part in parts:
+    parts = []
+    for part in re.split(r"(?<=[.!?])\s+", protected):
         restored = part
         for index, original in enumerate(placeholders):
             restored = restored.replace(f"@@ABBREV{index}@@", original)
-        if re.search(r"unsubscribe|powered by|you.?re receiving this email", restored, re.I):
+        restored = restored.strip()
+        if restored:
+            parts.append(restored)
+    return parts
+
+
+def is_greeting_sentence(sentence: str) -> bool:
+    if NEED_RE.search(sentence):
+        return False
+    return bool(GREETING_RE.search(sentence)) and not FACT_RE.search(sentence)
+
+
+def distill_sentence(sentence: str) -> str:
+    if GREETING_RE.search(sentence) and (FACT_RE.search(sentence) or NEED_RE.search(sentence)):
+        paren = re.search(r"\(([^)]+)\)", sentence)
+        if paren and (FACT_RE.search(paren.group(1)) or NEED_RE.search(paren.group(1))):
+            return paren.group(1).strip()
+        rest = GREETING_RE.sub("", sentence, count=1).strip(" ,.-")
+        rest = re.sub(r"^(?:but|and|so)\s+", "", rest, flags=re.I)
+        return rest or sentence
+    return sentence
+
+
+def content_sentences(text: str, max_n: int = 3, max_len: int = 320) -> list[str]:
+    kept: list[str] = []
+    greetings: list[str] = []
+    for sentence in split_sentences(text):
+        if re.search(r"unsubscribe|powered by|you.?re receiving this email", sentence, re.I):
             continue
-        if JUNK_SENTENCE_RE.search(restored):
+        if JUNK_SENTENCE_RE.search(sentence):
             continue
-        if len(restored) < 12 and not kept:
+        if len(sentence) < 12:
             continue
-        kept.append(restored.rstrip())
-        joined = " ".join(kept)
-        if len(joined) >= 90 or len(kept) >= 3:
+        if is_greeting_sentence(sentence):
+            greetings.append(sentence.rstrip())
+            continue
+        kept.append(distill_sentence(sentence).rstrip())
+        if len(" ".join(kept)) >= 90 or len(kept) >= max_n:
             break
-    joined = " ".join(kept) if kept else cleaned
-    for index, original in enumerate(placeholders):
-        joined = joined.replace(f"@@ABBREV{index}@@", original)
+    chosen = kept or greetings[:1]
+    joined = " ".join(chosen)
     if len(joined) <= max_len:
-        if joined and joined[-1] not in ".!?":
-            joined += "."
-        return joined
-    cut = joined[:max_len]
-    for sep in (". ", "! ", "? "):
-        idx = cut.rfind(sep)
-        if idx >= 80:
-            return cut[: idx + 1]
-    idx = cut.rfind(" ")
-    if idx >= 80:
-        return cut[:idx] + "."
-    return cut.rstrip(" ,;:") + "."
+        return chosen
+    cut = []
+    total = 0
+    for sentence in chosen:
+        if total and total + len(sentence) > max_len:
+            break
+        cut.append(sentence)
+        total += len(sentence) + 1
+    return cut or chosen[:1]
+
+
+def complete_sentences(text: str, max_len: int = 320) -> str:
+    chosen = content_sentences(text, max_n=3, max_len=max_len)
+    joined = " ".join(chosen)
+    if joined and joined[-1] not in ".!?":
+        joined += "."
+    return joined
+
+
+def finish_sentence(text: str) -> str:
+    text = unescape(re.sub(r"\s+", " ", text or "")).strip()
+    if text and text[-1] not in ".!?":
+        text += "."
+    return text
+
+
+def analyze_item(row: dict) -> tuple[str, str, bool]:
+    """Return (summary, thinking, has_action) from the full cleaned body."""
+    body = clean_body(row.get("body_text") or row.get("snippet") or "")
+    subject = unescape(str(row.get("subject") or "").strip())
+    kids = ", ".join(row.get("kids") or []) or "the family"
+    useful = [distill_sentence(sentence) for sentence in content_sentences(body, max_n=4, max_len=420)]
+    useful = [sentence for sentence in useful if sentence]
+    need_bits = [sentence for sentence in useful if NEED_RE.search(sentence) and not NEGATED_NEED_RE.search(sentence)]
+    fact_bits = [sentence for sentence in useful if sentence not in need_bits and (FACT_RE.search(sentence) or NEGATED_NEED_RE.search(sentence))]
+    if not need_bits and NEED_RE.search(subject):
+        need_bits = [subject]
+    summary = finish_sentence(" ".join(useful)) if useful else paraphrase(row)
+
+    if need_bits:
+        need_text = finish_sentence(" ".join(need_bits[:2]))
+        thinking = f"Need: {need_text}"
+        if kids != "the family" and kids.lower() not in thinking.lower():
+            thinking = f"Need for {kids}: {need_text}"
+        if re.search(r"\bcarline\b", thinking, re.I):
+            thinking = f"Need for {kids}: confirm which carline to use for the first weeks of school."
+        return summary, thinking, True
+
+    if fact_bits:
+        fact_text = finish_sentence(" ".join(fact_bits[:2]))
+        school_hours = bool(re.search(r"\b([1-7](?:st|nd|rd|th)? hour|during (?:class|school))\b", fact_text, re.I))
+        if school_hours and not NEED_RE.search(fact_text):
+            thinking = f"No action for us. {fact_text}"
+            return summary, thinking, False
+        thinking = f"FYI: {fact_text}"
+        return summary, thinking, False
+
+    label = subject or "This email"
+    thinking = f"No action. {label} is a welcome or update; the body has no parent to-do."
+    return summary or finish_sentence(label), thinking, False
 
 
 def paraphrase(row: dict) -> str:
@@ -431,17 +533,37 @@ def when_label(row: dict) -> str:
     return email_day or "undated"
 
 
+def demote_kind(row: dict) -> str:
+    blob = f"{row['from']} {row['subject']} {row.get('snippet','')} {row.get('body_text','')}"
+    if "seesaw" in row["from"].lower():
+        return "classroom_app"
+    if SPORT_RE.search(blob) and not LOW_SUBJECT_RE.search(row["subject"]):
+        return "sports"
+    if LOW_SUBJECT_RE.search(blob) or BLAST_FROM_RE.search(blob):
+        return "fyi"
+    if any(name in row["from"].lower() for name in ("byford", "trofemuk", "wildman", "copenhaver", "jackson", "beck")):
+        return "teacher"
+    if "@edmondschools.net" in row["from"].lower() and "donotreply" not in row["from"].lower() and "messenger@" not in row["from"].lower():
+        return "teacher"
+    return "fyi"
+
+
 def annotate(rows: list[dict], roster: dict) -> list[dict]:
     annotated = []
     for row in rows:
-        kind = classify(row)
         kids = children_for(row, roster)
         row = dict(row)
-        row["kind"] = kind
         row["kids"] = kids
+        summary, thinking, has_action = analyze_item(row)
+        kind = classify(row)
+        if kind == "action" and not has_action:
+            kind = demote_kind(row)
+        row["kind"] = kind
         row["importance"] = importance(kind)
         row["when"] = when_label(row)
-        row["summary"] = paraphrase(row)
+        row["summary"] = summary
+        row["thinking"] = thinking
+        row["has_action"] = has_action
         row["link"] = best_link(row)
         row["due_this_week"] = due_this_week(row)
         annotated.append(row)
@@ -455,19 +577,32 @@ def kid_line(row: dict, markdown: bool = False) -> str:
         summary += "."
     prefix = f"• {row['when']} · {kids} — {summary}"
     link = str(row.get("link") or "")
+    thinking = str(row.get("thinking") or "").strip()
     if markdown and link:
-        return f"{prefix} [Link]({link})"
-    return f"{prefix} Link"
+        line = f"{prefix} [Link]({link})"
+    else:
+        line = f"{prefix} Link"
+    if thinking:
+        return f"{line}\n{thinking}"
+    return line
 
 
-def item_paragraph(row: dict) -> dict:
-    text = kid_line(row, markdown=False)
+def item_paragraphs(row: dict) -> list[dict]:
+    kids = ", ".join(row["kids"]) or "family"
+    summary = str(row.get("summary") or paraphrase(row)).rstrip()
+    if summary and summary[-1] not in ".!?":
+        summary += "."
+    text = f"• {row['when']} · {kids} — {summary} Link"
     paragraph: dict = {"text": text, "bold": bool(row.get("due_this_week"))}
     link = str(row.get("link") or "")
     offset = text.rfind("Link")
     if link and offset >= 0:
         paragraph["links"] = [{"offset": offset, "length": 4, "url": link}]
-    return paragraph
+    paragraphs = [paragraph]
+    thinking = str(row.get("thinking") or "").strip()
+    if thinking:
+        paragraphs.append({"text": thinking, "italic": True})
+    return paragraphs
 
 
 def section_items(rows: list[dict], roster: dict) -> dict[str, list[dict]]:
@@ -611,11 +746,12 @@ def render_doc_paragraphs(rows: list[dict], roster: dict) -> tuple[list[dict], s
         },
         {"text": ""},
         {"text": "Important", "style": "HEADING_1"},
-        {"text": "Action items we need to handle. Each line has a date and a child. Items due this week are bold."},
+        {"text": "Action items we need to handle. Each line has a date, a child, and a Need/FYI note. Items due this week are bold."},
         {"text": ""},
     ]
     if sections["important"]:
-        paragraphs.extend(item_paragraph(row) for row in sections["important"])
+        for row in sections["important"]:
+            paragraphs.extend(item_paragraphs(row))
     else:
         paragraphs.append({"text": "• None right now."})
     paragraphs.append({"text": ""})
@@ -626,7 +762,8 @@ def render_doc_paragraphs(rows: list[dict], roster: dict) -> tuple[list[dict], s
             paragraphs.append({"text": line})
         items = sections["per_kid"].get(name) or []
         if items:
-            paragraphs.extend(item_paragraph(row) for row in items)
+            for row in items:
+                paragraphs.extend(item_paragraphs(row))
         else:
             paragraphs.append({"text": "• No extra classroom notes this window."})
         paragraphs.append({"text": ""})
@@ -638,7 +775,8 @@ def render_doc_paragraphs(rows: list[dict], roster: dict) -> tuple[list[dict], s
         ]
     )
     if sections["general"]:
-        paragraphs.extend(item_paragraph(row) for row in sections["general"])
+        for row in sections["general"]:
+            paragraphs.extend(item_paragraphs(row))
     else:
         paragraphs.append({"text": "• None this window."})
     paragraphs.append({"text": ""})

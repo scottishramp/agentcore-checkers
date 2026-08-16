@@ -177,6 +177,16 @@ def replace_document_content(
                     }
                 }
             )
+        if item.get("italic") and text_end > start:
+            requests.append(
+                {
+                    "updateTextStyle": {
+                        "range": {"startIndex": start, "endIndex": text_end},
+                        "textStyle": {"italic": True},
+                        "fields": "italic",
+                    }
+                }
+            )
         if item.get("bold") and text_end > start:
             requests.append(
                 {

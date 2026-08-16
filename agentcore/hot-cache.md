@@ -65,7 +65,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- School comms digest v3 (2026-08-16): complete-sentence bullets, hyperlinked Link, this-week bold, standing sports, roster ingest from email.
+- School comms digest v4 (2026-08-16): Need/FYI/No-action line on each item; complete sentences; Link; this-week bold; sports; roster ingest.
 - Burning Altar blog live (2026-08-16): https://burningaltar.com/; two Bear posts only; DNS apex/www → GitHub Pages; project `burningaltar-blog.md`.
 - Brian Gmail mailbox access (2026-08-16): separate `gmail.modify` token for `briandherbert@gmail.com`; CLI `npm run email:brian`; playbook `brian-gmail-mailbox.md`.
 - GoDaddy delegate access live (2026-08-16): Products & Domains on Brian Herbert's account; inventory at `agentcore/knowledge/projects/domain-management.md`.

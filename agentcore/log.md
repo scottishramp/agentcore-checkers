@@ -2,6 +2,11 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-16] knowledge | School digest items now include Need/FYI thinking
+
+- Each digest bullet has a second line that says whether we have something to do after reading the full email.
+- Excitement-only notes (for example a track welcome with no parent to-do) drop out of Important.
+
 ## [2026-08-16] knowledge | School digest: full sentences, Link, this-week bold, sports ingest
 
 - Digest bullets now paraphrase complete sentences instead of clipping Gmail snippets mid-word.
