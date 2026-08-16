@@ -34,6 +34,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Brian Herbert Food Log](knowledge/people/brian-herbert-food-log.md): rolling meal intake log with rough estimates.
 - [Kristin Herbert](knowledge/people/kristin-herbert.md): Brian's spouse and immediate family context.
 - [Herbert Children](knowledge/people/herbert-children.md): Brian and Kristin's children for family administration context.
+- [Family Facts](knowledge/people/family-facts.md): household facts learned automatically by the email evaluator.
 - [2026-27 School Roster](knowledge/school/2026-27-roster.json): schools, grades, and teacher names for the current year.
 - [School digest Google Doc registry](knowledge/school/digest-doc.json): live Doc id and share link.
 - [School Communications Digest](knowledge/projects/school-comms-digest.md): daily Telegram digest of kids' school email.
@@ -57,6 +58,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Email Operations](knowledge/playbooks/email-ops.md): operational policy and workflow for async client communication by email.
 - [Brian Gmail Mailbox](knowledge/playbooks/brian-gmail-mailbox.md): read, label, archive, and trash access to `briandherbert@gmail.com`.
 - [School Communications Digest](knowledge/playbooks/school-comms-digest.md): daily child-grouped school email digest on Telegram.
+- [Agentic Jobs with Cursor CLI](knowledge/playbooks/agentic-jobs-cursor-cli.md): pattern and recipe for creating scheduled LLM jobs in GitHub Actions.
 - [Email to Cursor CLI Bridge](knowledge/playbooks/email-to-cursor-cli-bridge.md): guarded phase-2 design for intent-to-automation handoff.
 - [Drive Document Organization](knowledge/playbooks/drive-document-organization.md): Drive-backed source storage with repo metadata for documents, scans, and photo intake.
 - [Communication Intake Contracts](knowledge/playbooks/communication-intake-contracts.md): canonical channel contracts, intent classes, and deterministic reply reason codes.

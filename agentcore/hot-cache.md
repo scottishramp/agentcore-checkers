@@ -65,13 +65,13 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- School digest LLM-first evaluation (2026-08-16): `scripts/email/email_evaluator.py` classifies each email once via Cursor CLI (or Gemini key when set), ledger `agentcore/knowledge/email/eval-ledger.json`, learn entries → roster + `family-facts.md`, unsubscribe Suggestions in the Doc, keyword fallback. Playbooks: `school-comms-digest.md`, `agentic-jobs-cursor-cli.md`.
+- Agentic-jobs playbook (2026-08-16): how the runner installs/authenticates/invokes Cursor CLI headless, plus the recipe for turning Brian's asks into scheduled agentic jobs — `agentcore/knowledge/playbooks/agentic-jobs-cursor-cli.md`.
 - School comms digest v5 (2026-08-16): one distilled Need/FYI/No-action line per item, no email excerpts; Important holds only real to-dos; sweep learns teachers/sports/activities onto the roster and children page.
 - Burning Altar blog live (2026-08-16): https://burningaltar.com/; two Bear posts only; DNS apex/www → GitHub Pages; project `burningaltar-blog.md`.
 - Brian Gmail mailbox access (2026-08-16): separate `gmail.modify` token for `briandherbert@gmail.com`; CLI `npm run email:brian`; playbook `brian-gmail-mailbox.md`.
 - GoDaddy delegate access live (2026-08-16): Products & Domains on Brian Herbert's account; inventory at `agentcore/knowledge/projects/domain-management.md`.
 - Async runner Cursor model default set to `grok-4.5` (2026-07-20); override via secret `AGENTCORE_CURSOR_MODEL` if needed.
-- GitHub Actions schedules reduced to once daily (2026-07-10): email-sync 6:00 AM CT, agent-runner 8:30 AM CT (+ after email-sync), knowledge-content-ingest 11:00 AM CT.
-- YouVersion app key policy (2026-07-14): Brian confirmed the YouVersion Platform app key is public and may be hardcoded in repo source for verse-of-the-day delivery; project page at `agentcore/knowledge/projects/youversion-verse-of-the-day.md`.
 
 ## Operating Note: proactive Chat sends
 

@@ -14,7 +14,9 @@ Give Brian a daily, child-grouped digest of school communications. The durable a
 - Levi's 1st-grade teacher: Mrs. Scott (Brian, 2026-08-16).
 - Digest bullets are single distilled lines (Need / FYI / No action) with a hyperlinked Link; no raw email excerpts. Items due this week are bold.
 - Important contains only real to-dos; no-action items go to kid sections or General.
-- Morning sweep is the learning loop: it ingests new teachers, sports, and activities onto the roster and re-syncs `herbert-children.md`.
+- Classification is LLM-first (2026-08-16): `email_evaluator.py` evaluates each email once (Cursor CLI in CI, Gemini key optional), stores verdicts in `agentcore/knowledge/email/eval-ledger.json`, prefilters junk senders, and keeps the keyword classifier as fallback.
+- Learning loop: LLM `learn` entries put teachers/sports/activities on the roster (re-syncing `herbert-children.md`) and general household facts in `agentcore/knowledge/people/family-facts.md`. Unsubscribe recommendations render in a Suggestions section.
+- Roadmap (Brian): grow this ingest into a full family assistant — continuously improving self-knowledge, surfacing action items across all mail, recommending unsubscribes.
 
 ## Why this shape
 

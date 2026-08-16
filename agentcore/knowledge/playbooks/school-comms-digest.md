@@ -46,12 +46,27 @@ The Doc lives in AgentCore Drive (`scottishramp@gmail.com`), folder `School`, sh
 - Command: `python3 scripts/email/school_digest.py --hours 168 --apply-label --update-doc --send-telegram`
 - Local preview: `npm run email:school-digest -- --hours 168 --dry-run`
 
-## Importance model (v2)
+## Evaluation model (v3 — LLM-first)
 
-**Important**
+Every email is evaluated **once** by an LLM (`scripts/email/email_evaluator.py`) and the verdict is
+stored in `agentcore/knowledge/email/eval-ledger.json` (committed by the runner, pruned after 60
+days, metadata only — no bodies). Pipeline per run:
 
-- Only items where the full body contains a real parent to-do (`has_action`). Action verbs: due, form, fee, supplies, conference, detention, no school, early release, missing homework, schedule change.
-- No-action and FYI items never appear in Important — they go to the kid's section (teacher/classroom/sports mail) or General (everything else).
+1. **Ledger check** — already-evaluated message ids reuse their stored verdict (`--reeval` forces
+   re-evaluation).
+2. **Prefilter** — obviously irrelevant senders (mailer-daemon, calendar notifications, Drive
+   share bots) are ledgered as skipped without an LLM call.
+3. **LLM batch evaluation** — new emails go to the LLM in batches of 12 with household context
+   (kids, grades, schools, teachers, sports from the roster). Backends: Gemini REST if
+   `GEMINI_API_KEY` is set, else Cursor Agent CLI (`CURSOR_API_KEY` in CI). Verdict per email:
+   relevant, category, children, one distilled `line` ("Need:"/"FYI:"), `need`, `due_date`,
+   `learn` facts, `unsubscribe` recommendation.
+4. **Keyword fallback** — if no backend is available or the call fails, the old keyword
+   classifier still renders the digest (`--no-llm` forces this).
+
+**Important** holds only verdicts with a real `need` whose `due_date` is not past. Irrelevant
+verdicts are dropped from the Doc entirely. Unsubscribe recommendations render in a
+**Suggestions** section at the bottom.
 
 **Per child**
 
@@ -71,6 +86,20 @@ The Doc lives in AgentCore Drive (`scottishramp@gmail.com`), folder `School`, sh
 
 ## Learning loop
 
-When Brian says an item was in the wrong section, update this playbook and the classifier in `scripts/email/school_digest.py`.
+When Brian says an item was in the wrong section, tighten the evaluator prompt in
+`scripts/email/email_evaluator.py` (and re-run with `--reeval` if the stored verdict is wrong).
 
-The morning sweep is also the learning loop for kid facts. Every run it ingests new teachers, sports, and activities from school mail onto `2026-27-roster.json` and re-syncs the schools table in `herbert-children.md`; the runner commits both. Do not invent sports for a child who is not named in the mail. Full email bodies stay in Gmail; they are not copied into git.
+The morning sweep is also the learning loop for family facts. LLM `learn` entries flow to:
+
+- child-scoped teachers/sports/activities → `2026-27-roster.json` (then `herbert-children.md` is
+  re-synced);
+- everything else (e.g. "Brian has a Netflix subscription") → appended, dated and deduped, to
+  `agentcore/knowledge/people/family-facts.md`.
+
+The runner commits roster, children page, family facts, and the eval ledger. Do not invent facts
+for a child who is not named in the mail. Full email bodies stay in Gmail; they are not copied
+into git.
+
+Long-term direction (Brian, 2026-08-16): this ingest grows into a full family assistant —
+constantly improving self-knowledge, surfacing action items, recommending unsubscribes — beyond
+just school mail.

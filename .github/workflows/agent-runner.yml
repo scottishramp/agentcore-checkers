@@ -124,8 +124,16 @@ jobs:
           AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS: ${{ secrets.AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS || secrets.AGENTCORE_TELEGRAM_ALLOWED_USER_IDS }}
         run: python3 scripts/telegram/send_scheduled_messages.py
 
+      - name: Install Cursor CLI
+        run: |
+          curl https://cursor.com/install -fsS | bash
+          echo "$HOME/.cursor/bin" >> "$GITHUB_PATH"
+
       - name: Send school communications digest
         env:
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'grok-4.5' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON }}
           AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
           AGENTCORE_GMAIL_CLIENT_ID: ${{ secrets.AGENTCORE_GMAIL_CLIENT_ID }}
@@ -141,7 +149,9 @@ jobs:
           python3 scripts/agent/ensure_no_conflict_markers.py
           git add agentcore/knowledge/school/digest-doc.json \
             agentcore/knowledge/school/2026-27-roster.json \
-            agentcore/knowledge/people/herbert-children.md
+            agentcore/knowledge/people/herbert-children.md \
+            agentcore/knowledge/people/family-facts.md \
+            agentcore/knowledge/email/eval-ledger.json
           if git diff --cached --quiet; then
             echo "No school digest knowledge change to commit."
           else
@@ -214,12 +224,6 @@ jobs:
         run: |
           python3 scripts/telegram/send_working_notice.py \
             --task-file "${{ steps.claim.outputs.task_file }}"
-
-      - name: Install Cursor CLI
-        if: steps.claim.outputs.claimed == 'true'
-        run: |
-          curl https://cursor.com/install -fsS | bash
-          echo "$HOME/.cursor/bin" >> "$GITHUB_PATH"
 
       - name: Execute task adapter
         if: steps.claim.outputs.claimed == 'true'

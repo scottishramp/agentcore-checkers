@@ -14,12 +14,14 @@ from html import unescape
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import email_evaluator as evaluator
 import gmail_api
 from common import load_env_file
 
 ROSTER_PATH = Path("agentcore/knowledge/school/2026-27-roster.json")
 DOC_REGISTRY_PATH = Path("agentcore/knowledge/school/digest-doc.json")
 CHILDREN_PAGE_PATH = Path("agentcore/knowledge/people/herbert-children.md")
+FAMILY_FACTS_PATH = Path("agentcore/knowledge/people/family-facts.md")
 OUTPUT_PATH = Path(".agentcore/state/school-digest/latest.md")
 LABEL_NAME = "26-27 School"
 DOC_TITLE = "2026-27 School Digest"
@@ -102,6 +104,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--send-telegram", action="store_true", help="Send Important items plus the Doc link on Telegram.")
     parser.add_argument("--dry-run", action="store_true", help="Print without labeling or sending.")
     parser.add_argument("--roster", default=str(ROSTER_PATH), help="Roster JSON path.")
+    parser.add_argument("--no-llm", action="store_true", help="Skip LLM evaluation; use the keyword classifier only.")
+    parser.add_argument("--reeval", action="store_true", help="Re-evaluate emails already in the eval ledger.")
     return parser.parse_args()
 
 
@@ -544,9 +548,82 @@ def demote_kind(row: dict) -> str:
     return "fyi"
 
 
-def annotate(rows: list[dict], roster: dict) -> list[dict]:
+def llm_context(roster: dict) -> str:
+    lines = ["Herbert children, school year 2026-27 (Edmond Public Schools, Oklahoma):"]
+    for child in roster.get("children") or []:
+        name = child.get("name", "")
+        lines.append(f"- {name}: grade {child.get('grade', '?')}, {child.get('school', '')}.")
+        teachers = ", ".join(
+            f"{teacher.get('name')} ({teacher.get('role')})" for teacher in (child.get("teachers") or [])[:12]
+        )
+        if teachers:
+            lines.append(f"  Teachers: {teachers}.")
+        sports = ", ".join(
+            f"{item.get('sport')} (coach {item.get('coach')})" if item.get("coach") else str(item.get("sport"))
+            for item in child.get("sports") or []
+        )
+        if sports:
+            lines.append(f"  Sports: {sports}.")
+        activities = ", ".join(str(item.get("name")) for item in child.get("activities") or [])
+        if activities:
+            lines.append(f"  Activities: {activities}.")
+    lines.append("Parents: Brian and Kristin Herbert. Brian's mailbox is the source of these emails.")
+    return "\n".join(lines)
+
+
+VERDICT_KIND_MAP = {"teacher_info": "teacher", "sports": "sports", "classroom_app": "classroom_app"}
+
+
+def parse_due_date(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        return datetime.strptime(str(value), "%Y-%m-%d").replace(tzinfo=TZ, hour=12)
+    except ValueError:
+        return None
+
+
+def apply_verdict(row: dict, verdict: dict, roster: dict) -> dict:
+    row = dict(row)
+    row["verdict"] = verdict
+    if not verdict.get("relevant", True):
+        row["skip"] = True
+        row["kids"] = []
+        row["kind"] = "fyi"
+        row["importance"] = importance("fyi")
+        row["has_action"] = False
+        row["display"] = ""
+        row["when"] = when_label(row)
+        row["link"] = best_link(row)
+        row["due_this_week"] = False
+        return row
+    kids = [name for name in verdict.get("children") or [] if name in CHILD_ORDER]
+    row["kids"] = kids or children_for(row, roster)
+    need = verdict.get("need")
+    row["has_action"] = bool(need)
+    row["display"] = str(verdict.get("line") or "").strip() or (f"Need: {need}" if need else "FYI: see the linked email.")
+    row["kind"] = "action" if need else VERDICT_KIND_MAP.get(str(verdict.get("category")), "fyi")
+    row["importance"] = importance(row["kind"])
+    row["when"] = when_label(row)
+    row["link"] = best_link(row)
+    row["unsubscribe"] = bool(verdict.get("unsubscribe"))
+    due = parse_due_date(verdict.get("due_date"))
+    row["due_parsed"] = due
+    now_local = datetime.now(TZ)
+    if due:
+        row["due_this_week"] = now_local.date() <= due.date() <= (now_local + timedelta(days=6)).date()
+    else:
+        row["due_this_week"] = due_this_week(row)
+    return row
+
+
+def annotate(rows: list[dict], roster: dict, verdicts: dict[str, dict] | None = None) -> list[dict]:
     annotated = []
     for row in rows:
+        verdict = (verdicts or {}).get(str(row.get("id") or ""))
+        if verdict is not None:
+            annotated.append(apply_verdict(row, verdict, roster))
+            continue
         kids = children_for(row, roster)
         row = dict(row)
         row["kids"] = kids
@@ -586,6 +663,8 @@ def item_paragraphs(row: dict) -> list[dict]:
 
 
 def section_items(rows: list[dict], roster: dict) -> dict[str, list[dict]]:
+    rows = [row for row in rows if not row.get("skip")]
+
     def dedup_priority(row: dict) -> int:
         if row["has_action"] and not is_stale_action(row):
             return 0
@@ -636,7 +715,24 @@ def section_items(rows: list[dict], roster: dict) -> dict[str, list[dict]]:
             leftover_stale.append(row)
     if unassigned or leftover_stale:
         general = unassigned + leftover_stale + general
-    return {"important": important, "per_kid": per_kid, "general": general, "roster": roster}
+    suggestions: list[str] = []
+    seen_senders: set[str] = set()
+    for row in rows:
+        if not row.get("unsubscribe"):
+            continue
+        sender_name, sender_email = parse_from(row.get("from", ""))
+        key = (sender_email or sender_name).lower()
+        if key and key not in seen_senders:
+            seen_senders.add(key)
+            label = sender_name or sender_email
+            suggestions.append(f"Consider unsubscribing from {label} — recurring low-value mail.")
+    return {
+        "important": important,
+        "per_kid": per_kid,
+        "general": general,
+        "suggestions": suggestions,
+        "roster": roster,
+    }
 
 
 def school_for(name: str, roster: dict) -> str:
@@ -774,6 +870,17 @@ def render_doc_paragraphs(rows: list[dict], roster: dict) -> tuple[list[dict], s
     else:
         paragraphs.append({"text": "• None this window."})
     paragraphs.append({"text": ""})
+    if sections.get("suggestions"):
+        paragraphs.extend(
+            [
+                {"text": "Suggestions", "style": "HEADING_1"},
+                {"text": "Mailbox hygiene ideas from the evaluator."},
+                {"text": ""},
+            ]
+        )
+        for suggestion in sections["suggestions"]:
+            paragraphs.append({"text": f"• {suggestion}"})
+        paragraphs.append({"text": ""})
     return paragraphs, title
 
 
@@ -799,6 +906,9 @@ def render_telegram(rows: list[dict], roster: dict, doc_link: str) -> str:
 
 def is_stale_action(row: dict) -> bool:
     now_local = datetime.now(TZ)
+    due = row.get("due_parsed")
+    if due is not None:
+        return due.date() < now_local.date()
     events = extract_event_dates(row, now_local)
     if events and all(event.date() < now_local.date() for event in events):
         return True
@@ -854,12 +964,106 @@ def teacher_already_known(child: dict, name: str, email: str) -> bool:
     return False
 
 
+def append_family_facts(facts: list[str]) -> list[str]:
+    """Append new general facts to the family facts page. Returns facts actually added."""
+    if not facts:
+        return []
+    today = datetime.now(TZ).date().isoformat()
+    if FAMILY_FACTS_PATH.exists():
+        existing = FAMILY_FACTS_PATH.read_text(encoding="utf-8")
+    else:
+        existing = (
+            "# Family Facts (Email-Learned)\n\n"
+            "Durable facts about the Herbert household learned by the email evaluator. "
+            "Appended automatically; prune or correct freely.\n"
+        )
+    existing_lower = existing.lower()
+    added = []
+    for fact in facts:
+        fact = fact.strip().rstrip(".") + "."
+        if fact.lower().rstrip(".") in existing_lower:
+            continue
+        existing += f"\n- {today}: {fact}"
+        existing_lower += "\n" + fact.lower()
+        added.append(fact)
+    if added:
+        FAMILY_FACTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+        FAMILY_FACTS_PATH.write_text(existing.rstrip() + "\n", encoding="utf-8")
+    return added
+
+
+def apply_llm_learn(rows: list[dict], roster: dict) -> tuple[dict, list[str]]:
+    """Apply LLM 'learn' entries to the roster and family facts page."""
+    roster = seed_teams(roster)
+    children = {str(child.get("name")): child for child in roster.get("children") or []}
+    notes: list[str] = []
+    facts: list[str] = []
+    today = datetime.now(TZ).date().isoformat()
+    for row in rows:
+        verdict = row.get("verdict")
+        if not verdict:
+            continue
+        sender_name, sender_email = parse_from(row.get("from", ""))
+        for entry in verdict.get("learn") or []:
+            kind = entry.get("type")
+            value = str(entry.get("value") or "").strip()
+            person = str(entry.get("person") or "").strip()
+            role = str(entry.get("role") or "").strip()
+            child = children.get(entry.get("child") or "")
+            if kind == "teacher" and child:
+                name = person or value
+                if name and not teacher_already_known(child, name, sender_email if name == sender_name else ""):
+                    child.setdefault("teachers", []).append(
+                        {
+                            "role": role or "Teacher",
+                            "name": name,
+                            "email": sender_email if name == sender_name else "",
+                            "confidence": "llm-ingest",
+                            "notes": f"Learned {today} by email evaluator.",
+                        }
+                    )
+                    notes.append(f"{child.get('name')}: teacher {name}")
+            elif kind == "sport" and child:
+                sport = normalize_sport(role or value)
+                known = {(item.get("sport") or "").strip().lower() for item in child.get("sports") or []}
+                if sport and sport.lower() not in known:
+                    child.setdefault("sports", []).append(
+                        {
+                            "sport": sport,
+                            "coach": person or sender_name,
+                            "confidence": "llm-ingest",
+                            "notes": f"Learned {today} by email evaluator.",
+                        }
+                    )
+                    notes.append(f"{child.get('name')}: sport {sport}")
+            elif kind == "activity" and child:
+                activity = (role or value).title()
+                known = {(item.get("name") or "").strip().lower() for item in child.get("activities") or []}
+                if activity and activity.lower() not in known:
+                    child.setdefault("activities", []).append(
+                        {
+                            "name": activity,
+                            "advisor": person or sender_name,
+                            "confidence": "llm-ingest",
+                            "notes": f"Learned {today} by email evaluator.",
+                        }
+                    )
+                    notes.append(f"{child.get('name')}: activity {activity}")
+            elif value:
+                facts.append(value if not entry.get("child") else f"{entry['child']}: {value}")
+    added_facts = append_family_facts(facts)
+    notes.extend(f"fact: {fact}" for fact in added_facts)
+    return roster, notes
+
+
 def ingest_knowledge(rows: list[dict], roster: dict) -> tuple[dict, list[str]]:
     roster = seed_teams(roster)
     children = {str(child.get("name")): child for child in roster.get("children") or []}
     notes: list[str] = []
     today = datetime.now(TZ).date().isoformat()
     for row in rows:
+        if row.get("verdict") is not None:
+            continue
         sender_name, sender_email = parse_from(row.get("from", ""))
         blob = f"{row.get('subject', '')} {row.get('body_text', '')}"
         school_sender = "edmondschools.net" in sender_email.lower() or "edmondschools.net" in str(row.get("from", "")).lower()
@@ -1099,8 +1303,43 @@ def main() -> int:
     ids = collect_ids(env_map, args.hours)
     rows = fetch_rows(env_map, ids)
     rows.sort(key=lambda row: parse_date(row["date"]) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
-    rows = annotate(rows, roster)
-    roster, ingest_notes = ingest_knowledge(rows, roster)
+
+    ledger = evaluator.load_ledger()
+    evaluated = ledger.get("evaluated") or {}
+    verdicts: dict[str, dict] = {}
+    pending: list[dict] = []
+    for row in rows:
+        row_id = str(row.get("id") or "")
+        entry = evaluated.get(row_id)
+        if entry and isinstance(entry.get("verdict"), dict) and not args.reeval:
+            verdicts[row_id] = {**entry["verdict"], "id": row_id}
+            continue
+        skip_verdict = evaluator.prefilter_verdict(row)
+        if skip_verdict:
+            verdicts[row_id] = skip_verdict
+            evaluator.record_verdict(ledger, row, skip_verdict, "prefilter", link=best_link(row))
+            continue
+        pending.append(row)
+    if pending and not args.no_llm:
+        try:
+            new_verdicts, backend = evaluator.evaluate_rows(pending, llm_context(roster), CHILD_ORDER)
+            for row in pending:
+                verdict = new_verdicts.get(str(row.get("id") or ""))
+                if verdict:
+                    verdicts[verdict["id"]] = verdict
+                    evaluator.record_verdict(ledger, row, verdict, backend, link=best_link(row))
+            print(f"llm evaluated {len(new_verdicts)}/{len(pending)} new email(s) via {backend}", file=sys.stderr)
+        except Exception as exc:  # noqa: BLE001 - digest must still render on any LLM failure
+            print(f"LLM evaluation unavailable ({exc}); keyword fallback for {len(pending)} email(s).", file=sys.stderr)
+    elif pending:
+        print(f"--no-llm: keyword fallback for {len(pending)} email(s).", file=sys.stderr)
+    if not args.dry_run:
+        evaluator.save_ledger(ledger)
+
+    rows = annotate(rows, roster, verdicts)
+    roster, learn_notes = apply_llm_learn(rows, roster)
+    roster, keyword_notes = ingest_knowledge(rows, roster)
+    ingest_notes = learn_notes + keyword_notes
     if ingest_notes and not args.dry_run:
         save_roster(Path(args.roster), roster)
         print("ingested: " + "; ".join(ingest_notes), file=sys.stderr)

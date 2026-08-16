@@ -57,12 +57,12 @@ Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 
 Brian's personal mailbox (`briandherbert@gmail.com`) is a separate Gmail API surface. AgentCore can read all mail there, create/apply labels, archive, and trash using `gmail.modify`. This is on-demand admin access, not an intake queue: do not copy Brian's mailbox into `agentcore/inbox/email/`. Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
 
-A daily **school communications digest** reads that mailbox, applies the `26-27 School` label, rebuilds a shared Google Doc (Important / per kid / General, with this-week items bold and a hyperlinked Link on each bullet), ingests new teacher and sports facts onto the 2026-27 roster, and pings Telegram with the Important section plus the Doc link. Playbook: `agentcore/knowledge/playbooks/school-comms-digest.md`.
+A daily **school communications digest** reads that mailbox, applies the `26-27 School` label, rebuilds a shared Google Doc (Important / per kid / General / Suggestions, with this-week items bold and a hyperlinked Link on each bullet), and pings Telegram with the Important section plus the Doc link. Classification is **LLM-first**: `scripts/email/email_evaluator.py` evaluates each email once (prefilter for junk senders, batches of 12 with roster context) via Gemini REST (`GEMINI_API_KEY`, optional) or Cursor Agent CLI (`CURSOR_API_KEY` in CI), records the verdict in the committed ledger `agentcore/knowledge/email/eval-ledger.json` (60-day retention, metadata only), and falls back to the keyword classifier when no backend is available. LLM `learn` entries update the 2026-27 roster (teachers/sports/activities) and `agentcore/knowledge/people/family-facts.md` (general household facts). Playbooks: `agentcore/knowledge/playbooks/school-comms-digest.md`, `agentcore/knowledge/playbooks/agentic-jobs-cursor-cli.md`.
 
 ## Workflows
 
 - `.github/workflows/email-sync.yml`: email inbox fetch/triage, Drive metadata ingest, runner dispatch (daily 6:00 AM America/Chicago). It intentionally does **not** consume Telegram.
-- `.github/workflows/agent-runner.yml`: Telegram fetch/triage/transcript commit, task execution via Cursor CLI model `grok-4.5` (override with secret `AGENTCORE_CURSOR_MODEL`), Telegram notifications, Vercel redeploy (daily 8:30 AM America/Chicago, and after email-sync completes).
+- `.github/workflows/agent-runner.yml`: Telegram fetch/triage/transcript commit, school digest with LLM email evaluation (Cursor CLI installed before the digest step; `CURSOR_API_KEY` + optional `GEMINI_API_KEY`), task execution via Cursor CLI model `grok-4.5` (override with secret `AGENTCORE_CURSOR_MODEL`), Telegram notifications, Vercel redeploy (daily 8:30 AM America/Chicago, and after email-sync completes).
 - `.github/workflows/knowledge-content-ingest.yml`: **knowledge content ingest** — Gmail bodies, Telegram inbox records, and allowlisted shared Drive doc exports; activates deferred content tasks; commits exported text; dispatches runner when content tasks or Telegram review tasks activate; attempts fast-router redeploy when `VERCEL_TOKEN` is present (daily 11:00 AM America/Chicago).
 
 **Removed:** Google Chat polling, Google Chat HTTP app (`/api/agentcore-chat`), and `router-task.yml` live `repository_dispatch`.
@@ -96,6 +96,8 @@ Playbook: `agentcore/knowledge/playbooks/knowledge-content-ingest.md`
 - `agentcore/inbox/photos/`: Telegram photo metadata after Drive materialization.
 - `agentcore/knowledge/communications/telegram-photo-registry.json`: label → Drive URL, description, filing status.
 - `agentcore/knowledge/communications/telegram-thread-ledger.json`: Telegram triage idempotency.
+- `agentcore/knowledge/email/eval-ledger.json`: per-message LLM email verdicts (school digest), 60-day retention, metadata only.
+- `agentcore/knowledge/people/family-facts.md`: general household facts learned by the email evaluator (dated, deduped).
 - Upstash Redis: conversation history + inbound inbox queue.
 - Standard repo stores: `hot-cache.md`, `index.md`, `blockers.md`, `log.md`, `inbox/tasks/`, etc.
 - `.agentcore/state/drive-content/`: exported text bodies for allowlisted shared Drive docs (committed by knowledge-content-ingest workflow).
@@ -149,4 +151,5 @@ Knowledge propagation is not complete until Vercel production reports a current 
 - `agentcore/knowledge/playbooks/email-ops.md`
 - `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`
 - `agentcore/knowledge/playbooks/school-comms-digest.md`
+- `agentcore/knowledge/playbooks/agentic-jobs-cursor-cli.md`
 - `agentcore/knowledge/playbooks/communication-intake-contracts.md`

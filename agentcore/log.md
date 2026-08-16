@@ -578,3 +578,12 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Brian asked the GitHub Actions async job to choose a smarter model: Grok 4.5.
 - Default `AGENTCORE_CURSOR_MODEL` changed from `auto` to `grok-4.5` in `agent-runner.yml` and `scripts/agent/run_cursor_task.py`.
 - Optional override remains via GitHub secret `AGENTCORE_CURSOR_MODEL`.
+
+## [2026-08-16] architecture | School digest email ingest is LLM-first
+
+- Brian: stop keyword classification; an LLM with repo knowledge must evaluate and classify each email, track what has been evaluated, and skip obvious junk cheaply. Long-term: full family assistant (self-knowledge, action items, unsubscribe recommendations).
+- New `scripts/email/email_evaluator.py`: prefilter → LLM batch verdicts (relevant, category, children, distilled line, need, due_date, learn facts, unsubscribe) → eval ledger `agentcore/knowledge/email/eval-ledger.json` (60-day retention, metadata only, committed by runner).
+- Backends: Gemini REST when `GEMINI_API_KEY` is set; otherwise Cursor Agent CLI (`CURSOR_API_KEY` in CI). Keyword classifier remains as fallback (`--no-llm` or backend failure).
+- Learn entries: kid teachers/sports/activities → roster; general household facts → new `agentcore/knowledge/people/family-facts.md`. Unsubscribe recommendations render in a Suggestions section of the Doc.
+- `agent-runner.yml`: Cursor CLI install moved before the digest step; digest step gets `CURSOR_API_KEY`/`GEMINI_API_KEY`; persist step commits ledger + family facts.
+- New playbook `agentcore/knowledge/playbooks/agentic-jobs-cursor-cli.md`: how the nightly runner uses Cursor CLI headless, plus the recipe for creating new agentic jobs from Brian's asks.
