@@ -1,0 +1,657 @@
+{
+  "evaluated": {
+    "19febc31d902a0db": {
+      "backend": "cursor",
+      "date": "Mon, 10 Aug 2026 13:00:59 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851153+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19febc31d902a0db",
+      "subject": "Cheyenne - Medical Conditions/Medications at School",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "Need: If Nathan or Ezra need clinic meds (Rx or OTC) or have medical conditions, bring medication and completed nurse forms during walk-about or before the first day.",
+        "need": "If applicable, bring Cheyenne clinic medication and completed medical forms before school starts.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19febfe7be8c67da": {
+      "backend": "cursor",
+      "date": "Mon, 10 Aug 2026 09:05:38 -0500",
+      "evaluated_at": "2026-08-16T22:40:17.851149+00:00",
+      "from": "Corbin Byford <corbin.byford@edmondschools.net>",
+      "link": "https://rankone.com",
+      "subject": "Rank One",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "Need: Turn in all Rank One paperwork and physical forms for Daniel\u2019s basketball (Coach Byford) as school starts this week.",
+        "need": "Submit Daniel\u2019s Rank One paperwork and physical forms for basketball.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19fecd880319bf25": {
+      "backend": "cursor",
+      "date": "Mon, 10 Aug 2026 18:03:59 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851145+00:00",
+      "from": "Edmond Public Schools <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19fecd880319bf25",
+      "subject": "It's Time for Back to School",
+      "verdict": {
+        "category": "fyi",
+        "children": [],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: District back-to-school message\u2014students return Thursday; emphasis on attendance (Power of Presence) and continued daytime cell-phone/device restrictions.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19fed0f2d2174cea": {
+      "backend": "cursor",
+      "date": "Mon, 10 Aug 2026 19:03:41 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851141+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19fed0f2d2174cea",
+      "subject": "New to North Tonight!",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": "2026-08-10",
+        "learn": [],
+        "line": "FYI: New to North is tonight Mon Aug 10, 6\u20138pm in the Auditorium (enter via Freshman Academy; parents get the presentation, students tour).",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19fed3593444804b": {
+      "backend": "cursor",
+      "date": "Mon, 10 Aug 2026 19:45:38 +0000",
+      "evaluated_at": "2026-08-16T22:40:17.851137+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://mail.google.com/mail/u/0/#all/19fed3593444804b",
+      "subject": "Off season track, Meet in Siberian gym for day 1",
+      "verdict": {
+        "category": "sports",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "Need: Turn in Daniel\u2019s track physical on Rank One ASAP; day-1 off-season (7th hour) track meets in the Siberian gym (far-west large basketball gym).",
+        "need": "Turn in Daniel\u2019s track physical on Rank One as soon as possible.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19fedb1df10ffb42": {
+      "backend": "cursor",
+      "date": "Mon, 10 Aug 2026 17:01:00 -0500",
+      "evaluated_at": "2026-08-16T22:40:17.851130+00:00",
+      "from": "Arabella Trofemuk <arabella.trofemuk@edmondschools.net>",
+      "link": "https://forms.gle/ZjEpY4ZtXUgcRf8A6",
+      "subject": "",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Silver"
+        ],
+        "due_date": "2026-08-11",
+        "learn": [],
+        "line": "Need: For Silver\u2019s Meet the Teacher Tue Aug 11, 3:30\u20136:00 PM (enter south front office), fill out the transportation form, bring school supplies, and visit the 4th-grade pod (Trofemuk/Schaefer).",
+        "need": "Fill out Silver\u2019s transportation form, bring school supplies, and attend Meet the Teacher on Aug 11.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19fedb3072f2c312": {
+      "backend": "cursor",
+      "date": "Mon, 10 Aug 2026 22:02:39 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851126+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19fedb3072f2c312",
+      "subject": "PSAT Registration Open",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": "2026-10-07",
+        "learn": [],
+        "line": "Need: Register and pay for Daniel\u2019s optional PSAT via the Google Form/InTouch (freshmen test Wed Oct 7, 8:00am\u201312:00pm; seats limited, juniors first).",
+        "need": "Register and pay for Daniel\u2019s PSAT through the Google Form and InTouch before seats sell out.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19fee03b4001a4e0": {
+      "backend": "cursor",
+      "date": "Mon, 10 Aug 2026 23:30:46 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851122+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://app.smore.com/n/md5tk",
+      "subject": "Husky Pride 08.10.26",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Edmond North Husky Pride newsletter posted a \u201cSchool Starts on Thursday\u201d edition dated 08.10.26.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ff0e9c64e3f734": {
+      "backend": "cursor",
+      "date": "Tue, 11 Aug 2026 13:01:19 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851118+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19ff0e9c64e3f734",
+      "subject": "Cheyenne Families- Walkabout is 4-7pm",
+      "verdict": {
+        "category": "irrelevant",
+        "children": [],
+        "due_date": null,
+        "learn": [],
+        "line": "",
+        "need": null,
+        "relevant": false,
+        "unsubscribe": false
+      }
+    },
+    "19ff16483f4b00f3": {
+      "backend": "cursor",
+      "date": "Tue, 11 Aug 2026 15:15:23 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851112+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19ff16483f4b00f3",
+      "subject": "Cheyenne 8th Grade New Elective Option",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Nathan"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": "Nathan",
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Cheyenne offers iTEACH as a semester elective for 8th graders"
+          }
+        ],
+        "line": "FYI: Cheyenne offers iTEACH as a new semester elective for 8th graders interested in teaching and leadership.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ff1a8f6b7566d1": {
+      "backend": "cursor",
+      "date": "Tue, 11 Aug 2026 16:30:09 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851106+00:00",
+      "from": "Frontier Elementary School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19ff1a8f6b7566d1",
+      "subject": "Meet the Teacher Information",
+      "verdict": {
+        "category": "irrelevant",
+        "children": [],
+        "due_date": null,
+        "learn": [],
+        "line": "",
+        "need": null,
+        "relevant": false,
+        "unsubscribe": false
+      }
+    },
+    "19ff202e6014d278": {
+      "backend": "cursor",
+      "date": "Tue, 11 Aug 2026 18:08:23 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851102+00:00",
+      "from": "Frontier Elementary School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19ff202e6014d278",
+      "subject": "One Less Thing to Worry About: Before & After Care at Frontier",
+      "verdict": {
+        "category": "irrelevant",
+        "children": [],
+        "due_date": null,
+        "learn": [],
+        "line": "",
+        "need": null,
+        "relevant": false,
+        "unsubscribe": false
+      }
+    },
+    "19ff72436bd7c33a": {
+      "backend": "cursor",
+      "date": "Wed, 12 Aug 2026 18:02:51 +0000",
+      "evaluated_at": "2026-08-16T22:40:17.851097+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://mail.google.com/mail/u/0/#all/19ff72436bd7c33a",
+      "subject": "Cheyene Band First Day of School",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Cheyenne Band students should not bring instruments on the first day; 6th graders will get instrument and supply info in class.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ff758bf1190eab": {
+      "backend": "cursor",
+      "date": "Wed, 12 Aug 2026 14:00:04 -0500",
+      "evaluated_at": "2026-08-16T22:40:17.851093+00:00",
+      "from": "Arabella Trofemuk <arabella.trofemuk@edmondschools.net>",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLScGEOI8Ojgs5M_2r41-kUf1jigjiyeL5-k-i81KePkkSeqwRw/viewform",
+      "subject": "Fwd: The night before 4th grade",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Silver"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "Need: Have Silver fill in the yellow \u201call about me\u201d sheet; snack calendars start August 24, and use the school forms for dismissal or absence changes.",
+        "need": "Have Silver fill in the yellow all about me sheet.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ff75fa24d76313": {
+      "backend": "cursor",
+      "date": "Wed, 12 Aug 2026 19:07:47 +0000",
+      "evaluated_at": "2026-08-16T22:40:17.851083+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://mail.google.com/mail/u/0/#all/19ff75fa24d76313",
+      "subject": "Off season track, Meet in Siberian gym for day 1",
+      "verdict": {
+        "category": "sports",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": "2026-08-13",
+        "learn": [],
+        "line": "Need: Have Daniel meet for off-season track in the Siberian gym on Thursday, August 13.",
+        "need": "Have Daniel meet for off-season track in the Siberian gym on Thursday, August 13.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ff77edd9ccbe82": {
+      "backend": "cursor",
+      "date": "Wed, 12 Aug 2026 19:41:53 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851078+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19ff77edd9ccbe82",
+      "subject": "New to North Information",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: New to North night slide show is available for families who missed it.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ff7c646d699a56": {
+      "backend": "cursor",
+      "date": "Wed, 12 Aug 2026 20:59:53 +0000",
+      "evaluated_at": "2026-08-16T22:40:17.851074+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSfDQpG7HDVbrb-D2jFktiZWStEEPD7EmcfYvWykidIIlQ8xEQ/viewform?usp=dialog",
+      "subject": "English I: North",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "Need: Fill out the English I digital syllabus form with Daniel within the first week.",
+        "need": "Fill out the English I digital syllabus form with Daniel within the first week.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ff7d4cd1e76c3e": {
+      "backend": "cursor",
+      "date": "Wed, 12 Aug 2026 16:15:33 -0500",
+      "evaluated_at": "2026-08-16T22:40:17.851070+00:00",
+      "from": "Kristin Herbert <kristinherbert@gmail.com>",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSfDQpG7HDVbrb-D2jFktiZWStEEPD7EmcfYvWykidIIlQ8xEQ/viewform?usp=dialog",
+      "subject": "Fwd: English I: North",
+      "verdict": {
+        "category": "irrelevant",
+        "children": [],
+        "due_date": null,
+        "learn": [],
+        "line": "",
+        "need": null,
+        "relevant": false,
+        "unsubscribe": false
+      }
+    },
+    "19ff7dd4178164a9": {
+      "backend": "cursor",
+      "date": "Wed, 12 Aug 2026 21:24:59 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851066+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://app.smore.com/n/7fevr",
+      "subject": "Cheyenne Welcome Back",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Cheyenne students report to advisory on the first day, with paper schedule copies available.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ff8032550246b6": {
+      "backend": "cursor",
+      "date": "Wed, 12 Aug 2026 22:06:22 +0000",
+      "evaluated_at": "2026-08-16T22:40:17.851061+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://app.smore.com/n/3gbpx",
+      "subject": "Congratulations Cheyenne Mustangs!",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Nathan"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Nathan\u2019s Cheyenne schedule paperwork is complete.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ff803645239c85": {
+      "backend": "cursor",
+      "date": "Wed, 12 Aug 2026 22:06:39 +0000",
+      "evaluated_at": "2026-08-16T22:40:17.851056+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://app.smore.com/n/3gbpx",
+      "subject": "Congratulations Cheyenne Mustangs!",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Ezra\u2019s Cheyenne schedule paperwork is complete.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ffc6d4f5bb478e": {
+      "backend": "cursor",
+      "date": "Thu, 13 Aug 2026 18:40:48 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851051+00:00",
+      "from": "Frontier Elementary School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19ffc6d4f5bb478e",
+      "subject": "Let's Talk Carline! Your Guide to Smooth Drop-Off & Pick-Up",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Silver",
+          "Levi"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": null,
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Frontier North carline (back of school): tag 300s\u2013500s and 900s for families with only 3rd\u20135th graders; enter via east playground gate; exit right onto Penn"
+          },
+          {
+            "child": null,
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Frontier families with a PK\u20132 sibling use the South carline (front) instead of North"
+          }
+        ],
+        "line": "FYI: Frontier carline\u2014North (tags 300s\u2013500s & 900s) for 3rd\u20135th-only families; South for PK\u20132 and mixed-sibling families (Levi + Silver \u2192 South).",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "19ffceedcbbc588a": {
+      "backend": "cursor",
+      "date": "Thu, 13 Aug 2026 21:02:20 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851046+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/19ffceedcbbc588a",
+      "subject": "Short AM Assembly Schedule",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": "2026-08-14",
+        "learn": [],
+        "line": "FYI: Edmond North used the Short AM Assembly schedule on Friday, Aug. 14 (Ag/bus times adjusted).",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a00137266ac1edf": {
+      "backend": "cursor",
+      "date": "Fri, 14 Aug 2026 16:59:46 +0000",
+      "evaluated_at": "2026-08-16T22:40:17.851041+00:00",
+      "from": "Seesaw <do-not-reply@notifications.seesaw.me>",
+      "link": "https://app.seesaw.me/#",
+      "subject": "Your Seesaw updates for August 14th, 2026",
+      "verdict": {
+        "category": "classroom_app",
+        "children": [
+          "Levi"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: New Seesaw post in Levi\u2019s journal (Aug. 14).",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a002685ee8b257a": {
+      "backend": "cursor",
+      "date": "Fri, 14 Aug 2026 22:33:08 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851036+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://app.smore.com/n/n3246",
+      "subject": "Husky Pride 08.14.26",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Husky Pride Kickoff newsletter (08.14.26) is out.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a00293c50ce9e63": {
+      "backend": "cursor",
+      "date": "Fri, 14 Aug 2026 23:20:32 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851032+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://app.smore.com/n/5bqr1",
+      "subject": "Cheyenne Mustang Round-Up",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": null,
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Cheyenne Middle School has a new athletic ticketing app"
+          }
+        ],
+        "line": "FYI: Cheyenne Mustang Round-Up has upcoming events/dates, a new athletic ticketing app, and Fun Food Friday volunteer needs.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a002aa79f6f6df8": {
+      "backend": "cursor",
+      "date": "Fri, 14 Aug 2026 23:45:21 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851027+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://www.signupgenius.com/go/10C0548A8AC22A4F8C16-57993636-funfood#/",
+      "subject": "Cheyenne PTO Reminders & Upcoming Events",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "Need: Sign up for Cheyenne Fun Food Friday volunteering via the PTO SignUpGenius if you can help.",
+        "need": "Sign up for Cheyenne Fun Food Friday volunteering if available.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a006e4a769ec1d5": {
+      "backend": "cursor",
+      "date": "Sat, 15 Aug 2026 14:27:08 -0500",
+      "evaluated_at": "2026-08-16T22:40:17.851021+00:00",
+      "from": "Arabella Trofemuk <arabella.trofemuk@edmondschools.net>",
+      "link": "http://frontier.edmondschools.net/",
+      "subject": "First Friday!",
+      "verdict": {
+        "category": "teacher_info",
+        "children": [
+          "Silver"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": null,
+            "person": "Allison Savedra",
+            "role": "",
+            "type": "fact",
+            "value": "Frontier Elementary sends one weekly Friday email from Allison Savedra with links for every grade"
+          }
+        ],
+        "line": "FYI: Frontier will send one Friday weekly email from Allison Savedra with links for every grade instead of per-grade S\u2019mores.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a0085d6df07361b": {
+      "backend": "cursor",
+      "date": "Sun, 16 Aug 2026 02:18:54 +0000",
+      "evaluated_at": "2026-08-16T22:40:17.851016+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://app.smore.com/n/3ye4j",
+      "subject": "Sewing Supply List and Welcome to Cheyenne MS FCS/FCCLA/Wildman Advisory!",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Nathan"
+        ],
+        "due_date": "2026-08-31",
+        "learn": [],
+        "line": "Need: Get Nathan\u2019s 8th-grade FCS sewing supplies (list sent home / in Wildman\u2019s S\u2019more); due 8/31.",
+        "need": "Buy Nathan\u2019s 8th-grade FCS sewing supplies from the list sent home.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a00c460323743a4": {
+      "backend": "cursor",
+      "date": "Sun, 16 Aug 2026 20:31:48 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.851008+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://app.smore.com/n/n3246",
+      "subject": "ICYMI - Husky Pride  Newsletter",
+      "verdict": {
+        "category": "irrelevant",
+        "children": [],
+        "due_date": null,
+        "learn": [],
+        "line": "",
+        "need": null,
+        "relevant": false,
+        "unsubscribe": false
+      }
+    },
+    "1a00c628aa411299": {
+      "backend": "cursor",
+      "date": "Sun, 16 Aug 2026 21:02:59 +0000 (UTC)",
+      "evaluated_at": "2026-08-16T22:40:17.850985+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a00c628aa411299",
+      "subject": "Picture Day August 19th",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": "2026-08-19",
+        "learn": [],
+        "line": "FYI: Edmond North picture day for 9th\u201311th is Aug. 19; students go by English class (virtual students 8:15\u20133:15 in the auditorium).",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    }
+  },
+  "version": 1
+}

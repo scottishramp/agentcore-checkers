@@ -8,8 +8,17 @@
     "Do not store full email bodies in git."
   ],
   "query_hints": {
-    "domains": ["edmondschools.net", "mail.remind.com", "notifications.seesaw.me", "users.smore.com"],
-    "from_contains": ["edmondschools.net", "remind.com", "seesaw.me"]
+    "domains": [
+      "edmondschools.net",
+      "mail.remind.com",
+      "notifications.seesaw.me",
+      "users.smore.com"
+    ],
+    "from_contains": [
+      "edmondschools.net",
+      "remind.com",
+      "seesaw.me"
+    ]
   },
   "children": [
     {
@@ -19,21 +28,80 @@
       "school_short": "North",
       "confidence": "confirmed",
       "teachers": [
-        {"role": "Basketball 9th Boys", "name": "Corbin Byford", "email": "corbin.byford@edmondschools.net", "confidence": "schedule"},
-        {"role": "Spanish II", "name": "Monica VelezGrau", "confidence": "schedule"},
-        {"role": "English I", "name": "Samantha Choate", "email": "messenger@edmondschools.net", "notes": "Co-teacher Jacob Wolery", "confidence": "schedule"},
-        {"role": "English I co-teacher", "name": "Jacob Wolery", "confidence": "welcome-email"},
-        {"role": "Biology", "name": "Zachary Hemans", "confidence": "schedule"},
-        {"role": "Oklahoma History (S1)", "name": "William Taylor", "confidence": "schedule"},
-        {"role": "Healthy Futures (S2)", "name": "Andrew Schneider", "confidence": "schedule"},
-        {"role": "Intro to Adv Algebra II", "name": "Pamela Riley", "confidence": "schedule"},
-        {"role": "Track HS Boys", "name": "Kelly Beck", "confidence": "schedule"}
+        {
+          "role": "Basketball 9th Boys",
+          "name": "Corbin Byford",
+          "email": "corbin.byford@edmondschools.net",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Spanish II",
+          "name": "Monica VelezGrau",
+          "confidence": "schedule"
+        },
+        {
+          "role": "English I",
+          "name": "Samantha Choate",
+          "email": "messenger@edmondschools.net",
+          "notes": "Co-teacher Jacob Wolery",
+          "confidence": "schedule"
+        },
+        {
+          "role": "English I co-teacher",
+          "name": "Jacob Wolery",
+          "confidence": "welcome-email"
+        },
+        {
+          "role": "Biology",
+          "name": "Zachary Hemans",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Oklahoma History (S1)",
+          "name": "William Taylor",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Healthy Futures (S2)",
+          "name": "Andrew Schneider",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Intro to Adv Algebra II",
+          "name": "Pamela Riley",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Track HS Boys",
+          "name": "Kelly Beck",
+          "confidence": "schedule"
+        }
       ],
       "sports": [
-        {"sport": "Basketball", "team": "Basketball 9th Boys", "coach": "Corbin Byford", "confidence": "confirmed"},
-        {"sport": "Track", "team": "Track HS Boys", "coach": "Kelly Beck", "confidence": "schedule"}
+        {
+          "sport": "Basketball",
+          "team": "Basketball 9th Boys",
+          "coach": "Corbin Byford",
+          "confidence": "confirmed"
+        },
+        {
+          "sport": "Track",
+          "team": "Track HS Boys",
+          "coach": "Kelly Beck",
+          "confidence": "schedule"
+        }
       ],
-      "sender_needles": ["corbin.byford", "north high school", "enhs", "choate", "wolery", "velezgrau", "hemans", "kelly.beck"]
+      "sender_needles": [
+        "corbin.byford",
+        "north high school",
+        "enhs",
+        "choate",
+        "wolery",
+        "velezgrau",
+        "hemans",
+        "kelly.beck"
+      ],
+      "activities": []
     },
     {
       "name": "Nathan",
@@ -42,18 +110,76 @@
       "school_short": "Cheyenne",
       "confidence": "confirmed",
       "teachers": [
-        {"role": "Advisory 8", "name": "Devan Johnson", "room": "109", "confidence": "schedule"},
-        {"role": "FACS Basics", "name": "Kendall Wildman", "room": "405", "confidence": "schedule"},
-        {"role": "GATE 8", "name": "Stacy Jackson", "room": "414", "confidence": "schedule"},
-        {"role": "PE 8", "name": "Kale Crampton", "confidence": "schedule"},
-        {"role": "Engineering 8", "name": "Brian Kennedy", "room": "403", "confidence": "schedule"},
-        {"role": "English 8", "name": "Olivia Copenhaver", "email": "olivia.copenhaver@edmondschools.net", "room": "108", "confidence": "schedule"},
-        {"role": "Intro to Adv Algebra I", "name": "Natalie Paries", "room": "103", "confidence": "schedule"},
-        {"role": "Social Studies 8", "name": "Logan Day", "room": "101", "confidence": "schedule"},
-        {"role": "Science 8", "name": "Latta Miller", "room": "104", "confidence": "schedule"},
-        {"role": "Spanish I", "name": "Jessica Mills", "room": "111", "confidence": "schedule"}
+        {
+          "role": "Advisory 8",
+          "name": "Devan Johnson",
+          "room": "109",
+          "confidence": "schedule"
+        },
+        {
+          "role": "FACS Basics",
+          "name": "Kendall Wildman",
+          "room": "405",
+          "confidence": "schedule"
+        },
+        {
+          "role": "GATE 8",
+          "name": "Stacy Jackson",
+          "room": "414",
+          "confidence": "schedule"
+        },
+        {
+          "role": "PE 8",
+          "name": "Kale Crampton",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Engineering 8",
+          "name": "Brian Kennedy",
+          "room": "403",
+          "confidence": "schedule"
+        },
+        {
+          "role": "English 8",
+          "name": "Olivia Copenhaver",
+          "email": "olivia.copenhaver@edmondschools.net",
+          "room": "108",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Intro to Adv Algebra I",
+          "name": "Natalie Paries",
+          "room": "103",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Social Studies 8",
+          "name": "Logan Day",
+          "room": "101",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Science 8",
+          "name": "Latta Miller",
+          "room": "104",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Spanish I",
+          "name": "Jessica Mills",
+          "room": "111",
+          "confidence": "schedule"
+        }
       ],
-      "sender_needles": ["wildman", "copenhaver", "olivia.copenhaver", "crampton", "paries"]
+      "sender_needles": [
+        "wildman",
+        "copenhaver",
+        "olivia.copenhaver",
+        "crampton",
+        "paries"
+      ],
+      "sports": [],
+      "activities": []
     },
     {
       "name": "Ezra",
@@ -62,19 +188,74 @@
       "school_short": "Cheyenne",
       "confidence": "confirmed",
       "teachers": [
-        {"role": "Advisory 6 / Science 6", "name": "Madison Shafer", "room": "306", "team": "06 - Black Jack", "confidence": "schedule"},
-        {"role": "Literacy 6", "name": "Stephanie Cooley", "room": "311", "confidence": "schedule"},
-        {"role": "Social Studies 6", "name": "Pamela Frisbie", "room": "309", "confidence": "schedule"},
-        {"role": "English 6", "name": "Craig Burney", "room": "307", "confidence": "schedule"},
-        {"role": "Math 6", "name": "Sydney Crutchfield", "room": "308", "confidence": "schedule"},
-        {"role": "Band Flute/Saxophone 6", "name": "JoeLee Mills", "email": "joelee.mills@edmondschools.net", "room": "409", "confidence": "schedule"},
-        {"role": "GATE 6", "name": "Stacy Jackson", "room": "414", "confidence": "schedule"},
-        {"role": "Elective Exploration", "name": "Health / Engineering / Drama rotation", "room": "510", "confidence": "schedule"}
+        {
+          "role": "Advisory 6 / Science 6",
+          "name": "Madison Shafer",
+          "room": "306",
+          "team": "06 - Black Jack",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Literacy 6",
+          "name": "Stephanie Cooley",
+          "room": "311",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Social Studies 6",
+          "name": "Pamela Frisbie",
+          "room": "309",
+          "confidence": "schedule"
+        },
+        {
+          "role": "English 6",
+          "name": "Craig Burney",
+          "room": "307",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Math 6",
+          "name": "Sydney Crutchfield",
+          "room": "308",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Band Flute/Saxophone 6",
+          "name": "JoeLee Mills",
+          "email": "joelee.mills@edmondschools.net",
+          "room": "409",
+          "confidence": "schedule"
+        },
+        {
+          "role": "GATE 6",
+          "name": "Stacy Jackson",
+          "room": "414",
+          "confidence": "schedule"
+        },
+        {
+          "role": "Elective Exploration",
+          "name": "Health / Engineering / Drama rotation",
+          "room": "510",
+          "confidence": "schedule"
+        }
       ],
       "activities": [
-        {"name": "Band Flute/Saxophone 6", "advisor": "JoeLee Mills", "confidence": "schedule"}
+        {
+          "name": "Band Flute/Saxophone 6",
+          "advisor": "JoeLee Mills",
+          "confidence": "schedule"
+        }
       ],
-      "sender_needles": ["shafer", "cooley", "frisbie", "burney", "joelee.mills", "cheyene band", "cheyenne band"]
+      "sender_needles": [
+        "shafer",
+        "cooley",
+        "frisbie",
+        "burney",
+        "joelee.mills",
+        "cheyene band",
+        "cheyenne band"
+      ],
+      "sports": []
     },
     {
       "name": "Silver",
@@ -96,7 +277,13 @@
           "confidence": "welcome-email"
         }
       ],
-      "sender_needles": ["arabella.trofemuk", "trofemuk", "schaefer"]
+      "sender_needles": [
+        "arabella.trofemuk",
+        "trofemuk",
+        "schaefer"
+      ],
+      "sports": [],
+      "activities": []
     },
     {
       "name": "Levi",
@@ -112,14 +299,43 @@
           "notes": "Brian confirmed 2026-08-16. No matching teacher email in Gmail yet."
         }
       ],
-      "sender_needles": ["levi", "mrs. scott"]
+      "sender_needles": [
+        "levi",
+        "mrs. scott"
+      ],
+      "sports": [],
+      "activities": []
     }
   ],
   "prior_year_2025_26": [
-    {"name": "Daniel", "grade": "8", "school": "Cheyenne Middle School"},
-    {"name": "Nathan", "grade": "7", "school": "Cheyenne Middle School", "notes": "Advisory/science Shaun Floyd; GATE Stacy Jackson; PE Coach B. Toney"},
-    {"name": "Ezra", "grade": "5", "school": "Frontier Elementary", "notes": "Homeroom Jamie Knight"},
-    {"name": "Silver", "grade": "3", "school": "Frontier Elementary", "notes": "Homeroom Erin Ballou-Crawford"},
-    {"name": "Levi", "grade": "K", "school": "Frontier Elementary", "notes": "Homeroom Kayla Gray"}
+    {
+      "name": "Daniel",
+      "grade": "8",
+      "school": "Cheyenne Middle School"
+    },
+    {
+      "name": "Nathan",
+      "grade": "7",
+      "school": "Cheyenne Middle School",
+      "notes": "Advisory/science Shaun Floyd; GATE Stacy Jackson; PE Coach B. Toney"
+    },
+    {
+      "name": "Ezra",
+      "grade": "5",
+      "school": "Frontier Elementary",
+      "notes": "Homeroom Jamie Knight"
+    },
+    {
+      "name": "Silver",
+      "grade": "3",
+      "school": "Frontier Elementary",
+      "notes": "Homeroom Erin Ballou-Crawford"
+    },
+    {
+      "name": "Levi",
+      "grade": "K",
+      "school": "Frontier Elementary",
+      "notes": "Homeroom Kayla Gray"
+    }
   ]
 }

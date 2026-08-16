@@ -40,11 +40,11 @@ Brian confirmed 2026-08-16. Teacher names are from Infinite Campus schedule emai
 
 | Child | Grade | School | Homeroom / advisory | Notes |
 |-------|-------|--------|---------------------|-------|
-| Daniel | 9 | Edmond North High School | n/a (high school) | Sports: Basketball 9th Boys (Corbin Byford); Track HS Boys (Kelly Beck). English I: Samantha Choate with co-teacher Jacob Wolery. Full period list in the roster JSON. |
-| Nathan | 8 | Cheyenne Middle School | Devan Johnson (Rm 109) | GATE: Stacy Jackson. FACS: Kendall Wildman. English 8: Olivia Copenhaver. No sports on file yet. |
-| Ezra | 6 | Cheyenne Middle School | Madison Shafer (Rm 306, team Black Jack) | Also Science 6 with Shafer. GATE: Stacy Jackson. Activities: Band (JoeLee Mills). No sports on file yet. |
-| Silver | 4 | Frontier Elementary | Arabella Trofemuk | Partner/switch teacher: Ms. Schaefer. Brian confirmed 2026-08-16. No sports on file yet. |
-| Levi | 1 | Frontier Elementary | Mrs. Scott | Brian confirmed 2026-08-16. No matching teacher email in Gmail yet; Seesaw posts to Levi's journal. No sports on file yet. |
+| Daniel | 9 | Edmond North High School | n/a (high school) | Sports: Basketball (Corbin Byford); Track (Kelly Beck). English I: Samantha Choate. English I co-teacher: Jacob Wolery. |
+| Nathan | 8 | Cheyenne Middle School | Devan Johnson (Rm 109) | English 8: Olivia Copenhaver. |
+| Ezra | 6 | Cheyenne Middle School | Madison Shafer (Rm 306), 06 - Black Jack | Activities: Band Flute/Saxophone 6 (JoeLee Mills). English 6: Craig Burney. |
+| Silver | 4 | Frontier Elementary | Arabella Trofemuk | 4th grade partner / switch teacher: Ms. Schaefer. |
+| Levi | 1 | Frontier Elementary | Mrs. Scott | Seesaw posts to Levi's journal. |
 
 
 ## Administrative Context
