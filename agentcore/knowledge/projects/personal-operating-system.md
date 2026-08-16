@@ -20,6 +20,7 @@ Keep AgentCore ready to help Brian across personal projects, diet, scheduling, k
 - Google Maps location sharing: share-notification emails are visible in Gmail, including "See Brian Herbert's real-time location on Google Maps"; Google does not expose a supported API for personal real-time Maps location sharing. Supported alternatives are manual/browser viewing, Brian sharing periodic location via Chat, or Brian exporting Timeline data from his phone for backfill analysis.
 - Google Keep: share notifications for note `Stage` are visible, but the note body is not readable through supported Google APIs for AgentCore's personal Google account.
 - Google Photos: app-created Photos artifacts are accessible. Broad unattended reads of Brian's full Photos library are not supported by the official API, but user-selected photo intake is supported through the Google Photos Picker API once AgentCore's OAuth token is refreshed with `photospicker.mediaitems.readonly`.
+- GoDaddy: live **Products & Domains** delegate access to Brian Herbert's account from `scottishramp@gmail.com` (AgentCore customer `#743698597`). Inventory and playbook: `agentcore/knowledge/projects/domain-management.md`.
 
 ## Operating Areas
 

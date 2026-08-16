@@ -2,6 +2,14 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-16] access | Accepted GoDaddy delegate access for Brian's domains
+
+- Brian invited `scottishramp@gmail.com` as a GoDaddy delegate at Products & Domains.
+- AgentCore created a GoDaddy account via Google SSO (`scottishramp@gmail.com`, customer `#743698597`) and confirmed access to Brian Herbert's account (customer `#34804617`).
+- Visible domains: `burningaltar.com`, `burningaltar.org`, `cleansane.com`, `notverydeep.com`.
+- `burningaltar.com` renews 2027-03-16, lock and privacy on, GoDaddy nameservers, 21 DNS records.
+- Recorded project page and playbook; street address/phone/PIN kept out of git.
+
 ## [2026-06-29] knowledge | Recorded Herbert children full/middle names
 
 - Telegram review task `task-telegram-407016341` asked "What's his middle name"; preceding message asked Ezra's age, so "his" = Ezra.

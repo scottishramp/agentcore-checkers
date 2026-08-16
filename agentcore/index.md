@@ -26,6 +26,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Family Admin System](knowledge/projects/family-admin-system.md): administrative-assistant system for Brian's documents, family logistics, Drive organization, and action tracking.
 - [Checkers Web Game](knowledge/projects/checkers-web-game.md): two-player browser checkers, live at https://scottishramp.github.io/agentcore-checkers/
 - [YouVersion Verse of the Day](knowledge/projects/youversion-verse-of-the-day.md): daily Bible verse delivery via YouVersion Platform + Telegram.
+- [Domain Management](knowledge/projects/domain-management.md): GoDaddy delegate access and Brian's domain inventory.
 - [Clients](knowledge/clients/): client and sponsor pages.
 - [People](knowledge/people/): people and stakeholder pages.
 - [Brian Herbert](knowledge/people/brian-herbert.md): trusted client and primary administrative-assistance context.
@@ -53,6 +54,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Email to Cursor CLI Bridge](knowledge/playbooks/email-to-cursor-cli-bridge.md): guarded phase-2 design for intent-to-automation handoff.
 - [Drive Document Organization](knowledge/playbooks/drive-document-organization.md): Drive-backed source storage with repo metadata for documents, scans, and photo intake.
 - [Communication Intake Contracts](knowledge/playbooks/communication-intake-contracts.md): canonical channel contracts, intent classes, and deterministic reply reason codes.
+- [GoDaddy Delegate Access](knowledge/playbooks/godaddy-delegate-access.md): sign in as AgentCore and switch into Brian's GoDaddy account.
 
 ## Outputs
 
