@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
   "router_version": "2.4.0",
-  "context_bundle_version": "2.3.0",
-  "released_at": "2026-06-29",
+  "context_bundle_version": "2.4.0",
+  "released_at": "2026-08-16",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.4.0",
+      "context_bundle_version": "2.4.0",
+      "date": "2026-08-16",
+      "summary": "Fast-chat context now includes 2026-27 schools and teacher roster facts on herbert-children.md"
+    },
     {
       "router_version": "2.4.0",
       "context_bundle_version": "2.3.0",

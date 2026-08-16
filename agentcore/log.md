@@ -2,6 +2,14 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-16] knowledge | 2026-27 schools, teachers, and school digest v1
+
+- Brian confirmed 2026-27 schools: Daniel at Edmond North; Nathan and Ezra at Cheyenne Middle; Silver and Levi at Frontier Elementary.
+- Pulled teacher names from Infinite Campus schedule-release emails and teacher welcome messages in Brian's Gmail. Levi's 1st-grade teacher is not in mail yet.
+- `26-27 School` Gmail label only had 2 messages (both Corbin Byford / North basketball); most current school mail was unlabeled.
+- Added roster JSON, children-page school section, digest script, morning Telegram send, and auto-labeling.
+- Importance model v1: show teacher/action items and Seesaw; skip school-wide newsletters/PTO until Brian corrects it.
+
 ## [2026-08-16] deploy | burningaltar.com blog live with two Bear posts
 
 - Copied only two Bear posts onto the Hugo site: [Why AI is the biggest deal since the wheel](https://briandherbert.bearblog.dev/ai-and-the-wheel/) and [What the abacus predicts for AI](https://briandherbert.bearblog.dev/ai-and-the-abacus/). Did not clone the rest of the Bear site.

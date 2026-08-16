@@ -124,6 +124,13 @@ jobs:
           AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS: ${{ secrets.AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS || secrets.AGENTCORE_TELEGRAM_ALLOWED_USER_IDS }}
         run: python3 scripts/telegram/send_scheduled_messages.py
 
+      - name: Send school communications digest
+        env:
+          AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
+          AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS: ${{ secrets.AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS || secrets.AGENTCORE_TELEGRAM_ALLOWED_USER_IDS }}
+        run: python3 scripts/email/school_digest.py --hours 24 --apply-label --send-telegram
+
       - name: Persist scheduled message state
         continue-on-error: true
         run: |

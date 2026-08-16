@@ -45,6 +45,9 @@ From repo root:
 - Operate on Brian's mailbox:
   - `npm run email:brian -- labels list`
   - `npm run email:brian -- messages list --query "newer_than:7d" --max 10`
+- Preview or send the kids' school digest:
+  - `npm run email:school-digest -- --hours 24 --dry-run`
+  - `npm run email:school-digest -- --hours 24 --apply-label --send-telegram`
 - Send question/update/ack:
   - `npm run email:ask -- --project "ProjectName" --kind question --subject "..." --body "..."`
 - Fetch inbound mail from checkpoint:

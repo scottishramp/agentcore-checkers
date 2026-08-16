@@ -406,6 +406,29 @@ def modify_message(
     )
 
 
+def batch_modify_messages(
+    message_ids: list[str],
+    add_label_ids: list[str] | None = None,
+    remove_label_ids: list[str] | None = None,
+    env_map: dict[str, str] | None = None,
+    account: str = ACCOUNT_AGENTCORE,
+) -> dict:
+    token = access_token(env_map=env_map, account=account)
+    ids = [item for item in message_ids if item]
+    if not ids:
+        return {}
+    return gmail_request(
+        "POST",
+        "/users/me/messages/batchModify",
+        token=token,
+        payload={
+            "ids": ids[:1000],
+            "addLabelIds": add_label_ids or [],
+            "removeLabelIds": remove_label_ids or [],
+        },
+    )
+
+
 def archive_message(
     message_id: str,
     env_map: dict[str, str] | None = None,

@@ -57,6 +57,8 @@ Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 
 Brian's personal mailbox (`briandherbert@gmail.com`) is a separate Gmail API surface. AgentCore can read all mail there, create/apply labels, archive, and trash using `gmail.modify`. This is on-demand admin access, not an intake queue: do not copy Brian's mailbox into `agentcore/inbox/email/`. Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
 
+A daily **school communications digest** reads that mailbox, applies the `26-27 School` label, and sends a compact Telegram summary with `agent-runner.yml` at 8:30 AM America/Chicago. Playbook: `agentcore/knowledge/playbooks/school-comms-digest.md`.
+
 ## Workflows
 
 - `.github/workflows/email-sync.yml`: email inbox fetch/triage, Drive metadata ingest, runner dispatch (daily 6:00 AM America/Chicago). It intentionally does **not** consume Telegram.
@@ -146,4 +148,5 @@ Knowledge propagation is not complete until Vercel production reports a current 
 - `agentcore/knowledge/playbooks/telegram-fast-router.md`
 - `agentcore/knowledge/playbooks/email-ops.md`
 - `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`
+- `agentcore/knowledge/playbooks/school-comms-digest.md`
 - `agentcore/knowledge/playbooks/communication-intake-contracts.md`

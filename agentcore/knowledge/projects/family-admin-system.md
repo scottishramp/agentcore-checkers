@@ -41,5 +41,5 @@ Build an iterative administrative-assistant system for Brian Herbert that can in
 - Preferred Drive folder taxonomy.
 - Whether AgentCore should copy shared files into its own Drive organization or store pointers only.
 - Photo landing zone for Android uploads.
-- Digest cadence and urgency thresholds.
+- Digest cadence and urgency thresholds for family-admin documents remain open; school email now has a v1 daily Telegram digest biased to teacher/action items.
 - Sensitive-document exclusions or minimal-record rules.

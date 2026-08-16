@@ -13,6 +13,7 @@
     "email:oauth": "python3 scripts/email/gmail_oauth_setup.py",
     "email:oauth:brian": "python3 scripts/email/gmail_oauth_setup.py --profile brian",
     "email:brian": "python3 scripts/email/brian_mailbox.py",
+    "email:school-digest": "python3 scripts/email/school_digest.py",
     "email:ask": "python3 scripts/email/send_message.py",
     "email:fetch": "python3 scripts/email/fetch_inbox.py",
     "email:triage": "python3 scripts/email/triage_messages.py",
