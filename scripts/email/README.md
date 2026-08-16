@@ -11,12 +11,15 @@ Use Gmail API OAuth for durable local, Cursor CLI, and GitHub Actions operation.
 - `AGENTCORE_EMAIL` (fallback: `GOOGLE_EMAIL`)
 - `AGENTCORE_CLIENT_EMAIL` (trusted client email, default: `briandherbert@gmail.com`)
 - `AGENTCORE_EMAIL_TRANSPORT` (`auto`, `gmail-api`, `smtp`, or `imap`; default `auto`)
-- Gmail API OAuth:
+- Gmail API OAuth for AgentCore mailbox (`scottishramp@gmail.com`):
   - `AGENTCORE_GMAIL_CLIENT_ID`
   - `AGENTCORE_GMAIL_CLIENT_SECRET`
   - `AGENTCORE_GMAIL_REFRESH_TOKEN`
   - or `AGENTCORE_GMAIL_AUTHORIZED_USER_JSON`
   - or `AGENTCORE_GMAIL_AUTHORIZED_USER_FILE`
+- Brian mailbox OAuth (`briandherbert@gmail.com`, `gmail.modify` only):
+  - `AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_FILE` (local default: `.secrets/brian-gmail-authorized-user.json`)
+  - or `AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON`
 - SMTP/IMAP fallback:
   - `AGENTCORE_EMAIL_APP_PASSWORD` (fallback: `GOOGLE_PASSWORD`)
 - Optional:
@@ -35,6 +38,13 @@ From repo root:
   - `npm run email:oauth`
   - or explicitly: `npm run email:oauth -- --client-file .secrets/google-oauth-client.json`
   - default writes authorized-user JSON to `.secrets/gmail-authorized-user.json` with restricted permissions
+- Authorize Brian's mailbox (`briandherbert@gmail.com`) for read/label/archive/trash:
+  - `npm run email:oauth:brian`
+  - writes `.secrets/brian-gmail-authorized-user.json`
+  - then `npm run email:brian -- profile` to verify
+- Operate on Brian's mailbox:
+  - `npm run email:brian -- labels list`
+  - `npm run email:brian -- messages list --query "newer_than:7d" --max 10`
 - Send question/update/ack:
   - `npm run email:ask -- --project "ProjectName" --kind question --subject "..." --body "..."`
 - Fetch inbound mail from checkpoint:

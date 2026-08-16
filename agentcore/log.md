@@ -2,6 +2,16 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-16] access | Brian Gmail mailbox read/label/archive/trash
+
+- Brian authorized AgentCore to read all mail in `briandherbert@gmail.com`, create labels, archive, and trash.
+- Added a separate `gmail.modify` OAuth profile so this token does not overwrite AgentCore's own mailbox credentials.
+- CLI: `npm run email:oauth:brian` then `npm run email:brian`.
+- Live verify: profile `briandherbert@gmail.com`, 7271 messages, 48 labels, `AgentCore` label present.
+- GitHub Actions secret: `AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON`.
+- Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
+- Full message bodies stay in Gmail; they are not ingested into git.
+
 ## [2026-08-16] access | Accepted GoDaddy delegate access for Brian's domains
 
 - Brian invited `scottishramp@gmail.com` as a GoDaddy delegate at Products & Domains.

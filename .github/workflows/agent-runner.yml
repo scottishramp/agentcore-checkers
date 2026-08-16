@@ -203,6 +203,7 @@ jobs:
           AGENTCORE_TASK_RUN_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_TASK_RUN_TIMEOUT_SECONDS || '900' }}
           AGENTCORE_CURSOR_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_CURSOR_TIMEOUT_SECONDS || '1200' }}
           AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'grok-4.5' }}
+          AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON }}
         run: |
           python3 scripts/email/run_task_adapter.py \
             --task-file "${{ steps.claim.outputs.task_file }}" \
@@ -348,6 +349,7 @@ jobs:
           AGENTCORE_EMAIL: ${{ secrets.AGENTCORE_EMAIL }}
           AGENTCORE_EMAIL_TRANSPORT: ${{ secrets.AGENTCORE_EMAIL_TRANSPORT || 'auto' }}
           AGENTCORE_CLIENT_EMAIL: ${{ secrets.AGENTCORE_CLIENT_EMAIL || 'briandherbert@gmail.com' }}
+          AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.AGENTCORE_TELEGRAM_BOT_TOKEN }}
         run: python3 scripts/agent/drain_task_queue.py
 

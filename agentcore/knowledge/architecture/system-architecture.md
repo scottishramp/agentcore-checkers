@@ -1,6 +1,6 @@
 # AgentCore System Architecture
 
-Last updated: 2026-06-29
+Last updated: 2026-08-16
 
 ## Purpose
 
@@ -17,6 +17,7 @@ Operational goal:
 
 - AgentCore Google identity: `scottishramp@gmail.com`.
 - Brian trusted client identity: `briandherbert@gmail.com`.
+- Brian personal Gmail access: separate `gmail.modify` OAuth token for `briandherbert@gmail.com` (read, label, archive, trash; no send).
 - GitHub account/repo: `scottishramp/agentcore-checkers`.
 - Primary chat: **Telegram** `@AgentCoreFam_bot` at `https://agentcore-fast-router.vercel.app/api/agentcore-telegram`.
 
@@ -52,6 +53,8 @@ Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 3. Triage creates tasks under `agentcore/inbox/tasks/`.
 4. Cursor runner replies into the original Gmail thread.
 5. `email-thread-ledger.json` tracks idempotency.
+
+Brian's personal mailbox (`briandherbert@gmail.com`) is a separate Gmail API surface. AgentCore can read all mail there, create/apply labels, archive, and trash using `gmail.modify`. This is on-demand admin access, not an intake queue: do not copy Brian's mailbox into `agentcore/inbox/email/`. Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
 
 ## Workflows
 
@@ -98,7 +101,7 @@ Playbook: `agentcore/knowledge/playbooks/knowledge-content-ingest.md`
 ## Secrets
 
 - **Vercel:** `TELEGRAM_BOT_TOKEN`, `AGENTCORE_TELEGRAM_ALLOWED_USER_IDS`, Gemini key, `KV_REST_API_*`.
-- **GitHub Actions:** Gmail OAuth, `CURSOR_API_KEY`, `TELEGRAM_BOT_TOKEN`, `KV_REST_API_*`, optional `VERCEL_TOKEN` for bot context redeploy.
+- **GitHub Actions:** Gmail OAuth, Brian mailbox OAuth (`AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON`), `CURSOR_API_KEY`, `TELEGRAM_BOT_TOKEN`, `KV_REST_API_*`, optional `VERCEL_TOKEN` for bot context redeploy.
 
 ## Vercel Deployment Modes
 
@@ -136,4 +139,5 @@ Knowledge propagation is not complete until Vercel production reports a current 
 
 - `agentcore/knowledge/playbooks/telegram-fast-router.md`
 - `agentcore/knowledge/playbooks/email-ops.md`
+- `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`
 - `agentcore/knowledge/playbooks/communication-intake-contracts.md`

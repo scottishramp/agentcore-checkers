@@ -17,7 +17,7 @@ from common import get_env, load_env_file
 
 AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
-SCOPES = [
+AGENTCORE_SCOPES = [
     # Email is AgentCore's primary async interaction channel with Brian.
     "https://www.googleapis.com/auth/gmail.send",
     "https://www.googleapis.com/auth/gmail.readonly",
@@ -48,6 +48,28 @@ SCOPES = [
     # User-selected Google Photos intake must use the newer Picker API.
     "https://www.googleapis.com/auth/photospicker.mediaitems.readonly",
 ]
+BRIAN_MAILBOX_SCOPES = [
+    # Read all mail, create/apply labels, archive, and trash. Does not include send.
+    "https://www.googleapis.com/auth/gmail.modify",
+]
+PROFILES = {
+    "agentcore": {
+        "scopes": AGENTCORE_SCOPES,
+        "authorized_user_out": ".secrets/gmail-authorized-user.json",
+        "login_hint": "scottishramp@gmail.com",
+        "prompt": "consent",
+        "expected_email": "scottishramp@gmail.com",
+        "file_env": "AGENTCORE_GMAIL_AUTHORIZED_USER_FILE",
+    },
+    "brian": {
+        "scopes": BRIAN_MAILBOX_SCOPES,
+        "authorized_user_out": ".secrets/brian-gmail-authorized-user.json",
+        "login_hint": "briandherbert@gmail.com",
+        "prompt": "select_account consent",
+        "expected_email": "briandherbert@gmail.com",
+        "file_env": "AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_FILE",
+    },
+}
 
 
 class CallbackHandler(BaseHTTPRequestHandler):
@@ -81,6 +103,12 @@ class CallbackHandler(BaseHTTPRequestHandler):
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate OAuth refresh token setup values.")
+    parser.add_argument(
+        "--profile",
+        choices=sorted(PROFILES),
+        default="agentcore",
+        help="OAuth profile to authorize. Use `brian` for briandherbert@gmail.com mailbox access.",
+    )
     parser.add_argument("--port", type=int, default=8765, help="Local callback port.")
     parser.add_argument("--no-browser", action="store_true", help="Print the auth URL without opening a browser.")
     parser.add_argument(
@@ -90,8 +118,13 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--authorized-user-out",
-        default=".secrets/gmail-authorized-user.json",
-        help="Path to write authorized-user JSON output.",
+        default="",
+        help="Path to write authorized-user JSON output. Defaults to the selected profile path.",
+    )
+    parser.add_argument(
+        "--login-hint",
+        default="",
+        help="Google account email hint. Defaults to the selected profile identity.",
     )
     parser.add_argument(
         "--print-secrets",
@@ -144,6 +177,10 @@ def main() -> int:
     args = parse_args()
     env_map = load_env_file(".env")
     client_id, client_secret = _client_credentials(args, env_map)
+    profile = PROFILES[args.profile]
+    out_path = Path(args.authorized_user_out or profile["authorized_user_out"])
+    login_hint = args.login_hint.strip() or str(profile["login_hint"])
+    expected_email = str(profile["expected_email"]).lower()
 
     redirect_uri = f"http://127.0.0.1:{args.port}/callback"
     state = secrets.token_urlsafe(24)
@@ -152,13 +189,18 @@ def main() -> int:
         "client_id": client_id,
         "redirect_uri": redirect_uri,
         "response_type": "code",
-        "scope": " ".join(SCOPES),
+        "scope": " ".join(profile["scopes"]),
         "access_type": "offline",
-        "prompt": "consent",
+        "prompt": profile["prompt"],
+        "include_granted_scopes": "false",
         "state": state,
     }
+    if login_hint:
+        auth_params["login_hint"] = login_hint
     auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
-    print("Open this URL to authorize AgentCore admin-assistant Google access:")
+    print(f"Authorize the `{args.profile}` Google profile.")
+    print(f"Sign in as {login_hint} and approve the requested Gmail access.")
+    print("Open this URL if a browser does not appear:")
     print(auth_url)
     if not args.no_browser:
         webbrowser.open(auth_url)
@@ -187,16 +229,34 @@ def main() -> int:
         token_response = json.loads(response.read().decode("utf-8"))
 
     refresh_token = token_response.get("refresh_token")
+    access_token = str(token_response.get("access_token", ""))
     if not refresh_token:
         raise RuntimeError("Google did not return a refresh token. Re-run with prompt=consent or revoke prior access.")
+    if not access_token:
+        raise RuntimeError("Google did not return an access token after authorization.")
+
+    profile_request = urllib.request.Request(
+        "https://gmail.googleapis.com/gmail/v1/users/me/profile",
+        headers={"Authorization": f"Bearer {access_token}"},
+        method="GET",
+    )
+    with urllib.request.urlopen(profile_request, timeout=30) as response:
+        gmail_profile = json.loads(response.read().decode("utf-8"))
+    authorized_email = str(gmail_profile.get("emailAddress", "")).strip().lower()
+    if authorized_email != expected_email:
+        raise RuntimeError(
+            f"Authorized Google account was {authorized_email or 'unknown'}, expected {expected_email}. "
+            "Re-run and choose the correct account."
+        )
 
     authorized_user = {
         "type": "authorized_user",
         "client_id": client_id,
         "client_secret": client_secret,
         "refresh_token": refresh_token,
+        "account": args.profile,
+        "email": authorized_email,
     }
-    out_path = Path(args.authorized_user_out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(authorized_user, indent=2) + "\n", encoding="utf-8")
     os.chmod(out_path, 0o600)
@@ -204,13 +264,18 @@ def main() -> int:
 
     masked_token = f"{refresh_token[:10]}...{refresh_token[-6:]}" if len(refresh_token) > 20 else "***"
     print("\nOAuth setup complete.")
+    print(f"Authorized account: {authorized_email}")
     print(f"Authorized-user file written: {out_path}")
     print("Use these env settings:")
-    print(f"AGENTCORE_GMAIL_CLIENT_ID={client_id}")
-    print("AGENTCORE_GMAIL_CLIENT_SECRET=<same client secret>")
-    print("AGENTCORE_EMAIL_TRANSPORT=gmail-api")
-    print(f"AGENTCORE_GMAIL_AUTHORIZED_USER_FILE={out_path}")
-    print(f"AGENTCORE_GMAIL_REFRESH_TOKEN(masked)={masked_token}")
+    if args.profile == "brian":
+        print(f"AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_FILE={out_path}")
+        print("AGENTCORE_BRIAN_GMAIL_REFRESH_TOKEN is stored inside that file; do not commit it.")
+    else:
+        print(f"AGENTCORE_GMAIL_CLIENT_ID={client_id}")
+        print("AGENTCORE_GMAIL_CLIENT_SECRET=<same client secret>")
+        print("AGENTCORE_EMAIL_TRANSPORT=gmail-api")
+        print(f"AGENTCORE_GMAIL_AUTHORIZED_USER_FILE={out_path}")
+        print(f"AGENTCORE_GMAIL_REFRESH_TOKEN(masked)={masked_token}")
     if args.print_secrets:
         print("\nFull authorized-user JSON:")
         print(json.dumps(authorized_user, indent=2))

@@ -3,7 +3,7 @@ title: AgentCore email operations playbook
 type: playbook
 status: active
 created: 2026-04-25
-updated: 2026-05-25
+updated: 2026-08-16
 confidence: high
 related:
   - ../decisions/2026-04-25-agentcore-control-repo-topology.md
@@ -20,6 +20,7 @@ Use this playbook to run asynchronous client communication through `scottishramp
 - Preferred send and receive transport: Gmail API OAuth refresh-token auth
 - Fallback transport: Gmail SMTP + IMAP with app-password auth
 - Trusted client mode: only process inbound mail from the configured client email and only send outbound automation mail to that same address.
+- Brian mailbox access: separate `gmail.modify` token for `briandherbert@gmail.com` so AgentCore can read all mail, create/apply labels, archive, and trash on demand. This is not the trusted-client intake queue. See `brian-gmail-mailbox.md`.
 - Credentials source:
   - local runs: `.env` (gitignored)
   - GitHub Actions: repository secrets
@@ -41,6 +42,16 @@ Required Gmail scopes:
 - `https://www.googleapis.com/auth/gmail.send`
 - `https://www.googleapis.com/auth/gmail.readonly`
 - `https://www.googleapis.com/auth/drive.readonly`
+
+Brian mailbox setup (separate token, do not overwrite AgentCore's authorized-user file):
+
+1. Run `npm run email:oauth:brian` and sign in as `briandherbert@gmail.com`.
+2. Store `.secrets/brian-gmail-authorized-user.json` locally and as GitHub Actions secret `AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON`.
+3. Verify with `npm run email:brian -- profile`.
+
+Required Brian mailbox scope:
+
+- `https://www.googleapis.com/auth/gmail.modify`
 
 ## Subject Conventions
 

@@ -51,6 +51,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Public Static Web App](knowledge/playbooks/public-static-web-app.md): fast path for building, verifying, and publishing static web apps.
 - [GitHub Pages Deployment](knowledge/playbooks/github-pages-deployment.md): exact steps for deploying to GitHub Pages including auth, repo creation, and build triggering.
 - [Email Operations](knowledge/playbooks/email-ops.md): operational policy and workflow for async client communication by email.
+- [Brian Gmail Mailbox](knowledge/playbooks/brian-gmail-mailbox.md): read, label, archive, and trash access to `briandherbert@gmail.com`.
 - [Email to Cursor CLI Bridge](knowledge/playbooks/email-to-cursor-cli-bridge.md): guarded phase-2 design for intent-to-automation handoff.
 - [Drive Document Organization](knowledge/playbooks/drive-document-organization.md): Drive-backed source storage with repo metadata for documents, scans, and photo intake.
 - [Communication Intake Contracts](knowledge/playbooks/communication-intake-contracts.md): canonical channel contracts, intent classes, and deterministic reply reason codes.

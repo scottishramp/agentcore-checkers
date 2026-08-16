@@ -33,15 +33,16 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Active initiative: Brian personal operating system and family/admin assistant system with repo metadata and AgentCore Google Drive source-file organization.
 - Operating hub: `agentcore/knowledge/projects/personal-operating-system.md` covers diet, scheduling, kid school logistics, app ideas, and personal management defaults.
 - System architecture hub: `agentcore/knowledge/architecture/system-architecture.md` documents communication surfaces, workflows, hosted endpoints, polling cadence, data stores, secrets, blockers, and architecture update requirements.
-- Google access inventory: Gmail, Brian shared Calendar, and shared Drive/Docs are live. Maps/Keep/Photos limitations unchanged.
+- Google access inventory: Brian's Gmail mailbox is reachable with a separate modify token. AgentCore Gmail, Brian shared Calendar, and shared Drive/Docs remain live. Maps/Keep/Photos limitations unchanged.
 - Open blockers: Google Keep note content unavailable; broad Google Photos library reads unavailable.
+- Delivered: Brian personal Gmail access. Separate `gmail.modify` token for `briandherbert@gmail.com` can read all mail, create/apply labels, archive, and trash. Do not send as Brian; do not persist full bodies in git. Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
 - Delivered: GoDaddy Products & Domains delegate access. AgentCore (`scottishramp@gmail.com`, customer `#743698597`) can manage Brian Herbert's domains, including `burningaltar.com`.
 
 ## Operating Preferences
 
 - Read `.env` at the start of any session involving logins or service sign-ups.
 - For personal administration, keep metadata in this repo and source documents/scans/photos in AgentCore Google Drive.
-- Google operating model: know what Brian shares with `scottishramp@gmail.com`, treat Brian-shared resources as read surfaces unless explicit edit authority is granted, and write/organize durable artifacts in AgentCore's own Google space.
+- Google operating model: know what Brian shares with `scottishramp@gmail.com`, treat Brian-shared Drive/Calendar/Workspace resources as read surfaces unless explicit edit authority is granted, and write/organize durable artifacts in AgentCore's own Google space. Brian's personal Gmail is an explicit exception: read, label, archive, and trash via `npm run email:brian`.
 - Use `briandherbert@gmail.com` and Brian's direct Google Chat with AgentCore as trusted client channels for questions, updates, and task requests.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
 - Fast chat via `@AgentCoreFam_bot`; send `version` for live router semver. Health endpoint exposes `context_hash`, `context_files`, and `has_nathan_birthdate` to prove Vercel has the latest repo context. Async agent runs on GitHub Actions schedule, not per message.
@@ -63,13 +64,13 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Brian Gmail mailbox access (2026-08-16): separate `gmail.modify` token for `briandherbert@gmail.com`; CLI `npm run email:brian`; playbook `brian-gmail-mailbox.md`.
 - GoDaddy delegate access live (2026-08-16): Products & Domains on Brian Herbert's account; inventory at `agentcore/knowledge/projects/domain-management.md`.
 - Async runner Cursor model default set to `grok-4.5` (2026-07-20); override via secret `AGENTCORE_CURSOR_MODEL` if needed.
 - GitHub Actions schedules reduced to once daily (2026-07-10): email-sync 6:00 AM CT, agent-runner 8:30 AM CT (+ after email-sync), knowledge-content-ingest 11:00 AM CT.
 - YouVersion app key policy (2026-07-14): Brian confirmed the YouVersion Platform app key is public and may be hardcoded in repo source for verse-of-the-day delivery; project page at `agentcore/knowledge/projects/youversion-verse-of-the-day.md`.
 - Scheduled food check-ins disabled (2026-07-05): removed noon/6 PM "What'd you eat since last time?" from Telegram/Chat scheduled messages; food log is on-demand only.
 - Telegram async architecture correction: `email-sync.yml` no longer drains Telegram; write-capable workflows own Redis consumption, triage appends `telegram-transcript.md`, every allowed Telegram message becomes a Cursor review item, and Cursor can suppress duplicate replies with `NO_TELEGRAM_REPLY`.
-- Clarified deploy path: Vercel production updates have been coming from local CLI session auth + `.vercel/project.json` link, not CI token-based redeploy.
 
 ## Operating Note: proactive Chat sends
 

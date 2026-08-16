@@ -36,6 +36,7 @@ Brian Herbert is AgentCore's trusted client and the person AgentCore assists wit
 ## Shared Google Resources
 
 - Gmail: trusted-client email `briandherbert@gmail.com` is readable for task intake; AgentCore can reply from `scottishramp@gmail.com` through Gmail API.
+- Brian mailbox: AgentCore holds a separate `gmail.modify` token for `briandherbert@gmail.com` and may read all mail, create/apply labels, archive, and trash. Do not send as Brian. Do not persist full message bodies into git. Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
 - Google Chat: direct-message space `spaces/6RZ69yAAAAE` is active; AgentCore can fetch Brian-authored messages and reply through Chat API.
 - Drive: `Life 2026` document shared with viewer access.
 - Calendar: `briandherbert@googlemail.com` shared with `scottishramp@gmail.com` as reader with full event-detail visibility (shared 2026-06-08).
