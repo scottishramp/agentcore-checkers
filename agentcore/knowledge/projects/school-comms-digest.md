@@ -12,8 +12,9 @@ Give Brian a daily, child-grouped digest of school communications. The durable a
 - Telegram sends Important items plus the Doc link with the morning async runner.
 - Teacher roster for 2026-27 is in `agentcore/knowledge/school/2026-27-roster.json`.
 - Levi's 1st-grade teacher: Mrs. Scott (Brian, 2026-08-16).
-- Digest bullets are complete-sentence paraphrases with a hyperlinked Link and a Need/FYI/No-action line from the full email; items due this week are bold.
-- Morning sweep ingests new teachers and sports onto the roster.
+- Digest bullets are single distilled lines (Need / FYI / No action) with a hyperlinked Link; no raw email excerpts. Items due this week are bold.
+- Important contains only real to-dos; no-action items go to kid sections or General.
+- Morning sweep is the learning loop: it ingests new teachers, sports, and activities onto the roster and re-syncs `herbert-children.md`.
 
 ## Why this shape
 

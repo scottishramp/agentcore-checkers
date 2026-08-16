@@ -26,7 +26,7 @@ Brian should see **what needs a decision or bag/calendar change**, with kid-spec
 2. **Per child** — Daniel, Nathan, Ezra, Silver, Levi: standing sports/teams, then other specific notes
 3. **General** — school announcements that are not urgent
 
-Each bullet is a complete-sentence paraphrase (never clipped mid-word) plus a hyperlinked **Link**. Under each bullet, a *Need:* / *FYI:* / *No action.* line says whether we have something to do after reading the full email.
+Each bullet is one distilled line — **Need:** (the to-do, quoting the ask when useful), **FYI:** (the key fact), or **No action (topic)** — plus a hyperlinked **Link**. No raw email excerpts. Stale needs are relabeled "Past need (likely done)".
 
 ## Sources
 
@@ -50,8 +50,8 @@ The Doc lives in AgentCore Drive (`scottishramp@gmail.com`), folder `School`, sh
 
 **Important**
 
-- Action verbs: due, form, fee, supplies, conference, detention, no school, early release, missing homework, schedule change
-- After reading the full body, items with **no parent to-do** (welcome notes, excitement-only sports mail) are moved out of Important even if the classifier first tagged them as action
+- Only items where the full body contains a real parent to-do (`has_action`). Action verbs: due, form, fee, supplies, conference, detention, no school, early release, missing homework, schedule change.
+- No-action and FYI items never appear in Important — they go to the kid's section (teacher/classroom/sports mail) or General (everything else).
 
 **Per child**
 
@@ -71,4 +71,6 @@ The Doc lives in AgentCore Drive (`scottishramp@gmail.com`), folder `School`, sh
 
 ## Learning loop
 
-When Brian says an item was in the wrong section, update this playbook and the classifier in `scripts/email/school_digest.py`. The morning sweep also ingests new teachers and sports onto `2026-27-roster.json` (and `herbert-children.md` when new facts appear). Do not invent sports for a child who is not named in the mail. Full email bodies stay in Gmail; they are not copied into git.
+When Brian says an item was in the wrong section, update this playbook and the classifier in `scripts/email/school_digest.py`.
+
+The morning sweep is also the learning loop for kid facts. Every run it ingests new teachers, sports, and activities from school mail onto `2026-27-roster.json` and re-syncs the schools table in `herbert-children.md`; the runner commits both. Do not invent sports for a child who is not named in the mail. Full email bodies stay in Gmail; they are not copied into git.

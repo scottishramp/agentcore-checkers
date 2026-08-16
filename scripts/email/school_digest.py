@@ -254,7 +254,9 @@ def clean_body(text: str) -> str:
     )
     text = re.sub(r"^[\s\-]*From:\s.*?(?:\n|$)", " ", text, flags=re.I | re.M)
     text = re.sub(r"https?://\S+", " ", text)
+    text = re.sub(r"[<>]", " ", text)
     text = re.sub(r"\(\s*\)", "", text)
+    text = re.sub(r"\s\(\s", " ", text)
     text = re.sub(r"\s+([.,;:])", r"\1", text)
     text = re.sub(r"\s+", " ", text).strip()
     parts = re.split(r"(?<=[.!?])\s+", text)
@@ -409,40 +411,34 @@ def finish_sentence(text: str) -> str:
     return text
 
 
-def analyze_item(row: dict) -> tuple[str, str, bool]:
-    """Return (summary, thinking, has_action) from the full cleaned body."""
+def topic_label(subject: str) -> str:
+    label = re.sub(r"^\s*(?:fwd|fw|re):\s*", "", subject or "", flags=re.I).strip()
+    label = re.sub(r"\s+", " ", label).rstrip(".!?")
+    return label or "School update"
+
+
+def analyze_item(row: dict) -> tuple[str, bool]:
+    """Distill one display line from the full cleaned body: the need, the key fact, or 'no action'."""
     body = clean_body(row.get("body_text") or row.get("snippet") or "")
     subject = unescape(str(row.get("subject") or "").strip())
-    kids = ", ".join(row.get("kids") or []) or "the family"
     useful = [distill_sentence(sentence) for sentence in content_sentences(body, max_n=4, max_len=420)]
     useful = [sentence for sentence in useful if sentence]
     need_bits = [sentence for sentence in useful if NEED_RE.search(sentence) and not NEGATED_NEED_RE.search(sentence)]
     fact_bits = [sentence for sentence in useful if sentence not in need_bits and (FACT_RE.search(sentence) or NEGATED_NEED_RE.search(sentence))]
-    if not need_bits and NEED_RE.search(subject):
+    if not need_bits and NEED_RE.search(subject) and not NEGATED_NEED_RE.search(subject):
         need_bits = [subject]
-    summary = finish_sentence(" ".join(useful)) if useful else paraphrase(row)
 
     if need_bits:
         need_text = finish_sentence(" ".join(need_bits[:2]))
-        thinking = f"Need: {need_text}"
-        if kids != "the family" and kids.lower() not in thinking.lower():
-            thinking = f"Need for {kids}: {need_text}"
-        if re.search(r"\bcarline\b", thinking, re.I):
-            thinking = f"Need for {kids}: confirm which carline to use for the first weeks of school."
-        return summary, thinking, True
+        if re.search(r"\bcarline\b", need_text, re.I):
+            need_text = "Learn the carline routine for the first weeks of school."
+        return f"Need: {need_text}", True
 
     if fact_bits:
         fact_text = finish_sentence(" ".join(fact_bits[:2]))
-        school_hours = bool(re.search(r"\b([1-7](?:st|nd|rd|th)? hour|during (?:class|school))\b", fact_text, re.I))
-        if school_hours and not NEED_RE.search(fact_text):
-            thinking = f"No action for us. {fact_text}"
-            return summary, thinking, False
-        thinking = f"FYI: {fact_text}"
-        return summary, thinking, False
+        return f"FYI: {fact_text}", False
 
-    label = subject or "This email"
-    thinking = f"No action. {label} is a welcome or update; the body has no parent to-do."
-    return summary or finish_sentence(label), thinking, False
+    return f"No action ({topic_label(subject)}).", False
 
 
 def paraphrase(row: dict) -> str:
@@ -554,15 +550,14 @@ def annotate(rows: list[dict], roster: dict) -> list[dict]:
         kids = children_for(row, roster)
         row = dict(row)
         row["kids"] = kids
-        summary, thinking, has_action = analyze_item(row)
+        display, has_action = analyze_item(row)
         kind = classify(row)
         if kind == "action" and not has_action:
             kind = demote_kind(row)
         row["kind"] = kind
         row["importance"] = importance(kind)
         row["when"] = when_label(row)
-        row["summary"] = summary
-        row["thinking"] = thinking
+        row["display"] = display
         row["has_action"] = has_action
         row["link"] = best_link(row)
         row["due_this_week"] = due_this_week(row)
@@ -572,60 +567,56 @@ def annotate(rows: list[dict], roster: dict) -> list[dict]:
 
 def kid_line(row: dict, markdown: bool = False) -> str:
     kids = ", ".join(row["kids"]) or "family"
-    summary = str(row.get("summary") or paraphrase(row)).rstrip()
-    if summary and summary[-1] not in ".!?":
-        summary += "."
-    prefix = f"• {row['when']} · {kids} — {summary}"
+    display = str(row.get("display") or "").strip() or paraphrase(row)
+    prefix = f"• {row['when']} · {kids} — {display}"
     link = str(row.get("link") or "")
-    thinking = str(row.get("thinking") or "").strip()
     if markdown and link:
-        line = f"{prefix} [Link]({link})"
-    else:
-        line = f"{prefix} Link"
-    if thinking:
-        return f"{line}\n{thinking}"
-    return line
+        return f"{prefix} [Link]({link})"
+    return f"{prefix} Link"
 
 
 def item_paragraphs(row: dict) -> list[dict]:
-    kids = ", ".join(row["kids"]) or "family"
-    summary = str(row.get("summary") or paraphrase(row)).rstrip()
-    if summary and summary[-1] not in ".!?":
-        summary += "."
-    text = f"• {row['when']} · {kids} — {summary} Link"
-    paragraph: dict = {"text": text, "bold": bool(row.get("due_this_week"))}
+    text = kid_line(row, markdown=False)
+    paragraph: dict = {"text": text, "bold": bool(row.get("due_this_week")) and bool(row.get("has_action"))}
     link = str(row.get("link") or "")
     offset = text.rfind("Link")
     if link and offset >= 0:
         paragraph["links"] = [{"offset": offset, "length": 4, "url": link}]
-    paragraphs = [paragraph]
-    thinking = str(row.get("thinking") or "").strip()
-    if thinking:
-        paragraphs.append({"text": thinking, "italic": True})
-    return paragraphs
+    return [paragraph]
 
 
 def section_items(rows: list[dict], roster: dict) -> dict[str, list[dict]]:
+    def dedup_priority(row: dict) -> int:
+        if row["has_action"] and not is_stale_action(row):
+            return 0
+        if row["has_action"]:
+            return 1
+        return 2
+
+    best: dict[tuple[str, tuple[str, ...]], dict] = {}
+    order: list[tuple[str, tuple[str, ...]]] = []
+    for row in rows:
+        key = (str(row.get("display") or ""), tuple(row.get("kids") or []))
+        if key not in best:
+            best[key] = row
+            order.append(key)
+        elif dedup_priority(row) < dedup_priority(best[key]):
+            best[key] = row
+    rows = [best[key] for key in order]
     important = []
     stale_actions = []
     for row in rows:
-        if row["importance"] == "high" and row["kind"] == "action":
+        if row["has_action"]:
             if is_stale_action(row):
                 stale_actions.append(row)
             else:
                 important.append(row)
-    teacher_or_class = [
-        row
-        for row in rows
-        if row["kind"] in {"teacher", "classroom_app", "sports"}
-        or (row["importance"] == "high" and row["kind"] != "action")
-    ]
-    general = [row for row in rows if row["kind"] == "fyi"]
+    non_action = [row for row in rows if not row["has_action"]]
+    kid_worthy = [row for row in non_action if row["kind"] in {"teacher", "classroom_app", "sports"}]
+    general = [row for row in non_action if row not in kid_worthy]
     per_kid: dict[str, list[dict]] = {name: [] for name in CHILD_ORDER}
     unassigned: list[dict] = []
-    for row in teacher_or_class:
-        if row in important or row in stale_actions:
-            continue
+    for row in kid_worthy:
         names = [name for name in row["kids"] if name in per_kid]
         if not names:
             unassigned.append(row)
@@ -634,6 +625,9 @@ def section_items(rows: list[dict], roster: dict) -> dict[str, list[dict]]:
             per_kid[name].append(row)
     leftover_stale = []
     for row in stale_actions:
+        row = dict(row)
+        row["display"] = re.sub(r"^Need:", "Past need (likely done):", str(row.get("display") or ""))
+        row["due_this_week"] = False
         names = [name for name in row["kids"] if name in per_kid]
         if names:
             for name in names:
@@ -746,7 +740,7 @@ def render_doc_paragraphs(rows: list[dict], roster: dict) -> tuple[list[dict], s
         },
         {"text": ""},
         {"text": "Important", "style": "HEADING_1"},
-        {"text": "Action items we need to handle. Each line has a date, a child, and a Need/FYI note. Items due this week are bold."},
+        {"text": "Only items with a real to-do. Items due this week are bold."},
         {"text": ""},
     ]
     if sections["important"]:
@@ -1110,6 +1104,8 @@ def main() -> int:
     if ingest_notes and not args.dry_run:
         save_roster(Path(args.roster), roster)
         print("ingested: " + "; ".join(ingest_notes), file=sys.stderr)
+        if sync_children_page(roster):
+            print(f"updated {CHILDREN_PAGE_PATH}", file=sys.stderr)
     elif ingest_notes:
         print("ingest dry-run: " + "; ".join(ingest_notes), file=sys.stderr)
     digest = render(rows, roster, args.hours)

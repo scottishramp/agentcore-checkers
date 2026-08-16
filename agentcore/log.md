@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-16] knowledge | School digest v5: distilled actionables only
+
+- Each bullet is now one distilled line — Need (quoting the ask), FYI (key fact), or No action (topic) — with no raw email excerpts.
+- Important contains only items with a real parent to-do; no-action items route to kid sections or General. Stale needs are relabeled "Past need (likely done)".
+- The sweep re-syncs `herbert-children.md` from the roster after every ingest, so the knowledge base keeps learning teachers, sports, and activities per kid.
+
 ## [2026-08-16] knowledge | School digest items now include Need/FYI thinking
 
 - Each digest bullet has a second line that says whether we have something to do after reading the full email.
