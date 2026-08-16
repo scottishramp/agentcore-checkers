@@ -139,11 +139,13 @@ jobs:
         continue-on-error: true
         run: |
           python3 scripts/agent/ensure_no_conflict_markers.py
-          git add agentcore/knowledge/school/digest-doc.json
+          git add agentcore/knowledge/school/digest-doc.json \
+            agentcore/knowledge/school/2026-27-roster.json \
+            agentcore/knowledge/people/herbert-children.md
           if git diff --cached --quiet; then
-            echo "No school digest registry change to commit."
+            echo "No school digest knowledge change to commit."
           else
-            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Update school digest Google Doc registry"
+            git -c user.name="AgentCore Bot" -c user.email="scottishramp@gmail.com" commit -m "Update school digest roster and Google Doc registry"
             git -c rebase.autoStash=true pull --rebase origin main
             git push
           fi

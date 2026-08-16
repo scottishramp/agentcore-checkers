@@ -29,7 +29,11 @@
         {"role": "Intro to Adv Algebra II", "name": "Pamela Riley", "confidence": "schedule"},
         {"role": "Track HS Boys", "name": "Kelly Beck", "confidence": "schedule"}
       ],
-      "sender_needles": ["corbin.byford", "north high school", "enhs", "choate", "wolery", "velezgrau", "hemans"]
+      "sports": [
+        {"sport": "Basketball", "team": "Basketball 9th Boys", "coach": "Corbin Byford", "confidence": "confirmed"},
+        {"sport": "Track", "team": "Track HS Boys", "coach": "Kelly Beck", "confidence": "schedule"}
+      ],
+      "sender_needles": ["corbin.byford", "north high school", "enhs", "choate", "wolery", "velezgrau", "hemans", "kelly.beck"]
     },
     {
       "name": "Nathan",
@@ -66,6 +70,9 @@
         {"role": "Band Flute/Saxophone 6", "name": "JoeLee Mills", "email": "joelee.mills@edmondschools.net", "room": "409", "confidence": "schedule"},
         {"role": "GATE 6", "name": "Stacy Jackson", "room": "414", "confidence": "schedule"},
         {"role": "Elective Exploration", "name": "Health / Engineering / Drama rotation", "room": "510", "confidence": "schedule"}
+      ],
+      "activities": [
+        {"name": "Band Flute/Saxophone 6", "advisor": "JoeLee Mills", "confidence": "schedule"}
       ],
       "sender_needles": ["shafer", "cooley", "frisbie", "burney", "joelee.mills", "cheyene band", "cheyenne band"]
     },

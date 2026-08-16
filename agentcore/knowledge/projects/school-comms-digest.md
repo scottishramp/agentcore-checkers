@@ -12,13 +12,15 @@ Give Brian a daily, child-grouped digest of school communications. The durable a
 - Telegram sends Important items plus the Doc link with the morning async runner.
 - Teacher roster for 2026-27 is in `agentcore/knowledge/school/2026-27-roster.json`.
 - Levi's 1st-grade teacher: Mrs. Scott (Brian, 2026-08-16).
+- Digest bullets are complete-sentence paraphrases with a hyperlinked Link; items due this week are bold.
+- Morning sweep ingests new teachers and sports onto the roster.
 
 ## Why this shape
 
 Brian asked for a Drive Doc with:
 
-1. **Important** — action items, with dates and which kid
-2. **Per child** — other specific notes
+1. **Important** — action items, with dates and which kid; due-this-week items bold
+2. **Per child** — standing sports/teams plus other specific notes
 3. **General** — school announcements that are not urgent
 
 ## Deliverables
@@ -32,3 +34,4 @@ Brian asked for a Drive Doc with:
 
 - Tighten Important vs per-kid vs General from Brian's Doc reactions.
 - Add Mrs. Scott's email when it appears in Gmail.
+- Record Nathan / Silver / Levi sports if they join teams.

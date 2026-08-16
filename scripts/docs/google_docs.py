@@ -129,17 +129,22 @@ def get_document(document_id: str, env_map: dict[str, str] | None = None) -> dic
     return _request("GET", f"{DOCS_API_BASE}/documents/{urllib.parse.quote(document_id)}", token)
 
 
-def replace_document_text(
+def replace_document_content(
     document_id: str,
-    text: str,
-    heading_lines: list[str] | None = None,
-    title_line: str = "",
+    paragraphs: list[dict],
     env_map: dict[str, str] | None = None,
 ) -> dict:
-    """Replace the whole document body and apply heading styles."""
+    """Replace the document with styled paragraphs.
+
+    Each paragraph is a dict with:
+      text: str
+      style: TITLE | HEADING_1 | NORMAL (optional)
+      bold: bool
+      links: list[{offset, length, url}] relative to paragraph text
+    """
     token = _token(env_map=env_map)
-    if not text.endswith("\n"):
-        text = text + "\n"
+    lines = [str(item.get("text", "")) for item in paragraphs]
+    text = "\n".join(lines) + "\n"
     document = get_document(document_id, env_map=env_map)
     body = document.get("body") or {}
     content = body.get("content") or []
@@ -155,34 +160,81 @@ def replace_document_text(
         )
     requests.append({"insertText": {"location": {"index": 1}, "text": text}})
 
-    heading_set = {line.strip() for line in (heading_lines or []) if line.strip()}
     index = 1
-    lines = text.split("\n")
-    for offset, line in enumerate(lines):
+    for item in paragraphs:
+        paragraph_text = str(item.get("text", ""))
         start = index
-        end = start + len(line)
-        newline_end = end + 1 if offset < len(lines) - 1 or text.endswith("\n") else end
-        style = ""
-        stripped = line.strip()
-        if title_line and stripped == title_line.strip():
-            style = "TITLE"
-        elif stripped in heading_set:
-            style = "HEADING_1"
-        if style and newline_end > start:
+        text_end = start + len(paragraph_text)
+        newline_end = text_end + 1
+        style = str(item.get("style") or "")
+        if style in {"TITLE", "HEADING_1", "HEADING_2"} and newline_end > start:
             requests.append(
                 {
                     "updateParagraphStyle": {
-                        "range": {"startIndex": start, "endIndex": min(newline_end, start + len(line) + 1)},
+                        "range": {"startIndex": start, "endIndex": newline_end},
                         "paragraphStyle": {"namedStyleType": style},
                         "fields": "namedStyleType",
                     }
                 }
             )
-        index = newline_end if offset < len(lines) - 1 else end
+        if item.get("bold") and text_end > start:
+            requests.append(
+                {
+                    "updateTextStyle": {
+                        "range": {"startIndex": start, "endIndex": text_end},
+                        "textStyle": {"bold": True},
+                        "fields": "bold",
+                    }
+                }
+            )
+        for link in item.get("links") or []:
+            offset = int(link.get("offset", 0))
+            length = int(link.get("length", 0))
+            url = str(link.get("url", "")).strip()
+            if not url or length <= 0:
+                continue
+            link_start = start + offset
+            link_end = link_start + length
+            textStyle = {"link": {"url": url}, "underline": True}
+            fields = "link,underline"
+            if item.get("bold"):
+                textStyle["bold"] = True
+                fields = "link,underline,bold"
+            requests.append(
+                {
+                    "updateTextStyle": {
+                        "range": {"startIndex": link_start, "endIndex": link_end},
+                        "textStyle": textStyle,
+                        "fields": fields,
+                    }
+                }
+            )
+        index = newline_end
 
     return _request(
         "POST",
         f"{DOCS_API_BASE}/documents/{urllib.parse.quote(document_id)}:batchUpdate",
         token,
         payload={"requests": requests},
+        timeout=90,
     )
+
+
+def replace_document_text(
+    document_id: str,
+    text: str,
+    heading_lines: list[str] | None = None,
+    title_line: str = "",
+    env_map: dict[str, str] | None = None,
+) -> dict:
+    paragraphs = []
+    heading_set = {line.strip() for line in (heading_lines or []) if line.strip()}
+    for line in text.split("\n"):
+        style = ""
+        stripped = line.strip()
+        if title_line and stripped == title_line.strip():
+            style = "TITLE"
+        elif stripped in heading_set:
+            style = "HEADING_1"
+        paragraphs.append({"text": line, "style": style})
+    return replace_document_content(document_id, paragraphs, env_map=env_map)

@@ -19,6 +19,7 @@ from common import load_env_file
 
 ROSTER_PATH = Path("agentcore/knowledge/school/2026-27-roster.json")
 DOC_REGISTRY_PATH = Path("agentcore/knowledge/school/digest-doc.json")
+CHILDREN_PAGE_PATH = Path("agentcore/knowledge/people/herbert-children.md")
 OUTPUT_PATH = Path(".agentcore/state/school-digest/latest.md")
 LABEL_NAME = "26-27 School"
 DOC_TITLE = "2026-27 School Digest"
@@ -42,6 +43,26 @@ BLAST_FROM_RE = re.compile(
 LOW_SUBJECT_RE = re.compile(
     r"(pto|candy gram|staff appreciation|baked potato|newsletter|news flash|round-up|"
     r"husky pride|utility verification|before & after care|bird.?s nest)",
+    re.I,
+)
+SPORT_RE = re.compile(
+    r"\b(basketball|track|football|soccer|volleyball|baseball|softball|cross country|"
+    r"cheer|wrestling|golf|tennis|swim|husky basketball)\b",
+    re.I,
+)
+URL_RE = re.compile(r"https?://[^\s<>\"']+", re.I)
+SKIP_URL_RE = re.compile(
+    r"(unsubscribe|safelink|sendgrid\.net|googleusercontent|public\.govdelivery|"
+    r"facebook\.com/tr|doubleclick|list-manage|cmsv2-assets|/logo/|"
+    r"\.(?:png|jpe?g|gif|svg|webp)(?:\?|$))",
+    re.I,
+)
+PREFERRED_URL_RE = re.compile(
+    r"(smore\.com|rankone|docs\.google|forms\.gle|signupgenius|seesaw|edmondschools\.net)",
+    re.I,
+)
+TEACHER_INTRO_RE = re.compile(
+    r"(?:i am|i'm)\s+(?:so\s+)?(?:excited to (?:be|let you know that i am)\s+)?(?:your (?:child|student)['’]s\s+)?(?:the\s+)?(.{2,60}?)teacher",
     re.I,
 )
 
@@ -69,7 +90,8 @@ def collect_ids(env_map: dict[str, str], hours: int) -> list[str]:
     query = (
         f"after:{after_unix(hours)} "
         "(edmondschools.net OR from:remind.com OR from:seesaw.me OR "
-        'label:"26-27 School" OR "Frontier Elementary" OR "Cheyenne Middle" OR "Edmond North")'
+        'label:"26-27 School" OR "Frontier Elementary" OR "Cheyenne Middle" OR "Edmond North" OR '
+        '"husky basketball" OR "rank one" OR rankone OR from:corbin.byford OR from:kelly.beck)'
     )
     ids: list[str] = []
     page = ""
@@ -101,7 +123,11 @@ def parse_date(value: str) -> datetime | None:
 
 
 def children_for(row: dict, roster: dict) -> list[str]:
-    blob = f"{row['from']} {row['subject']} {row['snippet']}".lower()
+    blob = f"{row['from']} {row['subject']} {row.get('snippet','')} {row.get('body_text','')}".lower()
+    if re.search(r"\b(8th graders?|8th grade|eighth grade)\b", blob) and "cheyenne" in blob:
+        return ["Nathan"]
+    if re.search(r"\b(6th graders?|6th grade|sixth grade)\b", blob) and "cheyenne" in blob:
+        return ["Ezra"]
     hits = []
     for child in roster.get("children") or []:
         name = str(child.get("name", ""))
@@ -112,26 +138,42 @@ def children_for(row: dict, roster: dict) -> list[str]:
             hits.append(name)
     if hits:
         return list(dict.fromkeys(hits))
+    if re.search(r"\b(8th graders?|8th grade|eighth grade)\b", blob) and "cheyenne" in blob:
+        return ["Nathan"]
+    if re.search(r"\b(6th graders?|6th grade|sixth grade)\b", blob) and "cheyenne" in blob:
+        return ["Ezra"]
+    if re.search(r"\b4th grade\b", blob) or "trofemuk" in blob:
+        return ["Silver"]
+    if "levi" in blob or re.search(r"\b1st grade\b", blob):
+        return ["Levi"]
+    if re.search(r"siberian gym|off season track|kelly\.beck|corbin\.byford|husky basketball", blob):
+        return ["Daniel"]
     if "north high" in blob or "enhs" in blob or "english i" in blob:
         return ["Daniel"]
     if "cheyenne" in blob:
         return ["Nathan", "Ezra"]
     if "frontier" in blob or "seesaw" in blob:
         return ["Silver", "Levi"] if "levi" not in blob else ["Levi"]
+    if SPORT_RE.search(blob) and ("north" in blob or "byford" in blob or "beck" in blob):
+        return ["Daniel"]
     return []
 
 
 def classify(row: dict) -> str:
-    blob = f"{row['from']} {row['subject']} {row['snippet']}"
+    blob = f"{row['from']} {row['subject']} {row.get('snippet','')} {row.get('body_text','')}"
     if "seesaw" in row["from"].lower():
         return "classroom_app"
+    if SPORT_RE.search(blob) and ACTION_RE.search(blob):
+        return "action"
+    if SPORT_RE.search(blob) and not LOW_SUBJECT_RE.search(row["subject"]):
+        return "sports"
     if ACTION_RE.search(blob) and not LOW_SUBJECT_RE.search(row["subject"]):
         return "action"
     if re.search(r"picture day|psat|rank one", row["subject"], re.I):
         return "action"
     if LOW_SUBJECT_RE.search(blob) or BLAST_FROM_RE.search(blob):
         return "fyi"
-    if any(name in row["from"].lower() for name in ("byford", "trofemuk", "wildman", "copenhaver", "jackson")):
+    if any(name in row["from"].lower() for name in ("byford", "trofemuk", "wildman", "copenhaver", "jackson", "beck")):
         return "teacher"
     if "@edmondschools.net" in row["from"].lower() and "donotreply" not in row["from"].lower() and "messenger@" not in row["from"].lower():
         return "teacher"
@@ -139,11 +181,236 @@ def classify(row: dict) -> str:
 
 
 def importance(kind: str) -> str:
-    if kind in {"action", "teacher"}:
+    if kind in {"action", "teacher", "sports"}:
         return "high"
     if kind == "classroom_app":
         return "medium"
     return "low"
+
+
+SKIP_SENDER_RE = re.compile(
+    r"(donotreply|no-reply|noreply|messenger@|edmond public schools|govdelivery)",
+    re.I,
+)
+ACTIVITY_RE = re.compile(r"\b(band|orchestra|choir|drama|fcccla|fccla)\b", re.I)
+SPORT_NAME_MAP = {
+    "husky basketball": "Basketball",
+    "cross country": "Cross Country",
+}
+
+
+def html_to_text(html: str) -> str:
+    text = re.sub(r"(?is)<(script|style).*?>.*?</\1>", " ", html)
+    text = re.sub(r"(?i)<br\s*/?>", "\n", text)
+    text = re.sub(r"(?i)</(p|div|h[1-6]|li|tr)>", "\n", text)
+    text = re.sub(r"<[^>]+>", " ", text)
+    return unescape(re.sub(r"[ \t]+", " ", text))
+
+
+JUNK_SENTENCE_RE = re.compile(
+    r"(privacy policy|how we process data|you are receiving this email|"
+    r"unsubscribe|powered by|get real-time updates with the seesaw app|"
+    r"view all updates|once you enable push notifications|"
+    r"notification preferences|download the app|help seesaw learning|"
+    r"forwarded message|opted in to receive messages)",
+    re.I,
+)
+
+
+def clean_body(text: str) -> str:
+    text = unescape(str(text or "")).replace("\u200e", "").replace("\u200f", "")
+    text = re.sub(
+        r"-{5,}\s*Forwarded message\s*-{5,}.*?(?:To:.*?)(?:\n|$)",
+        " ",
+        text,
+        flags=re.I | re.S,
+    )
+    text = re.sub(r"^[\s\-]*From:\s.*?(?:\n|$)", " ", text, flags=re.I | re.M)
+    text = re.sub(r"https?://\S+", " ", text)
+    text = re.sub(r"\(\s*\)", "", text)
+    text = re.sub(r"\s+([.,;:])", r"\1", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    parts = re.split(r"(?<=[.!?])\s+", text)
+    kept = [part.strip() for part in parts if part.strip() and not JUNK_SENTENCE_RE.search(part)]
+    return " ".join(kept)
+
+
+def parse_from(value: str) -> tuple[str, str]:
+    value = unescape(value or "").strip()
+    match = re.match(r'^(?:"?([^"<]+?)"?\s+)?<([^>]+)>$', value)
+    if match:
+        return (match.group(1) or "").strip(), (match.group(2) or "").strip()
+    if "@" in value and " " not in value:
+        return "", value
+    return value, ""
+
+
+def normalize_sport(raw: str) -> str:
+    key = re.sub(r"\s+", " ", (raw or "").strip().lower())
+    return SPORT_NAME_MAP.get(key, key.title())
+
+
+def walk_payload_text(payload: dict | None) -> tuple[str, str]:
+    if not payload:
+        return "", ""
+    mime = str(payload.get("mimeType", ""))
+    data = str((payload.get("body") or {}).get("data") or "")
+    plain = ""
+    html = ""
+    if data:
+        decoded = gmail_api.decode_body_data(data)
+        if mime.startswith("text/html"):
+            html = decoded
+        elif mime.startswith("text/plain"):
+            plain = decoded
+    for part in payload.get("parts") or []:
+        child_plain, child_html = walk_payload_text(part)
+        plain = plain or child_plain
+        html = html or child_html
+    return plain, html
+
+
+def extract_urls(html: str, plain: str) -> list[str]:
+    found: list[str] = []
+    for raw in re.findall(r"""href=["'](https?://[^"']+)["']""", html, flags=re.I) + URL_RE.findall(html + " " + plain):
+        url = unescape(raw).rstrip(").,;")
+        if SKIP_URL_RE.search(url):
+            continue
+        if url not in found:
+            found.append(url)
+    preferred = [url for url in found if PREFERRED_URL_RE.search(url)]
+    return preferred or found
+
+
+def gmail_link(message_id: str) -> str:
+    return f"https://mail.google.com/mail/u/0/#all/{message_id}"
+
+
+def best_link(row: dict) -> str:
+    urls = row.get("urls") or []
+    return str(urls[0] if urls else gmail_link(str(row.get("id", ""))))
+
+
+ABBREV_RE = re.compile(
+    r"\b(Mr|Mrs|Ms|Miss|Dr|Prof|Sr|Jr|vs|etc|"
+    r"Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\.",
+    re.I,
+)
+
+
+def complete_sentences(text: str, max_len: int = 320) -> str:
+    cleaned = unescape(re.sub(r"\s+", " ", text or "")).strip()
+    if not cleaned:
+        return ""
+    placeholders: list[str] = []
+
+    def protect(match: re.Match[str]) -> str:
+        placeholders.append(match.group(0))
+        return f"@@ABBREV{len(placeholders) - 1}@@"
+
+    protected = ABBREV_RE.sub(protect, cleaned)
+    parts = re.split(r"(?<=[.!?])\s+", protected)
+    kept: list[str] = []
+    for part in parts:
+        restored = part
+        for index, original in enumerate(placeholders):
+            restored = restored.replace(f"@@ABBREV{index}@@", original)
+        if re.search(r"unsubscribe|powered by|you.?re receiving this email", restored, re.I):
+            continue
+        if JUNK_SENTENCE_RE.search(restored):
+            continue
+        if len(restored) < 12 and not kept:
+            continue
+        kept.append(restored.rstrip())
+        joined = " ".join(kept)
+        if len(joined) >= 90 or len(kept) >= 3:
+            break
+    joined = " ".join(kept) if kept else cleaned
+    for index, original in enumerate(placeholders):
+        joined = joined.replace(f"@@ABBREV{index}@@", original)
+    if len(joined) <= max_len:
+        if joined and joined[-1] not in ".!?":
+            joined += "."
+        return joined
+    cut = joined[:max_len]
+    for sep in (". ", "! ", "? "):
+        idx = cut.rfind(sep)
+        if idx >= 80:
+            return cut[: idx + 1]
+    idx = cut.rfind(" ")
+    if idx >= 80:
+        return cut[:idx] + "."
+    return cut.rstrip(" ,;:") + "."
+
+
+def paraphrase(row: dict) -> str:
+    subject = unescape(str(row.get("subject") or "").strip())
+    if subject.lower() in {"", "(no subject)"}:
+        subject = ""
+    body = complete_sentences(clean_body(row.get("body_text") or row.get("snippet") or ""))
+    if body and JUNK_SENTENCE_RE.search(body) and len(body) < 160:
+        body = ""
+    if body and len(body) >= 80:
+        return body
+    if subject and body:
+        if body.lower().startswith(subject.lower()[:20].lower()):
+            return body
+        return f"{subject}. {body}"
+    return body or subject or "School update."
+
+
+def extract_event_dates(row: dict, now_local: datetime) -> list[datetime]:
+    blob = f"{row.get('subject','')} {row.get('body_text','')} {row.get('snippet','')}"
+    found: list[datetime] = []
+    month_map = {
+        "jan": 1, "january": 1, "feb": 2, "february": 2, "mar": 3, "march": 3, "apr": 4, "april": 4,
+        "may": 5, "jun": 6, "june": 6, "jul": 7, "july": 7, "aug": 8, "august": 8,
+        "sep": 9, "sept": 9, "september": 9, "oct": 10, "october": 10, "nov": 11, "november": 11,
+        "dec": 12, "december": 12,
+    }
+    for match in re.finditer(
+        r"\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|"
+        r"aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\s+(\d{1,2})(?:st|nd|rd|th)?\b",
+        blob,
+        re.I,
+    ):
+        month = month_map[match.group(1).lower().rstrip(".")]
+        day = int(match.group(2))
+        year = now_local.year
+        try:
+            found.append(now_local.replace(month=month, day=day, hour=12, minute=0, second=0, microsecond=0))
+        except ValueError:
+            continue
+    for match in re.finditer(r"\b(\d{1,2})/(\d{1,2})(?:/(\d{2,4}))?\b", blob):
+        month = int(match.group(1))
+        day = int(match.group(2))
+        year = int(match.group(3) or now_local.year)
+        if year < 100:
+            year += 2000
+        try:
+            found.append(now_local.replace(year=year, month=month, day=day, hour=12, minute=0, second=0, microsecond=0))
+        except ValueError:
+            continue
+    return found
+
+
+def due_this_week(row: dict) -> bool:
+    now_local = datetime.now(TZ)
+    window_end = now_local + timedelta(days=6)
+    events = extract_event_dates(row, now_local)
+    in_window = [event for event in events if now_local.date() <= event.date() <= window_end.date()]
+    if in_window:
+        return True
+    if events:
+        return False
+    blob = f"{row.get('subject', '')} {row.get('body_text', '')}"
+    if row.get("kind") != "action":
+        return False
+    if re.search(r"\b(this week|picture day)\b", blob, re.I):
+        parsed = parse_date(row.get("date", ""))
+        if parsed and datetime.now(timezone.utc) - parsed.astimezone(timezone.utc) <= timedelta(days=7):
+            return True
+    return False
 
 
 def when_label(row: dict) -> str:
@@ -152,7 +419,7 @@ def when_label(row: dict) -> str:
     if parsed:
         local = parsed.astimezone(TZ)
         email_day = f"{local.strftime('%a')} {local.month}/{local.day}"
-    blob = f"{row.get('subject', '')} {row.get('snippet', '')}"
+    blob = f"{row.get('subject', '')} {row.get('snippet', '')} {row.get('body_text', '')}"
     match = re.search(
         r"\b((?:mon|tues|wednes|thurs|fri|satur|sun)day|\d{1,2}/\d{1,2}(?:/\d{2,4})?|this week|tomorrow|today|tonight)\b",
         blob,
@@ -174,13 +441,33 @@ def annotate(rows: list[dict], roster: dict) -> list[dict]:
         row["kids"] = kids
         row["importance"] = importance(kind)
         row["when"] = when_label(row)
+        row["summary"] = paraphrase(row)
+        row["link"] = best_link(row)
+        row["due_this_week"] = due_this_week(row)
         annotated.append(row)
     return annotated
 
 
-def kid_line(row: dict) -> str:
+def kid_line(row: dict, markdown: bool = False) -> str:
     kids = ", ".join(row["kids"]) or "family"
-    return f"• {row['when']} · {kids} — {summarize_row(row)}"
+    summary = str(row.get("summary") or paraphrase(row)).rstrip()
+    if summary and summary[-1] not in ".!?":
+        summary += "."
+    prefix = f"• {row['when']} · {kids} — {summary}"
+    link = str(row.get("link") or "")
+    if markdown and link:
+        return f"{prefix} [Link]({link})"
+    return f"{prefix} Link"
+
+
+def item_paragraph(row: dict) -> dict:
+    text = kid_line(row, markdown=False)
+    paragraph: dict = {"text": text, "bold": bool(row.get("due_this_week"))}
+    link = str(row.get("link") or "")
+    offset = text.rfind("Link")
+    if link and offset >= 0:
+        paragraph["links"] = [{"offset": offset, "length": 4, "url": link}]
+    return paragraph
 
 
 def section_items(rows: list[dict], roster: dict) -> dict[str, list[dict]]:
@@ -192,12 +479,17 @@ def section_items(rows: list[dict], roster: dict) -> dict[str, list[dict]]:
                 stale_actions.append(row)
             else:
                 important.append(row)
-    teacher_or_class = [row for row in rows if row["kind"] in {"teacher", "classroom_app"} or (row["importance"] == "high" and row["kind"] != "action")]
-    general = [row for row in rows if row["kind"] == "fyi"] + stale_actions
+    teacher_or_class = [
+        row
+        for row in rows
+        if row["kind"] in {"teacher", "classroom_app", "sports"}
+        or (row["importance"] == "high" and row["kind"] != "action")
+    ]
+    general = [row for row in rows if row["kind"] == "fyi"]
     per_kid: dict[str, list[dict]] = {name: [] for name in CHILD_ORDER}
     unassigned: list[dict] = []
     for row in teacher_or_class:
-        if row in important:
+        if row in important or row in stale_actions:
             continue
         names = [name for name in row["kids"] if name in per_kid]
         if not names:
@@ -205,8 +497,16 @@ def section_items(rows: list[dict], roster: dict) -> dict[str, list[dict]]:
             continue
         for name in names:
             per_kid[name].append(row)
-    if unassigned:
-        general = unassigned + general
+    leftover_stale = []
+    for row in stale_actions:
+        names = [name for name in row["kids"] if name in per_kid]
+        if names:
+            for name in names:
+                per_kid[name].append(row)
+        else:
+            leftover_stale.append(row)
+    if unassigned or leftover_stale:
+        general = unassigned + leftover_stale + general
     return {"important": important, "per_kid": per_kid, "general": general, "roster": roster}
 
 
@@ -219,47 +519,137 @@ def school_for(name: str, roster: dict) -> str:
     return ""
 
 
-def render_doc_text(rows: list[dict], roster: dict) -> tuple[str, list[str], str]:
+def child_record(name: str, roster: dict) -> dict:
+    for child in roster.get("children") or []:
+        if child.get("name") == name:
+            return child
+    return {}
+
+
+def seed_teams(roster: dict) -> dict:
+    roster = json.loads(json.dumps(roster))
+    for child in roster.get("children") or []:
+        sports = child.setdefault("sports", [])
+        activities = child.setdefault("activities", [])
+        known_sports = {(item.get("sport") or "").strip().lower() for item in sports}
+        known_activities = {(item.get("name") or "").strip().lower() for item in activities}
+        for teacher in child.get("teachers") or []:
+            role = str(teacher.get("role") or "")
+            sport_match = SPORT_RE.search(role)
+            activity_match = ACTIVITY_RE.search(role)
+            if sport_match:
+                sport = normalize_sport(sport_match.group(1))
+                if sport.lower() not in known_sports:
+                    sports.append(
+                        {
+                            "sport": sport,
+                            "team": role,
+                            "coach": teacher.get("name", ""),
+                            "confidence": teacher.get("confidence", "schedule"),
+                        }
+                    )
+                    known_sports.add(sport.lower())
+            elif activity_match:
+                name = role.strip() or activity_match.group(1).title()
+                if name.lower() not in known_activities:
+                    activities.append(
+                        {
+                            "name": name,
+                            "advisor": teacher.get("name", ""),
+                            "confidence": teacher.get("confidence", "schedule"),
+                        }
+                    )
+                    known_activities.add(name.lower())
+    return roster
+
+
+def standing_team_lines(name: str, roster: dict) -> list[str]:
+    child = child_record(name, roster)
+    lines = []
+    sports = child.get("sports") or []
+    if sports:
+        parts = []
+        for item in sports:
+            sport = str(item.get("sport") or "").strip()
+            team = str(item.get("team") or "").strip()
+            coach = str(item.get("coach") or "").strip()
+            bit = team or sport
+            if coach:
+                bit = f"{bit} — {coach}" if bit else coach
+            if bit:
+                parts.append(bit)
+        if parts:
+            lines.append("Sports: " + "; ".join(parts) + ".")
+    else:
+        lines.append("Sports: none on file.")
+    activities = child.get("activities") or []
+    if activities:
+        parts = []
+        for item in activities:
+            label = str(item.get("name") or "").strip()
+            advisor = str(item.get("advisor") or item.get("coach") or "").strip()
+            if advisor:
+                label = f"{label} — {advisor}"
+            if label:
+                parts.append(label)
+        if parts:
+            lines.append("Activities: " + "; ".join(parts) + ".")
+    return lines
+
+
+def render_doc_paragraphs(rows: list[dict], roster: dict) -> tuple[list[dict], str]:
     now_local = datetime.now(TZ)
     title = DOC_TITLE
     sections = section_items(rows, roster)
-    headings = ["Important", "General"]
-    lines = [
-        title,
-        f"Updated {now_local.strftime('%A, %B')} {now_local.day}, {now_local.year}, {now_local.strftime('%I:%M %p').lstrip('0')} CT",
-        "",
-        "Important",
-        "Action items we need to handle. Each line has a date and a child.",
-        "",
+    paragraphs: list[dict] = [
+        {"text": title, "style": "TITLE"},
+        {
+            "text": (
+                f"Updated {now_local.strftime('%A, %B')} {now_local.day}, {now_local.year}, "
+                f"{now_local.strftime('%I:%M %p').lstrip('0')} CT"
+            )
+        },
+        {"text": ""},
+        {"text": "Important", "style": "HEADING_1"},
+        {"text": "Action items we need to handle. Each line has a date and a child. Items due this week are bold."},
+        {"text": ""},
     ]
     if sections["important"]:
-        lines.extend(kid_line(row) for row in sections["important"])
+        paragraphs.extend(item_paragraph(row) for row in sections["important"])
     else:
-        lines.append("• None right now.")
-    lines.append("")
+        paragraphs.append({"text": "• None right now."})
+    paragraphs.append({"text": ""})
     for name in CHILD_ORDER:
         heading = f"{name} — {school_for(name, roster)}"
-        headings.append(heading)
-        lines.extend([heading, ""])
+        paragraphs.extend([{"text": heading, "style": "HEADING_1"}, {"text": ""}])
+        for line in standing_team_lines(name, roster):
+            paragraphs.append({"text": line})
         items = sections["per_kid"].get(name) or []
         if items:
-            lines.extend(kid_line(row) for row in items)
+            paragraphs.extend(item_paragraph(row) for row in items)
         else:
-            lines.append("• Nothing extra this window.")
-        lines.append("")
-    lines.extend(
+            paragraphs.append({"text": "• No extra classroom notes this window."})
+        paragraphs.append({"text": ""})
+    paragraphs.extend(
         [
-            "General",
-            "School announcements that are not urgent.",
-            "",
+            {"text": "General", "style": "HEADING_1"},
+            {"text": "School announcements that are not urgent."},
+            {"text": ""},
         ]
     )
     if sections["general"]:
-        lines.extend(kid_line(row) for row in sections["general"])
+        paragraphs.extend(item_paragraph(row) for row in sections["general"])
     else:
-        lines.append("• None this window.")
-    lines.append("")
-    return "\n".join(lines), headings, title
+        paragraphs.append({"text": "• None this window."})
+    paragraphs.append({"text": ""})
+    return paragraphs, title
+
+
+def render_doc_text(rows: list[dict], roster: dict) -> tuple[str, list[str], str]:
+    paragraphs, title = render_doc_paragraphs(rows, roster)
+    headings = [str(item.get("text", "")) for item in paragraphs if item.get("style") == "HEADING_1"]
+    text = "\n".join(str(item.get("text", "")) for item in paragraphs)
+    return text, headings, title
 
 
 def render_telegram(rows: list[dict], roster: dict, doc_link: str) -> str:
@@ -267,7 +657,7 @@ def render_telegram(rows: list[dict], roster: dict, doc_link: str) -> str:
     lines = ["School digest"]
     if sections["important"]:
         lines.append("Important")
-        lines.extend(kid_line(row) for row in sections["important"][:8])
+        lines.extend(kid_line(row, markdown=True) for row in sections["important"][:8])
     else:
         lines.append("No action items in this window.")
     if doc_link:
@@ -276,31 +666,37 @@ def render_telegram(rows: list[dict], roster: dict, doc_link: str) -> str:
 
 
 def is_stale_action(row: dict) -> bool:
+    now_local = datetime.now(TZ)
+    events = extract_event_dates(row, now_local)
+    if events and all(event.date() < now_local.date() for event in events):
+        return True
     parsed = parse_date(row.get("date", ""))
     if not parsed:
         return False
     age = datetime.now(timezone.utc) - parsed.astimezone(timezone.utc)
     when = str(row.get("when", "")).lower()
+    blob = f"{row.get('subject', '')} {row.get('body_text', '')}"
     if age > timedelta(days=2) and re.search(r"\b(tomorrow|today|tonight)\b", when):
         return True
     if age > timedelta(days=6) and "this week" in when:
+        return True
+    if age > timedelta(days=2) and re.search(r"\b(walkabout|meet the teacher|new to north)\b", blob, re.I):
         return True
     return False
 
 
 def summarize_row(row: dict) -> str:
-    subject = unescape(row["subject"].strip() or "(no subject)")
-    snippet = unescape(re.sub(r"\s+", " ", row["snippet"]).strip())
-    if snippet and snippet.lower() not in subject.lower():
-        return f"{subject} — {snippet[:140]}"
-    return subject
+    return str(row.get("summary") or paraphrase(row))
 
 
 def fetch_rows(env_map: dict[str, str], ids: list[str]) -> list[dict]:
     rows = []
     for message_id in ids:
-        message = gmail_api.get_message(message_id, env_map=env_map, account=ACCOUNT, fmt="metadata")
+        message = gmail_api.get_message(message_id, env_map=env_map, account=ACCOUNT, fmt="full")
         headers = gmail_api.header_map(message)
+        payload = message.get("payload") or {}
+        plain, html = walk_payload_text(payload)
+        body_text = clean_body(plain.strip() or html_to_text(html))[:4000]
         rows.append(
             {
                 "id": message_id,
@@ -308,10 +704,172 @@ def fetch_rows(env_map: dict[str, str], ids: list[str]) -> list[dict]:
                 "subject": headers.get("subject", ""),
                 "date": headers.get("date", ""),
                 "snippet": message.get("snippet", ""),
+                "body_text": body_text,
+                "urls": extract_urls(html, plain),
                 "label_ids": message.get("labelIds") or [],
             }
         )
     return rows
+
+
+def teacher_already_known(child: dict, name: str, email: str) -> bool:
+    needles = {name.lower(), email.lower()}
+    for teacher in child.get("teachers") or []:
+        if str(teacher.get("name") or "").lower() in needles:
+            return True
+        if email and str(teacher.get("email") or "").lower() == email.lower():
+            return True
+    return False
+
+
+def ingest_knowledge(rows: list[dict], roster: dict) -> tuple[dict, list[str]]:
+    roster = seed_teams(roster)
+    children = {str(child.get("name")): child for child in roster.get("children") or []}
+    notes: list[str] = []
+    today = datetime.now(TZ).date().isoformat()
+    for row in rows:
+        sender_name, sender_email = parse_from(row.get("from", ""))
+        blob = f"{row.get('subject', '')} {row.get('body_text', '')}"
+        school_sender = "edmondschools.net" in sender_email.lower() or "edmondschools.net" in str(row.get("from", "")).lower()
+        if SKIP_SENDER_RE.search(row.get("from", "")):
+            school_sender = False
+        for kid_name in row.get("kids") or []:
+            child = children.get(kid_name)
+            if not child:
+                continue
+            if school_sender and sender_name and re.search(r"\b(welcome|homeroom|i am|i'm your|advisory)\b", blob, re.I):
+                if not teacher_already_known(child, sender_name, sender_email):
+                    role = "Teacher"
+                    intro = TEACHER_INTRO_RE.search(blob)
+                    if intro:
+                        guessed = re.sub(r"\s+", " ", intro.group(1)).strip(" ,")
+                        if 2 < len(guessed) < 40:
+                            role = guessed.title()
+                    child.setdefault("teachers", []).append(
+                        {
+                            "role": role,
+                            "name": sender_name,
+                            "email": sender_email,
+                            "confidence": "email-ingest",
+                            "notes": f"Ingested {today} from school mail.",
+                        }
+                    )
+                    local = sender_email.split("@")[0] if sender_email else sender_name.lower()
+                    needles = child.setdefault("sender_needles", [])
+                    if local and local not in needles:
+                        needles.append(local)
+                    notes.append(f"{kid_name}: teacher {sender_name}")
+            sport_match = SPORT_RE.search(blob)
+            named_kid = kid_name.lower() in blob.lower()
+            single_kid = len(row.get("kids") or []) == 1
+            if sport_match and school_sender and (named_kid or single_kid):
+                sport = normalize_sport(sport_match.group(1))
+                known = {(item.get("sport") or "").strip().lower() for item in child.get("sports") or []}
+                if sport.lower() not in known:
+                    child.setdefault("sports", []).append(
+                        {
+                            "sport": sport,
+                            "coach": sender_name,
+                            "confidence": "email-ingest",
+                            "notes": f"Ingested {today} from school mail.",
+                        }
+                    )
+                    notes.append(f"{kid_name}: sport {sport}")
+            activity_match = ACTIVITY_RE.search(blob)
+            if activity_match and school_sender and (named_kid or single_kid):
+                activity = str(activity_match.group(1)).title()
+                known = {(item.get("name") or "").strip().lower() for item in child.get("activities") or []}
+                if activity.lower() not in known and not any(activity.lower() in name for name in known):
+                    child.setdefault("activities", []).append(
+                        {
+                            "name": activity,
+                            "advisor": sender_name,
+                            "confidence": "email-ingest",
+                            "notes": f"Ingested {today} from school mail.",
+                        }
+                    )
+                    notes.append(f"{kid_name}: activity {activity}")
+    return roster, notes
+
+
+def homeroom_label(child: dict) -> str:
+    for teacher in child.get("teachers") or []:
+        role = str(teacher.get("role") or "").lower()
+        if "homeroom" in role or "advisory" in role:
+            room = f" (Rm {teacher['room']})" if teacher.get("room") else ""
+            team = f", {teacher['team']}" if teacher.get("team") else ""
+            return f"{teacher.get('name', '')}{room}{team}".strip()
+    if child.get("name") == "Daniel":
+        return "n/a (high school)"
+    return "n/a"
+
+
+def child_notes_line(child: dict) -> str:
+    bits = []
+    sports = child.get("sports") or []
+    if sports:
+        bits.append(
+            "Sports: "
+            + "; ".join(
+                f"{item.get('sport')} ({item.get('coach')})" if item.get("coach") else str(item.get("sport"))
+                for item in sports
+            )
+            + "."
+        )
+    activities = child.get("activities") or []
+    if activities:
+        bits.append(
+            "Activities: "
+            + "; ".join(
+                f"{item.get('name')} ({item.get('advisor')})" if item.get("advisor") else str(item.get("name"))
+                for item in activities
+            )
+            + "."
+        )
+    extras = []
+    for teacher in child.get("teachers") or []:
+        role = str(teacher.get("role") or "")
+        if any(token in role.lower() for token in ("homeroom", "advisory", "basketball", "track", "band")):
+            continue
+        if teacher.get("confidence") in {"confirmed", "welcome-email", "email-ingest"} or "english" in role.lower():
+            extras.append(f"{role}: {teacher.get('name')}".strip(": "))
+        if len(extras) >= 2:
+            break
+    bits.extend(extras)
+    if child.get("name") == "Levi" and not extras:
+        bits.append("Seesaw posts to Levi's journal.")
+    return " ".join(bit.rstrip(".") + "." for bit in bits if bit) or "See roster JSON."
+
+
+def sync_children_page(roster: dict) -> bool:
+    if not CHILDREN_PAGE_PATH.exists():
+        return False
+    original = CHILDREN_PAGE_PATH.read_text(encoding="utf-8")
+    table_lines = [
+        "| Child | Grade | School | Homeroom / advisory | Notes |",
+        "|-------|-------|--------|---------------------|-------|",
+    ]
+    for child in roster.get("children") or []:
+        table_lines.append(
+            f"| {child.get('name')} | {child.get('grade', '')} | {child.get('school', '')} | "
+            f"{homeroom_label(child)} | {child_notes_line(child)} |"
+        )
+    table = "\n".join(table_lines)
+    updated = re.sub(
+        r"\| Child \| Grade \| School \| Homeroom / advisory \| Notes \|.*?(?=\n## )",
+        table + "\n\n",
+        original,
+        count=1,
+        flags=re.S,
+    )
+    if updated == original:
+        return False
+    CHILDREN_PAGE_PATH.write_text(updated, encoding="utf-8")
+    return True
+
+
+def save_roster(path: Path, roster: dict) -> None:
+    path.write_text(json.dumps(roster, indent=2) + "\n", encoding="utf-8")
 
 
 def render(rows: list[dict], roster: dict, hours: int) -> str:
@@ -365,8 +923,7 @@ def update_google_doc(env_map: dict[str, str], rows: list[dict], roster: dict) -
         file_id = str(document.get("id", ""))
     if not file_id:
         raise google_docs.GoogleDocsError("Google Doc create did not return a file id.")
-    text, headings, title = render_doc_text(rows, roster)
-    google_docs.replace_document_text(file_id, text, heading_lines=headings, title_line=title, env_map=env_map)
+    google_docs.replace_document_content(file_id, render_doc_paragraphs(rows, roster)[0], env_map=env_map)
     shared_with = list(registry.get("shared_with") or [])
     if SHARE_EMAIL not in shared_with:
         google_docs.share_file(file_id, SHARE_EMAIL, env_map=env_map, role="writer", notify=True)
@@ -411,6 +968,12 @@ def main() -> int:
     rows = fetch_rows(env_map, ids)
     rows.sort(key=lambda row: parse_date(row["date"]) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
     rows = annotate(rows, roster)
+    roster, ingest_notes = ingest_knowledge(rows, roster)
+    if ingest_notes and not args.dry_run:
+        save_roster(Path(args.roster), roster)
+        print("ingested: " + "; ".join(ingest_notes), file=sys.stderr)
+    elif ingest_notes:
+        print("ingest dry-run: " + "; ".join(ingest_notes), file=sys.stderr)
     digest = render(rows, roster, args.hours)
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(digest, encoding="utf-8")

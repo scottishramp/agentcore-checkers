@@ -41,7 +41,7 @@ Keep AgentCore ready to help Brian across personal projects, diet, scheduling, k
 
 - Treat Daniel, Nathan, Ezra, Silver, and Levi as Brian and Kristin's children for school, family, document, calendar, medical, travel, and household administration context.
 - 2026-27 schools (Brian, 2026-08-16): Daniel at Edmond North; Nathan and Ezra at Cheyenne Middle; Silver and Levi at Frontier Elementary. Roster and teachers: `agentcore/knowledge/school/2026-27-roster.json`.
-- Send a daily school digest as a shared Google Doc (Important / per kid / General). Telegram pings only the action items plus the Doc link. Playbook: `agentcore/knowledge/playbooks/school-comms-digest.md`.
+- Send a daily school digest as a shared Google Doc (Important / per kid / General). This-week items are bold; each bullet has a hyperlinked Link. The sweep ingests new teachers and sports onto the roster. Telegram pings only the action items plus the Doc link. Playbook: `agentcore/knowledge/playbooks/school-comms-digest.md`.
 - Preserve school-related metadata in repo pages or indexes: child, school/entity, date, event, deadline, required action, source, sensitivity, and Drive link.
 - Do not infer medical facts, permissions, or custody details unless Brian provides them or they appear in a trusted source.
 

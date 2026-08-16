@@ -2,6 +2,13 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-16] knowledge | School digest: full sentences, Link, this-week bold, sports ingest
+
+- Digest bullets now paraphrase complete sentences instead of clipping Gmail snippets mid-word.
+- Each item ends with a hyperlinked Link (form/Smore/RankOne/Seesaw when present, otherwise Gmail).
+- Items due this week in America/Chicago are bold.
+- Each child's section includes standing sports/teams (Daniel: basketball and track). The morning sweep writes new teachers and sports onto `2026-27-roster.json`.
+
 ## [2026-08-16] knowledge | School digest is a shared Google Doc; Levi's teacher is Mrs. Scott
 
 - Brian confirmed all 2026-27 teacher assignments and named Levi's 1st-grade teacher as Mrs. Scott.

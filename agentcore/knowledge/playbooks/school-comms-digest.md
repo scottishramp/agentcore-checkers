@@ -22,9 +22,13 @@ Brian should see **what needs a decision or bag/calendar change**, with kid-spec
 
 ## Doc layout
 
-1. **Important** — action items for any kid, with date and child name
-2. **Per child** — Daniel, Nathan, Ezra, Silver, Levi: other specific notes
+1. **Important** — action items for any kid, with date and child name. Items due this week (America/Chicago, today through +6 days) are **bold**.
+2. **Per child** — Daniel, Nathan, Ezra, Silver, Levi: standing sports/teams, then other specific notes
 3. **General** — school announcements that are not urgent
+
+Each bullet is a complete-sentence paraphrase (never clipped mid-word) plus a hyperlinked **Link** to the form/Smore/RankOne/Seesaw URL when present, otherwise the Gmail message.
+
+## Sources
 
 ## Sources
 
@@ -52,8 +56,10 @@ The Doc lives in AgentCore Drive (`scottishramp@gmail.com`), folder `School`, sh
 
 **Per child**
 
+- Standing sports / teams from the roster, even when there is no new mail
 - Direct teacher emails that are not action
 - Seesaw / classroom app posts
+- Sports mail that is informational rather than an action
 
 **General**
 
@@ -66,4 +72,4 @@ The Doc lives in AgentCore Drive (`scottishramp@gmail.com`), folder `School`, sh
 
 ## Learning loop
 
-When Brian says an item was in the wrong section, update this playbook and the classifier in `scripts/email/school_digest.py`. Record durable teacher/school facts on `herbert-children.md` and the roster JSON.
+When Brian says an item was in the wrong section, update this playbook and the classifier in `scripts/email/school_digest.py`. The morning sweep also ingests new teachers and sports onto `2026-27-roster.json` (and `herbert-children.md` when new facts appear). Do not invent sports for a child who is not named in the mail. Full email bodies stay in Gmail; they are not copied into git.
