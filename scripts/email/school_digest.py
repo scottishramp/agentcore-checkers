@@ -586,7 +586,7 @@ def parse_due_date(value: str | None) -> datetime | None:
 def apply_verdict(row: dict, verdict: dict, roster: dict) -> dict:
     row = dict(row)
     row["verdict"] = verdict
-    if not verdict.get("relevant", True):
+    if verdict.get("done") or not verdict.get("relevant", True):
         row["skip"] = True
         row["kids"] = []
         row["kind"] = "fyi"
@@ -652,14 +652,72 @@ def kid_line(row: dict, markdown: bool = False) -> str:
     return f"{prefix} Link"
 
 
-def item_paragraphs(row: dict) -> list[dict]:
+def item_paragraphs(row: dict, checklist: bool = False) -> list[dict]:
     text = kid_line(row, markdown=False)
+    if checklist and text.startswith("• "):
+        text = text[2:]  # the checkbox glyph replaces the bullet
     paragraph: dict = {"text": text, "bold": bool(row.get("due_this_week")) and bool(row.get("has_action"))}
+    if checklist:
+        paragraph["checklist"] = True
     link = str(row.get("link") or "")
     offset = text.rfind("Link")
     if link and offset >= 0:
         paragraph["links"] = [{"offset": offset, "length": 4, "url": link}]
     return [paragraph]
+
+
+def normalize_doc_line(text: str) -> str:
+    text = unescape(str(text or "")).replace("\u00a0", " ").replace("\u200b", "")
+    text = re.sub(r"^[•\s]+", "", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _import_google_docs():
+    docs_dir = Path(__file__).resolve().parent.parent / "docs"
+    if str(docs_dir) not in sys.path:
+        sys.path.insert(0, str(docs_dir))
+    import google_docs  # noqa: WPS433
+
+    return google_docs
+
+
+def detect_done_items(env_map: dict[str, str], ledger: dict) -> list[str]:
+    """Mark ledger verdicts done when their checkbox is checked in the Doc.
+
+    The Docs API hides checked state, so this reads the Drive HTML export where
+    checked checklist items carry text-decoration:line-through.
+    """
+    registry = load_doc_registry()
+    file_id = str(registry.get("file_id") or "")
+    if not file_id:
+        return []
+    google_docs = _import_google_docs()
+    try:
+        html = google_docs.export_document_html(file_id, env_map=env_map)
+    except Exception as exc:  # noqa: BLE001 - read-back is best effort
+        print(f"doc read-back failed ({exc}); skipping done detection.", file=sys.stderr)
+        return []
+    done_texts = []
+    for match in re.finditer(r"<li[^>]*>(.*?)</li>", html, re.S | re.I):
+        if "line-through" not in match.group(0):
+            continue
+        text = normalize_doc_line(re.sub(r"<[^>]+>", "", match.group(1)))
+        if text:
+            done_texts.append(text)
+    if not done_texts:
+        return []
+    marked = []
+    now = datetime.now(timezone.utc).isoformat()
+    for entry in (ledger.get("evaluated") or {}).values():
+        verdict = entry.get("verdict") or {}
+        doc_line = normalize_doc_line(entry.get("doc_line") or "")
+        if not doc_line or verdict.get("done"):
+            continue
+        if any(doc_line == text or doc_line in text or text in doc_line for text in done_texts):
+            verdict["done"] = True
+            verdict["done_at"] = now
+            marked.append(str(entry.get("subject") or doc_line)[:80])
+    return marked
 
 
 def section_items(rows: list[dict], roster: dict) -> dict[str, list[dict]]:
@@ -836,12 +894,12 @@ def render_doc_paragraphs(rows: list[dict], roster: dict) -> tuple[list[dict], s
         },
         {"text": ""},
         {"text": "Important", "style": "HEADING_1"},
-        {"text": "Only items with a real to-do. Items due this week are bold."},
+        {"text": "Only items with a real to-do. Items due this week are bold. Check off what you've handled — checked items drop off on the next update."},
         {"text": ""},
     ]
     if sections["important"]:
         for row in sections["important"]:
-            paragraphs.extend(item_paragraphs(row))
+            paragraphs.extend(item_paragraphs(row, checklist=True))
     else:
         paragraphs.append({"text": "• None right now."})
     paragraphs.append({"text": ""})
@@ -1305,6 +1363,9 @@ def main() -> int:
     rows.sort(key=lambda row: parse_date(row["date"]) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
 
     ledger = evaluator.load_ledger()
+    done_marks = detect_done_items(env_map, ledger)
+    if done_marks:
+        print("checked off in Doc: " + "; ".join(done_marks), file=sys.stderr)
     evaluated = ledger.get("evaluated") or {}
     verdicts: dict[str, dict] = {}
     pending: list[dict] = []
@@ -1333,10 +1394,17 @@ def main() -> int:
             print(f"LLM evaluation unavailable ({exc}); keyword fallback for {len(pending)} email(s).", file=sys.stderr)
     elif pending:
         print(f"--no-llm: keyword fallback for {len(pending)} email(s).", file=sys.stderr)
-    if not args.dry_run:
-        evaluator.save_ledger(ledger)
 
     rows = annotate(rows, roster, verdicts)
+    # Remember the exact rendered line for each Important checkbox so the next
+    # run can match checked (struck-through) items in the Doc export back to
+    # their ledger entries.
+    for row in section_items(rows, roster)["important"]:
+        entry = (ledger.get("evaluated") or {}).get(str(row.get("id") or ""))
+        if entry is not None:
+            entry["doc_line"] = normalize_doc_line(kid_line(row, markdown=False))
+    if not args.dry_run:
+        evaluator.save_ledger(ledger)
     roster, learn_notes = apply_llm_learn(rows, roster)
     roster, keyword_notes = ingest_knowledge(rows, roster)
     ingest_notes = learn_notes + keyword_notes

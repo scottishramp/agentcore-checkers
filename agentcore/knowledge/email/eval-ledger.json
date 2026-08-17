@@ -324,6 +324,7 @@
     "19ff7c646d699a56": {
       "backend": "cursor",
       "date": "Wed, 12 Aug 2026 20:59:53 +0000",
+      "doc_line": "Wed 8/12 \u00b7 Daniel \u2014 Need: Fill out the English I digital syllabus form with Daniel within the first week. Link",
       "evaluated_at": "2026-08-16T22:40:17.851074+00:00",
       "from": "messenger@edmondschools.net",
       "link": "https://docs.google.com/forms/d/e/1FAIpQLSfDQpG7HDVbrb-D2jFktiZWStEEPD7EmcfYvWykidIIlQ8xEQ/viewform?usp=dialog",
@@ -548,6 +549,7 @@
     "1a002aa79f6f6df8": {
       "backend": "cursor",
       "date": "Fri, 14 Aug 2026 23:45:21 +0000 (UTC)",
+      "doc_line": "Fri 8/14 \u00b7 Friday \u00b7 Nathan, Ezra \u2014 Need: Sign up for Cheyenne Fun Food Friday volunteering via the PTO SignUpGenius if you can help. Link",
       "evaluated_at": "2026-08-16T22:40:17.851027+00:00",
       "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
       "link": "https://www.signupgenius.com/go/10C0548A8AC22A4F8C16-57993636-funfood#/",
@@ -597,6 +599,7 @@
     "1a0085d6df07361b": {
       "backend": "cursor",
       "date": "Sun, 16 Aug 2026 02:18:54 +0000",
+      "doc_line": "Sat 8/15 \u00b7 this week \u00b7 Nathan \u2014 Need: Get Nathan\u2019s 8th-grade FCS sewing supplies (list sent home / in Wildman\u2019s S\u2019more); due 8/31. Link",
       "evaluated_at": "2026-08-16T22:40:17.851016+00:00",
       "from": "messenger@edmondschools.net",
       "link": "https://app.smore.com/n/3ye4j",
@@ -647,6 +650,110 @@
         "due_date": "2026-08-19",
         "learn": [],
         "line": "FYI: Edmond North picture day for 9th\u201311th is Aug. 19; students go by English class (virtual students 8:15\u20133:15 in the auditorium).",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a010e247f0939f8": {
+      "backend": "cursor",
+      "date": "Mon, 17 Aug 2026 18:00:59 +0000 (UTC)",
+      "evaluated_at": "2026-08-17T23:18:26.100546+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a010e247f0939f8",
+      "subject": "Multi-Tiered Systems of Support: SAEBRS Information",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": "Daniel",
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Behavior screened three times yearly via SAEBRS/mySAEBRS"
+          }
+        ],
+        "line": "FYI: Edmond North screens behavior three times yearly with SAEBRS/mySAEBRS; results will be shared with parents/guardians.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a010e4ffbc91d5c": {
+      "backend": "cursor",
+      "date": "Mon, 17 Aug 2026 18:03:56 +0000 (UTC)",
+      "evaluated_at": "2026-08-17T23:18:26.100540+00:00",
+      "from": "Edmond Public Schools <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a010e4ffbc91d5c",
+      "subject": "2026-27 Student Screening Windows",
+      "verdict": {
+        "category": "fyi",
+        "children": [],
+        "due_date": null,
+        "learn": [
+          {
+            "child": null,
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "EPS screens Reading & Math three times yearly with Renaissance assessments"
+          }
+        ],
+        "line": "FYI: EPS screens K\u201312 Reading & Math three times yearly (Fall, Winter, Spring) with Renaissance assessments as part of MTSS.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a01119c63a18e94": {
+      "backend": "cursor",
+      "date": "Mon, 17 Aug 2026 19:01:34 +0000",
+      "doc_line": "Mon 8/17 \u00b7 Daniel \u2014 Need: Fill out Zac Hemans' Biology parent Google form at your earliest convenience. Link",
+      "evaluated_at": "2026-08-17T23:18:26.100536+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://forms.gle/PvBTsdFRjHqMEQKN6",
+      "subject": "Welcome-- Biology!",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": "Daniel",
+            "person": "Zac Hemans",
+            "role": "Biology",
+            "type": "fact",
+            "value": "Planning time 5th hour 1:10\u20132:05"
+          }
+        ],
+        "line": "Need: Fill out Zac Hemans' Biology parent Google form at your earliest convenience.",
+        "need": "Fill out Zac Hemans' Biology parent Google form.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a01194f406cd566": {
+      "backend": "cursor",
+      "date": "Mon, 17 Aug 2026 21:16:08 +0000 (UTC)",
+      "evaluated_at": "2026-08-17T23:18:26.100493+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a01194f406cd566",
+      "subject": "Cheyenne Student IDs",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Cheyenne students have current IDs and bus cards; forgotten IDs can get a Gym Entry sticker before school starts (3 consecutive stickers require a $5 replacement ID).",
         "need": null,
         "relevant": true,
         "unsubscribe": false

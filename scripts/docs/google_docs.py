@@ -129,6 +129,25 @@ def get_document(document_id: str, env_map: dict[str, str] | None = None) -> dic
     return _request("GET", f"{DOCS_API_BASE}/documents/{urllib.parse.quote(document_id)}", token)
 
 
+def export_document_html(document_id: str, env_map: dict[str, str] | None = None) -> str:
+    """Export a Google Doc as HTML via Drive.
+
+    The Docs API does not expose checklist checked state, but the HTML export
+    renders checked items with text-decoration:line-through, so callers can
+    detect what the user has checked off.
+    """
+    token = _token(env_map=env_map)
+    query = urllib.parse.urlencode({"mimeType": "text/html"})
+    url = f"{DRIVE_API_BASE}/files/{urllib.parse.quote(document_id)}/export?{query}"
+    request = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return response.read().decode("utf-8", errors="replace")
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise GoogleDocsError(f"GET {url} failed: {exc.code} {detail}") from exc
+
+
 def replace_document_content(
     document_id: str,
     paragraphs: list[dict],
@@ -140,6 +159,7 @@ def replace_document_content(
       text: str
       style: TITLE | HEADING_1 | NORMAL (optional)
       bold: bool
+      checklist: bool (render as a clickable checkbox list item)
       links: list[{offset, length, url}] relative to paragraph text
     """
     token = _token(env_map=env_map)
@@ -161,11 +181,21 @@ def replace_document_content(
     requests.append({"insertText": {"location": {"index": 1}, "text": text}})
 
     index = 1
+    checklist_requests: list[dict] = []
     for item in paragraphs:
         paragraph_text = str(item.get("text", ""))
         start = index
         text_end = start + len(paragraph_text)
         newline_end = text_end + 1
+        if item.get("checklist") and text_end > start:
+            checklist_requests.append(
+                {
+                    "createParagraphBullets": {
+                        "range": {"startIndex": start, "endIndex": text_end},
+                        "bulletPreset": "BULLET_CHECKBOX",
+                    }
+                }
+            )
         style = str(item.get("style") or "")
         if style in {"TITLE", "HEADING_1", "HEADING_2"} and newline_end > start:
             requests.append(
@@ -220,6 +250,10 @@ def replace_document_content(
                 }
             )
         index = newline_end
+
+    # Bullet creation goes last: our paragraphs have no leading tabs, so these
+    # requests do not shift the indices used by the styling requests above.
+    requests.extend(checklist_requests)
 
     return _request(
         "POST",
