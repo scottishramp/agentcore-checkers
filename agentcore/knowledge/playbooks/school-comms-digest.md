@@ -28,6 +28,13 @@ Brian should see **what needs a decision or bag/calendar change**, with kid-spec
 
 Each bullet is one distilled line — **Need:** (the to-do, quoting the ask when useful), **FYI:** (the key fact), or **No action (topic)** — plus a hyperlinked **Link**. No raw email excerpts. Stale needs are relabeled "Past need (likely done)".
 
+**Important items are clickable checkboxes.** Brian checks off handled items in the Doc; the next
+run detects them and drops them permanently (ledger `done: true`). Mechanism: the Docs API cannot
+read checked state, so `detect_done_items` exports the Doc as HTML via Drive
+(`export_document_html`) and treats checklist lines with `text-decoration:line-through` as
+checked, matching them to ledger entries via the stored `doc_line` text. Verified end-to-end
+2026-08-17.
+
 ## Sources
 
 - Mailbox: `briandherbert@gmail.com`

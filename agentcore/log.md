@@ -587,3 +587,11 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Learn entries: kid teachers/sports/activities → roster; general household facts → new `agentcore/knowledge/people/family-facts.md`. Unsubscribe recommendations render in a Suggestions section of the Doc.
 - `agent-runner.yml`: Cursor CLI install moved before the digest step; digest step gets `CURSOR_API_KEY`/`GEMINI_API_KEY`; persist step commits ledger + family facts.
 - New playbook `agentcore/knowledge/playbooks/agentic-jobs-cursor-cli.md`: how the nightly runner uses Cursor CLI headless, plus the recipe for creating new agentic jobs from Brian's asks.
+
+## [2026-08-17] feature | School digest Important items are checkable in the Doc
+
+- Brian asked for checkboxes in the digest Doc with smart carry-forward of what he checks off.
+- Important items render as native Google Docs checklist items (`BULLET_CHECKBOX` via `createParagraphBullets`).
+- The Docs API does not expose checked state, so each run exports the Doc as HTML via Drive and treats struck-through (`text-decoration:line-through`) checklist lines as done; matches use the `doc_line` text stored per eval-ledger entry; done verdicts drop the item from all future rebuilds.
+- Verified end-to-end: browser subagent checked the English I syllabus item; next run logged "checked off in Doc: English I: North" and rebuilt Important with 3 items.
+- Local `cursor-agent` is now logged in (Brian approved the browser flow), so local LLM evaluation works; today it evaluated 4 new emails and learned 3 more facts.

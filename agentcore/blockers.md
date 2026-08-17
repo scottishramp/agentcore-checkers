@@ -6,12 +6,12 @@ Use this file for major ambiguities, external dependencies, or questions that ma
 
 ### 2026-08-16 | School digest LLM evaluation | No fast Gemini backend key; local Cursor CLI not logged in
 
-- Status: open
-- Blocker: The LLM email evaluator prefers Gemini REST (`GEMINI_API_KEY`) but the key exists only in Vercel env; `npx vercel env pull` hangs because the local Vercel CLI session auth has expired, and the key is not in local `.env` or GitHub Actions secrets. Separately, local `cursor-agent` is not logged in, so live LLM evaluation can only be tested through CI (which has `CURSOR_API_KEY`).
-- Why it matters: In CI the evaluator uses the Cursor CLI backend (slower/heavier than a direct Gemini call). Locally only the keyword fallback can be tested.
-- Proposed default: Run production evaluation on the Cursor CLI backend in CI. If Brian adds `GEMINI_API_KEY` to GitHub Actions secrets (same key as Vercel's `GOOGLE_AI_STUDIO_API_KEY`) or runs `cursor-agent login` locally, both faster paths light up with no code change.
-- Needed from user: Optionally add `GEMINI_API_KEY` repo secret and/or run `~/.local/bin/cursor-agent login` once on the Mac.
-- Resolution:
+- Status: partially resolved
+- Blocker: The LLM email evaluator prefers Gemini REST (`GEMINI_API_KEY`) but the key exists only in Vercel env; `npx vercel env pull` hangs because the local Vercel CLI session auth has expired, and the key is not in local `.env` or GitHub Actions secrets. Separately, local `cursor-agent` was not logged in.
+- Why it matters: In CI the evaluator uses the Cursor CLI backend (slower/heavier than a direct Gemini call).
+- Proposed default: Run production evaluation on the Cursor CLI backend. Adding `GEMINI_API_KEY` to GitHub Actions secrets (same key as Vercel's `GOOGLE_AI_STUDIO_API_KEY`) lights up the faster path with no code change.
+- Needed from user: Optionally add `GEMINI_API_KEY` repo secret.
+- Resolution: Local Cursor CLI logged in 2026-08-17 (Brian approved the browser flow; `cursor-agent status` shows logged in as briandherbert@gmail.com), so local LLM evaluation now works. Gemini key remains optional-open.
 
 ### 2026-06-29 | Fast router deploy automation | Missing headless Vercel token
 

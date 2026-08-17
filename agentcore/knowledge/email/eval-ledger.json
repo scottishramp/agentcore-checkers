@@ -334,6 +334,8 @@
         "children": [
           "Daniel"
         ],
+        "done": true,
+        "done_at": "2026-08-17T23:21:38.718925+00:00",
         "due_date": null,
         "learn": [],
         "line": "Need: Fill out the English I digital syllabus form with Daniel within the first week.",

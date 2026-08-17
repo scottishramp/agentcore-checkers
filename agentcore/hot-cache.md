@@ -65,6 +65,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- School digest checkboxes (2026-08-17): Important items are native Doc checklist items; each run exports the Doc HTML via Drive, reads struck-through lines as checked, marks the eval-ledger verdict done, and drops the item. Local `cursor-agent` is now logged in, so local LLM evaluation works.
 - School digest LLM-first evaluation (2026-08-16): `scripts/email/email_evaluator.py` classifies each email once via Cursor CLI (or Gemini key when set), ledger `agentcore/knowledge/email/eval-ledger.json`, learn entries → roster + `family-facts.md`, unsubscribe Suggestions in the Doc, keyword fallback. Playbooks: `school-comms-digest.md`, `agentic-jobs-cursor-cli.md`.
 - Agentic-jobs playbook (2026-08-16): how the runner installs/authenticates/invokes Cursor CLI headless, plus the recipe for turning Brian's asks into scheduled agentic jobs — `agentcore/knowledge/playbooks/agentic-jobs-cursor-cli.md`.
 - School comms digest v5 (2026-08-16): one distilled Need/FYI/No-action line per item, no email excerpts; Important holds only real to-dos; sweep learns teachers/sports/activities onto the roster and children page.
