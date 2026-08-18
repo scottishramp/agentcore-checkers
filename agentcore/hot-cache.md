@@ -46,8 +46,8 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Google operating model: know what Brian shares with `scottishramp@gmail.com`, treat Brian-shared Drive/Calendar/Workspace resources as read surfaces unless explicit edit authority is granted, and write/organize durable artifacts in AgentCore's own Google space. Brian's personal Gmail is an explicit exception: read, label, archive, and trash via `npm run email:brian`.
 - Use `briandherbert@gmail.com` and Brian's direct Google Chat with AgentCore as trusted client channels for questions, updates, and task requests.
 - Treat direct trusted-client emails as agent instructions. Treat forward-only emails as source knowledge unless Brian adds instructions above the forwarded content.
-- Fast chat via `@AgentCoreFam_bot`; send `version` for live router semver. Health endpoint exposes `context_hash`, `context_files`, and `has_nathan_birthdate` to prove Vercel has the latest repo context. Async agent runs on GitHub Actions schedule, not per message.
-- Telegram operating contract: fast layer answers only from current repo context and uses fixed defer text when uncertain; async Cursor reads committed Telegram inbox records plus `agentcore/knowledge/communications/telegram-transcript.md`, then decides durable knowledge vs action task vs no-op and may post back to Telegram.
+- Fast chat via `@AgentCoreFam_bot`; send `version` for live router semver. Health endpoint exposes `context_hash`, `context_files`, and `has_nathan_birthdate` to prove Vercel has the latest repo context. Async agent runs on GitHub Actions schedule, not per message. Fast layer has no realtime knowledge-write capability; scheduled/nightly Cursor review adds durable facts and refreshes awareness.
+- Telegram operating contract: fast layer answers only from current repo context and uses fixed defer text when uncertain; for knowledge updates it only acknowledges queueing. Async Cursor reads committed Telegram inbox records plus `agentcore/knowledge/communications/telegram-transcript.md`, then decides durable knowledge vs action task vs no-op and may post back to Telegram.
 - If Brian says exactly `sync`, use the project `github-sync` skill to sync local and remote GitHub state with Cursor agent judgment. Do not rely on a custom sync script.
 - For email chains, process only when Brian is the latest meaningful sender in the Gmail thread. AgentCore's reply should be the last thread message until Brian replies again.
 - Trusted-client email tasks may self-update this repo for AgentCore behavior, integrations, workflows, scripts, rules, docs, and knowledge. Successful GitHub Actions workspace edits are committed and pushed before the completion email.
@@ -65,14 +65,13 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Nathan school football (2026-08-18): Plays Cheyenne school football with daily practice; roster + children page + family-facts updated. Fast router `2.4.1`: knowledge_update acks must say queued for async/nightly ingest, not that knowledge was already written.
 - School digest checkboxes (2026-08-17): Important items are native Doc checklist items; each run exports the Doc HTML via Drive, reads struck-through lines as checked, marks the eval-ledger verdict done, and drops the item. Local `cursor-agent` is now logged in, so local LLM evaluation works.
 - School digest LLM-first evaluation (2026-08-16): `scripts/email/email_evaluator.py` classifies each email once via Cursor CLI (or Gemini key when set), ledger `agentcore/knowledge/email/eval-ledger.json`, learn entries → roster + `family-facts.md`, unsubscribe Suggestions in the Doc, keyword fallback. Playbooks: `school-comms-digest.md`, `agentic-jobs-cursor-cli.md`.
 - Agentic-jobs playbook (2026-08-16): how the runner installs/authenticates/invokes Cursor CLI headless, plus the recipe for turning Brian's asks into scheduled agentic jobs — `agentcore/knowledge/playbooks/agentic-jobs-cursor-cli.md`.
 - School comms digest v5 (2026-08-16): one distilled Need/FYI/No-action line per item, no email excerpts; Important holds only real to-dos; sweep learns teachers/sports/activities onto the roster and children page.
 - Burning Altar blog live (2026-08-16): https://burningaltar.com/; two Bear posts only; DNS apex/www → GitHub Pages; project `burningaltar-blog.md`.
 - Brian Gmail mailbox access (2026-08-16): separate `gmail.modify` token for `briandherbert@gmail.com`; CLI `npm run email:brian`; playbook `brian-gmail-mailbox.md`.
-- GoDaddy delegate access live (2026-08-16): Products & Domains on Brian Herbert's account; inventory at `agentcore/knowledge/projects/domain-management.md`.
-- Async runner Cursor model default set to `grok-4.5` (2026-07-20); override via secret `AGENTCORE_CURSOR_MODEL` if needed.
 
 ## Operating Note: proactive Chat sends
 

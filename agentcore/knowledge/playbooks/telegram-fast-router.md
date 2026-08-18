@@ -2,9 +2,9 @@
 
 ## Architecture
 
-**Fast layer (Vercel):** Gemini + repo context snapshot + Redis history → instant reply. No Cursor startup, no durable classification.
+**Fast layer (Vercel):** Gemini + repo context snapshot + Redis history → instant reply. No Cursor startup, no durable classification, and **no realtime knowledge writes**. Acknowledgments for `knowledge_update` must say the item is queued for the scheduled async agent — never that knowledge was already saved.
 
-**Async layer (GitHub Actions):** Write-capable scheduled pull from Redis inbox → transcript + per-message Cursor review tasks → Telegram notifications when useful → Vercel redeploy.
+**Async layer (GitHub Actions):** Write-capable scheduled pull from Redis inbox → transcript + per-message Cursor review tasks → durable knowledge updates / awareness refresh → Telegram notifications when useful → Vercel redeploy. This is the path that actually adds facts Brian asked to store.
 
 ## Setup
 

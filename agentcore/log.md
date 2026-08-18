@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-18] knowledge | Nathan football + fast-router no realtime writes
+
+- Brian (Telegram): Nathan plays school football with daily practice; stored on children page, `2026-27-roster.json`, and `family-facts.md`.
+- Brian clarified fast Telegram has no realtime knowledge-write capability; scheduled/nightly async Cursor review adds facts and refreshes awareness.
+- Fast router bumped to `2.4.1`: `knowledge_update` acknowledgments must say queued for async ingest, never that knowledge was already saved.
+
 ## [2026-08-16] knowledge | School digest v5: distilled actionables only
 
 - Each bullet is now one distilled line — Need (quoting the ask), FYI (key fact), or No action (topic) — with no raw email excerpts.

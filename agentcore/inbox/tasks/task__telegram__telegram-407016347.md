@@ -1,26 +1,26 @@
 ---
 task_id: "task-telegram-407016347-telegram-dm-8983527816"
-status: "queued"
+status: "done"
 priority: "normal"
 source_message_id: "telegram:407016347"
 source_uid: "telegram:407016347"
 source_from: "telegram:8983527816"
 source_subject: "Review Telegram message"
 thread_key: "telegram:dm:8983527816"
-telegram_chat_id: "8983527816"
-telegram_user_id: "8983527816"
-telegram_username: ""
 source_kind: "telegram"
 reply_style: "natural"
 queued_at: "2026-08-18T14:07:08.846826+00:00"
-updated_at: "2026-08-18T14:07:08.846826+00:00"
-attempts: 0
-claimed_at: ""
-run_id: ""
-completed_at: ""
+updated_at: "2026-08-18T14:09:02.277947+00:00"
+attempts: 1
+claimed_at: "2026-08-18T14:07:25.401728+00:00"
+run_id: "32146373276"
+completed_at: "2026-08-18T14:09:02.277947+00:00"
 snagged_at: ""
 last_error: ""
-result_path: ""
+result_path: ".agentcore/state/task-run-result.json"
+telegram_chat_id: "8983527816"
+telegram_user_id: "8983527816"
+telegram_username: ""
 ---
 
 # Review Telegram message

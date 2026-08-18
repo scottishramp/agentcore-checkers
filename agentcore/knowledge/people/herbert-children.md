@@ -41,7 +41,7 @@ Brian confirmed 2026-08-16. Teacher names are from Infinite Campus schedule emai
 | Child | Grade | School | Homeroom / advisory | Notes |
 |-------|-------|--------|---------------------|-------|
 | Daniel | 9 | Edmond North High School | n/a (high school) | Sports: Basketball (Corbin Byford); Track (Kelly Beck). English I: Samantha Choate. English I co-teacher: Jacob Wolery. |
-| Nathan | 8 | Cheyenne Middle School | Devan Johnson (Rm 109) | English 8: Olivia Copenhaver. |
+| Nathan | 8 | Cheyenne Middle School | Devan Johnson (Rm 109) | English 8: Olivia Copenhaver. Sports: school football; practice daily (Brian, 2026-08-18). |
 | Ezra | 6 | Cheyenne Middle School | Madison Shafer (Rm 306), 06 - Black Jack | Activities: Band Flute/Saxophone 6 (JoeLee Mills). English 6: Craig Burney. |
 | Silver | 4 | Frontier Elementary | Arabella Trofemuk | 4th grade partner / switch teacher: Ms. Schaefer. |
 | Levi | 1 | Frontier Elementary | Mrs. Scott | Seesaw posts to Levi's journal. |

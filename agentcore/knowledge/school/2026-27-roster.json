@@ -178,7 +178,15 @@
         "crampton",
         "paries"
       ],
-      "sports": [],
+      "sports": [
+        {
+          "sport": "Football",
+          "team": "Cheyenne Middle School football",
+          "notes": "Practice daily",
+          "confidence": "confirmed",
+          "source": "Brian Telegram 2026-08-18"
+        }
+      ],
       "activities": []
     },
     {

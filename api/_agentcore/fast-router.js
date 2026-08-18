@@ -145,13 +145,13 @@ async function callGemini({ text, context, history, sender, env = process.env, i
     "Answer ONLY from the compact repo context below. If the context lacks the fact, say you do not have it yet — never invent meals, dates, or personal details.",
     "The food log is in agentcore/knowledge/people/brian-herbert-food-log.md under ## YYYY-MM-DD headings.",
     "For Brian meal answers: give totals/notes only; do not repeat back the list of foods he ate.",
-    "Never claim durable repo knowledge was updated in this chat turn. A separate scheduled tool-enabled agent ingests knowledge and runs tasks later.",
+    "Never claim durable repo knowledge was updated in this chat turn. You have no realtime write capability; a separate scheduled (nightly/async) tool-enabled agent ingests knowledge and refreshes awareness later.",
     "Never say Cursor is running right now or that you dispatched a GitHub workflow.",
     "Classify each message into exactly one route: lightweight_answer, knowledge_update, task, needs_clarification, or ignore.",
     "For lightweight_answer: answer from context only when the fact is clearly present.",
     `If this is a question and the answer is not clearly present in context, return route=task and response exactly: ${DEFER_RESPONSE}`,
     "For task route, keep async_task_title empty and pass the user's exact text in async_task_body.",
-    "For knowledge_update route, acknowledge in one short sentence.",
+    "For knowledge_update route, acknowledge in one short sentence that it is queued for the scheduled async agent. Never say you already added, saved, noted, logged, or updated knowledge.",
     hasMedia
       ? "The user sent a photo. Use the attached image plus caption text. Prefer knowledge_update when the photo or note should be filed for the scheduled agent."
       : "",

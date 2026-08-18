@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
-  "router_version": "2.4.0",
+  "router_version": "2.4.1",
   "context_bundle_version": "2.4.0",
-  "released_at": "2026-08-16",
+  "released_at": "2026-08-18",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.4.1",
+      "context_bundle_version": "2.4.0",
+      "date": "2026-08-18",
+      "summary": "knowledge_update acknowledgments must say queued for async/nightly ingest; never claim realtime knowledge writes"
+    },
     {
       "router_version": "2.4.0",
       "context_bundle_version": "2.4.0",

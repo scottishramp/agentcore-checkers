@@ -7,9 +7,9 @@ Canonical version record for the fast Telegram router.
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.4.0** |
+| Router version | **2.4.1** |
 | Context bundle version | **2.4.0** |
-| Released | 2026-08-16 |
+| Released | 2026-08-18 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
 | Endpoint | `https://agentcore-fast-router.vercel.app/api/agentcore-telegram` |
 
@@ -48,6 +48,11 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.4.1 — 2026-08-18
+
+- `knowledge_update` acknowledgments must say the fact is queued for the scheduled async/nightly agent.
+- Never claim realtime durable knowledge writes (Brian clarification via Telegram).
 
 ### 2.4.0 context — 2026-08-16
 

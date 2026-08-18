@@ -1,6 +1,6 @@
 # AgentCore System Architecture
 
-Last updated: 2026-08-16
+Last updated: 2026-08-18
 
 ## Purpose
 
@@ -11,6 +11,7 @@ Operational goal:
 - This repository is the canonical personal context store for Brian.
 - New context can enter through trusted chat/email messages and shared Google docs.
 - Fast Telegram chat should answer from the latest repo knowledge when possible.
+- Fast Telegram has **no realtime write capability**; it may only queue messages. Brian (2026-08-18): the scheduled/nightly async job adds durable knowledge and refreshes awareness.
 - The async Cursor agent is the authoritative worker that ingests new info, decides what is durable knowledge vs coding/action task, updates repo knowledge, and refreshes fast-layer deployment.
 
 ## Identities

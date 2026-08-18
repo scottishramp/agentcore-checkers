@@ -8,6 +8,7 @@ Appended automatically by `scripts/email/school_digest.py`; prune or correct fre
 - 2026-08-16: Frontier North carline (back of school): tag 300s–500s and 900s for families with only 3rd–5th graders; enter via east playground gate; exit right onto Penn.
 - 2026-08-16: Frontier families with a PK–2 sibling use the South carline (front) instead of North.
 - 2026-08-16: Nathan: Cheyenne offers iTEACH as a semester elective for 8th graders.
+- 2026-08-18: Nathan: plays school football; practice daily (Brian via Telegram).
 
 - 2026-08-17: Daniel: Planning time 5th hour 1:10–2:05.
 - 2026-08-17: EPS screens Reading & Math three times yearly with Renaissance assessments.
