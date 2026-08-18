@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-18T11:22:00.617851+00:00",
+  "updated_at": "2026-08-18T14:07:08.847283+00:00",
   "messages": {
     "telegram:407016335": {
       "message_id": "telegram:407016335",
@@ -89,6 +89,22 @@
       "task_id": "task-telegram-407016345-telegram-dm-8983527816",
       "telegram_chat_id": "8983527816",
       "updated_at": "2026-07-14T22:03:18.431453+00:00"
+    },
+    "telegram:407016347": {
+      "message_id": "telegram:407016347",
+      "route": "ignore",
+      "status": "queued",
+      "task_id": "task-telegram-407016347-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-18T14:07:08.846902+00:00"
+    },
+    "telegram:407016346": {
+      "message_id": "telegram:407016346",
+      "route": "knowledge_update",
+      "status": "queued",
+      "task_id": "task-telegram-407016346-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-18T14:07:08.847273+00:00"
     }
   }
 }
