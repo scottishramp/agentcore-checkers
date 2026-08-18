@@ -37,4 +37,4 @@ Brian asked for a Drive Doc with:
 
 - Tighten Important vs per-kid vs General from Brian's Doc reactions.
 - Add Mrs. Scott's email when it appears in Gmail.
-- Record Nathan / Silver / Levi sports if they join teams.
+- Record Silver / Levi sports if they join teams (Nathan: school football, practice daily — 2026-08-18).
