@@ -562,6 +562,8 @@
           "Nathan",
           "Ezra"
         ],
+        "done": true,
+        "done_at": "2026-08-18T14:07:19.727927+00:00",
         "due_date": null,
         "learn": [],
         "line": "Need: Sign up for Cheyenne Fun Food Friday volunteering via the PTO SignUpGenius if you can help.",
@@ -611,6 +613,8 @@
         "children": [
           "Nathan"
         ],
+        "done": true,
+        "done_at": "2026-08-18T14:07:19.727927+00:00",
         "due_date": "2026-08-31",
         "learn": [],
         "line": "Need: Get Nathan\u2019s 8th-grade FCS sewing supplies (list sent home / in Wildman\u2019s S\u2019more); due 8/31.",
@@ -724,6 +728,8 @@
         "children": [
           "Daniel"
         ],
+        "done": true,
+        "done_at": "2026-08-18T14:07:19.727927+00:00",
         "due_date": null,
         "learn": [
           {
