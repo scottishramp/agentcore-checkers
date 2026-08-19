@@ -766,6 +766,121 @@
         "relevant": true,
         "unsubscribe": false
       }
+    },
+    "1a015c36687ffd0f": {
+      "backend": "cursor",
+      "date": "Tue, 18 Aug 2026 16:45:21 +0000 (UTC)",
+      "doc_line": "Tue 8/18 \u00b7 TONIGHT \u00b7 Nathan, Ezra \u2014 Need: Buy Cheyenne GoFan passes for cashless volleyball/football ticketing; volleyball tip-off was Tue Aug 18 at 5pm. Link",
+      "evaluated_at": "2026-08-19T11:22:20.722992+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a015c36687ffd0f",
+      "subject": "GoFanApp for all ticketing events",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": null,
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Cheyenne Middle School uses GoFanApp for cashless event ticketing; passes cover volleyball and football games"
+          }
+        ],
+        "line": "Need: Buy Cheyenne GoFan passes for cashless volleyball/football ticketing; volleyball tip-off was Tue Aug 18 at 5pm.",
+        "need": "Buy Cheyenne GoFan passes for cashless ticketing at volleyball and football games.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a01676142d97aa2": {
+      "backend": "cursor",
+      "date": "Tue, 18 Aug 2026 20:00:31 +0000",
+      "evaluated_at": "2026-08-19T11:22:20.722987+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://app.smore.com/n/7s9qtv",
+      "subject": "Cheyene Band First Day of School",
+      "verdict": {
+        "category": "teacher_info",
+        "children": [
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": "Ezra",
+            "person": "Mrs. Epperly",
+            "role": "Band",
+            "type": "teacher",
+            "value": "Cheyenne band staff"
+          },
+          {
+            "child": "Ezra",
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Cheyenne band newsletter usually goes out every Monday"
+          }
+        ],
+        "line": "FYI: Cheyenne band will send a weekly newsletter (usually Mondays); staff contacts include Mrs. Mills and Mrs. Epperly.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a016781c29758b1": {
+      "backend": "cursor",
+      "date": "Tue, 18 Aug 2026 20:02:44 +0000 (UTC)",
+      "doc_line": "Tue 8/18 \u00b7 Daniel \u2014 Need: Buy a digital GoFan student pass for North High sporting events (access code = student ID) and bring student ID to events. Link",
+      "evaluated_at": "2026-08-19T11:22:20.722979+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0?ui=2&ik=fc56c685f6&attid=0.1&permmsgid=msg-f:1873889089437328089&th=1a016432d46462d9&view=fimg&fur=ip&permmsgid=msg-f:1873889089437328089&sz=s0-l75-ft&attbid=ANGjdJ_z0d3XkmAI9P7MMwiKOTMOOt7grWvDIUBy7ESnqa-W_grDeTxAwKUKNvlU-sMltg0rmz6kp1jngQxGvqkWcrO79peY7DJ3_9WYufS9vdLrBVJsl6vX8xEix_w&disp=emb&realattid=ii_msz0z1r90&zw",
+      "subject": "Student Passes and Sporting Event Regulations",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": "Daniel",
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Edmond North High sporting events are cashless; student passes are purchased on GoFan with student ID as the access code"
+          }
+        ],
+        "line": "Need: Buy a digital GoFan student pass for North High sporting events (access code = student ID) and bring student ID to events.",
+        "need": "Buy a digital GoFan student pass for North High sporting events using the student ID as the access code.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a016b9eb4272cf8": {
+      "backend": "cursor",
+      "date": "Tue, 18 Aug 2026 21:14:36 +0000 (UTC)",
+      "evaluated_at": "2026-08-19T11:22:20.722957+00:00",
+      "from": "Frontier Elementary School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a016b9eb4272cf8",
+      "subject": "Important Arrival & Dismissal Information for Falcon Families",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Silver",
+          "Levi"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Frontier asks families to watch the arrival/dismissal video and review the map and procedures (use the transportation-change form if pickup plans change).",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
     }
   },
   "version": 1

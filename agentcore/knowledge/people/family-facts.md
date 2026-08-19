@@ -13,3 +13,7 @@ Appended automatically by `scripts/email/school_digest.py`; prune or correct fre
 - 2026-08-17: Daniel: Planning time 5th hour 1:10–2:05.
 - 2026-08-17: EPS screens Reading & Math three times yearly with Renaissance assessments.
 - 2026-08-17: Daniel: Behavior screened three times yearly via SAEBRS/mySAEBRS.
+
+- 2026-08-19: Daniel: Edmond North High sporting events are cashless; student passes are purchased on GoFan with student ID as the access code.
+- 2026-08-19: Ezra: Cheyenne band newsletter usually goes out every Monday.
+- 2026-08-19: Cheyenne Middle School uses GoFanApp for cashless event ticketing; passes cover volleyball and football games.

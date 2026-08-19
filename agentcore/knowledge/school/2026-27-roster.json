@@ -245,6 +245,13 @@
           "name": "Health / Engineering / Drama rotation",
           "room": "510",
           "confidence": "schedule"
+        },
+        {
+          "role": "Band",
+          "name": "Mrs. Epperly",
+          "email": "",
+          "confidence": "llm-ingest",
+          "notes": "Learned 2026-08-19 by email evaluator."
         }
       ],
       "activities": [
@@ -252,6 +259,11 @@
           "name": "Band Flute/Saxophone 6",
           "advisor": "JoeLee Mills",
           "confidence": "schedule"
+        },
+        {
+          "name": "Band",
+          "advisor": "Mrs. Epperly",
+          "confidence": "llm-ingest"
         }
       ],
       "sender_needles": [
