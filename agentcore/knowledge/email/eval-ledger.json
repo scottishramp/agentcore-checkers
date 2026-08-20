@@ -881,6 +881,201 @@
         "relevant": true,
         "unsubscribe": false
       }
+    },
+    "1a01a0821b49f9b3": {
+      "backend": "cursor",
+      "date": "Wed, 19 Aug 2026 12:38:54 +0000",
+      "evaluated_at": "2026-08-20T11:23:41.490437+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://www.donorschoose.org/sl/Ag5GQWDYpo",
+      "subject": "6th Math Cheyenne Middle School",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Ezra"
+        ],
+        "due_date": "2026-08-19",
+        "learn": [],
+        "line": "FYI: 6th-grade math has a DonorsChoose project for calculators and games; 2026-08-19 Match Day donations were matched 50%.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a01a195276b8c2f": {
+      "backend": "cursor",
+      "date": "Wed, 19 Aug 2026 12:57:40 +0000",
+      "evaluated_at": "2026-08-20T11:23:41.490433+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://forms.gle/sC6AWDSKqJ1noYyq9",
+      "subject": "Science Safety Contract",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Nathan"
+        ],
+        "due_date": "2026-08-19",
+        "learn": [],
+        "line": "Need: Submit Nathan\u2019s 8th-grade Science Safety Contract via the Google Form with student digital signature and parent agreement by 2026-08-19 evening.",
+        "need": "Complete and turn in Nathan\u2019s Science Safety Contract Google Form with parent agreement.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a01a6e6aeb9073b": {
+      "backend": "cursor",
+      "date": "Wed, 19 Aug 2026 14:30:37 +0000 (UTC)",
+      "evaluated_at": "2026-08-20T11:23:41.490430+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a01a6e6aeb9073b",
+      "subject": "Cheyenne SAEBRS Survey Information",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": null,
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "EPS uses SAEBRS (teacher) and mySAEBRS (grades 2\u201312 self-assess) three times yearly under MTSS"
+          }
+        ],
+        "line": "FYI: Edmond screens K\u201312 students three times a year with SAEBRS (teacher) and mySAEBRS (student self-assess, grades 2\u201312) for social-emotional/behavioral support under MTSS.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a01aa7b0bd5b926": {
+      "backend": "cursor",
+      "date": "Wed, 19 Aug 2026 15:33:11 +0000",
+      "doc_line": "Wed 8/19 \u00b7 Daniel \u2014 Need: Join the Band app for off-season track updates and file a physical (plus any other RankOne forms) before workouts. Link",
+      "evaluated_at": "2026-08-20T11:23:41.490425+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://rankone.com/",
+      "subject": "Off season track, Band app informatiom",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": "Daniel",
+            "person": "",
+            "role": "Track",
+            "type": "sport",
+            "value": "Off-season track communicates via the Band app"
+          },
+          {
+            "child": "Daniel",
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Track athletes must have a physical filed on RankOne before working out; other RankOne forms may be required before season"
+          }
+        ],
+        "line": "Need: Join the Band app for off-season track updates and file a physical (plus any other RankOne forms) before workouts.",
+        "need": "Get Daniel on the Band app for off-season track and file his physical and any other RankOne forms.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a01b65ae07e7782": {
+      "backend": "cursor",
+      "date": "Wed, 19 Aug 2026 19:00:43 +0000 (UTC)",
+      "doc_line": "Wed 8/19 \u00b7 Silver, Levi \u2014 Need: Sign up as a Frontier Elementary homeroom parent volunteer (two per class) to help plan parties and liaise with teachers if you want the role. Link",
+      "evaluated_at": "2026-08-20T11:23:41.490419+00:00",
+      "from": "Frontier Elementary School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a01b65ae07e7782",
+      "subject": "Homeroom Parent Sign-Ups Are Open!  Don't Miss Out!",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Silver",
+          "Levi"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "Need: Sign up as a Frontier Elementary homeroom parent volunteer (two per class) to help plan parties and liaise with teachers if you want the role.",
+        "need": "Sign up as a Frontier Elementary homeroom parent volunteer if interested.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a01c03ed68e6ba7": {
+      "backend": "cursor",
+      "date": "Wed, 19 Aug 2026 21:53:32 +0000 (UTC)",
+      "evaluated_at": "2026-08-20T11:23:41.490413+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://www.inklingdesign.store/cheyennems-pinkout/shop/home",
+      "subject": "Cheyenne PinkOut Shirts Flash Sale",
+      "verdict": {
+        "category": "irrelevant",
+        "children": [],
+        "due_date": null,
+        "learn": [],
+        "line": "",
+        "need": null,
+        "relevant": false,
+        "unsubscribe": true
+      }
+    },
+    "1a01c0cc1f72ba1d": {
+      "backend": "cursor",
+      "date": "Wed, 19 Aug 2026 22:03:12 +0000 (UTC)",
+      "evaluated_at": "2026-08-20T11:23:41.490406+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://app.smore.com/n/xjmzw",
+      "subject": "Cheyenne Athletics",
+      "verdict": {
+        "category": "sports",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Follow Cheyenne Athletics for updates; Lady Huskies wrestling open mat is Tuesdays and Thursdays 6\u20137:30 PM for 7th\u20138th grade girls (questions to Coach Burney).",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a01c424af24f65f": {
+      "backend": "cursor",
+      "date": "Wed, 19 Aug 2026 23:01:40 +0000 (UTC)",
+      "evaluated_at": "2026-08-20T11:23:41.490381+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a01c424af24f65f",
+      "subject": "GoFanApp for all ticketing events",
+      "verdict": {
+        "category": "sports",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": null,
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Cheyenne Middle School uses GoFanApp for cashless event ticketing; passes cover volleyball and football"
+          }
+        ],
+        "line": "FYI: Cheyenne is switching to cashless GoFanApp ticketing with family/student passes usable for volleyball and football; volleyball started 2026-08-19 at 5pm and the first game is Tuesday.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
     }
   },
   "version": 1

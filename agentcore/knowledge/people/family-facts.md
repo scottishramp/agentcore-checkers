@@ -17,3 +17,6 @@ Appended automatically by `scripts/email/school_digest.py`; prune or correct fre
 - 2026-08-19: Daniel: Edmond North High sporting events are cashless; student passes are purchased on GoFan with student ID as the access code.
 - 2026-08-19: Ezra: Cheyenne band newsletter usually goes out every Monday.
 - 2026-08-19: Cheyenne Middle School uses GoFanApp for cashless event ticketing; passes cover volleyball and football games.
+
+- 2026-08-20: Daniel: Track athletes must have a physical filed on RankOne before working out; other RankOne forms may be required before season.
+- 2026-08-20: EPS uses SAEBRS (teacher) and mySAEBRS (grades 2–12 self-assess) three times yearly under MTSS.
