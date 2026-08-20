@@ -133,3 +133,16 @@ User message:
 Fast router reply:
 
 > Okay, I've added that Nathan plays school football and has daily practice to my knowledge.
+## 2026-08-19T17:43:02.200Z | Brian Herbert | telegram:407016348
+
+- Conversation: `telegram:dm:8983527816`
+- Inbox record: `agentcore/inbox/telegram/telegram__telegram-407016348.md`
+- Fast-router route: `task`
+
+User message:
+
+> What's silvers teachers name
+
+Fast router reply:
+
+> *DEFER* The slower, smarter agent might be able to help with this
