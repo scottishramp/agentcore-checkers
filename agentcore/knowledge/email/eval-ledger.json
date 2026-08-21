@@ -1160,6 +1160,24 @@
         "relevant": true,
         "unsubscribe": false
       }
+    },
+    "1a02468b087062f5": {
+      "backend": "cursor",
+      "date": "Fri, 21 Aug 2026 13:00:34 +0000 (UTC)",
+      "evaluated_at": "2026-08-21T14:07:37.073002+00:00",
+      "from": "Frontier Elementary School <donotreply@edmondschools.net>",
+      "link": "https://my.cheddarup.com/c/fall-spirit-wear-pre-order-61478/items",
+      "subject": "Last Call! Only 1 week left to grab your Frontier spirit wear!",
+      "verdict": {
+        "category": "irrelevant",
+        "children": [],
+        "due_date": null,
+        "learn": [],
+        "line": "",
+        "need": null,
+        "relevant": false,
+        "unsubscribe": false
+      }
     }
   },
   "version": 1
