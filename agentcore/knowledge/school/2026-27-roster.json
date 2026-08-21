@@ -252,6 +252,20 @@
           "email": "",
           "confidence": "llm-ingest",
           "notes": "Learned 2026-08-19 by email evaluator."
+        },
+        {
+          "role": "Band",
+          "name": "Dr. Coker",
+          "email": "",
+          "confidence": "llm-ingest",
+          "notes": "Learned 2026-08-21 by email evaluator."
+        },
+        {
+          "role": "Band",
+          "name": "Mrs. Epperly-Reiswig",
+          "email": "",
+          "confidence": "llm-ingest",
+          "notes": "Learned 2026-08-21 by email evaluator."
         }
       ],
       "activities": [

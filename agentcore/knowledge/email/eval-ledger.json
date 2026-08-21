@@ -1076,6 +1076,90 @@
         "relevant": true,
         "unsubscribe": false
       }
+    },
+    "1a021165b4318bf9": {
+      "backend": "cursor",
+      "date": "Thu, 20 Aug 2026 16:31:35 -0500",
+      "evaluated_at": "2026-08-21T11:22:20.284885+00:00",
+      "from": "Arabella Trofemuk <arabella.trofemuk@edmondschools.net>",
+      "link": "http://frontier.edmondschools.net/",
+      "subject": "First Thursday folder",
+      "verdict": {
+        "category": "teacher_info",
+        "children": [
+          "Silver"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": "Silver",
+            "person": "",
+            "role": "",
+            "type": "fact",
+            "value": "Thursday folder each week with school info, work, and a timed verbal math multiplication sheet"
+          }
+        ],
+        "line": "FYI: Frontier 4th grade sends Thursday folders home each week with school info, work, and a math multiplication sheet (timed verbally 60 seconds at school).",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a02168c96604152": {
+      "backend": "cursor",
+      "date": "Thu, 20 Aug 2026 23:01:48 +0000 (UTC)",
+      "evaluated_at": "2026-08-21T11:22:20.284877+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a02168c96604152",
+      "subject": "Open House - August 24th",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": "2026-08-24",
+        "learn": [],
+        "line": "FYI: Cheyenne Middle School Open House is August 24.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a0219fcb6584f33": {
+      "backend": "cursor",
+      "date": "Fri, 21 Aug 2026 00:01:52 +0000",
+      "evaluated_at": "2026-08-21T11:22:20.284850+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://docs.google.com/document/d/1vH65di5bgMpc6UzAUcgK0OTPCkl4-QWA6SPKjNtGNXg/edit?usp=sharing",
+      "subject": "Cheyenne Band - ensuring everyone has correct band calendar 26-27",
+      "verdict": {
+        "category": "teacher_info",
+        "children": [
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [
+          {
+            "child": "Ezra",
+            "person": "Dr. Coker",
+            "role": "Band",
+            "type": "teacher",
+            "value": "Cheyenne Band staff"
+          },
+          {
+            "child": "Ezra",
+            "person": "Mrs. Epperly-Reiswig",
+            "role": "Band",
+            "type": "teacher",
+            "value": "Band (fuller name)"
+          }
+        ],
+        "line": "FYI: Cheyenne Band shared the correct 26-27 band calendar (band room and Cheyenne band website).",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
     }
   },
   "version": 1
