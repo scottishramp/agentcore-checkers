@@ -183,7 +183,7 @@ def _call_cursor(prompt: str) -> str:
     cli = find_cursor_cli()
     if not cli:
         raise FileNotFoundError("Cursor Agent CLI not found.")
-    model = os.getenv("AGENTCORE_EMAIL_EVAL_MODEL") or os.getenv("AGENTCORE_CURSOR_MODEL") or "grok-4.5"
+    model = os.getenv("AGENTCORE_EMAIL_EVAL_MODEL") or os.getenv("AGENTCORE_CURSOR_MODEL") or "grok-4.6"
     command = [cli, "-p", "--output-format", "text", "--trust", "--model", model, prompt]
     proc = subprocess.run(
         command,

@@ -132,7 +132,7 @@ jobs:
       - name: Send school communications digest
         env:
           CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
-          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'grok-4.5' }}
+          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'grok-4.6' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON }}
           AGENTCORE_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_GMAIL_AUTHORIZED_USER_JSON }}
@@ -232,7 +232,7 @@ jobs:
           AGENTCORE_TASK_RUN_COMMAND: ${{ secrets.AGENTCORE_TASK_RUN_COMMAND || 'python3 scripts/agent/run_cursor_task.py --task-file {{TASK_FILE}} --workspace .' }}
           AGENTCORE_TASK_RUN_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_TASK_RUN_TIMEOUT_SECONDS || '900' }}
           AGENTCORE_CURSOR_TIMEOUT_SECONDS: ${{ secrets.AGENTCORE_CURSOR_TIMEOUT_SECONDS || '1200' }}
-          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'grok-4.5' }}
+          AGENTCORE_CURSOR_MODEL: ${{ secrets.AGENTCORE_CURSOR_MODEL || 'grok-4.6' }}
           AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON: ${{ secrets.AGENTCORE_BRIAN_GMAIL_AUTHORIZED_USER_JSON }}
         run: |
           python3 scripts/email/run_task_adapter.py \

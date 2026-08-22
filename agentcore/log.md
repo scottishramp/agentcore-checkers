@@ -601,3 +601,9 @@ Synthesized all learnings from the checkers project into AgentCore:
 - The Docs API does not expose checked state, so each run exports the Doc as HTML via Drive and treats struck-through (`text-decoration:line-through`) checklist lines as done; matches use the `doc_line` text stored per eval-ledger entry; done verdicts drop the item from all future rebuilds.
 - Verified end-to-end: browser subagent checked the English I syllabus item; next run logged "checked off in Doc: English I: North" and rebuilt Important with 3 items.
 - Local `cursor-agent` is now logged in (Brian approved the browser flow), so local LLM evaluation works; today it evaluated 4 new emails and learned 3 more facts.
+
+## [2026-08-22] architecture | Async runner uses Grok 4.6
+
+- Brian asked to switch the GitHub Actions async job from Grok 4.5 to Grok 4.6 (same $2/$6 Cursor Models pool rate).
+- Default `AGENTCORE_CURSOR_MODEL` changed from `grok-4.5` to `grok-4.6` in `agent-runner.yml`, `scripts/agent/run_cursor_task.py`, and `scripts/email/email_evaluator.py`.
+- Optional override remains via GitHub secret `AGENTCORE_CURSOR_MODEL`.

@@ -39,7 +39,7 @@ cursor-agent -p --output-format text --trust --model "$MODEL" "$PROMPT"
 - `--trust` skips the workspace-trust prompt (required in CI, harmless locally).
 - `--workspace .` optionally pins the workspace (used by the task adapter so the agent can edit
   the repo).
-- Model comes from `AGENTCORE_CURSOR_MODEL` secret, default `grok-4.5`.
+- Model comes from `AGENTCORE_CURSOR_MODEL` secret, default `grok-4.6`.
 - Wrap in `subprocess.run(..., timeout=...)`; the runner uses 900–1200 s
   (`AGENTCORE_TASK_RUN_TIMEOUT_SECONDS`, `AGENTCORE_CURSOR_TIMEOUT_SECONDS`).
 

@@ -63,7 +63,7 @@ A daily **school communications digest** reads that mailbox, applies the `26-27 
 ## Workflows
 
 - `.github/workflows/email-sync.yml`: email inbox fetch/triage, Drive metadata ingest, runner dispatch (daily 6:00 AM America/Chicago). It intentionally does **not** consume Telegram.
-- `.github/workflows/agent-runner.yml`: Telegram fetch/triage/transcript commit, school digest with LLM email evaluation (Cursor CLI installed before the digest step; `CURSOR_API_KEY` + optional `GEMINI_API_KEY`), task execution via Cursor CLI model `grok-4.5` (override with secret `AGENTCORE_CURSOR_MODEL`), Telegram notifications, Vercel redeploy (daily 8:30 AM America/Chicago, and after email-sync completes).
+- `.github/workflows/agent-runner.yml`: Telegram fetch/triage/transcript commit, school digest with LLM email evaluation (Cursor CLI installed before the digest step; `CURSOR_API_KEY` + optional `GEMINI_API_KEY`), task execution via Cursor CLI model `grok-4.6` (override with secret `AGENTCORE_CURSOR_MODEL`), Telegram notifications, Vercel redeploy (daily 8:30 AM America/Chicago, and after email-sync completes).
 - `.github/workflows/knowledge-content-ingest.yml`: **knowledge content ingest** — Gmail bodies, Telegram inbox records, and allowlisted shared Drive doc exports; activates deferred content tasks; commits exported text; dispatches runner when content tasks or Telegram review tasks activate; attempts fast-router redeploy when `VERCEL_TOKEN` is present (daily 11:00 AM America/Chicago).
 
 **Removed:** Google Chat polling, Google Chat HTTP app (`/api/agentcore-chat`), and `router-task.yml` live `repository_dispatch`.
