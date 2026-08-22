@@ -1178,6 +1178,142 @@
         "relevant": false,
         "unsubscribe": false
       }
+    },
+    "1a02605ab3d09d44": {
+      "backend": "cursor",
+      "date": "Fri, 21 Aug 2026 20:31:40 +0000 (UTC)",
+      "evaluated_at": "2026-08-22T11:18:16.982089+00:00",
+      "from": "Frontier Elementary School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a02605ab3d09d44",
+      "subject": "Falcon News Flash ~ August 21, 2026",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Silver",
+          "Levi"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Frontier Falcon News Flash covers grade-level highlights, events, PTO, and reminders.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a02625a662d673d": {
+      "backend": "cursor",
+      "date": "Fri, 21 Aug 2026 21:06:34 +0000",
+      "doc_line": "Fri 8/21 \u00b7 Monday \u00b7 Daniel \u2014 Need: Dress Daniel for THUD Week (Mon freshmen green; Tue BBQ Dads vs Soccer Moms; Wed Heroes vs Villains; Thu Old vs Young; Fri USA or THUD shirts). Link",
+      "evaluated_at": "2026-08-22T11:18:16.982077+00:00",
+      "from": "messenger@edmondschools.net",
+      "link": "https://mail.google.com/mail/u/0/#all/1a02625a662d673d",
+      "subject": "THUD Week Dress Up Days",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": "2026-08-24",
+        "learn": [],
+        "line": "Need: Dress Daniel for THUD Week (Mon freshmen green; Tue BBQ Dads vs Soccer Moms; Wed Heroes vs Villains; Thu Old vs Young; Fri USA or THUD shirts).",
+        "need": "Have Daniel dress for THUD Week dress-up days.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a02658e69ddb4e6": {
+      "backend": "cursor",
+      "date": "Fri, 21 Aug 2026 22:02:34 +0000 (UTC)",
+      "doc_line": "Fri 8/21 \u00b7 Monday \u00b7 Nathan, Ezra \u2014 Need: Charge Chromebooks for Cheyenne STAR testing Monday and Tuesday. Link",
+      "evaluated_at": "2026-08-22T11:18:16.982072+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a02658e69ddb4e6",
+      "subject": "Cheyenne Student Testing",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": "2026-08-24",
+        "learn": [],
+        "line": "Need: Charge Chromebooks for Cheyenne STAR testing Monday and Tuesday.",
+        "need": "Charge Chromebooks for STAR testing Monday and Tuesday.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a0268c2cddec68b": {
+      "backend": "cursor",
+      "date": "Fri, 21 Aug 2026 22:58:34 +0000 (UTC)",
+      "doc_line": "Fri 8/21 \u00b7 Nathan, Ezra \u2014 Need: Email Cheyenne Spotlight audition video (max 5 minutes) to Mrs. Haught by September 2. Link",
+      "evaluated_at": "2026-08-22T11:18:16.982067+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://mail.google.com/mail/u/0/#all/1a0268c2cddec68b",
+      "subject": "Cheyenne Spotlight Auditions",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": "2026-09-02",
+        "learn": [
+          {
+            "child": null,
+            "person": "Mrs. Haught",
+            "role": "",
+            "type": "activity",
+            "value": "Cheyenne Spotlight talent show (Spooky Scary Halloween theme); audition videos to Mrs. Haught, room 404"
+          }
+        ],
+        "line": "Need: Email Cheyenne Spotlight audition video (max 5 minutes) to Mrs. Haught by September 2.",
+        "need": "Email Spotlight audition video to Mrs. Haught by September 2.",
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a026ae1f15ca374": {
+      "backend": "cursor",
+      "date": "Fri, 21 Aug 2026 23:35:39 +0000 (UTC)",
+      "evaluated_at": "2026-08-22T11:18:16.982059+00:00",
+      "from": "Cheyenne Middle School <donotreply@edmondschools.net>",
+      "link": "https://app.smore.com/n/63hu0x",
+      "subject": "Cheyenne Mustang Round-Up Newsletter",
+      "verdict": {
+        "category": "fyi",
+        "children": [
+          "Nathan",
+          "Ezra"
+        ],
+        "due_date": null,
+        "learn": [],
+        "line": "FYI: Cheyenne Mustang Round-Up newsletter covers the first week and upcoming events.",
+        "need": null,
+        "relevant": true,
+        "unsubscribe": false
+      }
+    },
+    "1a026c516a6dddbc": {
+      "backend": "cursor",
+      "date": "Sat, 22 Aug 2026 00:00:45 +0000 (UTC)",
+      "doc_line": "Fri 8/21 \u00b7 this week \u00b7 Daniel \u2014 Need: Order North High spirit wear by the Tuesday deadline. Link",
+      "evaluated_at": "2026-08-22T11:18:16.982037+00:00",
+      "from": "North High School <donotreply@edmondschools.net>",
+      "link": "https://app.smore.com/n/1vb56",
+      "subject": "Husky Pride 08.21.26",
+      "verdict": {
+        "category": "action",
+        "children": [
+          "Daniel"
+        ],
+        "due_date": "2026-08-25",
+        "learn": [],
+        "line": "Need: Order North High spirit wear by the Tuesday deadline.",
+        "need": "Order North High spirit wear by Tuesday.",
+        "relevant": true,
+        "unsubscribe": false
+      }
     }
   },
   "version": 1

@@ -22,3 +22,5 @@ Appended automatically by `scripts/email/school_digest.py`; prune or correct fre
 - 2026-08-20: EPS uses SAEBRS (teacher) and mySAEBRS (grades 2–12 self-assess) three times yearly under MTSS.
 
 - 2026-08-21: Silver: Thursday folder each week with school info, work, and a timed verbal math multiplication sheet.
+
+- 2026-08-22: Cheyenne Spotlight talent show (Spooky Scary Halloween theme); audition videos to Mrs. Haught, room 404.
