@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-22] knowledge | Home address and important contacts
+
+- Brian: home is 2905 Overland Way, Edmond, OK 73012.
+- Important contacts from his phone favorites: Daniel, Nathan, Ezra (email + phone); Kristin and Mom (phone). Silver and Levi were not in that list.
+- Stored on people pages plus `knowledge/people/important-contacts.md`; fast context bundle `2.5.2`.
+
 ## [2026-08-22] ingest | Shared Drive docs: Life 2025 and Stuff we own
 
 - Brian shared `Life 2025` and `Stuff we own appliances cars` with `scottishramp@gmail.com`.

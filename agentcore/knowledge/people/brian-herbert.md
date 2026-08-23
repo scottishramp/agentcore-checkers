@@ -7,6 +7,7 @@ Brian Herbert is AgentCore's trusted client and the person AgentCore assists wit
 ## Contact
 
 - Primary email: `briandherbert@gmail.com`
+- Home: 2905 Overland Way, Edmond, OK 73012 (Brian, 2026-08-22)
 
 ## Personal Details
 

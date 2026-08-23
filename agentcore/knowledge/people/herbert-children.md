@@ -34,6 +34,16 @@ Source: Brian's shared **Life 2026** Google Doc (`1QJtmSeUCqIZ53uz4OIWTRVMC9s8yv
 | Silver Herbert | 2017-01-25 | 9 |
 | Levi Herbert | 2020-02-10 | 6 |
 
+## Contact (from Brian's important contacts, 2026-08-22)
+
+| Child | Phone | Email |
+|-------|-------|-------|
+| Daniel | +1 405-856-3608 | danielherb2011@gmail.com |
+| Nathan | +1 572-208-2766 | nathanherb2013@gmail.com |
+| Ezra | +1 405-363-8820 | ezraherb2015@gmail.com |
+| Silver | | |
+| Levi | | |
+
 ## 2026-27 Schools
 
 Brian confirmed 2026-08-16. Teacher names are from Infinite Campus schedule emails and teacher welcome messages in Brian's Gmail, unless noted. Machine-readable roster: `agentcore/knowledge/school/2026-27-roster.json`.

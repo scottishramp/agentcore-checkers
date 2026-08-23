@@ -13,7 +13,7 @@ Household inventory extracted from Brian's shared Google Doc (ingested 2026-08-2
 
 ## House
 
-- Street/area noted in the doc as **Overland** (Edmond, OK).
+- Address: **2905 Overland Way, Edmond, OK 73012** (Brian, 2026-08-22). The inventory doc only said Overland.
 - Built 1998.
 - Lot: 0.28 acres (~12,000 sq ft).
 - Backyard: 75 ft × 80 ft (~6,000 sq ft).

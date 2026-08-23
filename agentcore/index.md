@@ -35,6 +35,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Kristin Herbert](knowledge/people/kristin-herbert.md): Brian's spouse and immediate family context.
 - [Herbert Children](knowledge/people/herbert-children.md): Brian and Kristin's children for family administration context.
 - [Family Facts](knowledge/people/family-facts.md): household facts learned automatically by the email evaluator.
+- [Important Contacts](knowledge/people/important-contacts.md): Brian's saved family phone/email favorites.
 - [2026-27 School Roster](knowledge/school/2026-27-roster.json): schools, grades, and teacher names for the current year.
 - [School digest Google Doc registry](knowledge/school/digest-doc.json): live Doc id and share link.
 - [School Communications Digest](knowledge/projects/school-comms-digest.md): daily Telegram digest of kids' school email.

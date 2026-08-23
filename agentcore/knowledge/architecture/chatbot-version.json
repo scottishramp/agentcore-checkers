@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
-  "router_version": "2.5.1",
-  "context_bundle_version": "2.5.1",
+  "router_version": "2.5.2",
+  "context_bundle_version": "2.5.2",
   "released_at": "2026-08-22",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.5.2",
+      "context_bundle_version": "2.5.2",
+      "date": "2026-08-22",
+      "summary": "Home address and important family contacts in fast context"
+    },
     {
       "router_version": "2.5.1",
       "context_bundle_version": "2.5.1",
