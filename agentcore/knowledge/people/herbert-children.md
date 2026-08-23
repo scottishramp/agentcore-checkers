@@ -60,5 +60,6 @@ Brian confirmed 2026-08-16. Teacher names are from Infinite Campus schedule emai
 ## Administrative Context
 
 - Treat these names as Brian's children for family logistics, document categorization, calendar context, school/medical/travel records, and household administration.
+- Medical providers, insurance, allergies, and compact history: `agentcore/knowledge/people/medical-and-drs.md`. Silver, Ezra, and Daniel are allergic to amoxicillin (rash).
 - Do not infer medical facts or custody/permission details unless Brian provides them explicitly or they appear in a trusted source document.
 - School assignments above were confirmed by Brian; teacher names come from his Gmail.

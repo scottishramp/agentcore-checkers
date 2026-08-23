@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
-  "router_version": "2.5.2",
-  "context_bundle_version": "2.5.2",
-  "released_at": "2026-08-22",
+  "router_version": "2.5.3",
+  "context_bundle_version": "2.5.3",
+  "released_at": "2026-08-23",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.5.3",
+      "context_bundle_version": "2.5.3",
+      "date": "2026-08-23",
+      "summary": "Fast context includes family medical providers, insurance, and allergies"
+    },
     {
       "router_version": "2.5.2",
       "context_bundle_version": "2.5.2",

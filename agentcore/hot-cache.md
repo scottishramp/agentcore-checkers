@@ -65,13 +65,13 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- Home address and important contacts saved (2026-08-22): 2905 Overland Way, Edmond, OK 73012; Daniel/Nathan/Ezra emails and phones; Kristin and Mom phones. Page: `knowledge/people/important-contacts.md`.
+- Medical and Drs ingested (2026-08-23): Edmond Pediatrics / Dr. Corbin; Aetna 2015LC; amoxicillin allergy (Silver, Ezra, Daniel). Passwords left in Drive. Page: `knowledge/people/medical-and-drs.md`. Fast context `2.5.3`.
+- Home address and important contacts saved (2026-08-22): 2905 Overland Way, Edmond, OK 73012; Daniel/Nathan/Ezra emails and phones; Kristin and Mom phones. Page: `knowledge/people/important-contacts.md`. Fast context `2.5.2`.
 - Ingested Brian's newly shared Drive docs (2026-08-22): Life 2025 dates + Mom's Royersford address; household inventory (Overland house, Honda Fit, Kia Carnival, appliances) at `knowledge/household/stuff-we-own.md`. Fast context bundle `2.5.1`.
 - Fast Telegram context snapshot (2026-08-22): router `2.5.0` ships the full Brian/family knowledge pack and reads a Redis snapshot (`agentcore:fast-context`) published every runner cycle, so email-learned facts reach the bot without waiting for a Vercel redeploy.
 - Fast Telegram router `2.4.2` (2026-08-22): default model is Gemini 3.7 Flash (`gemini-3.7-flash`). Override remains `AGENTCORE_FAST_MODEL`.
 - School digest now archives labeled mail out of Inbox (2026-08-22): `--apply-label` adds `26-27 School` and removes `INBOX`, matching Gmail drag-to-label. Live pass archived 26 already-labeled messages; Inbox now has 0 school-labeled mail.
 - Async runner Cursor model default set to `grok-4.6` (2026-08-22); override via secret `AGENTCORE_CURSOR_MODEL` if needed.
-- Nathan school football (2026-08-18): Plays Cheyenne school football with daily practice; roster + children page + family-facts updated. Fast router `2.4.1`: knowledge_update acks must say queued for async/nightly ingest, not that knowledge was already written.
 - School digest checkboxes (2026-08-17): Important items are native Doc checklist items; each run exports the Doc HTML via Drive, reads struck-through lines as checked, marks the eval-ledger verdict done, and drops the item. Local `cursor-agent` is now logged in, so local LLM evaluation works.
 - School digest LLM-first evaluation (2026-08-16): `scripts/email/email_evaluator.py` classifies each email once via Cursor CLI (or Gemini key when set), ledger `agentcore/knowledge/email/eval-ledger.json`, learn entries → roster + `family-facts.md`, unsubscribe Suggestions in the Doc, keyword fallback. Playbooks: `school-comms-digest.md`, `agentic-jobs-cursor-cli.md`.
 - Agentic-jobs playbook (2026-08-16): how the runner installs/authenticates/invokes Cursor CLI headless, plus the recipe for turning Brian's asks into scheduled agentic jobs — `agentcore/knowledge/playbooks/agentic-jobs-cursor-cli.md`.

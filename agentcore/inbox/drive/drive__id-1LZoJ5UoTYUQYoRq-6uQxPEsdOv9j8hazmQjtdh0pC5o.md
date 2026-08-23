@@ -8,11 +8,19 @@ owner_email: "briandherbert@gmail.com"
 web_view_link: "https://docs.google.com/document/d/1LZoJ5UoTYUQYoRq-6uQxPEsdOv9j8hazmQjtdh0pC5o/edit?usp=drivesdk"
 source_folder_id: ""
 recorded_at: "2026-08-23T11:17:56.437213+00:00"
-requires_review: true
+requires_review: false
+category: Family
+canonical_drive_folder: Family
+sensitivity: high
+status: metadata_classified
+indexed_at: "2026-08-23T17:14:00+00:00"
+index_page: agentcore/knowledge/people/medical-and-drs.md
 ---
 ## Intake Notes
 
 - Classification: document_shared
 - Title: Medical and Drs
-- Mime type: application/vnd.google-apps.document
-- Suggested action: Review, classify, and file in Drive taxonomy.
+- Category: Family / medical
+- Filing status: providers, insurance, allergies, and compact history extracted. Portal passwords left in Drive only.
+- Action required: none (reference document)
+- Index: `agentcore/knowledge/people/medical-and-drs.md`

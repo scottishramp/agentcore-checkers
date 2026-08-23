@@ -9,6 +9,7 @@ const DEFAULT_CONTEXT_FILES = [
   "agentcore/knowledge/people/herbert-children.md",
   "agentcore/knowledge/people/family-facts.md",
   "agentcore/knowledge/people/important-contacts.md",
+  "agentcore/knowledge/people/medical-and-drs.md",
   "agentcore/knowledge/people/brian-herbert-food-log.md",
   "agentcore/knowledge/projects/personal-operating-system.md",
   "agentcore/knowledge/school/2026-27-roster.json",

@@ -8,6 +8,7 @@
 ## Contact
 
 - Phone: +1 215-601-0131 (Brian's important contacts, 2026-08-22)
+- Email used for kids' pediatric portal: `kristinherbert@gmail.com`
 
 ## Work
 

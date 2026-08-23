@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-23] ingest | Shared Drive doc: Medical and Drs
+
+- Brian shared `Medical and Drs`. Allowlisted, exported locally, extracted providers/insurance/allergies/compact history to `knowledge/people/medical-and-drs.md`.
+- Portal passwords in the source were **not** copied into git. Kristin's pediatric-portal email `kristinherbert@gmail.com` recorded on her people page.
+- Fast context bundle `2.5.3`.
+
 ## [2026-08-23] ops | Morning runner failed on corrupt Telegram ledger cache
 
 - Scheduled 8:30 AM CT `agent-runner` (run 32643824053) failed at Telegram triage: `JSONDecodeError` on `telegram-thread-ledger.json` after Actions cache restore.

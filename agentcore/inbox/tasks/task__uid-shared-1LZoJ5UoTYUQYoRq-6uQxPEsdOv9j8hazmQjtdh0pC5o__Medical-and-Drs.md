@@ -1,6 +1,6 @@
 ---
 task_id: "task-shared-1LZoJ5UoTYUQYoRq-6uQxPEsdOv9j8hazmQjtdh0pC5o-shared-1LZoJ5UoTYUQYoRq-6uQxPEsdOv9j"
-status: "queued"
+status: "done"
 priority: "normal"
 source_message_id: "drive:1LZoJ5UoTYUQYoRq-6uQxPEsdOv9j8hazmQjtdh0pC5o"
 source_uid: "shared-1LZoJ5UoTYUQYoRq-6uQxPEsdOv9j8hazmQjtdh0pC5o"
@@ -12,7 +12,7 @@ updated_at: "2026-08-23T11:17:56.437438+00:00"
 attempts: 0
 claimed_at: ""
 run_id: ""
-completed_at: ""
+completed_at: "2026-08-23T17:14:00+00:00"
 snagged_at: ""
 last_error: ""
 result_path: ""

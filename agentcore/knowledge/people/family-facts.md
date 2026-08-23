@@ -25,6 +25,7 @@ Appended automatically by `scripts/email/school_digest.py`; prune or correct fre
 
 - 2026-08-22: Cheyenne Spotlight talent show (Spooky Scary Halloween theme); audition videos to Mrs. Haught, room 404.
 
+- 2026-08-23: Silver, Ezra, and Daniel are allergic to amoxicillin (rash). Kids' pediatrician: Edmond Pediatrics / Dr. Erin Corbin, 2109 N Kelly Ave, (405) 513-8880. Family insurance: Aetna group 2015LC.
 - 2026-08-22: Home address: 2905 Overland Way, Edmond, OK 73012.
 - 2026-08-22: House on Overland (Edmond), built 1998, 0.28 acres; bought 2018-07-31 for $249k.
 - 2026-08-22: Current vehicles: 2013 Honda Fit (FXK849) and 2025 Kia Carnival LXS (YAMUXHZT); Fit insured with Hanover.

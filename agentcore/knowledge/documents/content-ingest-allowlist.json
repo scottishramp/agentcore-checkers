@@ -20,6 +20,12 @@
       "title": "Stuff we own appliances cars",
       "index_page": "agentcore/knowledge/household/stuff-we-own.md",
       "export_mime": "text/plain"
+    },
+    {
+      "drive_file_id": "1LZoJ5UoTYUQYoRq-6uQxPEsdOv9j8hazmQjtdh0pC5o",
+      "title": "Medical and Drs",
+      "index_page": "agentcore/knowledge/people/medical-and-drs.md",
+      "export_mime": "text/plain"
     }
   ],
   "channel_sources": {
