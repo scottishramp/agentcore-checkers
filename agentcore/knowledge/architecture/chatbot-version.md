@@ -7,8 +7,8 @@ Canonical version record for the fast Telegram router.
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.5.0** |
-| Context bundle version | **2.5.0** |
+| Router version | **2.5.1** |
+| Context bundle version | **2.5.1** |
 | Released | 2026-08-22 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
 | Endpoint | `https://agentcore-fast-router.vercel.app/api/agentcore-telegram` |
@@ -48,6 +48,10 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.5.1 — 2026-08-22
+
+- Fast context includes Life 2025 date index and household inventory from the newly shared Drive docs.
 
 ### 2.5.0 — 2026-08-22
 

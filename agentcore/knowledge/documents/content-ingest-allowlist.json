@@ -8,6 +8,18 @@
       "index_page": "agentcore/knowledge/documents/life-2026.md",
       "deferred_task_id": "task-internal-life-2026-content-ingest",
       "export_mime": "text/plain"
+    },
+    {
+      "drive_file_id": "1jM86Q6e6Nn7L4dRYv9DawkYLr75VAFfIDjbksh5UaHo",
+      "title": "Life 2025",
+      "index_page": "agentcore/knowledge/documents/life-2025.md",
+      "export_mime": "text/plain"
+    },
+    {
+      "drive_file_id": "1xGVNYSW82pw5ZIg6DQWX2e8C6j41_7274ZlttUtRkYA",
+      "title": "Stuff we own appliances cars",
+      "index_page": "agentcore/knowledge/household/stuff-we-own.md",
+      "export_mime": "text/plain"
     }
   ],
   "channel_sources": {

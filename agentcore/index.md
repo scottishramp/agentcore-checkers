@@ -39,6 +39,8 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [School digest Google Doc registry](knowledge/school/digest-doc.json): live Doc id and share link.
 - [School Communications Digest](knowledge/projects/school-comms-digest.md): daily Telegram digest of kids' school email.
 - [Life 2026](knowledge/documents/life-2026.md): Brian's shared life-planning doc index and important dates.
+- [Life 2025](knowledge/documents/life-2025.md): 2025 journal index — family dates, work/move timeline, Mom's Royersford address.
+- [Stuff We Own](knowledge/household/stuff-we-own.md): house, vehicles, and appliance inventory from Brian's shared Drive doc.
 - [Knowledge Content Ingest](knowledge/playbooks/knowledge-content-ingest.md): periodic Gmail/Telegram/shared-Drive content ingest playbook.
 - [Organizations](knowledge/organizations/): organizations relevant to projects.
 - [Architecture](knowledge/architecture/): current AgentCore system architecture, communication surfaces, workflows, data stores, and operational invariants.

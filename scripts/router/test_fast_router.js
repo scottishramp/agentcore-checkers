@@ -51,8 +51,9 @@ async function run() {
       throw new Error("Gemini should not run for version command");
     },
   });
-  assert.match(version.text, /AgentCore Fast Router v2\.5\.0/);
-  assert.match(version.text, /Context bundle: v2\.5\.0/);
+  assert.match(version.text, /AgentCore Fast Router v2\.5\.1/);
+  assert.match(version.text, /Context bundle: v2\.5\.1/);
+  assert(context.includes("stuff-we-own"), "context should include household inventory");
   assert.match(version.text, /Model: gemini-3\.7-flash/);
 
   const lightweight = await routeChatEvent(eventWithText("What is my food check-in prompt?"), {

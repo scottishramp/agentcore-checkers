@@ -18,7 +18,7 @@ Periodic cross-channel ingest that pulls **full content** from Gmail, Telegram, 
 
 ## Allowlist
 
-`agentcore/knowledge/documents/content-ingest-allowlist.json` lists Drive file ids whose bodies should be exported. Each entry may reference a `deferred_task_id` that activates once export succeeds.
+`agentcore/knowledge/documents/content-ingest-allowlist.json` lists Drive file ids whose bodies should be exported. Each entry may reference a `deferred_task_id` that activates once export succeeds. Current allowlist: Life 2026, Life 2025, Stuff we own appliances cars.
 
 ## Pipeline
 

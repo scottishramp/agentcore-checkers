@@ -2,6 +2,13 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-22] ingest | Shared Drive docs: Life 2025 and Stuff we own
+
+- Brian shared `Life 2025` and `Stuff we own appliances cars` with `scottishramp@gmail.com`.
+- Added both to the content-ingest allowlist, exported bodies locally, created Drive inbox records, and extracted durable facts.
+- New pages: `knowledge/documents/life-2025.md` (family/work dates, Mom's Royersford address) and `knowledge/household/stuff-we-own.md` (house, vehicles, appliances). Full journal text stays in Drive.
+- Fast-router context bundle bumped to `2.5.1` so Telegram can see the new pages.
+
 ## [2026-08-22] architecture | Telegram bot gets a regularly refreshed Brian knowledge snapshot
 
 - Brian asked whether the Telegram bot has a regularly updated snapshot of AgentCore knowledge about him in context. It had a partial, deploy-frozen bundle (and was trimming at 24k chars).

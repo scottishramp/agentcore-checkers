@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
-  "router_version": "2.5.0",
-  "context_bundle_version": "2.5.0",
+  "router_version": "2.5.1",
+  "context_bundle_version": "2.5.1",
   "released_at": "2026-08-22",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.5.1",
+      "context_bundle_version": "2.5.1",
+      "date": "2026-08-22",
+      "summary": "Fast context includes Life 2025 dates and household inventory (stuff we own)"
+    },
     {
       "router_version": "2.5.0",
       "context_bundle_version": "2.5.0",

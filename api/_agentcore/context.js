@@ -12,6 +12,9 @@ const DEFAULT_CONTEXT_FILES = [
   "agentcore/knowledge/documents/life-2026.md",
   "agentcore/knowledge/projects/personal-operating-system.md",
   "agentcore/knowledge/school/2026-27-roster.json",
+  "agentcore/knowledge/household/stuff-we-own.md",
+  "agentcore/knowledge/documents/life-2025.md",
+  "agentcore/knowledge/documents/life-2026.md",
   "agentcore/knowledge/architecture/chatbot-version.json",
 ];
 

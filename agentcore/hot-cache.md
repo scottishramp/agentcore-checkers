@@ -65,6 +65,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Ingested Brian's newly shared Drive docs (2026-08-22): Life 2025 dates + Mom's Royersford address; household inventory (Overland house, Honda Fit, Kia Carnival, appliances) at `knowledge/household/stuff-we-own.md`. Fast context bundle `2.5.1`.
 - Fast Telegram context snapshot (2026-08-22): router `2.5.0` ships the full Brian/family knowledge pack and reads a Redis snapshot (`agentcore:fast-context`) published every runner cycle, so email-learned facts reach the bot without waiting for a Vercel redeploy.
 - Fast Telegram router `2.4.2` (2026-08-22): default model is Gemini 3.7 Flash (`gemini-3.7-flash`). Override remains `AGENTCORE_FAST_MODEL`.
 - School digest now archives labeled mail out of Inbox (2026-08-22): `--apply-label` adds `26-27 School` and removes `INBOX`, matching Gmail drag-to-label. Live pass archived 26 already-labeled messages; Inbox now has 0 school-labeled mail.
