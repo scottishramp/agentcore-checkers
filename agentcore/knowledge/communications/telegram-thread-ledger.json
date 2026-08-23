@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-22T16:20:07.201738+00:00",
+  "updated_at": "2026-08-23T11:17:36.143034+00:00",
   "messages": {
     "telegram:407016335": {
       "message_id": "telegram:407016335",
@@ -113,6 +113,70 @@
       "task_id": "task-telegram-407016348-telegram-dm-8983527816",
       "telegram_chat_id": "8983527816",
       "updated_at": "2026-08-20T11:22:57.282313+00:00"
+    },
+    "telegram:407016356": {
+      "message_id": "telegram:407016356",
+      "route": "lightweight_answer",
+      "status": "queued",
+      "task_id": "task-telegram-407016356-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-23T11:17:36.142428+00:00"
+    },
+    "telegram:407016355": {
+      "message_id": "telegram:407016355",
+      "route": "task",
+      "status": "queued",
+      "task_id": "task-telegram-407016355-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-23T11:17:36.142530+00:00"
+    },
+    "telegram:407016354": {
+      "message_id": "telegram:407016354",
+      "route": "lightweight_answer",
+      "status": "queued",
+      "task_id": "task-telegram-407016354-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-23T11:17:36.142615+00:00"
+    },
+    "telegram:407016353": {
+      "message_id": "telegram:407016353",
+      "route": "knowledge_update",
+      "status": "queued",
+      "task_id": "task-telegram-407016353-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-23T11:17:36.142708+00:00"
+    },
+    "telegram:407016352": {
+      "message_id": "telegram:407016352",
+      "route": "task",
+      "status": "queued",
+      "task_id": "task-telegram-407016352-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-23T11:17:36.142787+00:00"
+    },
+    "telegram:407016351": {
+      "message_id": "telegram:407016351",
+      "route": "lightweight_answer",
+      "status": "queued",
+      "task_id": "task-telegram-407016351-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-23T11:17:36.142869+00:00"
+    },
+    "telegram:407016350": {
+      "message_id": "telegram:407016350",
+      "route": "lightweight_answer",
+      "status": "queued",
+      "task_id": "task-telegram-407016350-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-23T11:17:36.142955+00:00"
+    },
+    "telegram:407016349": {
+      "message_id": "telegram:407016349",
+      "route": "task",
+      "status": "queued",
+      "task_id": "task-telegram-407016349-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-23T11:17:36.143031+00:00"
     }
   }
 }
