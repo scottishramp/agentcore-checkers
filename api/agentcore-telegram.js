@@ -55,7 +55,7 @@ module.exports = async function handler(request, response) {
     response.status(200).json({
       status: "ok",
       service: "agentcore-telegram",
-      fast_model: process.env.AGENTCORE_FAST_MODEL || "gemini-2.5-flash",
+      fast_model: process.env.AGENTCORE_FAST_MODEL || "gemini-3.7-flash",
       bot_configured: Boolean(botToken()),
       allowlist_count: allowedUserIds().length,
       history_configured: historyConfigured(),

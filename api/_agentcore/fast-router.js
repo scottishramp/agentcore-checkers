@@ -5,7 +5,7 @@ const { downloadTelegramFile } = require("./telegram");
 const { getHistory, saveHistory } = require("./store");
 const { loadVersionRegistry, tryDeterministicVersionAnswer, versionMetadata } = require("./version");
 
-const DEFAULT_MODEL = "gemini-2.5-flash";
+const DEFAULT_MODEL = "gemini-3.7-flash";
 const DEFER_RESPONSE = "*DEFER* The slower, smarter agent might be able to help with this";
 
 function compactWhitespace(text) {

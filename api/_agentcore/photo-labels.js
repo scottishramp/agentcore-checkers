@@ -62,7 +62,7 @@ async function describePhotoWithGemini({ inlineMedia, caption, label, env = proc
       description: "Photo received; automatic vision description was unavailable.",
     };
   }
-  const model = env.AGENTCORE_FAST_MODEL || "gemini-2.5-flash";
+  const model = env.AGENTCORE_FAST_MODEL || "gemini-3.7-flash";
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
   const captionText = caption && caption !== "[photo attached]" ? caption : "(no caption)";
   const system = [

@@ -17,7 +17,7 @@
 - `TELEGRAM_BOT_TOKEN`
 - `AGENTCORE_TELEGRAM_ALLOWED_USER_IDS` — required, comma-separated (fail closed)
 - `KV_REST_API_URL` / `KV_REST_API_TOKEN` — Upstash (history + inbox queue)
-- `GOOGLE_AI_STUDIO_API_KEY`, `AGENTCORE_FAST_MODEL` (optional)
+- `GOOGLE_AI_STUDIO_API_KEY`, `AGENTCORE_FAST_MODEL` (optional; default `gemini-3.7-flash`)
 
 ### 3. GitHub Actions secrets
 

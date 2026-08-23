@@ -7,9 +7,9 @@ Canonical version record for the fast Telegram router.
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.4.1** |
+| Router version | **2.4.2** |
 | Context bundle version | **2.4.0** |
-| Released | 2026-08-18 |
+| Released | 2026-08-22 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
 | Endpoint | `https://agentcore-fast-router.vercel.app/api/agentcore-telegram` |
 
@@ -48,6 +48,10 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.4.2 — 2026-08-22
+
+- Fast Telegram replies (and photo labeling) default to Gemini 3.7 Flash (`gemini-3.7-flash`). Override remains `AGENTCORE_FAST_MODEL`.
 
 ### 2.4.1 — 2026-08-18
 

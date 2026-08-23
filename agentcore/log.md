@@ -2,6 +2,11 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-22] architecture | Fast Telegram router uses Gemini 3.7 Flash
+
+- Brian asked to change the Telegram bot model from Gemini 2.5 Flash to Gemini 3.7 Flash.
+- Default is now `gemini-3.7-flash` in `fast-router.js`, photo labeling, health/version replies. Router version `2.4.2`.
+
 ## [2026-08-22] ops | School digest archives mail out of Inbox
 
 - Brian asked that school mail leave Inbox the same way as dragging it onto the `26-27 School` label in Gmail.
