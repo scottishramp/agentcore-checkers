@@ -143,6 +143,15 @@ jobs:
           AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS: ${{ secrets.AGENTCORE_TELEGRAM_NOTIFY_CHAT_IDS || secrets.AGENTCORE_TELEGRAM_ALLOWED_USER_IDS }}
         run: python3 scripts/email/school_digest.py --hours 168 --apply-label --update-doc --send-telegram
 
+      - name: Publish Telegram fast-context snapshot
+        continue-on-error: true
+        env:
+          KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
+          KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.KV_REST_API_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+        run: node scripts/telegram/publish_fast_context.js
+
       - name: Persist school digest doc registry
         continue-on-error: true
         run: |
@@ -414,6 +423,16 @@ jobs:
           for chat_id in ids:
               send_message(chat_id, "Hit a snag in the scheduled agent run — I'll retry on the next cycle.")
           PY
+
+      - name: Refresh Telegram fast-context snapshot
+        if: always()
+        continue-on-error: true
+        env:
+          KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
+          KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.KV_REST_API_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+        run: node scripts/telegram/publish_fast_context.js
 
       - name: Publish runner summary
         run: |

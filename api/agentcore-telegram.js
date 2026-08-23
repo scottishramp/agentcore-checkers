@@ -1,4 +1,4 @@
-const { buildContext, contextSnapshot } = require("./_agentcore/context");
+const { loadFastContext } = require("./_agentcore/context");
 const { historyConfigured, historyMessageLimit, historyTtlSeconds } = require("./_agentcore/store");
 const { loadVersionRegistry } = require("./_agentcore/version");
 const { routeChatEvent } = require("./_agentcore/fast-router");
@@ -51,7 +51,7 @@ module.exports = async function handler(request, response) {
   if (request.method === "GET") {
     logRouterEvent("health_check", { configured: Boolean(botToken()) });
     const registry = loadVersionRegistry();
-    const snapshot = contextSnapshot();
+    const snapshot = await loadFastContext();
     response.status(200).json({
       status: "ok",
       service: "agentcore-telegram",
@@ -63,6 +63,8 @@ module.exports = async function handler(request, response) {
       history_persistent: historyTtlSeconds() === 0,
       router_version: registry.router_version,
       context_bundle_version: registry.context_bundle_version,
+      context_source: snapshot.source,
+      context_published_at: snapshot.published_at || "",
       context_hash: snapshot.context_hash,
       context_length: snapshot.context_length,
       context_files: snapshot.context_files,
@@ -103,7 +105,8 @@ module.exports = async function handler(request, response) {
       has_media: Boolean(event.agentcore.media),
     });
 
-    const routed = await routeChatEvent(event, { context: buildContext() });
+    const loaded = await loadFastContext();
+    const routed = await routeChatEvent(event, { context: loaded.context });
     try {
       await sendTelegramMessage(event.agentcore.telegram_chat_id, routed.text || "Got it.");
     } catch (sendError) {

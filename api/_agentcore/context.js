@@ -5,13 +5,18 @@ const crypto = require("crypto");
 const DEFAULT_CONTEXT_FILES = [
   "agentcore/hot-cache.md",
   "agentcore/knowledge/people/brian-herbert.md",
+  "agentcore/knowledge/people/kristin-herbert.md",
   "agentcore/knowledge/people/herbert-children.md",
+  "agentcore/knowledge/people/family-facts.md",
+  "agentcore/knowledge/people/brian-herbert-food-log.md",
   "agentcore/knowledge/documents/life-2026.md",
   "agentcore/knowledge/projects/personal-operating-system.md",
+  "agentcore/knowledge/school/2026-27-roster.json",
   "agentcore/knowledge/architecture/chatbot-version.json",
-  "agentcore/blockers.md",
-  "agentcore/index.md",
 ];
+
+const FAST_CONTEXT_KEY = "agentcore:fast-context";
+const DEFAULT_MAX_CHARS = 100000;
 
 function compactWhitespace(text) {
   return String(text || "").replace(/\s+/g, " ").trim();
@@ -239,7 +244,7 @@ function tryDeterministicFoodAnswer(text, options = {}) {
 function buildContext(options = {}) {
   const rootDir = path.resolve(options.rootDir || process.cwd());
   const files = options.files || DEFAULT_CONTEXT_FILES;
-  const maxChars = Number(options.maxChars || process.env.AGENTCORE_FAST_CONTEXT_MAX_CHARS || 24000);
+  const maxChars = Number(options.maxChars || process.env.AGENTCORE_FAST_CONTEXT_MAX_CHARS || DEFAULT_MAX_CHARS);
 
   const sections = [];
   for (const relativePath of files) {
@@ -258,7 +263,7 @@ function buildContext(options = {}) {
 }
 
 function contextSnapshot(options = {}) {
-  const context = buildContext(options);
+  const context = options.context || buildContext(options);
   return {
     context_hash: crypto.createHash("sha256").update(context).digest("hex"),
     context_length: context.length,
@@ -267,13 +272,45 @@ function contextSnapshot(options = {}) {
   };
 }
 
+async function loadFastContext(options = {}) {
+  const env = options.env || process.env;
+  if (!options.skipPublished) {
+    try {
+      const { redisCommand } = require("./store");
+      const { configured, result } = await redisCommand(["GET", FAST_CONTEXT_KEY], env);
+      if (configured && result) {
+        const parsed = typeof result === "string" ? JSON.parse(result) : result;
+        if (parsed && typeof parsed.context === "string" && parsed.context.trim()) {
+          return {
+            context: parsed.context,
+            source: "redis",
+            context_hash: parsed.context_hash || crypto.createHash("sha256").update(parsed.context).digest("hex"),
+            context_length: parsed.context_length || parsed.context.length,
+            context_files: parsed.context_files || DEFAULT_CONTEXT_FILES,
+            has_nathan_birthdate: Boolean(parsed.has_nathan_birthdate),
+            published_at: parsed.published_at || "",
+          };
+        }
+      }
+    } catch (_error) {
+      // Fall back to the repo snapshot baked into this deploy.
+    }
+  }
+  const context = buildContext(options);
+  const snap = contextSnapshot({ ...options, context });
+  return { context, source: "files", published_at: "", ...snap };
+}
+
 module.exports = {
   DEFAULT_CONTEXT_FILES,
+  DEFAULT_MAX_CHARS,
+  FAST_CONTEXT_KEY,
   addDaysToIsoDate,
   buildRecentTelegramContext,
   buildContext,
   contextSnapshot,
   extractFoodDaySummary,
+  loadFastContext,
   parseFoodLogByDate,
   resolveFoodQueryDate,
   runtimeClock,

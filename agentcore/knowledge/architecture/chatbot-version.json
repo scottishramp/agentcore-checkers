@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
-  "router_version": "2.4.2",
-  "context_bundle_version": "2.4.0",
+  "router_version": "2.5.0",
+  "context_bundle_version": "2.5.0",
   "released_at": "2026-08-22",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.5.0",
+      "context_bundle_version": "2.5.0",
+      "date": "2026-08-22",
+      "summary": "Fast Telegram context is a full Brian knowledge snapshot, refreshed to Redis every runner cycle"
+    },
     {
       "router_version": "2.4.2",
       "context_bundle_version": "2.4.0",

@@ -1,4 +1,4 @@
-const { buildContext, runtimeClock, tryDeterministicFoodAnswer } = require("./context");
+const { buildContext, loadFastContext, runtimeClock, tryDeterministicFoodAnswer } = require("./context");
 const { enqueueTelegramMessage } = require("./inbox-queue");
 const { processPhotoMessage } = require("./photo-labels");
 const { downloadTelegramFile } = require("./telegram");
@@ -274,7 +274,9 @@ async function routeChatEvent(event, options = {}) {
   const media = eventMedia(event);
   const hasMedia = Boolean(media);
   const conversationKey = conversationKeyForEvent(event);
-  const context = options.context || buildContext({ rootDir: options.rootDir });
+  const context =
+    options.context ||
+    (await loadFastContext({ rootDir: options.rootDir, env, skipPublished: options.skipPublished })).context;
   const history = options.history || (await getHistory(conversationKey, env).catch(() => []));
   let inlineMedia = null;
   if (hasMedia && media.telegram_file_id && env.AGENTCORE_FAST_VISION !== "false") {

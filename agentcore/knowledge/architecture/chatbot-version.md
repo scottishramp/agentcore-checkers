@@ -7,8 +7,8 @@ Canonical version record for the fast Telegram router.
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.4.2** |
-| Context bundle version | **2.4.0** |
+| Router version | **2.5.0** |
+| Context bundle version | **2.5.0** |
 | Released | 2026-08-22 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
 | Endpoint | `https://agentcore-fast-router.vercel.app/api/agentcore-telegram` |
@@ -48,6 +48,11 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.5.0 — 2026-08-22
+
+- Fast context now includes the full Brian/family knowledge pack: people pages, family-facts, food log, Life 2026, personal OS, and the 2026-27 roster. Limit raised to 100k chars so it is not trimmed.
+- Nightly runner publishes that snapshot to Redis (`agentcore:fast-context`). Live replies prefer the Redis snapshot so knowledge updates reach the bot without a Vercel redeploy.
 
 ### 2.4.2 — 2026-08-22
 

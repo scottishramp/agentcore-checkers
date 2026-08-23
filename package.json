@@ -33,7 +33,8 @@
     "email:record-response": "python3 scripts/email/record_email_response.py",
     "photos:picker": "python3 scripts/photos/picker_session.py",
     "router:test": "node scripts/router/test_store.js && node scripts/router/test_fast_router.js && node scripts/router/test_telegram_router.js",
-    "telegram:setup-webhook": "node scripts/telegram/setup_webhook.js"
+    "telegram:setup-webhook": "node scripts/telegram/setup_webhook.js",
+    "telegram:publish-context": "node scripts/telegram/publish_fast_context.js"
   },
   "keywords": [],
   "author": "",

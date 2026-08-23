@@ -34,7 +34,7 @@ Two layers: **fast chat** (Vercel + Gemini) and **async agent** (GitHub Actions 
 1. User DMs `@AgentCoreFam_bot`.
 2. Telegram POSTs to the Vercel webhook.
 3. Allowlist check (fail closed); unknown users dropped silently.
-4. Gemini 3.7 Flash replies using repo context bundle + Upstash conversation history (20 messages, persistent). For text questions the fast layer answers only when context has the fact; otherwise it returns `*DEFER* The slower, smarter agent might be able to help with this`. Photos receive a unique label (`{username}_{YYYYMMDDHHmmss}`), a detailed fast-agent vision description in the reply, and are queued with label + description metadata.
+4. Gemini 3.7 Flash replies using a Brian/family knowledge snapshot (people pages, family-facts, food log, Life 2026, personal OS, 2026-27 roster) plus Upstash conversation history (20 messages, persistent). The snapshot is published to Redis (`agentcore:fast-context`) on every async runner cycle so new facts reach the bot without a Vercel redeploy; the deploy bundle is fallback only. For text questions the fast layer answers only when context has the fact; otherwise it returns `*DEFER* The slower, smarter agent might be able to help with this`. Photos receive a unique label (`{username}_{YYYYMMDDHHmmss}`), a detailed fast-agent vision description in the reply, and are queued with label + description metadata.
 5. Every allowed message is appended to the Upstash inbox queue (`agentcore:telegram:inbox`) with route metadata and optional `media` — **no Cursor dispatch and no durable classification from Vercel**.
 
 #### Async agent (scheduled)
@@ -99,7 +99,7 @@ Playbook: `agentcore/knowledge/playbooks/knowledge-content-ingest.md`
 - `agentcore/knowledge/communications/telegram-thread-ledger.json`: Telegram triage idempotency.
 - `agentcore/knowledge/email/eval-ledger.json`: per-message LLM email verdicts (school digest), 60-day retention, metadata only.
 - `agentcore/knowledge/people/family-facts.md`: general household facts learned by the email evaluator (dated, deduped).
-- Upstash Redis: conversation history + inbound inbox queue.
+- Upstash Redis: conversation history + inbound inbox queue + `agentcore:fast-context` (Telegram bot knowledge snapshot, published each runner cycle).
 - Standard repo stores: `hot-cache.md`, `index.md`, `blockers.md`, `log.md`, `inbox/tasks/`, etc.
 - `.agentcore/state/drive-content/`: exported text bodies for allowlisted shared Drive docs (committed by knowledge-content-ingest workflow).
 - `agentcore/knowledge/documents/content-ingest-allowlist.json`: Drive file ids for full-body export.

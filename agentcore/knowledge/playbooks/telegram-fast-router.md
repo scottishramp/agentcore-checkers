@@ -2,7 +2,7 @@
 
 ## Architecture
 
-**Fast layer (Vercel):** Gemini + repo context snapshot + Redis history → instant reply. No Cursor startup, no durable classification, and **no realtime knowledge writes**. Acknowledgments for `knowledge_update` must say the item is queued for the scheduled async agent — never that knowledge was already saved.
+**Fast layer (Vercel):** Gemini 3.7 Flash + a Brian/family knowledge snapshot + Redis history → instant reply. The snapshot is the people pages, family-facts, food log, Life 2026, personal OS, and 2026-27 roster. The nightly runner publishes it to Redis (`agentcore:fast-context`); live replies read that first so new facts show up without a Vercel redeploy. No Cursor startup, no durable classification, and **no realtime knowledge writes**. Acknowledgments for `knowledge_update` must say the item is queued for the scheduled async agent — never that knowledge was already saved.
 
 **Async layer (GitHub Actions):** Write-capable scheduled pull from Redis inbox → transcript + per-message Cursor review tasks → durable knowledge updates / awareness refresh → Telegram notifications when useful → Vercel redeploy. This is the path that actually adds facts Brian asked to store.
 
@@ -75,3 +75,4 @@ The response must show the expected `router_version`, `context_hash`, `context_f
 - `scripts/telegram/send_working_notice.py` — task start notification
 - `scripts/telegram/send_task_response.py` — task completion
 - `scripts/telegram/send_scheduled_messages.py` — morning prompts (food check-ins disabled 2026-07-05)
+- `scripts/telegram/publish_fast_context.js` — publish the current repo knowledge snapshot to Redis for live Telegram replies (`npm run telegram:publish-context`)

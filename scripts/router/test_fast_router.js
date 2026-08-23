@@ -24,6 +24,9 @@ async function run() {
   const context = buildContext({ rootDir: process.cwd() });
   assert(context.includes("AgentCore"), "context should include AgentCore knowledge");
   assert(context.includes("herbert-children"), "context should include family knowledge pages");
+  assert(context.includes("family-facts"), "context should include email-learned family facts");
+  assert(context.includes("2026-27-roster"), "context should include the school roster");
+  assert(!context.includes("[...trimmed for fast-router context...]"), "Brian knowledge pack should fit without trimming");
   const snapshot = contextSnapshot({ rootDir: process.cwd() });
   assert.equal(snapshot.has_nathan_birthdate, true, "context snapshot should include Nathan's birthdate");
   assert.match(snapshot.context_hash, /^[a-f0-9]{64}$/);
@@ -48,8 +51,8 @@ async function run() {
       throw new Error("Gemini should not run for version command");
     },
   });
-  assert.match(version.text, /AgentCore Fast Router v2\.4\.2/);
-  assert.match(version.text, /Context bundle: v2\.4\.0/);
+  assert.match(version.text, /AgentCore Fast Router v2\.5\.0/);
+  assert.match(version.text, /Context bundle: v2\.5\.0/);
   assert.match(version.text, /Model: gemini-3\.7-flash/);
 
   const lightweight = await routeChatEvent(eventWithText("What is my food check-in prompt?"), {

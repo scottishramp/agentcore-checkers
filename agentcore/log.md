@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-22] architecture | Telegram bot gets a regularly refreshed Brian knowledge snapshot
+
+- Brian asked whether the Telegram bot has a regularly updated snapshot of AgentCore knowledge about him in context. It had a partial, deploy-frozen bundle (and was trimming at 24k chars).
+- Context bundle `2.5.0` now includes people pages, family-facts, food log, Life 2026, personal OS, and the 2026-27 roster; max raised to 100k so the pack is not trimmed.
+- Nightly runner publishes the snapshot to Redis (`agentcore:fast-context`); live replies prefer that over the Vercel file bundle so new facts land without `VERCEL_TOKEN` redeploys.
+
 ## [2026-08-22] architecture | Fast Telegram router uses Gemini 3.7 Flash
 
 - Brian asked to change the Telegram bot model from Gemini 2.5 Flash to Gemini 3.7 Flash.
