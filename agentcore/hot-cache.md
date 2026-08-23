@@ -65,6 +65,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- School digest now archives labeled mail out of Inbox (2026-08-22): `--apply-label` adds `26-27 School` and removes `INBOX`, matching Gmail drag-to-label. Live pass archived 26 already-labeled messages; Inbox now has 0 school-labeled mail.
 - Async runner Cursor model default set to `grok-4.6` (2026-08-22); override via secret `AGENTCORE_CURSOR_MODEL` if needed.
 - Nathan school football (2026-08-18): Plays Cheyenne school football with daily practice; roster + children page + family-facts updated. Fast router `2.4.1`: knowledge_update acks must say queued for async/nightly ingest, not that knowledge was already written.
 - School digest checkboxes (2026-08-17): Important items are native Doc checklist items; each run exports the Doc HTML via Drive, reads struck-through lines as checked, marks the eval-ledger verdict done, and drops the item. Local `cursor-agent` is now logged in, so local LLM evaluation works.

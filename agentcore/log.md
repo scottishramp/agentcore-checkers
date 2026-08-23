@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-22] ops | School digest archives mail out of Inbox
+
+- Brian asked that school mail leave Inbox the same way as dragging it onto the `26-27 School` label in Gmail.
+- `school_digest.py --apply-label` now adds the label and removes `INBOX`, and also archives leftover labeled mail still sitting in Inbox.
+- Live pass: labeled 0 new, archived 26; follow-up query `label:"26-27 School" in:inbox` returned 0. Mail remains under the school label and All Mail.
+
 ## [2026-08-18] knowledge | Nathan football + fast-router no realtime writes
 
 - Brian (Telegram): Nathan plays school football with daily practice; stored on children page, `2026-27-roster.json`, and `family-facts.md`.

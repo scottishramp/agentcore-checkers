@@ -7,7 +7,7 @@ Give Brian a daily, child-grouped digest of school communications. The durable a
 ## Status
 
 - Phase: Google Doc loop (2026-08-16).
-- Gmail label `26-27 School` is the filing home.
+- Gmail label `26-27 School` is the filing home; matching mail is labeled and archived out of Inbox.
 - Google Doc in AgentCore Drive, shared with Brian as writer.
 - Telegram sends Important items plus the Doc link with the morning async runner.
 - Teacher roster for 2026-27 is in `agentcore/knowledge/school/2026-27-roster.json`.

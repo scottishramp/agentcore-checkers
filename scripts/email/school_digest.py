@@ -99,7 +99,11 @@ TEACHER_INTRO_RE = re.compile(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Summarize recent school mail for Brian.")
     parser.add_argument("--hours", type=int, default=24, help="Lookback window in hours.")
-    parser.add_argument("--apply-label", action="store_true", help="Apply the 26-27 School label to matching mail.")
+    parser.add_argument(
+        "--apply-label",
+        action="store_true",
+        help="Apply the 26-27 School label and archive matching mail out of Inbox (same as dragging to the label in Gmail).",
+    )
     parser.add_argument("--update-doc", action="store_true", help="Create or replace the Google Doc digest.")
     parser.add_argument("--send-telegram", action="store_true", help="Send Important items plus the Doc link on Telegram.")
     parser.add_argument("--dry-run", action="store_true", help="Print without labeling or sending.")
@@ -1272,20 +1276,47 @@ def render(rows: list[dict], roster: dict, hours: int) -> str:
     return header + text
 
 
-def apply_label(env_map: dict[str, str], rows: list[dict]) -> int:
+def inbox_school_ids(env_map: dict[str, str]) -> list[str]:
+    """Every message that already has the school label and is still in Inbox."""
+    ids: list[str] = []
+    page = ""
+    while True:
+        payload = gmail_api.list_messages(
+            query=f'label:"{LABEL_NAME}" in:inbox',
+            max_results=100,
+            env_map=env_map,
+            account=ACCOUNT,
+            page_token=page,
+        )
+        ids.extend(str(item.get("id", "")) for item in payload.get("messages") or [] if item.get("id"))
+        page = str(payload.get("nextPageToken") or "")
+        if not page:
+            break
+    return list(dict.fromkeys(ids))
+
+
+def apply_label(env_map: dict[str, str], rows: list[dict]) -> tuple[int, int]:
+    """Label school mail and archive it out of Inbox, matching Gmail drag-to-label."""
     label = gmail_api.ensure_label(LABEL_NAME, env_map=env_map, account=ACCOUNT)
     label_id = str(label.get("id", ""))
-    pending = [row["id"] for row in rows if label_id not in (row.get("label_ids") or [])]
-    if not pending:
-        return 0
-    for offset in range(0, len(pending), 1000):
+    to_label = [row["id"] for row in rows if label_id not in (row.get("label_ids") or [])]
+    for offset in range(0, len(to_label), 1000):
         gmail_api.batch_modify_messages(
-            pending[offset : offset + 1000],
+            to_label[offset : offset + 1000],
             add_label_ids=[label_id],
+            remove_label_ids=["INBOX"],
             env_map=env_map,
             account=ACCOUNT,
         )
-    return len(pending)
+    leftover = [message_id for message_id in inbox_school_ids(env_map) if message_id not in set(to_label)]
+    for offset in range(0, len(leftover), 1000):
+        gmail_api.batch_modify_messages(
+            leftover[offset : offset + 1000],
+            remove_label_ids=["INBOX"],
+            env_map=env_map,
+            account=ACCOUNT,
+        )
+    return len(to_label), len(to_label) + len(leftover)
 
 
 def load_doc_registry() -> dict:
@@ -1420,10 +1451,11 @@ def main() -> int:
     OUTPUT_PATH.write_text(digest, encoding="utf-8")
     print(digest)
     labeled = 0
+    archived = 0
     registry = {}
     if args.apply_label and not args.dry_run:
-        labeled = apply_label(env_map, rows)
-        print(f"labeled {labeled} message(s) with {LABEL_NAME}", file=sys.stderr)
+        labeled, archived = apply_label(env_map, rows)
+        print(f"labeled {labeled} and archived {archived} message(s) with {LABEL_NAME}", file=sys.stderr)
     if args.update_doc and not args.dry_run:
         registry = update_google_doc(env_map, rows, roster)
         print(f"updated doc {registry.get('web_view_link', '')}", file=sys.stderr)

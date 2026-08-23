@@ -3,7 +3,7 @@ title: School communications digest
 type: playbook
 status: active
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-08-22
 confidence: medium
 related:
   - ../people/herbert-children.md
@@ -38,7 +38,7 @@ checked, matching them to ledger entries via the stored `doc_line` text. Verifie
 ## Sources
 
 - Mailbox: `briandherbert@gmail.com`
-- Label: `26-27 School` (auto-applied to matching mail)
+- Label: `26-27 School` (auto-applied to matching mail, then archived out of Inbox)
 - Query window: last 7 days
 - Roster: `agentcore/knowledge/school/2026-27-roster.json`
 - Google Doc registry: `agentcore/knowledge/school/digest-doc.json`
@@ -89,7 +89,7 @@ verdicts are dropped from the Doc entirely. Unsubscribe recommendations render i
 
 ## Filing
 
-`school_digest.py --apply-label` adds `26-27 School` to matching messages.
+`school_digest.py --apply-label` adds `26-27 School` to matching messages and removes the `INBOX` label (same as dragging the message onto the school label in Gmail). Already-labeled school mail still sitting in Inbox is archived on the same pass. Mail stays findable under All Mail and the `26-27 School` label.
 
 ## Learning loop
 
