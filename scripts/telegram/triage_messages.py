@@ -36,7 +36,11 @@ def parse_args() -> argparse.Namespace:
 def read_json(path: Path, default):
     if not path.exists():
         return default
-    return json.loads(path.read_text(encoding="utf-8"))
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        print(f"warning: {path} is not valid JSON; using default", file=sys.stderr)
+        return default
 
 
 def quote_meta(value) -> str:

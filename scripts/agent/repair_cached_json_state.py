@@ -12,7 +12,9 @@ from pathlib import Path
 DEFAULT_PATHS = (
     "agentcore/knowledge/communications/email-thread-ledger.json",
     "agentcore/knowledge/communications/chat-thread-ledger.json",
+    "agentcore/knowledge/communications/telegram-thread-ledger.json",
     "agentcore/knowledge/communications/scheduled-messages-state.json",
+    "agentcore/knowledge/email/eval-ledger.json",
 )
 CONFLICT_MARKERS = ("<<<<<<< ", "=======", ">>>>>>> ")
 

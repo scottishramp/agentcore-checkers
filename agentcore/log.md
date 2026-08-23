@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-23] ops | Morning runner failed on corrupt Telegram ledger cache
+
+- Scheduled 8:30 AM CT `agent-runner` (run 32643824053) failed at Telegram triage: `JSONDecodeError` on `telegram-thread-ledger.json` after Actions cache restore.
+- The 6:17 AM CT runner after email-sync had already succeeded (digest Doc updated). Pages "failures" overnight were cancelled superseded builds, not real job failures.
+- Repair script did not include the Telegram ledger. Added it (plus eval-ledger) to `repair_cached_json_state.py`, and Telegram triage now falls back instead of crashing the rest of the job.
+
 ## [2026-08-22] knowledge | Home address and important contacts
 
 - Brian: home is 2905 Overland Way, Edmond, OK 73012.
