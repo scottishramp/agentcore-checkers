@@ -24,6 +24,10 @@
       "subject_key": "business497956@mindbodyonline.com"
     },
     "sender_policy:ciinfo@compassion-intl.com": {
+      "answer": "learn",
+      "answer_raw": "Later mail from this sender was classified with high confidence.",
+      "answer_source": "llm-auto",
+      "answered_at": "2026-08-29T17:20:53.096229+00:00",
       "context": {
         "display_name": "Compassion International",
         "message_count": 2,
@@ -45,10 +49,6 @@
       ],
       "prompt": "Compassion International <ciinfo@compassion-intl.com> - 2 messages, charity fundraising\n   Latest: \"You're first to receive this opportunity to share the gospel in Cambodia\"",
       "status": "answered",
-      "answer": "learn",
-      "answer_source": "llm-auto",
-      "answer_raw": "Later mail from this sender was classified with high confidence.",
-      "answered_at": "2026-08-29T17:20:53.096229+00:00",
       "subject_key": "ciinfo@compassion-intl.com"
     },
     "sender_policy:david@davidandpatty.com": {
@@ -98,6 +98,10 @@
       "subject_key": "help@okcmarathon.com"
     },
     "sender_policy:katie.linn@youversion.com": {
+      "ask_count": 1,
+      "asked_at": "2026-08-29T19:10:32.170439+00:00",
+      "asked_batch": "ask-20260829-191031",
+      "asked_number": 4,
       "context": {
         "display_name": "Katie Linn",
         "message_count": 1,
@@ -117,10 +121,14 @@
         "ignore"
       ],
       "prompt": "Katie Linn <katie.linn@youversion.com> - 1 message, YouVersion prayer newsletter\n   Latest: \"Rooted in Christ \u2014 Weekly Prayer Lists \ud83d\ude4f\"",
-      "status": "open",
+      "status": "asked",
       "subject_key": "katie.linn@youversion.com"
     },
     "sender_policy:merkleyds@drivered.email": {
+      "ask_count": 1,
+      "asked_at": "2026-08-29T19:10:32.170442+00:00",
+      "asked_batch": "ask-20260829-191031",
+      "asked_number": 5,
       "context": {
         "display_name": "merkleyds@drivered.email",
         "message_count": 2,
@@ -141,10 +149,14 @@
         "ignore"
       ],
       "prompt": "merkleyds@drivered.email <merkleyds@drivered.email> - 2 messages, driver education school\n   Latest: \"Registration Complete\"",
-      "status": "open",
+      "status": "asked",
       "subject_key": "merkleyds@drivered.email"
     },
     "sender_policy:message@volunteer2mail.com": {
+      "ask_count": 1,
+      "asked_at": "2026-08-29T19:10:32.170429+00:00",
+      "asked_batch": "ask-20260829-191031",
+      "asked_number": 2,
       "context": {
         "display_name": "Makenzie Magnus",
         "message_count": 1,
@@ -164,10 +176,14 @@
         "ignore"
       ],
       "prompt": "Makenzie Magnus <message@volunteer2mail.com> - 1 message, volunteer newsletter\n   Latest: \"Spero Volunteer Newsletter | Next Week is September?! | August 28th, 2026\"",
-      "status": "open",
+      "status": "asked",
       "subject_key": "message@volunteer2mail.com"
     },
     "sender_policy:no-reply@booksy.net": {
+      "ask_count": 1,
+      "asked_at": "2026-08-29T19:10:32.170409+00:00",
+      "asked_batch": "ask-20260829-191031",
+      "asked_number": 1,
       "context": {
         "display_name": "The Barber TK",
         "message_count": 1,
@@ -187,10 +203,14 @@
         "ignore"
       ],
       "prompt": "The Barber TK <no-reply@booksy.net> - 1 message, barber booking promo\n   Latest: \"Openings available to book\"",
-      "status": "open",
+      "status": "asked",
       "subject_key": "no-reply@booksy.net"
     },
     "sender_policy:notifications@okcyouthhockey.com": {
+      "ask_count": 1,
+      "asked_at": "2026-08-29T19:10:32.170435+00:00",
+      "asked_batch": "ask-20260829-191031",
+      "asked_number": 3,
       "context": {
         "display_name": "Sherry Montgomery",
         "message_count": 1,
@@ -210,10 +230,10 @@
         "ignore"
       ],
       "prompt": "Sherry Montgomery <notifications@okcyouthhockey.com> - 1 message, OKC youth hockey\n   Latest: \"\ud83c\udfd2 Metro Hockey Registration Deadline is Almost Here!\"",
-      "status": "open",
+      "status": "asked",
       "subject_key": "notifications@okcyouthhockey.com"
     }
   },
-  "updated_at": "2026-08-29T17:20:53.096229+00:00",
+  "updated_at": "2026-08-29T19:10:32.170462+00:00",
   "version": 1
 }

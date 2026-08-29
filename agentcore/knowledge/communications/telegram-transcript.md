@@ -250,3 +250,79 @@ User message:
 Fast router reply:
 
 > *DEFER* The slower, smarter agent might be able to help with this
+## 2026-08-29T18:45:52.983Z | Brian Herbert | telegram:407016364
+
+- Conversation: `telegram:dm:8983527816`
+- Inbox record: `agentcore/inbox/telegram/telegram__telegram-407016364.md`
+- Fast-router route: `knowledge_update`
+- Media: `photo` / `AgACAgEAAxkBAAPNapMCSBCEOI7a9EfR6pmb1KPwofoAAs8MaxtFoJlEC2u299TglT8BAAMCAAN5AAM9BA`
+- Photo label: `brian_herbert_20260829134548`
+
+User message:
+
+> Silver dr appt
+
+Fast router reply:
+
+> Photo label: brian_herbert_20260829134548
+>
+> Photo received; vision description failed.
+>
+> Caption: Silver dr appt
+## 2026-08-29T18:41:00.004Z | Brian Herbert | telegram:407016363
+
+- Conversation: `telegram:dm:8983527816`
+- Inbox record: `agentcore/inbox/telegram/telegram__telegram-407016363.md`
+- Fast-router route: `knowledge_update`
+- Media: `photo` / `AgACAgEAAxkBAAPNapMCSBCEOI7a9EfR6pmb1KPwofoAAs8MaxtFoJlEC2u299TglT8BAAMCAAN5AAM9BA`
+- Photo label: `brian_herbert_20260829133938`
+
+User message:
+
+> Silver dr visit
+
+Fast router reply:
+
+> Photo label: brian_herbert_20260829133938
+>
+> Photo received; vision description failed.
+>
+> Caption: Silver dr visit
+## 2026-08-29T18:28:28.329Z | Brian Herbert | telegram:407016362
+
+- Conversation: `telegram:dm:8983527816`
+- Inbox record: `agentcore/inbox/telegram/telegram__telegram-407016362.md`
+- Fast-router route: `knowledge_update`
+- Media: `photo` / `AgACAgEAAxkBAAPNapMCSBCEOI7a9EfR6pmb1KPwofoAAs8MaxtFoJlEC2u299TglT8BAAMCAAN5AAM9BA`
+- Photo label: `brian_herbert_20260829132753`
+
+User message:
+
+> Try to ingest
+
+Fast router reply:
+
+> Photo label: brian_herbert_20260829132753
+>
+> Photo received; the vision request timed out before Gemini finished.
+>
+> Caption: Try to ingest
+## 2026-08-29T18:02:51.355Z | Brian Herbert | telegram:407016361
+
+- Conversation: `telegram:dm:8983527816`
+- Inbox record: `agentcore/inbox/telegram/telegram__telegram-407016361.md`
+- Fast-router route: `knowledge_update`
+- Media: `photo` / `AgACAgEAAxkBAAPNapMCSBCEOI7a9EfR6pmb1KPwofoAAs8MaxtFoJlEC2u299TglT8BAAMCAAN5AAM9BA`
+- Photo label: `brian_herbert_20260829130239`
+
+User message:
+
+> Try to ingest this
+
+Fast router reply:
+
+> Photo label: brian_herbert_20260829130239
+>
+> Photo received; vision description failed.
+>
+> Caption: Try to ingest this
