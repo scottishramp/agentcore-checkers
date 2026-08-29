@@ -37,6 +37,8 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Family Facts](knowledge/people/family-facts.md): household facts learned automatically by the email evaluator.
 - [Important Contacts](knowledge/people/important-contacts.md): Brian's saved family phone/email favorites.
 - [Medical and Drs](knowledge/people/medical-and-drs.md): family providers, insurance, allergies, compact medical history (passwords not stored).
+- [Brian Learned Facts](knowledge/people/brian-learned-facts.md): dated facts about Brian learned automatically by the nightly mailbox sweep and calendar ingest.
+- [Upcoming Schedule](knowledge/calendar/upcoming.md): near-term calendar view regenerated nightly from Brian's shared Google Calendar.
 - [2026-27 School Roster](knowledge/school/2026-27-roster.json): schools, grades, and teacher names for the current year.
 - [School digest Google Doc registry](knowledge/school/digest-doc.json): live Doc id and share link.
 - [School Communications Digest](knowledge/projects/school-comms-digest.md): daily Telegram digest of kids' school email.
@@ -62,6 +64,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Email Operations](knowledge/playbooks/email-ops.md): operational policy and workflow for async client communication by email.
 - [Brian Gmail Mailbox](knowledge/playbooks/brian-gmail-mailbox.md): read, label, archive, and trash access to `briandherbert@gmail.com`.
 - [School Communications Digest](knowledge/playbooks/school-comms-digest.md): daily child-grouped school email digest on Telegram.
+- [Mailbox and Calendar Learning Loop](knowledge/playbooks/mailbox-learning-loop.md): nightly whole-mailbox sweep, calendar ingest, and the ask-Brian question loop that turns his answers into durable sender policy.
 - [Agentic Jobs with Cursor CLI](knowledge/playbooks/agentic-jobs-cursor-cli.md): pattern and recipe for creating scheduled LLM jobs in GitHub Actions.
 - [Email to Cursor CLI Bridge](knowledge/playbooks/email-to-cursor-cli-bridge.md): guarded phase-2 design for intent-to-automation handoff.
 - [Drive Document Organization](knowledge/playbooks/drive-document-organization.md): Drive-backed source storage with repo metadata for documents, scans, and photo intake.

@@ -6,7 +6,7 @@ playwright-report/
 .env.*
 .vercel/
 .agentcore/state/
-scripts/email/__pycache__/
+__pycache__/
 *.pyc
 .secrets/
 client_secret_*.apps.googleusercontent.com.json

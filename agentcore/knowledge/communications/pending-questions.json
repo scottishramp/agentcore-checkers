@@ -1,0 +1,122 @@
+{
+  "questions": {
+    "sender_policy:ciinfo@compassion-intl.com": {
+      "context": {
+        "display_name": "Compassion International",
+        "message_count": 2,
+        "model_confidence": 0.72,
+        "model_guess": "ignore",
+        "model_rationale": "These Compassion emails are fundraising and product promos, not sponsorship or giving statements.",
+        "subjects": [
+          "You're first to receive this opportunity to share the gospel in Cambodia",
+          "A new MyCompassion account experience is coming \u2026"
+        ]
+      },
+      "created_at": "2026-08-29T16:19:56.025362+00:00",
+      "id": "sender_policy:ciinfo@compassion-intl.com",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "Compassion International <ciinfo@compassion-intl.com> - 2 messages, charity fundraising\n   Latest: \"You're first to receive this opportunity to share the gospel in Cambodia\"",
+      "status": "open",
+      "subject_key": "ciinfo@compassion-intl.com"
+    },
+    "sender_policy:katie.linn@youversion.com": {
+      "context": {
+        "display_name": "Katie Linn",
+        "message_count": 1,
+        "model_confidence": 0.74,
+        "model_guess": "ignore",
+        "model_rationale": "Katie is a YouVersion colleague, but this is a weekly prayer-list newsletter rather than personal or work-account mail.",
+        "subjects": [
+          "Rooted in Christ \u2014 Weekly Prayer Lists \ud83d\ude4f"
+        ]
+      },
+      "created_at": "2026-08-29T16:19:56.025392+00:00",
+      "id": "sender_policy:katie.linn@youversion.com",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "Katie Linn <katie.linn@youversion.com> - 1 message, YouVersion prayer newsletter\n   Latest: \"Rooted in Christ \u2014 Weekly Prayer Lists \ud83d\ude4f\"",
+      "status": "open",
+      "subject_key": "katie.linn@youversion.com"
+    },
+    "sender_policy:message@volunteer2mail.com": {
+      "context": {
+        "display_name": "Makenzie Magnus",
+        "message_count": 1,
+        "model_confidence": 0.64,
+        "model_guess": "ignore",
+        "model_rationale": "This is a Spero volunteer newsletter via a mailing platform, and I do not know if you volunteer there.",
+        "subjects": [
+          "Spero Volunteer Newsletter | Next Week is September?! | August 28th, 2026"
+        ]
+      },
+      "created_at": "2026-08-29T16:19:56.025380+00:00",
+      "id": "sender_policy:message@volunteer2mail.com",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "Makenzie Magnus <message@volunteer2mail.com> - 1 message, volunteer newsletter\n   Latest: \"Spero Volunteer Newsletter | Next Week is September?! | August 28th, 2026\"",
+      "status": "open",
+      "subject_key": "message@volunteer2mail.com"
+    },
+    "sender_policy:no-reply@booksy.net": {
+      "context": {
+        "display_name": "The Barber TK",
+        "message_count": 1,
+        "model_confidence": 0.62,
+        "model_guess": "ignore",
+        "model_rationale": "This is a Booksy opening promo from The Barber TK; I cannot tell if that is actually your barber.",
+        "subjects": [
+          "Openings available to book"
+        ]
+      },
+      "created_at": "2026-08-29T16:19:56.025371+00:00",
+      "id": "sender_policy:no-reply@booksy.net",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "The Barber TK <no-reply@booksy.net> - 1 message, barber booking promo\n   Latest: \"Openings available to book\"",
+      "status": "open",
+      "subject_key": "no-reply@booksy.net"
+    },
+    "sender_policy:notifications@okcyouthhockey.com": {
+      "context": {
+        "display_name": "Sherry Montgomery",
+        "message_count": 1,
+        "model_confidence": 0.55,
+        "model_guess": "learn",
+        "model_rationale": "OKC youth hockey registration mail can carry team and deadline facts, but hockey is not a known Herbert sport.",
+        "subjects": [
+          "\ud83c\udfd2 Metro Hockey Registration Deadline is Almost Here!"
+        ]
+      },
+      "created_at": "2026-08-29T16:19:56.025388+00:00",
+      "id": "sender_policy:notifications@okcyouthhockey.com",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "Sherry Montgomery <notifications@okcyouthhockey.com> - 1 message, OKC youth hockey\n   Latest: \"\ud83c\udfd2 Metro Hockey Registration Deadline is Almost Here!\"",
+      "status": "open",
+      "subject_key": "notifications@okcyouthhockey.com"
+    }
+  },
+  "updated_at": "2026-08-29T16:20:59.567429+00:00",
+  "version": 1
+}

@@ -25,8 +25,9 @@ Periodic cross-channel ingest that pulls **full content** from Gmail, Telegram, 
 1. `scripts/ingest/knowledge_content_ingest.py` — orchestrator
 2. `scripts/ingest/export_flagged_docs.py` — Drive API export to text
 3. `scripts/ingest/activate_content_tasks.py` — flip `deferred` → `queued`
-4. Workflow commits exports + inbox updates; dispatches async runner when content tasks activate or Telegram review tasks are created
-5. Cursor tasks extract durable facts into `agentcore/knowledge/` pages
+4. Mailbox and calendar learning loop: `resolve_answers.py`, `ingest_calendar.py`, `mailbox_sweep.py`, `ask_questions.py` (see `./mailbox-learning-loop.md`)
+5. Workflow commits exports + inbox updates + learning ledgers; dispatches async runner when content tasks activate or Telegram review tasks are created
+6. Cursor tasks extract durable facts into `agentcore/knowledge/` pages
 
 ## Local Commands
 

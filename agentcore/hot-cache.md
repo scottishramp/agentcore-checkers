@@ -37,6 +37,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 - Open blockers: Google Keep note content unavailable; broad Google Photos library reads unavailable.
 - Delivered: Brian personal Gmail access. Separate `gmail.modify` token for `briandherbert@gmail.com` can read all mail, create/apply labels, archive, and trash. Do not send as Brian; do not persist full bodies in git. Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
 - Delivered: GoDaddy Products & Domains delegate access. AgentCore (`scottishramp@gmail.com`, customer `#743698597`) can manage Brian Herbert's domains, including `burningaltar.com`.
+- Delivered: nightly mailbox + calendar learning loop. Reads Brian's shared Google Calendar (first automated calendar use), sweeps his whole personal mailbox sender-by-sender into `learn`/`info`/`ignore` policy, extracts durable facts, and asks up to 5 Telegram questions a night when unsure. His answers become authoritative policy and are never overwritten by the model. Playbook: `knowledge/playbooks/mailbox-learning-loop.md`.
 - Delivered: kids' school-comms digest. Living Google Doc (Important / per kid / General) shared with Brian; Telegram pings action items. Levi's teacher is Mrs. Scott. Bullets are complete sentences with a hyperlinked Link; this-week dues are bold; sports sit on each child's section; the sweep ingests new teachers and sports.
 
 ## Operating Preferences
@@ -65,6 +66,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Mailbox + calendar learning loop (2026-08-29): new nightly steps in `knowledge-content-ingest.yml`. Ledgers `email/sender-policy.json` and `communications/pending-questions.json`; knowledge pages `people/brian-learned-facts.md` and `calendar/upcoming.md`. Brian chose Telegram questions, max 5/night, rolling window + one-time 90-day backfill, read-only mail (no labeling/archiving). Backfill not yet run.
 - Medical and Drs ingested (2026-08-23): Edmond Pediatrics / Dr. Corbin; Aetna 2015LC; amoxicillin allergy (Silver, Ezra, Daniel). Passwords left in Drive. Page: `knowledge/people/medical-and-drs.md`. Fast context `2.5.3`.
 - Home address and important contacts saved (2026-08-22): 2905 Overland Way, Edmond, OK 73012; Daniel/Nathan/Ezra emails and phones; Kristin and Mom phones. Page: `knowledge/people/important-contacts.md`. Fast context `2.5.2`.
 - Ingested Brian's newly shared Drive docs (2026-08-22): Life 2025 dates + Mom's Royersford address; household inventory (Overland house, Honda Fit, Kia Carnival, appliances) at `knowledge/household/stuff-we-own.md`. Fast context bundle `2.5.1`.

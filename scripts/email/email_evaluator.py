@@ -197,6 +197,19 @@ def _call_cursor(prompt: str) -> str:
     return proc.stdout
 
 
+def call_model(prompt: str) -> tuple[str, str]:
+    """Run a prompt on the best available backend. Returns (raw_output, backend)."""
+    backend = backend_name()
+    if not backend:
+        raise RuntimeError("No LLM backend: set GEMINI_API_KEY or install Cursor Agent CLI.")
+    call = _call_gemini if backend == "gemini" else _call_cursor
+    return call(prompt), backend
+
+
+def parse_json_array(text: str) -> list[dict]:
+    return _parse_json_array(text)
+
+
 def normalize_verdict(raw: dict, valid_children: list[str]) -> dict:
     children = [name for name in (raw.get("children") or []) if name in valid_children]
     category = str(raw.get("category") or "").strip().lower()

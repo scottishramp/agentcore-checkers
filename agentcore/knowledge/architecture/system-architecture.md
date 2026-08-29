@@ -1,6 +1,6 @@
 # AgentCore System Architecture
 
-Last updated: 2026-08-18
+Last updated: 2026-08-29
 
 ## Purpose
 
@@ -58,13 +58,19 @@ Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`
 
 Brian's personal mailbox (`briandherbert@gmail.com`) is a separate Gmail API surface. AgentCore can read all mail there, create/apply labels, archive, and trash using `gmail.modify`. This is on-demand admin access, not an intake queue: do not copy Brian's mailbox into `agentcore/inbox/email/`. Playbook: `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`.
 
+Two scheduled jobs read that mailbox: the **school communications digest** (narrow query, school senders) and the nightly **mailbox learning loop** (whole mailbox, sender-level policy). The learning loop is read-only — it never labels, archives, or trashes.
+
+### Google Calendar
+
+Brian shared `briandherbert@googlemail.com` with `scottishramp@gmail.com` as `reader`, and AgentCore's OAuth token carries `calendar.readonly`. The nightly `ingest_calendar.py` step reads it and regenerates `agentcore/knowledge/calendar/upcoming.md` (7 days back through 60 days ahead) plus recurring-commitment facts. Read-only; nothing is written back to Google Calendar.
+
 A daily **school communications digest** reads that mailbox, applies the `26-27 School` label and archives matching mail out of Inbox (Gmail drag-to-label behavior), rebuilds a shared Google Doc (Important / per kid / General / Suggestions, with this-week items bold and a hyperlinked Link on each bullet), and pings Telegram with the Important section plus the Doc link. Classification is **LLM-first**: `scripts/email/email_evaluator.py` evaluates each email once (prefilter for junk senders, batches of 12 with roster context) via Gemini REST (`GEMINI_API_KEY`, optional) or Cursor Agent CLI (`CURSOR_API_KEY` in CI), records the verdict in the committed ledger `agentcore/knowledge/email/eval-ledger.json` (60-day retention, metadata only), and falls back to the keyword classifier when no backend is available. LLM `learn` entries update the 2026-27 roster (teachers/sports/activities) and `agentcore/knowledge/people/family-facts.md` (general household facts). Playbooks: `agentcore/knowledge/playbooks/school-comms-digest.md`, `agentcore/knowledge/playbooks/agentic-jobs-cursor-cli.md`.
 
 ## Workflows
 
 - `.github/workflows/email-sync.yml`: email inbox fetch/triage, Drive metadata ingest, runner dispatch (daily 6:00 AM America/Chicago). It intentionally does **not** consume Telegram.
 - `.github/workflows/agent-runner.yml`: Telegram fetch/triage/transcript commit, school digest with LLM email evaluation (Cursor CLI installed before the digest step; `CURSOR_API_KEY` + optional `GEMINI_API_KEY`), task execution via Cursor CLI model `grok-4.6` (override with secret `AGENTCORE_CURSOR_MODEL`), Telegram notifications, Vercel redeploy (daily 8:30 AM America/Chicago, and after email-sync completes).
-- `.github/workflows/knowledge-content-ingest.yml`: **knowledge content ingest** — Gmail bodies, Telegram inbox records, and allowlisted shared Drive doc exports; activates deferred content tasks; commits exported text; dispatches runner when content tasks or Telegram review tasks activate; attempts fast-router redeploy when `VERCEL_TOKEN` is present (daily 11:00 AM America/Chicago).
+- `.github/workflows/knowledge-content-ingest.yml`: **knowledge content ingest** — Gmail bodies, Telegram inbox records, and allowlisted shared Drive doc exports; activates deferred content tasks; then runs the **mailbox and calendar learning loop** (answer resolution, calendar ingest, whole-mailbox sweep, question batch); commits exported text and ledgers; dispatches runner when content tasks or Telegram review tasks activate; attempts fast-router redeploy when `VERCEL_TOKEN` is present (daily 11:00 AM America/Chicago).
 
 **Removed:** Google Chat polling, Google Chat HTTP app (`/api/agentcore-chat`), and `router-task.yml` live `repository_dispatch`.
 
@@ -90,6 +96,23 @@ Allowlist: `agentcore/knowledge/documents/content-ingest-allowlist.json`
 
 Playbook: `agentcore/knowledge/playbooks/knowledge-content-ingest.md`
 
+## Mailbox and Calendar Learning Loop
+
+Runs at the end of the nightly knowledge-content-ingest workflow. Its job is continuous, unattended learning about Brian, with a human in the loop only where the machine is genuinely unsure.
+
+1. `scripts/learn/resolve_answers.py` — parse Brian's Telegram replies and write them to sender policy.
+2. `scripts/ingest/ingest_calendar.py` — rebuild the schedule page and record new recurring commitments.
+3. `scripts/learn/mailbox_sweep.py` — sweep new mail, decide unknown senders, extract facts from `learn` senders, enqueue questions for low-confidence senders.
+4. `scripts/learn/ask_questions.py` — send up to five questions as one numbered Telegram batch.
+
+Decisions are made per **sender**, not per message, so each sender costs one model call ever and one question at most. Model verdicts at confidence ≥ 0.8 are recorded automatically; below that the sender becomes a question. **Brian's answers outrank model guesses and are never overwritten by a later model verdict.**
+
+Answers arrive through the existing Telegram intake path, so no new inbound surface exists. Replies that the deterministic parser cannot read are left untouched and still reach Cursor as a normal Telegram review task.
+
+Privacy: read-only against Gmail and Calendar; message bodies are read for extraction but never persisted; only distilled facts, senders, and subjects are committed.
+
+Playbook: `agentcore/knowledge/playbooks/mailbox-learning-loop.md`
+
 ## Data Stores
 
 - `agentcore/inbox/telegram/`: normalized Telegram messages from async triage.
@@ -98,6 +121,12 @@ Playbook: `agentcore/knowledge/playbooks/knowledge-content-ingest.md`
 - `agentcore/knowledge/communications/telegram-photo-registry.json`: label → Drive URL, description, filing status.
 - `agentcore/knowledge/communications/telegram-thread-ledger.json`: Telegram triage idempotency.
 - `agentcore/knowledge/email/eval-ledger.json`: per-message LLM email verdicts (school digest), 60-day retention, metadata only.
+- `agentcore/knowledge/email/sender-policy.json`: durable per-sender handling policy (`learn` / `info` / `ignore`) with source, rationale, and confidence. Brian-sourced entries are authoritative.
+- `agentcore/knowledge/email/mailbox-sweep-state.json`: sweep watermark plus recently processed message ids.
+- `agentcore/knowledge/communications/pending-questions.json`: questions awaiting Brian's answer, with batch id and number for reply matching.
+- `agentcore/knowledge/people/brian-learned-facts.md`: dated facts about Brian learned by the nightly sweep and calendar ingest, filed by category.
+- `agentcore/knowledge/calendar/upcoming.md`: regenerated near-term schedule from Brian's shared calendar.
+- `agentcore/knowledge/calendar/calendar-state.json`: recurring series already turned into facts.
 - `agentcore/knowledge/people/family-facts.md`: general household facts learned by the email evaluator (dated, deduped).
 - Upstash Redis: conversation history + inbound inbox queue + `agentcore:fast-context` (Telegram bot knowledge snapshot, published each runner cycle).
 - Standard repo stores: `hot-cache.md`, `index.md`, `blockers.md`, `log.md`, `inbox/tasks/`, etc.
@@ -152,5 +181,6 @@ Knowledge propagation is not complete until Vercel production reports a current 
 - `agentcore/knowledge/playbooks/email-ops.md`
 - `agentcore/knowledge/playbooks/brian-gmail-mailbox.md`
 - `agentcore/knowledge/playbooks/school-comms-digest.md`
+- `agentcore/knowledge/playbooks/mailbox-learning-loop.md`
 - `agentcore/knowledge/playbooks/agentic-jobs-cursor-cli.md`
 - `agentcore/knowledge/playbooks/communication-intake-contracts.md`

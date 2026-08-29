@@ -649,3 +649,17 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Brian asked to switch the GitHub Actions async job from Grok 4.5 to Grok 4.6 (same $2/$6 Cursor Models pool rate).
 - Default `AGENTCORE_CURSOR_MODEL` changed from `grok-4.5` to `grok-4.6` in `agent-runner.yml`, `scripts/agent/run_cursor_task.py`, and `scripts/email/email_evaluator.py`.
 - Optional override remains via GitHub secret `AGENTCORE_CURSOR_MODEL`.
+## [2026-08-29] feature | Nightly mailbox and calendar learning loop
+
+- Brian: keep learning about me — read my calendar in the nightly job, ingest info from all my mail, and ask when unsure whether a sender is important, informational, or spam, then learn from the answers.
+- Kickoff answers: questions on Telegram; max 5 per night; rolling window plus a one-time 90-day backfill; read-only mail for now (no labeling, archiving, or trashing).
+- **Calendar is now automated for the first time.** `scripts/ingest/ingest_calendar.py` reads Brian's shared `briandherbert@googlemail.com` calendar (AgentCore has `reader` + `calendar.readonly`), regenerates `agentcore/knowledge/calendar/upcoming.md` (7 days back / 60 ahead), and records recurring series as commitment facts. Previously the scope existed but nothing read it.
+- **Sender-level mailbox sweep.** `scripts/learn/mailbox_sweep.py` sweeps the whole personal mailbox and decides each *sender* once into `learn` / `info` / `ignore` in `agentcore/knowledge/email/sender-policy.json`. Deciding per sender rather than per message keeps nightly cost flat as volume grows and makes each question to Brian permanently valuable.
+- **Ask-Brian loop.** New `agentcore/knowledge/communications/pending-questions.json` ledger. Model verdicts at confidence >= 0.8 are auto-recorded; below that the sender becomes a numbered Telegram question. `ask_questions.py` batches up to five; `resolve_answers.py` parses replies ("1 learn, 2 ignore", "1l 2i 3s", "all ignore") out of the existing Telegram inbox records. Brian-sourced policy outranks model verdicts and is never overwritten. Unparseable prose replies are left alone and still reach Cursor as a normal Telegram review task.
+- Facts land in `agentcore/knowledge/people/brian-learned-facts.md`, dated and filed by category, deduped by fingerprint including containment so restated facts do not duplicate.
+- Privacy: read-only against Gmail and Calendar; bodies read for extraction but never committed; prompt forbids passwords, full account numbers, and auth codes.
+- Wired into `knowledge-content-ingest.yml` (11:00 AM CT) in order: resolve answers, calendar, sweep, ask. Cursor CLI install added to that workflow. Step summary now reports the learning-loop numbers.
+- Verified live: calendar returned 21 events and 2 recurring series; a 60-message sweep classified 20 senders (15 auto: 4 learn / 5 info / 6 ignore) and raised 5 questions on genuinely ambiguous senders (barber, volunteer newsletter, youth hockey, Compassion, a YouVersion colleague's prayer list). Extracted Capital One and Pershing/BlackRock account facts.
+- New `tests/test_learning_loop.py` (40 assertions, no network) covers answer parsing, policy precedence, question lifecycle, and fact-page writing. Wired into `npm test` as `test:learn`.
+- Playbook: `agentcore/knowledge/playbooks/mailbox-learning-loop.md`. Architecture, index, and hot-cache updated.
+- Open: the one-time 90-day backfill has not been run yet.

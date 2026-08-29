@@ -1,0 +1,202 @@
+{
+  "domains": {},
+  "senders": {
+    "capitalone@notification.capitalone.com": {
+      "confidence": 0.9,
+      "display_name": "Capital One | VentureOne",
+      "first_seen": "2026-08-29T16:19:56.025274+00:00",
+      "message_count": 0,
+      "policy": "learn",
+      "rationale": "This is a Capital One VentureOne account alert about a possible double charge, not marketing.",
+      "sample_subjects": [
+        "It looks like you were charged twice"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025276+00:00"
+    },
+    "donotreply@edmondschools.net": {
+      "confidence": 0.96,
+      "display_name": "North High School",
+      "first_seen": "2026-08-29T16:19:56.025289+00:00",
+      "message_count": 0,
+      "policy": "learn",
+      "rationale": "Edmond Public Schools newsletters for the kids' schools regularly include dates, sports, and logistics.",
+      "sample_subjects": [
+        "Husky Pride Newsletter 08.28.2026"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025290+00:00"
+    },
+    "firebase-noreply@google.com": {
+      "confidence": 0.93,
+      "display_name": "Experiencia B\u00edblica para Ni\u00f1os (via Firebase App Distribution)",
+      "first_seen": "2026-08-29T16:19:56.025284+00:00",
+      "message_count": 0,
+      "policy": "info",
+      "rationale": "These are YouVersion Android test-build pings from work, useful to recognize but not lasting family facts.",
+      "sample_subjects": [
+        "Experiencia B\u00edblica para Ni\u00f1os 1.0.8 (1015001) for Android is ready to test"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025286+00:00"
+    },
+    "googleplay-noreply@google.com": {
+      "confidence": 0.95,
+      "display_name": "Google Play",
+      "first_seen": "2026-08-29T16:19:56.025322+00:00",
+      "message_count": 0,
+      "policy": "info",
+      "rationale": "Google Play receipts confirm a purchase but do not add lasting household facts.",
+      "sample_subjects": [
+        "Your Google Play Order Receipt from Aug 27, 2026"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025323+00:00"
+    },
+    "googlewallet-noreply@google.com": {
+      "confidence": 0.88,
+      "display_name": "Google Wallet",
+      "first_seen": "2026-08-29T16:19:56.025280+00:00",
+      "message_count": 0,
+      "policy": "info",
+      "rationale": "Google Wallet charge notices for Nathan are real payment alerts, but each one is a one-off receipt.",
+      "sample_subjects": [
+        "Nathan charged USD 5.00"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025281+00:00"
+    },
+    "id@proxyvote.com": {
+      "confidence": 0.9,
+      "display_name": "PERSHING LLC",
+      "first_seen": "2026-08-29T16:19:56.025318+00:00",
+      "message_count": 0,
+      "policy": "learn",
+      "rationale": "Pershing/BlackRock proxy notices mean you have an investment account worth remembering.",
+      "sample_subjects": [
+        "BLACKROCK FUNDS Important Information"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025319+00:00"
+    },
+    "messenger@edmondschools.net": {
+      "confidence": 0.95,
+      "display_name": "messenger@edmondschools.net",
+      "first_seen": "2026-08-29T16:19:56.025294+00:00",
+      "message_count": 0,
+      "policy": "learn",
+      "rationale": "This is the Edmond school messenger already used for Daniel's English quiz and assignment reminders.",
+      "sample_subjects": [
+        "Quiz Reminder"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025295+00:00"
+    },
+    "msa@communication.microsoft.com": {
+      "confidence": 0.88,
+      "display_name": "Microsoft",
+      "first_seen": "2026-08-29T16:19:56.025267+00:00",
+      "message_count": 0,
+      "policy": "info",
+      "rationale": "Microsoft terms-of-use updates are legitimate account mail but do not add lasting facts about you.",
+      "sample_subjects": [
+        "Updates to our terms of use"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025269+00:00"
+    },
+    "no-reply@github.com": {
+      "confidence": 0.91,
+      "display_name": "GitHub",
+      "first_seen": "2026-08-29T16:19:56.025300+00:00",
+      "message_count": 0,
+      "policy": "ignore",
+      "rationale": "This is GitHub product marketing for Secret Protection, not a security or account notice.",
+      "sample_subjects": [
+        "Secure your CI/CD with GitHub Secret Protection"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025301+00:00"
+    },
+    "no-reply@spotify.com": {
+      "confidence": 0.95,
+      "display_name": "Spotify",
+      "first_seen": "2026-08-29T16:19:56.025309+00:00",
+      "message_count": 0,
+      "policy": "ignore",
+      "rationale": "This is a Spotify Premium discount promo.",
+      "sample_subjects": [
+        "Smooth out the transitions with Premium, $6.99 for 2 months."
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025310+00:00"
+    },
+    "no-reply@youtube.com": {
+      "confidence": 0.92,
+      "display_name": "YouTube TV",
+      "first_seen": "2026-08-29T16:19:56.025327+00:00",
+      "message_count": 0,
+      "policy": "ignore",
+      "rationale": "This YouTube TV message is a win-back sports-plan promotion, not an account notice.",
+      "sample_subjects": [
+        "Come back for the NFL kickoff and save with the Sports Plan"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025328+00:00"
+    },
+    "noreply@robinhood.com": {
+      "confidence": 0.92,
+      "display_name": "Robinhood",
+      "first_seen": "2026-08-29T16:19:56.025226+00:00",
+      "message_count": 0,
+      "policy": "ignore",
+      "rationale": "These are Robinhood bonus and APY promos, not statements or account notices.",
+      "sample_subjects": [
+        "Ending soon: claim an uncapped transfer bonus"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025253+00:00"
+    },
+    "noreply@runsignup.com": {
+      "confidence": 0.88,
+      "display_name": "Ridgeview Farm Brew Run 5k",
+      "first_seen": "2026-08-29T16:19:56.025304+00:00",
+      "message_count": 0,
+      "policy": "ignore",
+      "rationale": "This is a race signup price-increase promo, not a confirmed registration.",
+      "sample_subjects": [
+        "Price Goes Up Tomorrow - Sign Up Now!"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025305+00:00"
+    },
+    "online@life.church": {
+      "confidence": 0.93,
+      "display_name": "Life.Church",
+      "first_seen": "2026-08-29T16:19:56.025314+00:00",
+      "message_count": 0,
+      "policy": "ignore",
+      "rationale": "This is a promotional church blast, not Life.Church work or HR mail.",
+      "sample_subjects": [
+        "Come just as you are"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025315+00:00"
+    },
+    "order-update@amazon.com": {
+      "confidence": 0.95,
+      "display_name": "Amazon.com",
+      "first_seen": "2026-08-29T16:19:56.025331+00:00",
+      "message_count": 0,
+      "policy": "info",
+      "rationale": "Amazon delivery updates are routine shipping notices, not durable account or family facts.",
+      "sample_subjects": [
+        "Delivered: 1 Book item"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T16:19:56.025333+00:00"
+    }
+  },
+  "updated_at": "2026-08-29T16:20:59.566540+00:00",
+  "version": 1
+}
