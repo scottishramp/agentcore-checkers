@@ -7,7 +7,7 @@ Canonical version record for the fast Telegram router.
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.5.4** |
+| Router version | **2.5.5** |
 | Context bundle version | **2.5.3** |
 | Released | 2026-08-29 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
@@ -48,6 +48,10 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.5.5 — 2026-08-29
+
+- Photo describe was aborting at 12s. Production logs show a successful photo webhook that finished in 13s with "vision description failed". Vision timeout is now 35s; photo/webhook budgets raised to match the 60s function limit.
 
 ### 2.5.4 — 2026-08-29
 

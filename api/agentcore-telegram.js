@@ -105,7 +105,7 @@ module.exports = async function handler(request, response) {
       has_media: Boolean(event.agentcore.media),
     });
 
-    const webhookBudgetMs = Number(process.env.AGENTCORE_TELEGRAM_WEBHOOK_BUDGET_MS || 22000);
+    const webhookBudgetMs = Number(process.env.AGENTCORE_TELEGRAM_WEBHOOK_BUDGET_MS || 50000);
     let routed;
     let budgetTimer;
     try {

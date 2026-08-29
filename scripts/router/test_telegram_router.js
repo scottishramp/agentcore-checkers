@@ -156,7 +156,7 @@ async function run() {
 
   const timedOutPhoto = await routeChatEvent(photoEvent, {
     history: [],
-    env: { AGENTCORE_TELEGRAM_PHOTO_BUDGET_MS: "40" },
+    env: { AGENTCORE_TELEGRAM_PHOTO_BUDGET_MS: "40", AGENTCORE_FAST_VISION: "false" },
     describePhotoClient: () =>
       new Promise((resolve) => {
         setTimeout(() => resolve({ description: "should not be used" }), 400);

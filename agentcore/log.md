@@ -669,3 +669,9 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Brian sent an image to `@AgentCoreFam_bot` and Telegram reported an error.
 - `getWebhookInfo.last_error_message` was `Wrong response from the webhook: 504 Gateway Timeout` at the same time as the send. The photo path downloads the file and asks Gemini to describe it before returning 200; that exceeded Vercel's 30s `maxDuration`, so Telegram never got a success and showed a failed send.
 - Router `2.5.4`: Telegram download and Gemini vision are time-boxed; photo processing has an 18s budget with a fallback description; the webhook itself has a 22s budget that still replies and queues the file id. Function `maxDuration` raised to 60s as a backstop. Telegram replies are clipped to 4000 characters.
+
+## [2026-08-29] bugfix | Telegram photo vision 12s abort
+
+- After 2.5.4, Brian still got "vision description failed". That string is not the 30s webhook timeout; it is thrown when `describePhotoWithGemini` fails.
+- Production log for `Try to ingest this` (has_media=true) received at 18:02:38Z and routed at 18:02:51Z — 13s, HTTP 200. Vision fetch was aborted at 12s, then swallowed as "vision description failed".
+- Router `2.5.5`: vision timeout 35s, photo budget 45s, webhook budget 50s. Describe errors are logged instead of swallowed silently.

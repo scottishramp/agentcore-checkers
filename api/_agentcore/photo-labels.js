@@ -76,7 +76,7 @@ async function describePhotoWithGemini({ inlineMedia, caption, label, env = proc
     `User caption: ${captionText}`,
     "Describe this photo in detail for the knowledge base.",
   ].join("\n");
-  const timeoutMs = Number(env.AGENTCORE_TELEGRAM_VISION_TIMEOUT_MS || 12000);
+  const timeoutMs = Number(env.AGENTCORE_TELEGRAM_VISION_TIMEOUT_MS || 35000);
   const signal =
     typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
       ? AbortSignal.timeout(Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 12000)
@@ -110,10 +110,16 @@ async function describePhotoWithGemini({ inlineMedia, caption, label, env = proc
   });
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(`Gemini photo describe failed: ${response.status}`);
+    throw new Error(
+      `Gemini photo describe failed: ${response.status} ${JSON.stringify(payload).slice(0, 300)}`,
+    );
   }
   const parts = (((payload.candidates || [])[0] || {}).content || {}).parts || [];
   const modelText = parts.map((part) => part.text || "").join("\n").trim();
+  if (!modelText) {
+    const finish = (((payload.candidates || [])[0] || {}).finishReason || "") + "";
+    throw new Error(`Gemini photo describe returned empty text (finishReason=${finish || "unknown"})`);
+  }
   const parsed = parseJsonFromText(modelText);
   return {
     description: compactWhitespace(parsed.description) || "Photo received; no description returned.",
@@ -168,9 +174,24 @@ async function processPhotoMessage({
     caption: text,
     label,
     env,
-  }).catch(() => ({
-    description: "Photo received; vision description failed.",
-  }));
+  }).catch((error) => {
+    const message = String(error && error.message ? error.message : error);
+    console.log(
+      JSON.stringify({
+        service: "agentcore-telegram",
+        label: "photo_describe_error",
+        at: new Date().toISOString(),
+        photo_label: label,
+        message: message.slice(0, 400),
+      }),
+    );
+    const timedOut = /abort|timeout/i.test(message);
+    return {
+      description: timedOut
+        ? "Photo received; the vision request timed out before Gemini finished."
+        : "Photo received; vision description failed.",
+    };
+  });
   const description = described.description;
   const media = {
     ...(meta.media || {}),

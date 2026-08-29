@@ -51,7 +51,7 @@ async function run() {
       throw new Error("Gemini should not run for version command");
     },
   });
-  assert.match(version.text, /AgentCore Fast Router v2\.5\.4/);
+  assert.match(version.text, /AgentCore Fast Router v2\.5\.5/);
   assert.match(version.text, /Context bundle: v2\.5\.3/);
   assert(context.includes("stuff-we-own"), "context should include household inventory");
   assert(context.includes("medical-and-drs"), "context should include family medical providers");

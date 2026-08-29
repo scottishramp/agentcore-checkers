@@ -34,6 +34,28 @@ assert.ok(reply.includes("\n\n"), "photo reply should preserve paragraph breaks"
   assert.match(photoResult.decision.response, /Photo label:/);
   assert.match(photoResult.decision.response, /health insurance/i);
   assert.match(photoResult.decision.async_task_body, /Photo label:/);
+
+  const aborted = await processPhotoMessage({
+    event: { agentcore: { telegram_username: "brianh", media: { telegram_file_id: "abc" } } },
+    text: "[photo attached]",
+    inlineMedia: { buffer: Buffer.from("x"), mime_type: "image/jpeg" },
+    env: {},
+    describeClient: async () => {
+      throw new Error("The operation was aborted due to timeout");
+    },
+  });
+  assert.match(aborted.description, /timed out/i);
+
+  const failed = await processPhotoMessage({
+    event: { agentcore: { telegram_username: "brianh", media: { telegram_file_id: "abc" } } },
+    text: "[photo attached]",
+    inlineMedia: { buffer: Buffer.from("x"), mime_type: "image/jpeg" },
+    env: {},
+    describeClient: async () => {
+      throw new Error("Gemini photo describe failed: 400");
+    },
+  });
+  assert.match(failed.description, /vision description failed/i);
   console.log("photo label tests passed");
 })().catch((error) => {
   console.error(error);

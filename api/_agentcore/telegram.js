@@ -168,7 +168,7 @@ async function downloadTelegramFile(fileId, env = process.env) {
     throw new Error("Missing TELEGRAM_BOT_TOKEN.");
   }
   const maxBytes = Number(env.AGENTCORE_TELEGRAM_MAX_DOWNLOAD_BYTES || 4 * 1024 * 1024);
-  const timeoutMs = fetchTimeoutMs(env, 8000);
+  const timeoutMs = fetchTimeoutMs(env, 15000);
   const metaResponse = await fetch(
     `https://api.telegram.org/bot${token}/getFile?file_id=${encodeURIComponent(String(fileId || ""))}`,
     { signal: abortSignal(timeoutMs) },

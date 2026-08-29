@@ -7,7 +7,7 @@ const { loadVersionRegistry, tryDeterministicVersionAnswer, versionMetadata } = 
 
 const DEFAULT_MODEL = "gemini-3.7-flash";
 const DEFER_RESPONSE = "*DEFER* The slower, smarter agent might be able to help with this";
-const DEFAULT_PHOTO_BUDGET_MS = 18000;
+const DEFAULT_PHOTO_BUDGET_MS = 45000;
 
 function compactWhitespace(text) {
   return String(text || "").replace(/\s+/g, " ").trim();

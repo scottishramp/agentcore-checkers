@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
-  "router_version": "2.5.4",
+  "router_version": "2.5.5",
   "context_bundle_version": "2.5.3",
   "released_at": "2026-08-29",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.5.5",
+      "context_bundle_version": "2.5.3",
+      "date": "2026-08-29",
+      "summary": "Photo vision timeout raised from 12s to 35s; the previous cap aborted Gemini mid-describe and showed vision description failed"
+    },
     {
       "router_version": "2.5.4",
       "context_bundle_version": "2.5.3",
