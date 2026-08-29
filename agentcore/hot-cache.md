@@ -66,7 +66,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
-- Mailbox + calendar learning loop (2026-08-29): new nightly steps in `knowledge-content-ingest.yml`. Ledgers `email/sender-policy.json` and `communications/pending-questions.json`; knowledge pages `people/brian-learned-facts.md` and `calendar/upcoming.md`. Brian chose Telegram questions, max 5/night, rolling window + one-time 90-day backfill, read-only mail (no labeling/archiving). Backfill not yet run.
+- Mailbox + calendar learning loop (2026-08-29): new nightly steps in `knowledge-content-ingest.yml`. Ledgers `email/sender-policy.json` and `communications/pending-questions.json`; knowledge pages `people/brian-learned-facts.md` and `calendar/upcoming.md`. Brian chose Telegram questions, max 5/night, read-only mail (no labeling/archiving), and no historical backfill — knowledge accumulates from the rolling window forward.
 - Medical and Drs ingested (2026-08-23): Edmond Pediatrics / Dr. Corbin; Aetna 2015LC; amoxicillin allergy (Silver, Ezra, Daniel). Passwords left in Drive. Page: `knowledge/people/medical-and-drs.md`. Fast context `2.5.3`.
 - Home address and important contacts saved (2026-08-22): 2905 Overland Way, Edmond, OK 73012; Daniel/Nathan/Ezra emails and phones; Kristin and Mom phones. Page: `knowledge/people/important-contacts.md`. Fast context `2.5.2`.
 - Ingested Brian's newly shared Drive docs (2026-08-22): Life 2025 dates + Mom's Royersford address; household inventory (Overland house, Honda Fit, Kia Carnival, appliances) at `knowledge/household/stuff-we-own.md`. Fast context bundle `2.5.1`.

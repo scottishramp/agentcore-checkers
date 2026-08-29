@@ -662,4 +662,4 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Verified live: calendar returned 21 events and 2 recurring series; a 60-message sweep classified 20 senders (15 auto: 4 learn / 5 info / 6 ignore) and raised 5 questions on genuinely ambiguous senders (barber, volunteer newsletter, youth hockey, Compassion, a YouVersion colleague's prayer list). Extracted Capital One and Pershing/BlackRock account facts.
 - New `tests/test_learning_loop.py` (40 assertions, no network) covers answer parsing, policy precedence, question lifecycle, and fact-page writing. Wired into `npm test` as `test:learn`.
 - Playbook: `agentcore/knowledge/playbooks/mailbox-learning-loop.md`. Architecture, index, and hot-cache updated.
-- Open: the one-time 90-day backfill has not been run yet.
+- Backfill decision reversed same day: Brian chose to skip the historical backfill after all and let the rolling window build knowledge going forward. `--backfill-days` remains available but unused.
