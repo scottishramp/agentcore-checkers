@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
-  "router_version": "2.5.5",
+  "router_version": "2.5.6",
   "context_bundle_version": "2.5.3",
   "released_at": "2026-08-29",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.5.6",
+      "context_bundle_version": "2.5.3",
+      "date": "2026-08-29",
+      "summary": "Photo webhooks ACK immediately; Gemini vision may use the full 300s function lifetime instead of aborting at 35s"
+    },
     {
       "router_version": "2.5.5",
       "context_bundle_version": "2.5.3",

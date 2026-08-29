@@ -7,7 +7,7 @@ const { loadVersionRegistry, tryDeterministicVersionAnswer, versionMetadata } = 
 
 const DEFAULT_MODEL = "gemini-3.7-flash";
 const DEFER_RESPONSE = "*DEFER* The slower, smarter agent might be able to help with this";
-const DEFAULT_PHOTO_BUDGET_MS = 45000;
+const DEFAULT_PHOTO_BUDGET_MS = 290000;
 
 function compactWhitespace(text) {
   return String(text || "").replace(/\s+/g, " ").trim();
@@ -220,9 +220,12 @@ function photoBudgetMs(env = process.env) {
 }
 
 function timeoutResult(ms) {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve({ timedOut: true }), ms);
+  let timer;
+  const promise = new Promise((resolve) => {
+    timer = setTimeout(() => resolve({ timedOut: true }), ms);
   });
+  promise.clear = () => clearTimeout(timer);
+  return promise;
 }
 
 async function describePhotoWithinBudget({ event, text, media, env, describeClient }) {
@@ -239,10 +242,16 @@ async function describePhotoWithinBudget({ event, text, media, env, describeClie
       describeClient,
     });
   })();
-  const raced = await Promise.race([
-    work.then((result) => ({ timedOut: false, result })),
-    timeoutResult(photoBudgetMs(env)),
-  ]);
+  const budget = timeoutResult(photoBudgetMs(env));
+  let raced;
+  try {
+    raced = await Promise.race([
+      work.then((result) => ({ timedOut: false, result })),
+      budget,
+    ]);
+  } finally {
+    budget.clear();
+  }
   if (raced.timedOut) {
     return processPhotoMessage({
       event,

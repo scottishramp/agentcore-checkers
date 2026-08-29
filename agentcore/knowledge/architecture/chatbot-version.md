@@ -7,7 +7,7 @@ Canonical version record for the fast Telegram router.
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.5.5** |
+| Router version | **2.5.6** |
 | Context bundle version | **2.5.3** |
 | Released | 2026-08-29 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
@@ -48,6 +48,10 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.5.6 — 2026-08-29
+
+- Photo webhooks return 200 immediately, then Gemini describe continues in the background for up to 300s. Telegram no longer waits on vision, so a long look cannot 504 or abort at 35s.
 
 ### 2.5.5 — 2026-08-29
 

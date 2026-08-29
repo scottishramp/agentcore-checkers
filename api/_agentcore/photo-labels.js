@@ -76,10 +76,10 @@ async function describePhotoWithGemini({ inlineMedia, caption, label, env = proc
     `User caption: ${captionText}`,
     "Describe this photo in detail for the knowledge base.",
   ].join("\n");
-  const timeoutMs = Number(env.AGENTCORE_TELEGRAM_VISION_TIMEOUT_MS || 35000);
+  const timeoutMs = Number(env.AGENTCORE_TELEGRAM_VISION_TIMEOUT_MS || 290000);
   const signal =
     typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
-      ? AbortSignal.timeout(Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 12000)
+      ? AbortSignal.timeout(Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 290000)
       : undefined;
   const response = await fetch(url, {
     method: "POST",

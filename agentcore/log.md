@@ -675,3 +675,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 - After 2.5.4, Brian still got "vision description failed". That string is not the 30s webhook timeout; it is thrown when `describePhotoWithGemini` fails.
 - Production log for `Try to ingest this` (has_media=true) received at 18:02:38Z and routed at 18:02:51Z — 13s, HTTP 200. Vision fetch was aborted at 12s, then swallowed as "vision description failed".
 - Router `2.5.5`: vision timeout 35s, photo budget 45s, webhook budget 50s. Describe errors are logged instead of swallowed silently.
+
+## [2026-08-29] bugfix | Telegram photo ACK-then-background
+
+- 35s was still aborting Gemini mid-describe. Telegram only waits ~60s for webhook 200, so holding the HTTP response until vision finishes cannot give Gemini more time.
+- Router `2.5.6`: photo webhooks return 200 immediately (`accepted: true`), then `waitUntil` continues download + Gemini describe for up to 290s. Function `maxDuration` is 300s. Text messages still reply before 200.

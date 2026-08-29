@@ -1,7 +1,7 @@
 const { loadFastContext } = require("./_agentcore/context");
 const { historyConfigured, historyMessageLimit, historyTtlSeconds } = require("./_agentcore/store");
 const { loadVersionRegistry } = require("./_agentcore/version");
-const { enqueueInboxMessage, routeChatEvent } = require("./_agentcore/fast-router");
+const { routeChatEvent } = require("./_agentcore/fast-router");
 const {
   allowedUserIds,
   botToken,
@@ -31,6 +31,32 @@ async function readJsonBody(request) {
   }
   const raw = Buffer.concat(chunks).toString("utf8");
   return raw ? JSON.parse(raw) : {};
+}
+
+function scheduleBackground(work) {
+  try {
+    const { waitUntil } = require("@vercel/functions");
+    if (typeof waitUntil === "function") {
+      waitUntil(work);
+      return;
+    }
+  } catch (_error) {
+    // Local tests and non-Vercel runtimes just finish the work in-process.
+  }
+  return work;
+}
+
+async function routeAndReply(event) {
+  const loaded = await loadFastContext();
+  const routed = await routeChatEvent(event, { context: loaded.context });
+  try {
+    await sendTelegramMessage(event.agentcore.telegram_chat_id, routed.text || "Got it.");
+  } catch (sendError) {
+    logRouterEvent("telegram_send_error", {
+      message: String(sendError && sendError.message ? sendError.message : sendError).slice(0, 300),
+    });
+  }
+  logRouterEvent("telegram_message_routed", routed._meta || {});
 }
 
 function verifyWebhookSecret(request) {
@@ -105,49 +131,25 @@ module.exports = async function handler(request, response) {
       has_media: Boolean(event.agentcore.media),
     });
 
-    const webhookBudgetMs = Number(process.env.AGENTCORE_TELEGRAM_WEBHOOK_BUDGET_MS || 50000);
-    let routed;
-    let budgetTimer;
-    try {
-      routed = await Promise.race([
-        loadFastContext().then((loaded) => routeChatEvent(event, { context: loaded.context })),
-        new Promise((_, reject) => {
-          budgetTimer = setTimeout(() => reject(new Error("webhook_budget_exceeded")), webhookBudgetMs);
-        }),
-      ]);
-    } catch (routeError) {
-      const hasMedia = Boolean(event.agentcore.media);
-      logRouterEvent("telegram_route_timeout", {
-        message: String(routeError && routeError.message ? routeError.message : routeError).slice(0, 200),
-        has_media: hasMedia,
+    const work = routeAndReply(event).catch((error) => {
+      logRouterEvent("telegram_background_error", {
+        message: String(error && error.message ? error.message : error).slice(0, 300),
+        has_media: Boolean(event.agentcore.media),
       });
-      routed = {
-        text: hasMedia
-          ? "Got the photo. The quick look timed out, but I’ll file it on the next scheduled pass."
-          : "Got it — I hit a delay. I’ll pick this up on the next pass.",
-      };
-      await enqueueInboxMessage({
-        event,
-        text: event.message.text,
-        decision: {
-          route: hasMedia ? "knowledge_update" : "task",
-          response: routed.text,
-          async_task_title: hasMedia ? "Ingest Telegram photo" : "",
-          async_task_body: event.message.text,
-          confidence: 0.4,
-        },
-      }).catch(() => null);
-    } finally {
-      clearTimeout(budgetTimer);
+    });
+
+    // Photos: ack Telegram immediately so the webhook cannot 504, then let Gemini
+    // use the rest of the function lifetime (up to maxDuration).
+    if (event.agentcore.media) {
+      const scheduled = scheduleBackground(work);
+      response.status(200).json({ ok: true, accepted: true });
+      if (scheduled && typeof scheduled.then === "function") {
+        await scheduled;
+      }
+      return;
     }
-    try {
-      await sendTelegramMessage(event.agentcore.telegram_chat_id, routed.text || "Got it.");
-    } catch (sendError) {
-      logRouterEvent("telegram_send_error", {
-        message: String(sendError && sendError.message ? sendError.message : sendError).slice(0, 300),
-      });
-    }
-    logRouterEvent("telegram_message_routed", routed._meta || {});
+
+    await work;
     response.status(200).json({ ok: true });
   } catch (error) {
     const message = String(error && error.message ? error.message : error);

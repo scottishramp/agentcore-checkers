@@ -54,7 +54,7 @@ The response must show the expected `router_version`, `context_hash`, `context_f
 
 ## Flow
 
-1. User messages bot (text or photo + caption) → for photos, fast agent assigns label `{username}_{YYYYMMDDHHmmss}`, describes the image in detail, and replies with label + description. Download + vision are time-boxed (~18s); if they overrun, the bot still replies and queues the file id so Telegram does not get a 504.
+1. User messages bot (text or photo + caption) → for photos, the webhook ACKs Telegram immediately, then the fast agent assigns label `{username}_{YYYYMMDDHHmmss}`, describes the image (up to ~290s), and replies with label + description.
 2. Bot queues message to Redis with `photo_label`, `photo_description`, and media metadata.
 3. Write-capable Actions fetch + triage and write normalized inbox records plus `agentcore/knowledge/communications/telegram-transcript.md`; every allowed message is queued for async Cursor review.
 4. Cursor reads the review task, matching inbox record, transcript, and repo knowledge, then decides per message whether it is durable knowledge, coding/action work, or no-op; applies updates, then replies if needed. Cursor may output `NO_TELEGRAM_REPLY` to suppress a duplicate Telegram response when the fast bot already handled the turn.
