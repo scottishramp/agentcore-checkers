@@ -21,7 +21,7 @@ Host Brian Herbert's public writing at `burningaltar.com` as a simple self-hoste
 
 ## Current Status
 
-- Live: https://burningaltar.com/
+- Live: https://burningaltar.com/ (home is a newest-first full-post scroll; `/blog/` is the title list)
 - Alternate: https://scottishramp.github.io/burningaltar/
 - Delivery repo: https://github.com/scottishramp/burningaltar (public, Hugo + vendored hugo-bearblog, GitHub Actions Pages)
 - Custom domain HTTPS enforced on GitHub Pages.
