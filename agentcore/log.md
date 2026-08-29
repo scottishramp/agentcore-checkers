@@ -664,3 +664,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 - Playbook: `agentcore/knowledge/playbooks/mailbox-learning-loop.md`. Architecture, index, and hot-cache updated.
 - Backfill decision reversed same day: Brian chose to skip the 90-day historical backfill and let the rolling window build knowledge going forward.
 - Same day, Brian asked for a **7-day backfill**. Run inspected 101 additional messages across 41 senders (10 already known). Auto-recorded 26 policies; extracted 40 facts and added 39. Policy totals after the run: 16 learn / 12 info / 13 ignore. Enqueued 4 new questions (Merkle driving school, OKC Memorial Marathon, Threshold Climbing, David & Patty Stout). Compassion International was later auto-classified `learn` from the 17-year sponsor-versary mail, so that earlier question was closed. Mom's email `edaherbert@gmail.com` added to important-contacts.
+## [2026-08-29] bugfix | Telegram photo webhook 504
+
+- Brian sent an image to `@AgentCoreFam_bot` and Telegram reported an error.
+- `getWebhookInfo.last_error_message` was `Wrong response from the webhook: 504 Gateway Timeout` at the same time as the send. The photo path downloads the file and asks Gemini to describe it before returning 200; that exceeded Vercel's 30s `maxDuration`, so Telegram never got a success and showed a failed send.
+- Router `2.5.4`: Telegram download and Gemini vision are time-boxed; photo processing has an 18s budget with a fallback description; the webhook itself has a 22s budget that still replies and queues the file id. Function `maxDuration` raised to 60s as a backstop. Telegram replies are clipped to 4000 characters.

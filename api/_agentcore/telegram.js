@@ -151,14 +151,27 @@ function updateToEvent(update) {
   };
 }
 
+function fetchTimeoutMs(env = process.env, fallback = 8000) {
+  const raw = Number(env.AGENTCORE_TELEGRAM_FETCH_TIMEOUT_MS || fallback);
+  return Number.isFinite(raw) && raw > 0 ? raw : fallback;
+}
+
+function abortSignal(ms) {
+  return typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
+    ? AbortSignal.timeout(ms)
+    : undefined;
+}
+
 async function downloadTelegramFile(fileId, env = process.env) {
   const token = botToken(env);
   if (!token) {
     throw new Error("Missing TELEGRAM_BOT_TOKEN.");
   }
   const maxBytes = Number(env.AGENTCORE_TELEGRAM_MAX_DOWNLOAD_BYTES || 4 * 1024 * 1024);
+  const timeoutMs = fetchTimeoutMs(env, 8000);
   const metaResponse = await fetch(
     `https://api.telegram.org/bot${token}/getFile?file_id=${encodeURIComponent(String(fileId || ""))}`,
+    { signal: abortSignal(timeoutMs) },
   );
   const metaPayload = await metaResponse.json().catch(() => ({}));
   if (!metaResponse.ok || !metaPayload.ok || !metaPayload.result || !metaPayload.result.file_path) {
@@ -169,7 +182,9 @@ async function downloadTelegramFile(fileId, env = process.env) {
   if (fileSize > maxBytes) {
     throw new Error(`Telegram file exceeds download limit (${fileSize} > ${maxBytes}).`);
   }
-  const fileResponse = await fetch(`https://api.telegram.org/file/bot${token}/${filePath}`);
+  const fileResponse = await fetch(`https://api.telegram.org/file/bot${token}/${filePath}`, {
+    signal: abortSignal(timeoutMs),
+  });
   if (!fileResponse.ok) {
     throw new Error(`Telegram file download failed: ${fileResponse.status}`);
   }
@@ -191,12 +206,15 @@ async function sendTelegramMessage(chatId, text, env = process.env) {
   if (!token) {
     throw new Error("Missing TELEGRAM_BOT_TOKEN.");
   }
+  const clipped = String(text || "Got it.");
+  const limit = 4000;
+  const bodyText = clipped.length > limit ? `${clipped.slice(0, limit - 14)}\n…[truncated]` : clipped;
   const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       chat_id: chatId,
-      text: String(text || "Got it."),
+      text: bodyText,
     }),
   });
   const payload = await response.json().catch(() => ({}));

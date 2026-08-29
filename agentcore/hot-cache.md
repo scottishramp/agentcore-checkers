@@ -66,6 +66,7 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Telegram photo 504 fix (2026-08-29): webhook last error was `504 Gateway Timeout` — download + Gemini vision exceeded Vercel’s 30s function limit. Router `2.5.4` time-boxes vision and still queues the file.
 - 7-day mailbox backfill (2026-08-29): inspected 101 additional messages / 41 senders; 26 new auto-policies; 39 facts added (PNC mortgage, Capital One auto loan, Wells Fargo, INTEGRIS, Valdoro stay, Compassion sponsorship, school dates). Policy totals now 16 learn / 12 info / 13 ignore. Four new questions queued (driver ed, OKC marathon, Threshold Climbing, David & Patty Stout).
 - Mailbox + calendar learning loop (2026-08-29): new nightly steps in `knowledge-content-ingest.yml`. Ledgers `email/sender-policy.json` and `communications/pending-questions.json`; knowledge pages `people/brian-learned-facts.md` and `calendar/upcoming.md`. Brian chose Telegram questions, max 5/night, read-only mail (no labeling/archiving). A 7-day backfill was run the same day; no 90-day backfill.
 - Medical and Drs ingested (2026-08-23): Edmond Pediatrics / Dr. Corbin; Aetna 2015LC; amoxicillin allergy (Silver, Ezra, Daniel). Passwords left in Drive. Page: `knowledge/people/medical-and-drs.md`. Fast context `2.5.3`.

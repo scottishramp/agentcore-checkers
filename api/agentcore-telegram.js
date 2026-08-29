@@ -1,7 +1,7 @@
 const { loadFastContext } = require("./_agentcore/context");
 const { historyConfigured, historyMessageLimit, historyTtlSeconds } = require("./_agentcore/store");
 const { loadVersionRegistry } = require("./_agentcore/version");
-const { routeChatEvent } = require("./_agentcore/fast-router");
+const { enqueueInboxMessage, routeChatEvent } = require("./_agentcore/fast-router");
 const {
   allowedUserIds,
   botToken,
@@ -105,8 +105,41 @@ module.exports = async function handler(request, response) {
       has_media: Boolean(event.agentcore.media),
     });
 
-    const loaded = await loadFastContext();
-    const routed = await routeChatEvent(event, { context: loaded.context });
+    const webhookBudgetMs = Number(process.env.AGENTCORE_TELEGRAM_WEBHOOK_BUDGET_MS || 22000);
+    let routed;
+    let budgetTimer;
+    try {
+      routed = await Promise.race([
+        loadFastContext().then((loaded) => routeChatEvent(event, { context: loaded.context })),
+        new Promise((_, reject) => {
+          budgetTimer = setTimeout(() => reject(new Error("webhook_budget_exceeded")), webhookBudgetMs);
+        }),
+      ]);
+    } catch (routeError) {
+      const hasMedia = Boolean(event.agentcore.media);
+      logRouterEvent("telegram_route_timeout", {
+        message: String(routeError && routeError.message ? routeError.message : routeError).slice(0, 200),
+        has_media: hasMedia,
+      });
+      routed = {
+        text: hasMedia
+          ? "Got the photo. The quick look timed out, but I’ll file it on the next scheduled pass."
+          : "Got it — I hit a delay. I’ll pick this up on the next pass.",
+      };
+      await enqueueInboxMessage({
+        event,
+        text: event.message.text,
+        decision: {
+          route: hasMedia ? "knowledge_update" : "task",
+          response: routed.text,
+          async_task_title: hasMedia ? "Ingest Telegram photo" : "",
+          async_task_body: event.message.text,
+          confidence: 0.4,
+        },
+      }).catch(() => null);
+    } finally {
+      clearTimeout(budgetTimer);
+    }
     try {
       await sendTelegramMessage(event.agentcore.telegram_chat_id, routed.text || "Got it.");
     } catch (sendError) {

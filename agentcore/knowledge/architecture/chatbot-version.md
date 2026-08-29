@@ -7,9 +7,9 @@ Canonical version record for the fast Telegram router.
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.5.3** |
+| Router version | **2.5.4** |
 | Context bundle version | **2.5.3** |
-| Released | 2026-08-23 |
+| Released | 2026-08-29 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
 | Endpoint | `https://agentcore-fast-router.vercel.app/api/agentcore-telegram` |
 
@@ -48,6 +48,10 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.5.4 — 2026-08-29
+
+- Photo webhooks no longer 504. Telegram download and Gemini vision are time-boxed; if they run long the bot still replies and queues the file id instead of leaving Telegram waiting past Vercel's limit.
 
 ### 2.5.3 — 2026-08-23
 

@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
-  "router_version": "2.5.3",
+  "router_version": "2.5.4",
   "context_bundle_version": "2.5.3",
-  "released_at": "2026-08-23",
+  "released_at": "2026-08-29",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.5.4",
+      "context_bundle_version": "2.5.3",
+      "date": "2026-08-29",
+      "summary": "Photo webhooks stay under Telegram's wait: vision download/describe is time-boxed so a slow Gemini look returns 200 instead of a 504"
+    },
     {
       "router_version": "2.5.3",
       "context_bundle_version": "2.5.3",

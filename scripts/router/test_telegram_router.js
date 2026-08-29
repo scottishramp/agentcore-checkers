@@ -47,7 +47,7 @@ async function run() {
       }),
     },
   );
-  assert.match(routed.text, /I'm here/);
+  assert.match(routed.text, /I.m here/);
 
   const food = await routeChatEvent(event, {
     history: [],
@@ -153,6 +153,19 @@ async function run() {
   assert.match(photoRouted.text, /receipt/i);
   assert.ok(photoRouted.text.includes("\n\n"), "photo reply should keep paragraph breaks");
   assert.doesNotMatch(photoRouted.text, /Caption:.*Got the receipt/);
+
+  const timedOutPhoto = await routeChatEvent(photoEvent, {
+    history: [],
+    env: { AGENTCORE_TELEGRAM_PHOTO_BUDGET_MS: "40" },
+    describePhotoClient: () =>
+      new Promise((resolve) => {
+        setTimeout(() => resolve({ description: "should not be used" }), 400);
+      }),
+  });
+  assert.equal(timedOutPhoto._meta.route, "knowledge_update");
+  assert.equal(timedOutPhoto._meta.has_media, true);
+  assert.match(timedOutPhoto.text, /Photo label:/);
+  assert.match(timedOutPhoto.text, /timed out/i);
 
   console.log("telegram router tests passed");
 }

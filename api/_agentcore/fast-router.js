@@ -7,6 +7,7 @@ const { loadVersionRegistry, tryDeterministicVersionAnswer, versionMetadata } = 
 
 const DEFAULT_MODEL = "gemini-3.7-flash";
 const DEFER_RESPONSE = "*DEFER* The slower, smarter agent might be able to help with this";
+const DEFAULT_PHOTO_BUDGET_MS = 18000;
 
 function compactWhitespace(text) {
   return String(text || "").replace(/\s+/g, " ").trim();
@@ -213,6 +214,50 @@ function eventMedia(event) {
   return event && event.agentcore && event.agentcore.media ? event.agentcore.media : null;
 }
 
+function photoBudgetMs(env = process.env) {
+  const raw = Number(env.AGENTCORE_TELEGRAM_PHOTO_BUDGET_MS || DEFAULT_PHOTO_BUDGET_MS);
+  return Number.isFinite(raw) && raw > 0 ? raw : DEFAULT_PHOTO_BUDGET_MS;
+}
+
+function timeoutResult(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve({ timedOut: true }), ms);
+  });
+}
+
+async function describePhotoWithinBudget({ event, text, media, env, describeClient }) {
+  const work = (async () => {
+    let inlineMedia = null;
+    if (media.telegram_file_id && env.AGENTCORE_FAST_VISION !== "false") {
+      inlineMedia = await downloadTelegramFile(media.telegram_file_id, env).catch(() => null);
+    }
+    return processPhotoMessage({
+      event,
+      text,
+      inlineMedia,
+      env,
+      describeClient,
+    });
+  })();
+  const raced = await Promise.race([
+    work.then((result) => ({ timedOut: false, result })),
+    timeoutResult(photoBudgetMs(env)),
+  ]);
+  if (raced.timedOut) {
+    return processPhotoMessage({
+      event,
+      text,
+      inlineMedia: null,
+      env,
+      describeClient: async () => ({
+        description:
+          "Photo received; the fast look timed out before a description finished. The scheduled agent still has the file id and will file it.",
+      }),
+    });
+  }
+  return raced.result;
+}
+
 function dispatchMetaFromEvent(event) {
   const meta = event && event.agentcore && typeof event.agentcore === "object" ? event.agentcore : {};
   return {
@@ -278,17 +323,13 @@ async function routeChatEvent(event, options = {}) {
     options.context ||
     (await loadFastContext({ rootDir: options.rootDir, env, skipPublished: options.skipPublished })).context;
   const history = options.history || (await getHistory(conversationKey, env).catch(() => []));
-  let inlineMedia = null;
-  if (hasMedia && media.telegram_file_id && env.AGENTCORE_FAST_VISION !== "false") {
-    inlineMedia = await downloadTelegramFile(media.telegram_file_id, env).catch(() => null);
-  }
   let photoMeta = {};
   let decision;
   if (hasMedia) {
-    const photoResult = await processPhotoMessage({
+    const photoResult = await describePhotoWithinBudget({
       event,
       text,
-      inlineMedia,
+      media,
       env,
       describeClient: options.describePhotoClient,
     });
@@ -316,7 +357,7 @@ async function routeChatEvent(event, options = {}) {
       try {
         const modelClient = options.modelClient || callGemini;
         decision = normalizeDecision(
-          await modelClient({ text, context, history, sender, env, inlineMedia, hasMedia }),
+          await modelClient({ text, context, history, sender, env, inlineMedia: null, hasMedia }),
           text,
           { hasMedia },
         );
