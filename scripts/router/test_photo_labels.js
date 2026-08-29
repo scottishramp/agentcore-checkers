@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 const assert = require("assert");
-const { buildPhotoLabel, formatPhotoFastReply, processPhotoMessage } = require("../../api/_agentcore/photo-labels");
+const {
+  buildPhotoLabel,
+  descriptionFromModelText,
+  extractVisibleText,
+  formatPhotoFastReply,
+  processPhotoMessage,
+} = require("../../api/_agentcore/photo-labels");
 
 assert.match(buildPhotoLabel({ telegram_username: "brianh" }, { AGENTCORE_FAST_TIMEZONE: "America/Chicago" }), /^brianh_\d{14}$/);
 
@@ -56,6 +62,22 @@ assert.ok(reply.includes("\n\n"), "photo reply should preserve paragraph breaks"
     },
   });
   assert.match(failed.description, /vision description failed/i);
+
+  assert.equal(
+    descriptionFromModelText('{"description":"A crumpled lunch receipt on a table."}'),
+    "A crumpled lunch receipt on a table.",
+  );
+  assert.match(
+    descriptionFromModelText('{"description": "Printed after-visit summary for Silver, listing'),
+    /Printed after-visit summary for Silver/,
+  );
+  assert.match(descriptionFromModelText("A paper form on a clipboard with handwritten notes."), /clipboard/);
+  assert.equal(
+    extractVisibleText({
+      candidates: [{ content: { parts: [{ thought: true, text: "planning" }, { text: "Visible desk photo." }] } }],
+    }),
+    "Visible desk photo.",
+  );
   console.log("photo label tests passed");
 })().catch((error) => {
   console.error(error);

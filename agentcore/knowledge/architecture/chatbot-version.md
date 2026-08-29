@@ -7,7 +7,7 @@ Canonical version record for the fast Telegram router.
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.5.7** |
+| Router version | **2.5.8** |
 | Context bundle version | **2.5.3** |
 | Released | 2026-08-29 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
@@ -48,6 +48,10 @@ Semver:
 5. Verify in Telegram: send `version`.
 
 ## Changelog
+
+### 2.5.8 — 2026-08-29
+
+- Photo describe asks for plain prose, sets thinking to minimal, and allows 4096 output tokens. Truncated JSON is recovered as text instead of “vision description failed.” One retry on 503/429.
 
 ### 2.5.7 — 2026-08-29
 

@@ -685,3 +685,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 
 - Photo “Silver dr visit” on 2.5.6: webhook ACKed; Gemini 3.7 Flash ran 82s then returned 503 high-demand / UNAVAILABLE. Fallback reply was “vision description failed.”
 - Router `2.5.7`: default and Vercel `AGENTCORE_FAST_MODEL` are `gemini-3.6-flash`.
+
+## [2026-08-29] bugfix | Photo describe truncated JSON
+
+- Photo “Silver dr appt” on 2.5.7: Gemini 3.6 answered in 5s, then parse failed with `Unterminated string in JSON at position 234`. 900 output tokens plus default thinking was cutting the JSON mid-string.
+- Router `2.5.8`: plain-text describe, `thinkingLevel: minimal`, `maxOutputTokens: 4096`, recover truncated JSON, one 503/429 retry.

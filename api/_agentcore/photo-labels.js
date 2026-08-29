@@ -55,6 +55,48 @@ function parseJsonFromText(text) {
   return JSON.parse(candidate);
 }
 
+function extractVisibleText(payload) {
+  const candidate = (payload && payload.candidates && payload.candidates[0]) || {};
+  const parts = (candidate.content && candidate.content.parts) || [];
+  return parts
+    .filter((part) => !part.thought)
+    .map((part) => part.text || "")
+    .join("\n")
+    .trim();
+}
+
+function recoverTruncatedDescription(text) {
+  const match = String(text || "").match(/"description"\s*:\s*"([\s\S]*)/);
+  if (!match) {
+    return "";
+  }
+  let body = match[1];
+  const end = body.search(/"\s*,?\s*}\s*$/);
+  if (end >= 0) {
+    body = body.slice(0, end);
+  }
+  return compactWhitespace(body.replace(/\\n/g, "\n").replace(/\\"/g, '"').replace(/\\$/g, ""));
+}
+
+function descriptionFromModelText(text) {
+  const raw = String(text || "").trim();
+  if (!raw) {
+    throw new Error("Empty model response.");
+  }
+  try {
+    const parsed = parseJsonFromText(raw);
+    if (parsed && typeof parsed.description === "string" && parsed.description.trim()) {
+      return compactWhitespace(parsed.description);
+    }
+  } catch (_error) {
+    const recovered = recoverTruncatedDescription(raw);
+    if (recovered) {
+      return recovered;
+    }
+  }
+  return compactWhitespace(raw);
+}
+
 async function describePhotoWithGemini({ inlineMedia, caption, label, env = process.env }) {
   const apiKey = geminiApiKey(env);
   if (!apiKey || !inlineMedia || !inlineMedia.buffer) {
@@ -69,7 +111,8 @@ async function describePhotoWithGemini({ inlineMedia, caption, label, env = proc
     "You document Telegram photos for AgentCore's multi-agent knowledge system.",
     "Describe only what is visible. Do not invent names, dates, or amounts you cannot read.",
     "Write a thorough description future agents can use without seeing the image: subjects, visible text, document type, setting, people, objects, condition, and actionable details.",
-    "Do not acknowledge the user, summarize your task, or add meta-commentary. Return JSON with one key: description.",
+    "Do not acknowledge the user, summarize your task, or add meta-commentary.",
+    "Return plain prose only. Do not wrap the answer in JSON or markdown fences.",
   ].join("\n");
   const prompt = [
     `Assigned photo label: ${label}`,
@@ -81,48 +124,57 @@ async function describePhotoWithGemini({ inlineMedia, caption, label, env = proc
     typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
       ? AbortSignal.timeout(Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 290000)
       : undefined;
-  const response = await fetch(url, {
+  const requestBody = JSON.stringify({
+    systemInstruction: { parts: [{ text: system }] },
+    contents: [
+      {
+        role: "user",
+        parts: [
+          { text: prompt },
+          {
+            inlineData: {
+              mimeType: inlineMedia.mime_type,
+              data: inlineMedia.buffer.toString("base64"),
+            },
+          },
+        ],
+      },
+    ],
+    generationConfig: {
+      temperature: 0.2,
+      maxOutputTokens: 4096,
+      thinkingConfig: { thinkingLevel: "minimal" },
+    },
+  });
+  let response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     signal,
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: system }] },
-      contents: [
-        {
-          role: "user",
-          parts: [
-            { text: prompt },
-            {
-              inlineData: {
-                mimeType: inlineMedia.mime_type,
-                data: inlineMedia.buffer.toString("base64"),
-              },
-            },
-          ],
-        },
-      ],
-      generationConfig: {
-        temperature: 0.2,
-        maxOutputTokens: 900,
-        responseMimeType: "application/json",
-      },
-    }),
+    body: requestBody,
   });
-  const payload = await response.json().catch(() => ({}));
+  let payload = await response.json().catch(() => ({}));
+  if ((response.status === 503 || response.status === 429) && !signal?.aborted) {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal,
+      body: requestBody,
+    });
+    payload = await response.json().catch(() => ({}));
+  }
   if (!response.ok) {
     throw new Error(
       `Gemini photo describe failed: ${response.status} ${JSON.stringify(payload).slice(0, 300)}`,
     );
   }
-  const parts = (((payload.candidates || [])[0] || {}).content || {}).parts || [];
-  const modelText = parts.map((part) => part.text || "").join("\n").trim();
+  const modelText = extractVisibleText(payload);
   if (!modelText) {
-    const finish = (((payload.candidates || [])[0] || {}).finishReason || "") + "";
-    throw new Error(`Gemini photo describe returned empty text (finishReason=${finish || "unknown"})`);
+    const finish = ((((payload.candidates || [])[0] || {}).finishReason || "") + "") || "unknown";
+    throw new Error(`Gemini photo describe returned empty text (finishReason=${finish})`);
   }
-  const parsed = parseJsonFromText(modelText);
   return {
-    description: compactWhitespace(parsed.description) || "Photo received; no description returned.",
+    description: descriptionFromModelText(modelText) || "Photo received; no description returned.",
   };
 }
 
@@ -220,8 +272,11 @@ module.exports = {
   buildPhotoLabel,
   buildPhotoTaskBody,
   describePhotoWithGemini,
+  descriptionFromModelText,
+  extractVisibleText,
   formatPhotoFastReply,
   localTimestampSeconds,
   processPhotoMessage,
+  recoverTruncatedDescription,
   sanitizeUsername,
 };
