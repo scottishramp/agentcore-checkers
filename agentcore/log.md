@@ -2,6 +2,12 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-29] publish | Two Blog thoughts drafts live on burningaltar.com
+
+- Brian shared Google Doc `Blog thoughts` (`1qkV4rFFANZ8ybZl3dKRsfyOtTFIC_hyyLlYTJuAA_JQ`) as the draft inbox for new posts.
+- Published dated sections Aug 24 (Sherlocked) and Aug 23 (engine to build around). Left the `-- Don't publish this` block unpublished.
+- Could not add Google Doc comments: commenter share plus `drive.file` OAuth cannot write comments on Brian-owned files.
+
 ## [2026-08-23] ingest | Shared Drive doc: Medical and Drs
 
 - Brian shared `Medical and Drs`. Allowlisted, exported locally, extracted providers/insurance/allergies/compact history to `knowledge/people/medical-and-drs.md`.

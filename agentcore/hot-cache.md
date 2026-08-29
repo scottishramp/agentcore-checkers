@@ -67,13 +67,13 @@ This is AgentCore's identity for all external communication, service sign-ups, l
 
 ## Recently Changed
 
+- Burning Altar drafts (2026-08-29): Brian writes in shared Doc [Blog thoughts](https://docs.google.com/document/d/1qkV4rFFANZ8ybZl3dKRsfyOtTFIC_hyyLlYTJuAA_JQ/edit). Published Sherlocked (Aug 24) and engine-to-build-around (Aug 23). `-- Don't publish` stays off the site.
 - Telegram photo vision (2026-08-29): router `2.5.8` uses `gemini-3.6-flash` with plain-text describe, minimal thinking, 4096 output tokens. 2.5.7 failed because 3.6 returned truncated JSON (`Unterminated string`).
 - 7-day mailbox backfill (2026-08-29): inspected 101 additional messages / 41 senders; 26 new auto-policies; 39 facts added (PNC mortgage, Capital One auto loan, Wells Fargo, INTEGRIS, Valdoro stay, Compassion sponsorship, school dates). Policy totals now 16 learn / 12 info / 13 ignore. Four new questions queued (driver ed, OKC marathon, Threshold Climbing, David & Patty Stout).
 - Mailbox + calendar learning loop (2026-08-29): new nightly steps in `knowledge-content-ingest.yml`. Ledgers `email/sender-policy.json` and `communications/pending-questions.json`; knowledge pages `people/brian-learned-facts.md` and `calendar/upcoming.md`. Brian chose Telegram questions, max 5/night, read-only mail (no labeling/archiving). A 7-day backfill was run the same day; no 90-day backfill.
 - Medical and Drs ingested (2026-08-23): Edmond Pediatrics / Dr. Corbin; Aetna 2015LC; amoxicillin allergy (Silver, Ezra, Daniel). Passwords left in Drive. Page: `knowledge/people/medical-and-drs.md`. Fast context `2.5.3`.
 - Home address and important contacts saved (2026-08-22): 2905 Overland Way, Edmond, OK 73012; Daniel/Nathan/Ezra emails and phones; Kristin and Mom phones. Page: `knowledge/people/important-contacts.md`. Fast context `2.5.2`.
 - Ingested Brian's newly shared Drive docs (2026-08-22): Life 2025 dates + Mom's Royersford address; household inventory (Overland house, Honda Fit, Kia Carnival, appliances) at `knowledge/household/stuff-we-own.md`. Fast context bundle `2.5.1`.
-- Fast Telegram context snapshot (2026-08-22): router `2.5.0` ships the full Brian/family knowledge pack and reads a Redis snapshot (`agentcore:fast-context`) published every runner cycle, so email-learned facts reach the bot without waiting for a Vercel redeploy.
 
 ## Operating Note: proactive Chat sends
 
