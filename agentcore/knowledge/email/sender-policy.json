@@ -1,44 +1,219 @@
 {
   "domains": {},
   "senders": {
+    "alerts@notify.wellsfargo.com": {
+      "confidence": 0.95,
+      "display_name": "Wells Fargo",
+      "first_seen": "2026-08-29T17:17:23.269105+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "A Wells Fargo account statement is bank mail that should be remembered.",
+      "sample_subjects": [
+        "Your statement for account ...6769"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269107+00:00"
+    },
+    "arabella.trofemuk@edmondschools.net": {
+      "confidence": 0.97,
+      "display_name": "Arabella Trofemuk",
+      "first_seen": "2026-08-29T17:17:23.269204+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "Arabella Trofemuk is Silver\u2019s confirmed 4th-grade teacher at Frontier, so her mail is school logistics worth keeping.",
+      "sample_subjects": [
+        "WHOOPS!"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269206+00:00"
+    },
+    "billnotification@paymentus.com": {
+      "confidence": 0.91,
+      "display_name": "BillNotification@paymentus.com",
+      "first_seen": "2026-08-29T17:17:23.269023+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "This is a Hanover insurance bill reminder, and the Honda Fit is already on file as Hanover-insured.",
+      "sample_subjects": [
+        "Reminder: Upcoming Hanover recurring payment"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269025+00:00"
+    },
+    "briandherbert@gmail.com": {
+      "confidence": 0.96,
+      "display_name": "Brian Herbert",
+      "first_seen": "2026-08-29T17:17:23.269218+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "This is you writing about school attendance details, which is durable family logistics.",
+      "sample_subjects": [
+        "Attendance phone number info is wrong"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269220+00:00"
+    },
     "capitalone@notification.capitalone.com": {
       "confidence": 0.9,
       "display_name": "Capital One | VentureOne",
       "first_seen": "2026-08-29T16:19:56.025274+00:00",
-      "message_count": 0,
+      "last_seen": "2026-08-29T17:15:00.203328+00:00",
+      "message_count": 1,
       "policy": "learn",
       "rationale": "This is a Capital One VentureOne account alert about a possible double charge, not marketing.",
       "sample_subjects": [
-        "It looks like you were charged twice"
+        "It looks like you were charged twice",
+        "See your latest review from CreditWise"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025276+00:00"
+    },
+    "ciinfo@compassion-intl.com": {
+      "confidence": 0.9,
+      "display_name": "Compassion International",
+      "first_seen": "2026-08-29T17:17:23.269007+00:00",
+      "message_count": 2,
+      "policy": "learn",
+      "rationale": "A 17th sponsor-versary means you and Kristin have a long-running Compassion child sponsorship.",
+      "sample_subjects": [
+        "Brian and Kristin, thank you for sharing Christmas joy with Compassion children!"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269011+00:00"
+    },
+    "corbin.byford@edmondschools.net": {
+      "confidence": 0.97,
+      "display_name": "Corbin Byford",
+      "first_seen": "2026-08-29T17:17:23.269179+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "Corbin Byford is Daniel\u2019s Edmond North basketball coach, and parent-meeting mail carries team dates and logistics.",
+      "sample_subjects": [
+        "Edmond North Boys Basketball Parent Meeting"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269181+00:00"
+    },
+    "do-not-reply@notifications.seesaw.me": {
+      "confidence": 0.93,
+      "display_name": "Seesaw",
+      "first_seen": "2026-08-29T17:17:23.269233+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "Seesaw daily journal updates for Levi are a real classroom app you use, but each digest is a transient activity ping rather than lasting school facts.",
+      "sample_subjects": [
+        "Your Seesaw updates for August 23rd, 2026"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269235+00:00"
     },
     "donotreply@edmondschools.net": {
       "confidence": 0.96,
       "display_name": "North High School",
       "first_seen": "2026-08-29T16:19:56.025289+00:00",
-      "message_count": 0,
+      "last_seen": "2026-08-29T17:15:00.203289+00:00",
+      "message_count": 1,
       "policy": "learn",
       "rationale": "Edmond Public Schools newsletters for the kids' schools regularly include dates, sports, and logistics.",
       "sample_subjects": [
-        "Husky Pride Newsletter 08.28.2026"
+        "Husky Pride Newsletter 08.28.2026",
+        "2026 Introduction Letter from PTO"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025290+00:00"
+    },
+    "edaherbert@gmail.com": {
+      "confidence": 0.95,
+      "display_name": "Eda Herbert",
+      "first_seen": "2026-08-29T17:17:23.269211+00:00",
+      "message_count": 2,
+      "policy": "learn",
+      "rationale": "Eda Herbert is family and is writing you personally about the Valdoro Mountain Lodge trip.",
+      "sample_subjects": [
+        "Re: Valdoro Mountain Lodge Pre-Arrival Letter 09.05.26"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269213+00:00"
+    },
+    "email@email.shopify.com": {
+      "confidence": 0.93,
+      "display_name": "Shopify",
+      "first_seen": "2026-08-29T17:17:23.269146+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is a Shopify marketing tip blast, not store, order, or billing mail.",
+      "sample_subjects": [
+        "11 common mistakes to watch out for"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269148+00:00"
+    },
+    "families-noreply@google.com": {
+      "confidence": 0.91,
+      "display_name": "Google",
+      "first_seen": "2026-08-29T17:17:23.269064+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "Family Link install notices on Silver\u2019s device are real but do not add lasting facts.",
+      "sample_subjects": [
+        "Experiencia B\u00edblica para Ni\u00f1os installed on Silver's device"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269066+00:00"
+    },
+    "familysafety@microsoft.com": {
+      "confidence": 0.88,
+      "display_name": "Microsoft Family Safety",
+      "first_seen": "2026-08-29T17:17:23.269077+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "Weekly Family Safety activity reports are routine parental-control pings, not durable records.",
+      "sample_subjects": [
+        "Weekly activity report for D"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269079+00:00"
     },
     "firebase-noreply@google.com": {
       "confidence": 0.93,
       "display_name": "Experiencia B\u00edblica para Ni\u00f1os (via Firebase App Distribution)",
       "first_seen": "2026-08-29T16:19:56.025284+00:00",
-      "message_count": 0,
+      "last_seen": "2026-08-29T17:15:00.203346+00:00",
+      "message_count": 1,
       "policy": "info",
       "rationale": "These are YouVersion Android test-build pings from work, useful to recognize but not lasting family facts.",
       "sample_subjects": [
-        "Experiencia B\u00edblica para Ni\u00f1os 1.0.8 (1015001) for Android is ready to test"
+        "Experiencia B\u00edblica para Ni\u00f1os 1.0.8 (1015001) for Android is ready to test",
+        "YouVersion Bible App + Audio 11.31.0-dev.you-tab-redesign+7095601 (7095601) for Android is ready to test"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025286+00:00"
+    },
+    "googledevelopers-noreply@google.com": {
+      "confidence": 0.9,
+      "display_name": "Google Developers",
+      "first_seen": "2026-08-29T17:17:23.269087+00:00",
+      "message_count": 2,
+      "policy": "info",
+      "rationale": "Unused-OAuth-client warnings are legitimate developer-account alerts, not lasting personal facts.",
+      "sample_subjects": [
+        "[Action Advised] Manage your unused OAuth clients and protect your information"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269089+00:00"
+    },
+    "googlepixel-noreply@google.com": {
+      "confidence": 0.96,
+      "display_name": "Google Pixel",
+      "first_seen": "2026-08-29T17:17:23.269171+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is a Google Pixel hardware sale offer, not a device or account notice.",
+      "sample_subjects": [
+        "Google Pixel 11 series offers end soon"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269173+00:00"
     },
     "googleplay-noreply@google.com": {
       "confidence": 0.95,
@@ -66,6 +241,32 @@
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025281+00:00"
     },
+    "grok-bot@mail.cursor.com": {
+      "confidence": 0.92,
+      "display_name": "Grok Bot",
+      "first_seen": "2026-08-29T17:17:23.269136+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is a Cursor product announcement that Grok Bot is included with Pro, not an account or billing notice.",
+      "sample_subjects": [
+        "Grok Bot is now included with Cursor Pro"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269138+00:00"
+    },
+    "hello@lemonsqueezy-mail.com": {
+      "confidence": 0.91,
+      "display_name": "Bear Blog (via Lemon Squeezy)",
+      "first_seen": "2026-08-29T17:17:23.269226+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "This is a Bear Blog payment receipt via Lemon Squeezy, which confirms a subscription you use but is a one-off receipt.",
+      "sample_subjects": [
+        "Thanks for your payment"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269228+00:00"
+    },
     "id@proxyvote.com": {
       "confidence": 0.9,
       "display_name": "PERSHING LLC",
@@ -79,15 +280,56 @@
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025319+00:00"
     },
+    "kristinherbert@gmail.com": {
+      "confidence": 0.98,
+      "display_name": "Kristin Herbert",
+      "first_seen": "2026-08-29T17:17:23.269161+00:00",
+      "message_count": 3,
+      "policy": "learn",
+      "rationale": "This is Kristin writing you personally about school, Daniel\u2019s absence, and family travel.",
+      "sample_subjects": [
+        "Fwd: Edmond North Boys Basketball Parent Meeting"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269163+00:00"
+    },
+    "list@ben-evans.com": {
+      "confidence": 0.9,
+      "display_name": "Benedict Evans",
+      "first_seen": "2026-08-29T17:17:23.269195+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is Benedict Evans\u2019 numbered tech newsletter, not personal or account mail.",
+      "sample_subjects": [
+        "Benedict's Newsletter: No. 657"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269198+00:00"
+    },
+    "maccount@microsoft.com": {
+      "confidence": 0.9,
+      "display_name": "Xbox Family (do not reply)",
+      "first_seen": "2026-08-29T17:17:23.269153+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "Xbox Family weekly activity reports for D are real parental notices, but each week\u2019s screen-time summary is transient.",
+      "sample_subjects": [
+        "Weekly activity report for D"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269155+00:00"
+    },
     "messenger@edmondschools.net": {
       "confidence": 0.95,
       "display_name": "messenger@edmondschools.net",
       "first_seen": "2026-08-29T16:19:56.025294+00:00",
-      "message_count": 0,
+      "last_seen": "2026-08-29T17:15:00.203450+00:00",
+      "message_count": 1,
       "policy": "learn",
       "rationale": "This is the Edmond school messenger already used for Daniel's English quiz and assignment reminders.",
       "sample_subjects": [
-        "Quiz Reminder"
+        "Quiz Reminder",
+        "8th Grade Math Introduction"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025295+00:00"
@@ -96,7 +338,8 @@
       "confidence": 0.88,
       "display_name": "Microsoft",
       "first_seen": "2026-08-29T16:19:56.025267+00:00",
-      "message_count": 0,
+      "last_seen": "2026-08-29T17:15:00.203354+00:00",
+      "message_count": 1,
       "policy": "info",
       "rationale": "Microsoft terms-of-use updates are legitimate account mail but do not add lasting facts about you.",
       "sample_subjects": [
@@ -109,11 +352,13 @@
       "confidence": 0.91,
       "display_name": "GitHub",
       "first_seen": "2026-08-29T16:19:56.025300+00:00",
-      "message_count": 0,
+      "last_seen": "2026-08-29T17:15:00.203486+00:00",
+      "message_count": 1,
       "policy": "ignore",
       "rationale": "This is GitHub product marketing for Secret Protection, not a security or account notice.",
       "sample_subjects": [
-        "Secure your CI/CD with GitHub Secret Protection"
+        "Secure your CI/CD with GitHub Secret Protection",
+        "Don\u2019t let speed compromise quality"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025301+00:00"
@@ -135,24 +380,67 @@
       "confidence": 0.92,
       "display_name": "YouTube TV",
       "first_seen": "2026-08-29T16:19:56.025327+00:00",
-      "message_count": 0,
+      "last_seen": "2026-08-29T17:15:00.203433+00:00",
+      "message_count": 1,
       "policy": "ignore",
       "rationale": "This YouTube TV message is a win-back sports-plan promotion, not an account notice.",
       "sample_subjects": [
-        "Come back for the NFL kickoff and save with the Sports Plan"
+        "Come back for the NFL kickoff and save with the Sports Plan",
+        "Try HBO Max for 7 days and stream Lanterns"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025328+00:00"
+    },
+    "noreply-elf@edmentum.com": {
+      "confidence": 0.84,
+      "display_name": "noreply-elf@edmentum.com",
+      "first_seen": "2026-08-29T17:17:23.269052+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "Edmentum Sensei for Families is school learning-platform mail for the kids.",
+      "sample_subjects": [
+        "Register for Edmentum Sensei for Families"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269054+00:00"
+    },
+    "noreply@life.church": {
+      "confidence": 0.86,
+      "display_name": "Life.Church",
+      "first_seen": "2026-08-29T17:17:23.269186+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "A Life.Church scheduling confirmation is a real commitment at the church you and Kristin work at, not a promotional blast.",
+      "sample_subjects": [
+        "Scheduling Confirmation"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269188+00:00"
+    },
+    "noreply@mc.siriusxm.com": {
+      "confidence": 0.86,
+      "display_name": "SiriusXM",
+      "first_seen": "2026-08-29T17:17:23.269124+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "A SiriusXM trial-ending reminder is a conversion promo, not a lasting account notice.",
+      "sample_subjects": [
+        "Expiration Notice Reminder: Your Trial is Ending"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269126+00:00"
     },
     "noreply@robinhood.com": {
       "confidence": 0.92,
       "display_name": "Robinhood",
       "first_seen": "2026-08-29T16:19:56.025226+00:00",
-      "message_count": 0,
+      "last_seen": "2026-08-29T17:15:00.203372+00:00",
+      "message_count": 1,
       "policy": "ignore",
       "rationale": "These are Robinhood bonus and APY promos, not statements or account notices.",
       "sample_subjects": [
-        "Ending soon: claim an uncapped transfer bonus"
+        "Ending soon: claim an uncapped transfer bonus",
+        "Get margin rates as low as 3.95% for settled margin balances of $50M or more"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025253+00:00"
@@ -174,11 +462,13 @@
       "confidence": 0.93,
       "display_name": "Life.Church",
       "first_seen": "2026-08-29T16:19:56.025314+00:00",
-      "message_count": 0,
+      "last_seen": "2026-08-29T17:15:00.203497+00:00",
+      "message_count": 1,
       "policy": "ignore",
       "rationale": "This is a promotional church blast, not Life.Church work or HR mail.",
       "sample_subjects": [
-        "Come just as you are"
+        "Come just as you are",
+        "What if you stopped waiting to feel ready?"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025315+00:00"
@@ -187,16 +477,83 @@
       "confidence": 0.95,
       "display_name": "Amazon.com",
       "first_seen": "2026-08-29T16:19:56.025331+00:00",
-      "message_count": 0,
+      "last_seen": "2026-08-29T17:15:00.203473+00:00",
+      "message_count": 1,
       "policy": "info",
       "rationale": "Amazon delivery updates are routine shipping notices, not durable account or family facts.",
       "sample_subjects": [
-        "Delivered: 1 Book item"
+        "Delivered: 1 Book item",
+        "Delivered: 3 Book and Skincare items"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025333+00:00"
+    },
+    "pncalerts@pnc.com": {
+      "confidence": 0.94,
+      "display_name": "PNC Alerts",
+      "first_seen": "2026-08-29T17:17:23.268937+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "This is a PNC mortgage escrow notice, which is account mail worth remembering.",
+      "sample_subjects": [
+        "Your Mortgage escrow document is available to view online"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.268974+00:00"
+    },
+    "sbocustomerservice@integrisok.com": {
+      "confidence": 0.88,
+      "display_name": "",
+      "first_seen": "2026-08-29T17:17:23.269044+00:00",
+      "message_count": 2,
+      "policy": "learn",
+      "rationale": "INTEGRIS is an Oklahoma health system you have used, and payment mail is medical-account notice.",
+      "sample_subjects": [
+        "Thank you for your payment"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269046+00:00"
+    },
+    "shipment-tracking@amazon.com": {
+      "confidence": 0.96,
+      "display_name": "Amazon.com",
+      "first_seen": "2026-08-29T17:17:23.269097+00:00",
+      "message_count": 3,
+      "policy": "info",
+      "rationale": "Amazon shipment tracking is routine shipping mail with no lasting household facts.",
+      "sample_subjects": [
+        "Shipped: 4 Apparel, Office, and other items"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269099+00:00"
+    },
+    "updates@email.grok.com": {
+      "confidence": 0.93,
+      "display_name": "Grok",
+      "first_seen": "2026-08-29T17:17:23.269113+00:00",
+      "message_count": 2,
+      "policy": "ignore",
+      "rationale": "This is SuperGrok upgrade marketing, not an account or billing notice.",
+      "sample_subjects": [
+        "Your SuperGrok upgrade just got easier"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269115+00:00"
+    },
+    "zak.degiulio@usmobile.com": {
+      "confidence": 0.9,
+      "display_name": "Zak from US Mobile",
+      "first_seen": "2026-08-29T17:17:23.269033+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is a US Mobile sales pitch, not an account or service you are known to use.",
+      "sample_subjects": [
+        "You\u2019re paying us too much."
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-29T17:17:23.269035+00:00"
     }
   },
-  "updated_at": "2026-08-29T16:20:59.566540+00:00",
+  "updated_at": "2026-08-29T17:20:53.095205+00:00",
   "version": 1
 }

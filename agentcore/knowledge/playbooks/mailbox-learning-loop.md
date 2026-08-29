@@ -131,11 +131,10 @@ for a one-time historical pass, `--max-messages`, `--extract-limit`, `--ask-limi
 
 ## Backfill
 
-**Not in use.** Brian decided on 2026-08-29 to skip the historical backfill and let the
-rolling window accumulate knowledge over time instead.
-
-The capability remains if he changes his mind. Run it off-schedule, since it is much
-heavier than a nightly pass:
+Brian skipped a 90-day historical backfill on 2026-08-29, then asked for a **7-day
+backfill** the same day. That 7-day pass ran locally and is complete. Longer backfills
+remain optional and should be run off-schedule, since they are much heavier than a
+nightly pass:
 
 ```sh
 npm run learn:sweep -- --backfill-days 90 --max-messages 800 --extract-limit 60 --ask-limit 5

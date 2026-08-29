@@ -1,5 +1,28 @@
 {
   "questions": {
+    "sender_policy:business497956@mindbodyonline.com": {
+      "context": {
+        "display_name": "Threshold Climbing",
+        "message_count": 1,
+        "model_confidence": 0.62,
+        "model_guess": "ignore",
+        "model_rationale": "This is a birthday promo from Threshold Climbing via Mindbody; I cannot confirm you actually climb there.",
+        "subjects": [
+          "Happy early birthday, Brian!!"
+        ]
+      },
+      "created_at": "2026-08-29T17:17:23.269348+00:00",
+      "id": "sender_policy:business497956@mindbodyonline.com",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "Threshold Climbing <business497956@mindbodyonline.com> - 1 message, climbing gym marketing\n   Latest: \"Happy early birthday, Brian!!\"",
+      "status": "open",
+      "subject_key": "business497956@mindbodyonline.com"
+    },
     "sender_policy:ciinfo@compassion-intl.com": {
       "context": {
         "display_name": "Compassion International",
@@ -21,8 +44,58 @@
         "ignore"
       ],
       "prompt": "Compassion International <ciinfo@compassion-intl.com> - 2 messages, charity fundraising\n   Latest: \"You're first to receive this opportunity to share the gospel in Cambodia\"",
-      "status": "open",
+      "status": "answered",
+      "answer": "learn",
+      "answer_source": "llm-auto",
+      "answer_raw": "Later mail from this sender was classified with high confidence.",
+      "answered_at": "2026-08-29T17:20:53.096229+00:00",
       "subject_key": "ciinfo@compassion-intl.com"
+    },
+    "sender_policy:david@davidandpatty.com": {
+      "context": {
+        "display_name": "David and Patty Stout",
+        "message_count": 1,
+        "model_confidence": 0.58,
+        "model_guess": "ignore",
+        "model_rationale": "This looks like a bulk prayer-update newsletter from David and Patty Stout; I cannot tell how close they are to you.",
+        "subjects": [
+          "A Quick Update and Prayer Request"
+        ]
+      },
+      "created_at": "2026-08-29T17:17:23.269364+00:00",
+      "id": "sender_policy:david@davidandpatty.com",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "David and Patty Stout <david@davidandpatty.com> - 1 message, personal/missionary newsletter\n   Latest: \"A Quick Update and Prayer Request\"",
+      "status": "open",
+      "subject_key": "david@davidandpatty.com"
+    },
+    "sender_policy:help@okcmarathon.com": {
+      "context": {
+        "display_name": "Oklahoma City Memorial Marathon",
+        "message_count": 1,
+        "model_confidence": 0.73,
+        "model_guess": "ignore",
+        "model_rationale": "This is 2027 race-registration marketing; I cannot tell if you actually run this marathon.",
+        "subjects": [
+          "'27 Registration is OPEN and we're can't wait to RUN OKC!"
+        ]
+      },
+      "created_at": "2026-08-29T17:17:23.269335+00:00",
+      "id": "sender_policy:help@okcmarathon.com",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "Oklahoma City Memorial Marathon <help@okcmarathon.com> - 1 message, marathon event marketing\n   Latest: \"'27 Registration is OPEN and we're can't wait to RUN OKC!\"",
+      "status": "open",
+      "subject_key": "help@okcmarathon.com"
     },
     "sender_policy:katie.linn@youversion.com": {
       "context": {
@@ -46,6 +119,30 @@
       "prompt": "Katie Linn <katie.linn@youversion.com> - 1 message, YouVersion prayer newsletter\n   Latest: \"Rooted in Christ \u2014 Weekly Prayer Lists \ud83d\ude4f\"",
       "status": "open",
       "subject_key": "katie.linn@youversion.com"
+    },
+    "sender_policy:merkleyds@drivered.email": {
+      "context": {
+        "display_name": "merkleyds@drivered.email",
+        "message_count": 2,
+        "model_confidence": 0.68,
+        "model_guess": "learn",
+        "model_rationale": "This looks like driver-ed registration, but I cannot tell which child or school it is.",
+        "subjects": [
+          "Registration Complete",
+          "Student Portal Login Information"
+        ]
+      },
+      "created_at": "2026-08-29T17:17:23.269320+00:00",
+      "id": "sender_policy:merkleyds@drivered.email",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "merkleyds@drivered.email <merkleyds@drivered.email> - 2 messages, driver education school\n   Latest: \"Registration Complete\"",
+      "status": "open",
+      "subject_key": "merkleyds@drivered.email"
     },
     "sender_policy:message@volunteer2mail.com": {
       "context": {
@@ -117,6 +214,6 @@
       "subject_key": "notifications@okcyouthhockey.com"
     }
   },
-  "updated_at": "2026-08-29T16:20:59.567429+00:00",
+  "updated_at": "2026-08-29T17:20:53.096229+00:00",
   "version": 1
 }

@@ -411,6 +411,16 @@ def main() -> int:
             if recorded:
                 auto_recorded += 1
                 known[entry["from"]] = verdict["policy"]
+                pending = questions.find_by_subject(
+                    question_ledger, questions.KIND_SENDER_POLICY, entry["from"]
+                )
+                if pending.get("status") in {questions.STATUS_OPEN, questions.STATUS_ASKED}:
+                    questions.mark_answered(
+                        pending,
+                        verdict["policy"],
+                        "llm-auto",
+                        "Later mail from this sender was classified with high confidence.",
+                    )
         else:
             asked_candidates.append((entry, verdict))
 
