@@ -1,11 +1,17 @@
 {
   "name": "AgentCore Fast Router",
-  "router_version": "2.5.6",
+  "router_version": "2.5.7",
   "context_bundle_version": "2.5.3",
   "released_at": "2026-08-29",
   "primary_channel": "telegram",
   "bot_username": "AgentCoreFam_bot",
   "changelog": [
+    {
+      "router_version": "2.5.7",
+      "context_bundle_version": "2.5.3",
+      "date": "2026-08-29",
+      "summary": "Fast model stepped down from gemini-3.7-flash to gemini-3.6-flash after 3.7 returned 503 high-demand on photo describe"
+    },
     {
       "router_version": "2.5.6",
       "context_bundle_version": "2.5.3",

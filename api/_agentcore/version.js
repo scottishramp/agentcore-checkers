@@ -49,7 +49,7 @@ function isVersionCommand(text) {
 function formatVersionResponse(registry, options = {}) {
   const env = options.env || process.env;
   const channel = options.channel || registry.primary_channel || "telegram";
-  const model = env.AGENTCORE_FAST_MODEL || "gemini-3.7-flash";
+  const model = env.AGENTCORE_FAST_MODEL || "gemini-3.6-flash";
   const lines = [
     `${registry.name} v${registry.router_version}`,
     `Released: ${registry.released_at || "unknown"}`,

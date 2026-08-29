@@ -680,3 +680,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 
 - 35s was still aborting Gemini mid-describe. Telegram only waits ~60s for webhook 200, so holding the HTTP response until vision finishes cannot give Gemini more time.
 - Router `2.5.6`: photo webhooks return 200 immediately (`accepted: true`), then `waitUntil` continues download + Gemini describe for up to 290s. Function `maxDuration` is 300s. Text messages still reply before 200.
+
+## [2026-08-29] change | Fast model stepped down to Gemini 3.6 Flash
+
+- Photo “Silver dr visit” on 2.5.6: webhook ACKed; Gemini 3.7 Flash ran 82s then returned 503 high-demand / UNAVAILABLE. Fallback reply was “vision description failed.”
+- Router `2.5.7`: default and Vercel `AGENTCORE_FAST_MODEL` are `gemini-3.6-flash`.

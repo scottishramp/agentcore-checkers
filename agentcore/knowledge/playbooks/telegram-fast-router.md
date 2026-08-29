@@ -2,7 +2,7 @@
 
 ## Architecture
 
-**Fast layer (Vercel):** Gemini 3.7 Flash + a Brian/family knowledge snapshot + Redis history → instant reply. The snapshot is the people pages, family-facts, food log, Life 2026, personal OS, and 2026-27 roster. The nightly runner publishes it to Redis (`agentcore:fast-context`); live replies read that first so new facts show up without a Vercel redeploy. No Cursor startup, no durable classification, and **no realtime knowledge writes**. Acknowledgments for `knowledge_update` must say the item is queued for the scheduled async agent — never that knowledge was already saved.
+**Fast layer (Vercel):** Gemini 3.6 Flash + a Brian/family knowledge snapshot + Redis history → instant reply. The snapshot is the people pages, family-facts, food log, Life 2026, personal OS, and 2026-27 roster. The nightly runner publishes it to Redis (`agentcore:fast-context`); live replies read that first so new facts show up without a Vercel redeploy. No Cursor startup, no durable classification, and **no realtime knowledge writes**. Acknowledgments for `knowledge_update` must say the item is queued for the scheduled async agent — never that knowledge was already saved.
 
 **Async layer (GitHub Actions):** Write-capable scheduled pull from Redis inbox → transcript + per-message Cursor review tasks → durable knowledge updates / awareness refresh → Telegram notifications when useful → Vercel redeploy. This is the path that actually adds facts Brian asked to store.
 
@@ -17,7 +17,7 @@
 - `TELEGRAM_BOT_TOKEN`
 - `AGENTCORE_TELEGRAM_ALLOWED_USER_IDS` — required, comma-separated (fail closed)
 - `KV_REST_API_URL` / `KV_REST_API_TOKEN` — Upstash (history + inbox queue)
-- `GOOGLE_AI_STUDIO_API_KEY`, `AGENTCORE_FAST_MODEL` (optional; default `gemini-3.7-flash`)
+- `GOOGLE_AI_STUDIO_API_KEY`, `AGENTCORE_FAST_MODEL` (optional; default `gemini-3.6-flash`)
 
 ### 3. GitHub Actions secrets
 

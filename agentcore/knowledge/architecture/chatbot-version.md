@@ -7,7 +7,7 @@ Canonical version record for the fast Telegram router.
 | Field | Value |
 | --- | --- |
 | Name | AgentCore Fast Router |
-| Router version | **2.5.6** |
+| Router version | **2.5.7** |
 | Context bundle version | **2.5.3** |
 | Released | 2026-08-29 |
 | Primary channel | Telegram `@AgentCoreFam_bot` |
@@ -49,6 +49,10 @@ Semver:
 
 ## Changelog
 
+### 2.5.7 — 2026-08-29
+
+- Fast chat and photo describe now default to Gemini 3.6 Flash (`gemini-3.6-flash`). 3.7 Flash returned 503 high-demand on the Silver visit photo.
+
 ### 2.5.6 — 2026-08-29
 
 - Photo webhooks return 200 immediately, then Gemini describe continues in the background for up to 300s. Telegram no longer waits on vision, so a long look cannot 504 or abort at 35s.
@@ -80,7 +84,7 @@ Semver:
 
 ### 2.4.2 — 2026-08-22
 
-- Fast Telegram replies (and photo labeling) default to Gemini 3.7 Flash (`gemini-3.7-flash`). Override remains `AGENTCORE_FAST_MODEL`.
+- Fast Telegram replies (and photo labeling) default to Gemini 3.6 Flash (`gemini-3.6-flash`). Override remains `AGENTCORE_FAST_MODEL`.
 
 ### 2.4.1 — 2026-08-18
 
