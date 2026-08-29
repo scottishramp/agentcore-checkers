@@ -690,3 +690,8 @@ Synthesized all learnings from the checkers project into AgentCore:
 
 - Photo “Silver dr appt” on 2.5.7: Gemini 3.6 answered in 5s, then parse failed with `Unterminated string in JSON at position 234`. 900 output tokens plus default thinking was cutting the JSON mid-string.
 - Router `2.5.8`: plain-text describe, `thinkingLevel: minimal`, `maxOutputTokens: 4096`, recover truncated JSON, one 503/429 retry.
+
+## [2026-08-29] knowledge | Telegram photo operating notes
+
+- Recorded hard-won photo-path notes in the Telegram playbook, system architecture, hot-cache, and `AGENTS.md` so the next session does not re-debug 504 vs Gemini 503 vs truncated JSON.
+- Confirmed with Brian: only Gemini 3.6 Flash looks at the image; `agent-runner.yml` materializes to Drive and files facts from the description. Nightly knowledge-content ingest does not do that step.

@@ -39,9 +39,9 @@ Two layers: **fast chat** (Vercel + Gemini) and **async agent** (GitHub Actions 
 
 #### Async agent (scheduled)
 
-1. Write-capable workflows (`agent-runner.yml` and `knowledge-content-ingest.yml`) pull pending messages from Upstash. `email-sync.yml` must not drain Telegram because it has read-only repo permissions.
+1. Write-capable workflows (`agent-runner.yml` and `knowledge-content-ingest.yml`) pull pending messages from Upstash. `email-sync.yml` must not drain Telegram because it has read-only repo permissions. **Photo materialize + Cursor file** is `agent-runner.yml` only (8:30 AM America/Chicago and after email-sync), not the nightly knowledge-content ingest.
 2. `scripts/telegram/triage_messages.py` writes inbox records under `agentcore/inbox/telegram/`, appends the durable transcript at `agentcore/knowledge/communications/telegram-transcript.md`, and queues every allowed message as an async Cursor review item so Cursor can decide whether it is durable knowledge, actionable work, or no-op.
-3. `scripts/telegram/materialize_media.py` downloads Telegram photos, uploads to Drive, writes `agentcore/inbox/photos/`, and updates `agentcore/knowledge/communications/telegram-photo-registry.json` (label → Drive URL + description).
+3. `scripts/telegram/materialize_media.py` downloads Telegram photos, uploads to Drive, writes `agentcore/inbox/photos/`, and updates `agentcore/knowledge/communications/telegram-photo-registry.json` (label → Drive URL + description). Only Gemini 3.6 Flash on Vercel sees the image; Cursor files from the description.
 4. Cursor photo tasks file knowledge from the fast-agent description and reply on Telegram with `Photo label:` and `Drive:` lines.
 5. `agent-runner.yml` commits Telegram triage artifacts before claiming tasks, claims review tasks, sends **“Working on: …”** via Telegram, runs Cursor, commits knowledge, notifies completion via Telegram unless Cursor outputs `NO_TELEGRAM_REPLY`, and redeploys Vercel when `VERCEL_TOKEN` is set.
 6. Morning prompts go to Telegram via `scripts/telegram/send_scheduled_messages.py` (food check-ins disabled 2026-07-05).

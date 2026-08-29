@@ -60,6 +60,27 @@ The response must show the expected `router_version`, `context_hash`, `context_f
 4. Cursor reads the review task, matching inbox record, transcript, and repo knowledge, then decides per message whether it is durable knowledge, coding/action work, or no-op; applies updates, then replies if needed. Cursor may output `NO_TELEGRAM_REPLY` to suppress a duplicate Telegram response when the fast bot already handled the turn.
 5. For photos, runner uploads to Drive and updates `agentcore/knowledge/communications/telegram-photo-registry.json`; Cursor can file follow-on knowledge from the description.
 
+### Photo intake (what actually happens)
+
+- **Who looks at the image:** only Gemini 3.6 Flash on Vercel (`AGENTCORE_FAST_MODEL`, default `gemini-3.6-flash`). The later Cursor review does **not** reopen the photo; it files from the written description and caption.
+- **Immediate path:** webhook returns 200 as soon as a photo arrives (`waitUntil` + `maxDuration` 300s). Gemini describes in the background, replies with `Photo label:` + prose, and queues Redis (`photo_label`, `photo_description`, Telegram `file_id`). Image bytes never go in git.
+- **Durable path:** `agent-runner.yml` (8:30 AM America/Chicago, and after email-sync completes) — not `knowledge-content-ingest.yml`. Fetch Redis → triage inbox/transcript/Cursor task → `materialize_media.py` downloads from Telegram and uploads to AgentCore Drive → registry + `agentcore/inbox/photos/` → Cursor files facts and may reply with `Photo label:` / `Drive:` or `NO_TELEGRAM_REPLY`.
+- **Describe contract (2.5.8+):** plain prose (not JSON), `thinkingLevel: minimal`, `maxOutputTokens: 4096`, recover truncated JSON if the model still emits it, one retry on 503/429. Gemini 3.6 Flash defaults to **medium** thinking; those tokens count against the output cap.
+
+### Diagnose photo failures
+
+1. Production health: `curl -sS https://agentcore-fast-router.vercel.app/api/agentcore-telegram` — check `router_version` and `fast_model`.
+2. `npx vercel logs --environment production --since 2h --expand` is the source of truth. Labels: `telegram_message_received` (`has_media`), `photo_describe_error`, `telegram_message_routed`.
+3. Telegram `getWebhookInfo.last_error_message` is often **stale**. A leftover `504 Gateway Timeout` from an earlier send does not mean the latest photo failed.
+4. Classify the failure from the log, not Telegram’s red icon:
+   - Webhook 504 / held HTTP response → Telegram waited ~60s and never got 200. Photos must ACK first.
+   - `The operation was aborted due to timeout` → our vision/photo budget aborted Gemini.
+   - Gemini `503` / `UNAVAILABLE` → model overloaded (3.7 Flash did this; we stepped down to 3.6).
+   - `Unterminated string in JSON` → output cap + thinking truncated JSON. Do not treat as a webhook timeout.
+   - `"vision description failed"` in chat is the **fallback reply** after a describe error, not a Telegram 504.
+5. Changing the code default is not enough if Vercel `AGENTCORE_FAST_MODEL` is set (it is a production secret). Update that env and redeploy.
+6. Local `.env` does not have the Gemini key; production does. Clear leftover photo-budget `setTimeout`s or `npm run router:test` hangs for the full budget (was 290s).
+
 ### Defer contract for unanswered questions
 
 - If the fast layer cannot answer a text question from context, it replies exactly:

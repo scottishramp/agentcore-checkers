@@ -133,6 +133,12 @@ These are hard-won from real projects. Apply them proactively.
 - Use `playwright.config.js` with `webServer` to auto-start the local server during test runs.
 - Use `window.__checkersTest` or similar test-only APIs to set up board states without simulating a full game.
 
+**Telegram photo vision**
+- Telegram waits ~60s for webhook 200. ACK photos immediately; finish Gemini describe in `waitUntil`. Holding the HTTP response cannot give Gemini more time.
+- `getWebhookInfo.last_error` is often stale. Use `npx vercel logs --environment production --since 2h --expand`. `"vision description failed"` is a Gemini describe fallback, not a 504.
+- Gemini 3.6 Flash default thinking is medium and counts against `maxOutputTokens`. Photo describe must use `thinkingLevel: minimal`, plain prose (not required JSON), and a large output cap. 3.7 Flash has returned 503 high-demand.
+- Durable photo ingest is `agent-runner.yml`, not nightly `knowledge-content-ingest.yml`. Playbook: `agentcore/knowledge/playbooks/telegram-fast-router.md`.
+
 ---
 
 ## Account Access
