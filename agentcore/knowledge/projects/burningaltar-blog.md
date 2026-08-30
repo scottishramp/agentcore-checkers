@@ -3,7 +3,7 @@ title: Burning Altar Blog
 type: project
 status: live
 created: 2026-08-16
-updated: 2026-08-29
+updated: 2026-08-30
 client: Brian Herbert
 owner: AgentCore
 confidence: high
@@ -11,6 +11,7 @@ related:
   - agentcore/knowledge/projects/domain-management.md
   - agentcore/knowledge/playbooks/godaddy-delegate-access.md
   - agentcore/knowledge/playbooks/github-pages-deployment.md
+  - agentcore/knowledge/playbooks/burningaltar-tags.md
 ---
 
 # Project: Burning Altar Blog
@@ -44,10 +45,10 @@ In-doc grammar comments are blocked: AgentCore has commenter access on the file,
 
 ## Content
 
-- [Why AI is the biggest deal since the wheel](https://burningaltar.com/ai-and-the-wheel/) (2025-02-23) — source [Bear](https://briandherbert.bearblog.dev/ai-and-the-wheel/)
-- [What the abacus predicts for AI](https://burningaltar.com/ai-and-the-abacus/) (2025-03-01) — source [Bear](https://briandherbert.bearblog.dev/ai-and-the-abacus/)
-- [Bet on getting Sherlocked](https://burningaltar.com/bet-on-getting-sherlocked/) (2026-08-24) — from Blog thoughts
-- [AI is the engine to build around, not drop in](https://burningaltar.com/ai-is-the-engine-to-build-around/) (2026-08-23) — from Blog thoughts
+- [Why AI is the biggest deal since the wheel](https://burningaltar.com/ai-and-the-wheel/) (2025-02-23) — `#AI` `#Philosophy` — source [Bear](https://briandherbert.bearblog.dev/ai-and-the-wheel/)
+- [What the abacus predicts for AI](https://burningaltar.com/ai-and-the-abacus/) (2025-03-01) — `#AI` — source [Bear](https://briandherbert.bearblog.dev/ai-and-the-abacus/)
+- [Bet on getting Sherlocked](https://burningaltar.com/bet-on-getting-sherlocked/) (2026-08-24) — `#AI` — from Blog thoughts
+- [AI is the engine to build around, not drop in](https://burningaltar.com/ai-is-the-engine-to-build-around/) (2026-08-23) — `#AI` — from Blog thoughts
 
 ## DNS (GoDaddy, 2026-08-16)
 
@@ -57,8 +58,15 @@ In-doc grammar comments are blocked: AgentCore has commenter access on the file,
 - Left GoDaddy email records alone (`email`/`e`/`imap`/`mail`/`mobilemail`/MX to `*.secureserver.net`).
 - Did not change `burningaltar.org`, `cleansane.com`, or `notverydeep.com`.
 
+## Tags
+
+Closed set: `ai`, `family`, `health`, `philosophy`, `theology`. Playbook: `agentcore/knowledge/playbooks/burningaltar-tags.md`.
+
+Assign 1–3 slugs at publish time. Home and `/blog/` list the full vocabulary; `/blog/<slug>/` filters. Do not reuse a tag slug as a post slug.
+
 ## Operating Notes
 
 - Posts are Markdown in the delivery repo, not this control repo.
 - New posts: dated sections in Blog thoughts, or add `content/blog/*.md` in `scottishramp/burningaltar` and push `main`.
+- When publishing, assign tags from the closed vocabulary. If Brian writes tags in the Doc, use those.
 - Do not purchase, transfer, or delete the domain. Keep Brian as GoDaddy owner.

@@ -2,6 +2,13 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-30] ops | Burning Altar closed tag vocabulary
+
+- Tags are a closed set: AI, Family, Health, Philosophy, Theology.
+- Home and `/blog/` list the full vocabulary; `/blog/<slug>/` filters. Unused tags (family, health, theology) show “No posts yet”.
+- Existing posts stay `#AI`; the wheel essay also gets `#Philosophy`.
+- Playbook: `knowledge/playbooks/burningaltar-tags.md`. Assign 1–3 slugs at publish time; do not invent ad-hoc tags.
+
 ## [2026-08-29] publish | Two Blog thoughts drafts live on burningaltar.com
 
 - Brian shared Google Doc `Blog thoughts` (`1qkV4rFFANZ8ybZl3dKRsfyOtTFIC_hyyLlYTJuAA_JQ`) as the draft inbox for new posts.

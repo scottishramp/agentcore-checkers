@@ -28,6 +28,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [YouVersion Verse of the Day](knowledge/projects/youversion-verse-of-the-day.md): daily Bible verse delivery via YouVersion Platform + Telegram.
 - [Domain Management](knowledge/projects/domain-management.md): GoDaddy delegate access and Brian's domain inventory.
 - [Burning Altar Blog](knowledge/projects/burningaltar-blog.md): Brian's public writing at https://burningaltar.com/ (Hugo on GitHub Pages).
+- [Burning Altar tags](knowledge/playbooks/burningaltar-tags.md): closed tag vocabulary and publish rules for burningaltar.com.
 - [Clients](knowledge/clients/): client and sponsor pages.
 - [People](knowledge/people/): people and stakeholder pages.
 - [Brian Herbert](knowledge/people/brian-herbert.md): trusted client and primary administrative-assistance context.
@@ -61,6 +62,7 @@ This is the content-oriented map of the AgentCore knowledge base. Read this firs
 - [Telegram Fast Router](knowledge/playbooks/telegram-fast-router.md): instant family 1:1 chat via Telegram bot and Vercel webhook.
 - [Public Static Web App](knowledge/playbooks/public-static-web-app.md): fast path for building, verifying, and publishing static web apps.
 - [GitHub Pages Deployment](knowledge/playbooks/github-pages-deployment.md): exact steps for deploying to GitHub Pages including auth, repo creation, and build triggering.
+- [Burning Altar tags](knowledge/playbooks/burningaltar-tags.md): closed tag vocabulary and publish rules for burningaltar.com.
 - [Email Operations](knowledge/playbooks/email-ops.md): operational policy and workflow for async client communication by email.
 - [Brian Gmail Mailbox](knowledge/playbooks/brian-gmail-mailbox.md): read, label, archive, and trash access to `briandherbert@gmail.com`.
 - [School Communications Digest](knowledge/playbooks/school-comms-digest.md): daily child-grouped school email digest on Telegram.
