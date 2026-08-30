@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-29T19:10:29.100513+00:00",
+  "updated_at": "2026-08-30T19:01:53.225278+00:00",
   "messages": {
     "telegram:407016335": {
       "message_id": "telegram:407016335",
@@ -209,6 +209,14 @@
       "task_id": "task-telegram-407016361-telegram-dm-8983527816",
       "telegram_chat_id": "8983527816",
       "updated_at": "2026-08-29T19:10:29.100503+00:00"
+    },
+    "telegram:407016369": {
+      "message_id": "telegram:407016369",
+      "route": "knowledge_update",
+      "status": "queued",
+      "task_id": "task-telegram-407016369-telegram-dm-8983527816",
+      "telegram_chat_id": "8983527816",
+      "updated_at": "2026-08-30T19:01:53.225266+00:00"
     }
   }
 }

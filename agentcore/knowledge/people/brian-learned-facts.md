@@ -34,6 +34,7 @@ and Google Calendar; only distilled facts live here.
 - 2026-08-29: Silver Herbert's 4th-grade homeroom teacher at Frontier Elementary, Arabella Trofemuk, can be reached at 405-726-4924.
 - 2026-08-29: Eda Herbert, Brian's mother, uses the email address edaherbert@gmail.com.
 - 2026-08-29: Patrick McCoyd forwarded the Valdoro Mountain Lodge pre-arrival information for the September 5, 2026 stay to Eda Herbert, Brian's mother.
+- 2026-08-30: Brian's family has a child at Cheyenne Middle School in Edmond Public Schools.
 
 ## Travel
 

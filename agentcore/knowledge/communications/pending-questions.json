@@ -1,6 +1,10 @@
 {
   "questions": {
     "sender_policy:business497956@mindbodyonline.com": {
+      "ask_count": 1,
+      "asked_at": "2026-08-30T19:03:32.823032+00:00",
+      "asked_batch": "ask-20260830-190332",
+      "asked_number": 2,
       "context": {
         "display_name": "Threshold Climbing",
         "message_count": 1,
@@ -20,7 +24,7 @@
         "ignore"
       ],
       "prompt": "Threshold Climbing <business497956@mindbodyonline.com> - 1 message, climbing gym marketing\n   Latest: \"Happy early birthday, Brian!!\"",
-      "status": "open",
+      "status": "asked",
       "subject_key": "business497956@mindbodyonline.com"
     },
     "sender_policy:ciinfo@compassion-intl.com": {
@@ -52,6 +56,10 @@
       "subject_key": "ciinfo@compassion-intl.com"
     },
     "sender_policy:david@davidandpatty.com": {
+      "ask_count": 1,
+      "asked_at": "2026-08-30T19:03:32.823037+00:00",
+      "asked_batch": "ask-20260830-190332",
+      "asked_number": 3,
       "context": {
         "display_name": "David and Patty Stout",
         "message_count": 1,
@@ -71,10 +79,41 @@
         "ignore"
       ],
       "prompt": "David and Patty Stout <david@davidandpatty.com> - 1 message, personal/missionary newsletter\n   Latest: \"A Quick Update and Prayer Request\"",
-      "status": "open",
+      "status": "asked",
       "subject_key": "david@davidandpatty.com"
     },
+    "sender_policy:hello@homebotapp.com": {
+      "ask_count": 1,
+      "asked_at": "2026-08-30T19:03:32.823041+00:00",
+      "asked_batch": "ask-20260830-190332",
+      "asked_number": 4,
+      "context": {
+        "display_name": "Heather Bomar",
+        "message_count": 1,
+        "model_confidence": 0.7,
+        "model_guess": "ignore",
+        "model_rationale": "This looks like an automated Homebot market drip from realtor Heather Bomar about ZIP 73012; I cannot tell if she is actually your agent.",
+        "subjects": [
+          "\u2705 73012 is balanced and holding steady"
+        ]
+      },
+      "created_at": "2026-08-30T19:03:08.590849+00:00",
+      "id": "sender_policy:hello@homebotapp.com",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "Heather Bomar <hello@homebotapp.com> - 1 message, realtor home-value newsletter\n   Latest: \"\u2705 73012 is balanced and holding steady\"",
+      "status": "asked",
+      "subject_key": "hello@homebotapp.com"
+    },
     "sender_policy:help@okcmarathon.com": {
+      "ask_count": 1,
+      "asked_at": "2026-08-30T19:03:32.823011+00:00",
+      "asked_batch": "ask-20260830-190332",
+      "asked_number": 1,
       "context": {
         "display_name": "Oklahoma City Memorial Marathon",
         "message_count": 1,
@@ -94,7 +133,7 @@
         "ignore"
       ],
       "prompt": "Oklahoma City Memorial Marathon <help@okcmarathon.com> - 1 message, marathon event marketing\n   Latest: \"'27 Registration is OPEN and we're can't wait to RUN OKC!\"",
-      "status": "open",
+      "status": "asked",
       "subject_key": "help@okcmarathon.com"
     },
     "sender_policy:katie.linn@youversion.com": {
@@ -234,6 +273,6 @@
       "subject_key": "notifications@okcyouthhockey.com"
     }
   },
-  "updated_at": "2026-08-29T19:10:32.170462+00:00",
+  "updated_at": "2026-08-30T19:03:32.823064+00:00",
   "version": 1
 }

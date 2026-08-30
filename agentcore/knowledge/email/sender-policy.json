@@ -57,8 +57,8 @@
       "confidence": 0.9,
       "display_name": "Capital One | VentureOne",
       "first_seen": "2026-08-29T16:19:56.025274+00:00",
-      "last_seen": "2026-08-29T17:15:00.203328+00:00",
-      "message_count": 1,
+      "last_seen": "2026-08-30T19:01:59.850822+00:00",
+      "message_count": 2,
       "policy": "learn",
       "rationale": "This is a Capital One VentureOne account alert about a possible double charge, not marketing.",
       "sample_subjects": [
@@ -111,13 +111,14 @@
       "confidence": 0.96,
       "display_name": "North High School",
       "first_seen": "2026-08-29T16:19:56.025289+00:00",
-      "last_seen": "2026-08-29T17:15:00.203289+00:00",
-      "message_count": 1,
+      "last_seen": "2026-08-30T19:01:59.850841+00:00",
+      "message_count": 2,
       "policy": "learn",
       "rationale": "Edmond Public Schools newsletters for the kids' schools regularly include dates, sports, and logistics.",
       "sample_subjects": [
         "Husky Pride Newsletter 08.28.2026",
-        "2026 Introduction Letter from PTO"
+        "2026 Introduction Letter from PTO",
+        "Cheyenne Lunch Applications"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025290+00:00"
@@ -152,11 +153,13 @@
       "confidence": 0.91,
       "display_name": "Google",
       "first_seen": "2026-08-29T17:17:23.269064+00:00",
-      "message_count": 1,
+      "last_seen": "2026-08-30T19:01:59.850796+00:00",
+      "message_count": 2,
       "policy": "info",
       "rationale": "Family Link install notices on Silver\u2019s device are real but do not add lasting facts.",
       "sample_subjects": [
-        "Experiencia B\u00edblica para Ni\u00f1os installed on Silver's device"
+        "Experiencia B\u00edblica para Ni\u00f1os installed on Silver's device",
+        "Nathan signed in on a new device"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269066+00:00"
@@ -165,11 +168,13 @@
       "confidence": 0.88,
       "display_name": "Microsoft Family Safety",
       "first_seen": "2026-08-29T17:17:23.269077+00:00",
-      "message_count": 1,
+      "last_seen": "2026-08-30T19:01:59.850848+00:00",
+      "message_count": 2,
       "policy": "info",
       "rationale": "Weekly Family Safety activity reports are routine parental-control pings, not durable records.",
       "sample_subjects": [
-        "Weekly activity report for D"
+        "Weekly activity report for D",
+        "Weekly activity report for Nathan"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269079+00:00"
@@ -178,13 +183,14 @@
       "confidence": 0.93,
       "display_name": "Experiencia B\u00edblica para Ni\u00f1os (via Firebase App Distribution)",
       "first_seen": "2026-08-29T16:19:56.025284+00:00",
-      "last_seen": "2026-08-29T17:15:00.203346+00:00",
-      "message_count": 1,
+      "last_seen": "2026-08-30T19:01:59.850832+00:00",
+      "message_count": 2,
       "policy": "info",
       "rationale": "These are YouVersion Android test-build pings from work, useful to recognize but not lasting family facts.",
       "sample_subjects": [
         "Experiencia B\u00edblica para Ni\u00f1os 1.0.8 (1015001) for Android is ready to test",
-        "YouVersion Bible App + Audio 11.31.0-dev.you-tab-redesign+7095601 (7095601) for Android is ready to test"
+        "YouVersion Bible App + Audio 11.31.0-dev.you-tab-redesign+7095601 (7095601) for Android is ready to test",
+        "Experiencia B\u00edblica para Ni\u00f1os 1.0.8 (1016001) for Android is ready to test"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025286+00:00"
@@ -254,6 +260,19 @@
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269138+00:00"
     },
+    "hello@getmozart.ai": {
+      "confidence": 0.86,
+      "display_name": "Mozart AI Team",
+      "first_seen": "2026-08-30T19:03:08.590793+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is Mozart AI's welcome/product mail, not billing or account notices; those come from Stripe.",
+      "sample_subjects": [
+        "Welcome to Mozart AI"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-30T19:03:08.590795+00:00"
+    },
     "hello@lemonsqueezy-mail.com": {
       "confidence": 0.91,
       "display_name": "Bear Blog (via Lemon Squeezy)",
@@ -267,6 +286,19 @@
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269228+00:00"
     },
+    "hello@usmobile.com": {
+      "confidence": 0.9,
+      "display_name": "US Mobile",
+      "first_seen": "2026-08-30T19:03:08.590827+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "A US Mobile AutoPay notice means you have an active mobile account and bill, unlike the earlier sales pitch from a different address.",
+      "sample_subjects": [
+        "Your US Mobile AutoPay order was processed"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-30T19:03:08.590829+00:00"
+    },
     "id@proxyvote.com": {
       "confidence": 0.9,
       "display_name": "PERSHING LLC",
@@ -279,6 +311,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025319+00:00"
+    },
+    "invoice+statements+acct_1rhf6bftxbxw4wb6@stripe.com": {
+      "confidence": 0.92,
+      "display_name": "Mozart AI",
+      "first_seen": "2026-08-30T19:03:08.590778+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "This is a Mozart AI Stripe receipt, which confirms a purchase you made but is a routine payment notice rather than lasting account facts.",
+      "sample_subjects": [
+        "Your receipt from Mozart AI #2528-0256"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-30T19:03:08.590781+00:00"
     },
     "kristinherbert@gmail.com": {
       "confidence": 0.98,
@@ -391,6 +436,19 @@
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025328+00:00"
     },
+    "noreply-accounts@google.com": {
+      "confidence": 0.93,
+      "display_name": "Google",
+      "first_seen": "2026-08-30T19:03:08.590803+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "Google Account data-sharing notices are real security alerts, but each one is a one-off OAuth ping with no lasting family facts.",
+      "sample_subjects": [
+        "You shared some Google Account data with mozart-ai-5f037.firebaseapp.com"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-30T19:03:08.590805+00:00"
+    },
     "noreply-elf@edmentum.com": {
       "confidence": 0.84,
       "display_name": "noreply-elf@edmentum.com",
@@ -458,6 +516,19 @@
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025305+00:00"
     },
+    "oklahomacitylifekidsteam@life.church": {
+      "confidence": 0.88,
+      "display_name": "Michelyn Bright",
+      "first_seen": "2026-08-30T19:03:08.590739+00:00",
+      "message_count": 2,
+      "policy": "learn",
+      "rationale": "Weekly Loop and Konnect updates from Life.Church OKC LifeKids are kids-ministry logistics for programs that match your children's ages.",
+      "sample_subjects": [
+        "This Week's Loop Update"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-30T19:03:08.590754+00:00"
+    },
     "online@life.church": {
       "confidence": 0.93,
       "display_name": "Life.Church",
@@ -514,6 +585,19 @@
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269046+00:00"
     },
+    "scottishramp@gmail.com": {
+      "confidence": 0.94,
+      "display_name": "scottishramp@gmail.com",
+      "first_seen": "2026-08-30T19:03:08.590812+00:00",
+      "message_count": 2,
+      "policy": "info",
+      "rationale": "This is AgentCore sending you task-ack and ingestion status mail, which is legitimate but only transient operational noise.",
+      "sample_subjects": [
+        "[AgentCore][Ack][AsyncLoop][task-shared-1qkV4rFFANZ8ybZl3dKRsfyOtTFIC_hyyLlYTJuAA_JQ-shared-1qkV4rFFANZ8ybZl3dKRsfyOtTFIC] DONE"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-30T19:03:08.590814+00:00"
+    },
     "shipment-tracking@amazon.com": {
       "confidence": 0.96,
       "display_name": "Amazon.com",
@@ -554,6 +638,6 @@
       "updated_at": "2026-08-29T17:17:23.269035+00:00"
     }
   },
-  "updated_at": "2026-08-29T19:10:31.488403+00:00",
+  "updated_at": "2026-08-30T19:03:32.301504+00:00",
   "version": 1
 }
