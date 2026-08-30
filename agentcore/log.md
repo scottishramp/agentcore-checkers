@@ -2,6 +2,11 @@
 
 Append-only chronological record of important AgentCore knowledge-base activity.
 
+## [2026-08-30] ops | Burning Altar greyscale dark mode
+
+- The teal/green background was hugo-bearblog dark mode (`#01242e` via `prefers-color-scheme: dark`). Chrome stayed in light mode (black on white).
+- Overrode dark tokens to greyscale (`#111` background, light grey text/links). Light mode unchanged.
+
 ## [2026-08-30] ops | Burning Altar closed tag vocabulary
 
 - Tags are a closed set: AI, Family, Health, Philosophy, Theology.
