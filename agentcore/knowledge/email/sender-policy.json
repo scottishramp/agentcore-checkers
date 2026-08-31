@@ -44,11 +44,13 @@
       "confidence": 0.96,
       "display_name": "Brian Herbert",
       "first_seen": "2026-08-29T17:17:23.269218+00:00",
-      "message_count": 1,
+      "last_seen": "2026-08-31T21:17:45.535076+00:00",
+      "message_count": 2,
       "policy": "learn",
       "rationale": "This is you writing about school attendance details, which is durable family logistics.",
       "sample_subjects": [
-        "Attendance phone number info is wrong"
+        "Attendance phone number info is wrong",
+        "Billing help and refund please"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269220+00:00"
@@ -111,14 +113,14 @@
       "confidence": 0.96,
       "display_name": "North High School",
       "first_seen": "2026-08-29T16:19:56.025289+00:00",
-      "last_seen": "2026-08-30T19:01:59.850841+00:00",
-      "message_count": 2,
+      "last_seen": "2026-08-31T21:17:45.535053+00:00",
+      "message_count": 3,
       "policy": "learn",
       "rationale": "Edmond Public Schools newsletters for the kids' schools regularly include dates, sports, and logistics.",
       "sample_subjects": [
-        "Husky Pride Newsletter 08.28.2026",
         "2026 Introduction Letter from PTO",
-        "Cheyenne Lunch Applications"
+        "Cheyenne Lunch Applications",
+        "Edmond Public Schools HIV/AIDS Prevention Education Program"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025290+00:00"
@@ -183,14 +185,14 @@
       "confidence": 0.93,
       "display_name": "Experiencia B\u00edblica para Ni\u00f1os (via Firebase App Distribution)",
       "first_seen": "2026-08-29T16:19:56.025284+00:00",
-      "last_seen": "2026-08-30T19:01:59.850832+00:00",
-      "message_count": 2,
+      "last_seen": "2026-08-31T21:17:45.535026+00:00",
+      "message_count": 3,
       "policy": "info",
       "rationale": "These are YouVersion Android test-build pings from work, useful to recognize but not lasting family facts.",
       "sample_subjects": [
-        "Experiencia B\u00edblica para Ni\u00f1os 1.0.8 (1015001) for Android is ready to test",
         "YouVersion Bible App + Audio 11.31.0-dev.you-tab-redesign+7095601 (7095601) for Android is ready to test",
-        "Experiencia B\u00edblica para Ni\u00f1os 1.0.8 (1016001) for Android is ready to test"
+        "Experiencia B\u00edblica para Ni\u00f1os 1.0.8 (1016001) for Android is ready to test",
+        "YouVersion Bible App + Audio 11.31.0-dev.circles-v1+7095778 (7095778) for Android is ready to test"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025286+00:00"
@@ -264,11 +266,13 @@
       "confidence": 0.86,
       "display_name": "Mozart AI Team",
       "first_seen": "2026-08-30T19:03:08.590793+00:00",
-      "message_count": 1,
+      "last_seen": "2026-08-31T21:17:45.535061+00:00",
+      "message_count": 2,
       "policy": "ignore",
       "rationale": "This is Mozart AI's welcome/product mail, not billing or account notices; those come from Stripe.",
       "sample_subjects": [
-        "Welcome to Mozart AI"
+        "Welcome to Mozart AI",
+        "You made something! Now share it."
       ],
       "source": "llm",
       "updated_at": "2026-08-30T19:03:08.590795+00:00"
@@ -611,6 +615,19 @@
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269099+00:00"
     },
+    "shiza.sheikh@usmobile.com": {
+      "confidence": 0.9,
+      "display_name": "Shiza from US Mobile",
+      "first_seen": "2026-08-31T21:18:04.817298+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is a bulk US Mobile anniversary promo from a named salesperson, not billing or account mail from the carrier.",
+      "sample_subjects": [
+        "It's our one month anniversary! \ud83e\udd73"
+      ],
+      "source": "llm",
+      "updated_at": "2026-08-31T21:18:04.817316+00:00"
+    },
     "updates@email.grok.com": {
       "confidence": 0.93,
       "display_name": "Grok",
@@ -638,6 +655,6 @@
       "updated_at": "2026-08-29T17:17:23.269035+00:00"
     }
   },
-  "updated_at": "2026-08-30T19:03:32.301504+00:00",
+  "updated_at": "2026-08-31T21:18:36.090921+00:00",
   "version": 1
 }

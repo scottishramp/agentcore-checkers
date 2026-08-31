@@ -13,12 +13,14 @@ and Google Calendar; only distilled facts live here.
 - 2026-08-29: Brian has a Capital One auto loan ending in 5315.
 - 2026-08-29: Brian has a recurring Capital One auto loan payment due around the first of each month, including September 1, 2026.
 - 2026-08-29: Brian has a Wells Fargo account ending in 6769.
+- 2026-08-31: On August 31, 2026, Brian requested a refund from Mozart after about one day of use because the product did not meet his expectations.
 
 ## Health
 
 - 2026-08-29: Brian is a patient of INTEGRIS Health.
 - 2026-08-29: Brian paid INTEGRIS Health a $45 copay on August 27, 2026 for an upcoming visit.
 - 2026-08-29: Brian paid INTEGRIS Health a second $45 copay on August 27, 2026 for another upcoming visit.
+- 2026-08-31: Silver Herbert had strep throat around late August 2026 and still had a painful throat afterward.
 
 ## Home
 
@@ -46,6 +48,7 @@ and Google Calendar; only distilled facts live here.
 ## Subscriptions
 
 - 2026-08-29: Brian and Kristin Herbert have been Compassion International sponsors for 17 years as of August 2026.
+- 2026-08-31: Brian signed up for Mozart around late August 2026 on an annual billing plan after believing it was monthly.
 
 ## Commitments
 
