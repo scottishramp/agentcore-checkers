@@ -271,8 +271,35 @@
       "prompt": "Sherry Montgomery <notifications@okcyouthhockey.com> - 1 message, OKC youth hockey\n   Latest: \"\ud83c\udfd2 Metro Hockey Registration Deadline is Almost Here!\"",
       "status": "asked",
       "subject_key": "notifications@okcyouthhockey.com"
+    },
+    "sender_policy:qualan.johnson@life.church": {
+      "ask_count": 1,
+      "asked_at": "2026-09-01T19:14:00.460638+00:00",
+      "asked_batch": "ask-20260901-191359",
+      "asked_number": 1,
+      "context": {
+        "display_name": "Qualan Johnson",
+        "message_count": 1,
+        "model_confidence": 0.74,
+        "model_guess": "ignore",
+        "model_rationale": "This looks like a Life.Church promotional calendar blast, not work or personal mail, but Qualan is an unfamiliar name at your workplace.",
+        "subjects": [
+          "Mark your calendar: 3 big nights this month"
+        ]
+      },
+      "created_at": "2026-09-01T19:12:27.717600+00:00",
+      "id": "sender_policy:qualan.johnson@life.church",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "Qualan Johnson <qualan.johnson@life.church> - 1 message, Life.Church event promo\n   Latest: \"Mark your calendar: 3 big nights this month\"",
+      "status": "asked",
+      "subject_key": "qualan.johnson@life.church"
     }
   },
-  "updated_at": "2026-08-31T21:18:36.201677+00:00",
+  "updated_at": "2026-09-01T19:14:00.460678+00:00",
   "version": 1
 }

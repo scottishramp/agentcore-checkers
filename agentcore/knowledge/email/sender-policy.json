@@ -5,11 +5,13 @@
       "confidence": 0.95,
       "display_name": "Wells Fargo",
       "first_seen": "2026-08-29T17:17:23.269105+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-01T19:11:38.497789+00:00",
+      "message_count": 2,
       "policy": "learn",
       "rationale": "A Wells Fargo account statement is bank mail that should be remembered.",
       "sample_subjects": [
-        "Your statement for account ...6769"
+        "Your statement for account ...6769",
+        "Your Mobile number is no longer enrolled in Zelle"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269107+00:00"
@@ -44,13 +46,14 @@
       "confidence": 0.96,
       "display_name": "Brian Herbert",
       "first_seen": "2026-08-29T17:17:23.269218+00:00",
-      "last_seen": "2026-08-31T21:17:45.535076+00:00",
-      "message_count": 2,
+      "last_seen": "2026-09-01T19:11:38.497768+00:00",
+      "message_count": 3,
       "policy": "learn",
       "rationale": "This is you writing about school attendance details, which is durable family logistics.",
       "sample_subjects": [
         "Attendance phone number info is wrong",
-        "Billing help and refund please"
+        "Billing help and refund please",
+        "Re: Ezra's talkativeness"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269220+00:00"
@@ -59,13 +62,14 @@
       "confidence": 0.9,
       "display_name": "Capital One | VentureOne",
       "first_seen": "2026-08-29T16:19:56.025274+00:00",
-      "last_seen": "2026-08-30T19:01:59.850822+00:00",
-      "message_count": 2,
+      "last_seen": "2026-09-01T19:11:38.497776+00:00",
+      "message_count": 3,
       "policy": "learn",
       "rationale": "This is a Capital One VentureOne account alert about a possible double charge, not marketing.",
       "sample_subjects": [
         "It looks like you were charged twice",
-        "See your latest review from CreditWise"
+        "See your latest review from CreditWise",
+        "Your payment of $7,945.89 is scheduled for Sep. 1, 2026"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025276+00:00"
@@ -83,15 +87,30 @@
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269011+00:00"
     },
+    "citicards@info6.citi.com": {
+      "confidence": 0.88,
+      "display_name": "Citi\u00ae / AAdvantage\u00ae Platinum Select\u00ae Card",
+      "first_seen": "2026-09-01T19:12:27.717568+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "This is a payment confirmation for a Citi AAdvantage card you use, which is account mail rather than a promo.",
+      "sample_subjects": [
+        "Your payment confirmation"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-01T19:12:27.717570+00:00"
+    },
     "corbin.byford@edmondschools.net": {
       "confidence": 0.97,
       "display_name": "Corbin Byford",
       "first_seen": "2026-08-29T17:17:23.269179+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-01T19:11:38.497757+00:00",
+      "message_count": 2,
       "policy": "learn",
       "rationale": "Corbin Byford is Daniel\u2019s Edmond North basketball coach, and parent-meeting mail carries team dates and logistics.",
       "sample_subjects": [
-        "Edmond North Boys Basketball Parent Meeting"
+        "Edmond North Boys Basketball Parent Meeting",
+        "Parent Meeting Tonight!"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269181+00:00"
@@ -113,14 +132,14 @@
       "confidence": 0.96,
       "display_name": "North High School",
       "first_seen": "2026-08-29T16:19:56.025289+00:00",
-      "last_seen": "2026-08-31T21:17:45.535053+00:00",
-      "message_count": 3,
+      "last_seen": "2026-09-01T19:11:38.497794+00:00",
+      "message_count": 4,
       "policy": "learn",
       "rationale": "Edmond Public Schools newsletters for the kids' schools regularly include dates, sports, and logistics.",
       "sample_subjects": [
-        "2026 Introduction Letter from PTO",
         "Cheyenne Lunch Applications",
-        "Edmond Public Schools HIV/AIDS Prevention Education Program"
+        "Edmond Public Schools HIV/AIDS Prevention Education Program",
+        "Edmond North Open House Invitation"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025290+00:00"
@@ -185,14 +204,14 @@
       "confidence": 0.93,
       "display_name": "Experiencia B\u00edblica para Ni\u00f1os (via Firebase App Distribution)",
       "first_seen": "2026-08-29T16:19:56.025284+00:00",
-      "last_seen": "2026-08-31T21:17:45.535026+00:00",
-      "message_count": 3,
+      "last_seen": "2026-09-01T19:11:38.497725+00:00",
+      "message_count": 4,
       "policy": "info",
       "rationale": "These are YouVersion Android test-build pings from work, useful to recognize but not lasting family facts.",
       "sample_subjects": [
-        "YouVersion Bible App + Audio 11.31.0-dev.you-tab-redesign+7095601 (7095601) for Android is ready to test",
         "Experiencia B\u00edblica para Ni\u00f1os 1.0.8 (1016001) for Android is ready to test",
-        "YouVersion Bible App + Audio 11.31.0-dev.circles-v1+7095778 (7095778) for Android is ready to test"
+        "YouVersion Bible App + Audio 11.31.0-dev.circles-v1+7095778 (7095778) for Android is ready to test",
+        "YouVersion Bible App + Audio 11.32.0-dev+7095835 (7095835) for Android is ready to test"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025286+00:00"
@@ -253,11 +272,13 @@
       "confidence": 0.92,
       "display_name": "Grok Bot",
       "first_seen": "2026-08-29T17:17:23.269136+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-01T19:11:38.497801+00:00",
+      "message_count": 2,
       "policy": "ignore",
       "rationale": "This is a Cursor product announcement that Grok Bot is included with Pro, not an account or billing notice.",
       "sample_subjects": [
-        "Grok Bot is now included with Cursor Pro"
+        "Grok Bot is now included with Cursor Pro",
+        "Grok Bot for Engineering"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269138+00:00"
@@ -307,11 +328,13 @@
       "confidence": 0.9,
       "display_name": "PERSHING LLC",
       "first_seen": "2026-08-29T16:19:56.025318+00:00",
-      "message_count": 0,
+      "last_seen": "2026-09-01T19:11:38.497773+00:00",
+      "message_count": 1,
       "policy": "learn",
       "rationale": "Pershing/BlackRock proxy notices mean you have an investment account worth remembering.",
       "sample_subjects": [
-        "BLACKROCK FUNDS Important Information"
+        "BLACKROCK FUNDS Important Information",
+        "SSGA FUNDS - ETF FUNDS Important Information"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025319+00:00"
@@ -333,11 +356,13 @@
       "confidence": 0.98,
       "display_name": "Kristin Herbert",
       "first_seen": "2026-08-29T17:17:23.269161+00:00",
-      "message_count": 3,
+      "last_seen": "2026-09-01T19:11:38.497782+00:00",
+      "message_count": 4,
       "policy": "learn",
       "rationale": "This is Kristin writing you personally about school, Daniel\u2019s absence, and family travel.",
       "sample_subjects": [
-        "Fwd: Edmond North Boys Basketball Parent Meeting"
+        "Fwd: Edmond North Boys Basketball Parent Meeting",
+        "Grandma picking up next week"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269163+00:00"
@@ -346,11 +371,13 @@
       "confidence": 0.9,
       "display_name": "Benedict Evans",
       "first_seen": "2026-08-29T17:17:23.269195+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-01T19:11:38.497762+00:00",
+      "message_count": 2,
       "policy": "ignore",
       "rationale": "This is Benedict Evans\u2019 numbered tech newsletter, not personal or account mail.",
       "sample_subjects": [
-        "Benedict's Newsletter: No. 657"
+        "Benedict's Newsletter: No. 657",
+        "Benedict's Newsletter: No. 658"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269198+00:00"
@@ -367,6 +394,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269155+00:00"
+    },
+    "madison.shafer@edmondschools.net": {
+      "confidence": 0.98,
+      "display_name": "Madison Shafer",
+      "first_seen": "2026-09-01T19:12:27.717576+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "Madison Shafer is Ezra\u2019s advisory and science teacher at Cheyenne, writing you about him personally.",
+      "sample_subjects": [
+        "Re: Ezra's talkativeness"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-01T19:12:27.717577+00:00"
     },
     "messenger@edmondschools.net": {
       "confidence": 0.95,
@@ -470,7 +510,8 @@
       "confidence": 0.86,
       "display_name": "Life.Church",
       "first_seen": "2026-08-29T17:17:23.269186+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-01T19:11:38.497749+00:00",
+      "message_count": 2,
       "policy": "learn",
       "rationale": "A Life.Church scheduling confirmation is a real commitment at the church you and Kristin work at, not a promotional blast.",
       "sample_subjects": [
@@ -491,6 +532,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269126+00:00"
+    },
+    "noreply@notify.shellpointmtg.com": {
+      "confidence": 0.9,
+      "display_name": "Shellpoint Mortgage Servicing",
+      "first_seen": "2026-09-01T19:12:27.717511+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "This is a mortgage payment-draft notice from Shellpoint, so it is household loan-account mail worth remembering.",
+      "sample_subjects": [
+        "Your recurring payment has been drafted."
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-01T19:12:27.717528+00:00"
     },
     "noreply@robinhood.com": {
       "confidence": 0.92,
@@ -537,13 +591,14 @@
       "confidence": 0.93,
       "display_name": "Life.Church",
       "first_seen": "2026-08-29T16:19:56.025314+00:00",
-      "last_seen": "2026-08-29T17:15:00.203497+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-01T19:11:38.497786+00:00",
+      "message_count": 2,
       "policy": "ignore",
       "rationale": "This is a promotional church blast, not Life.Church work or HR mail.",
       "sample_subjects": [
         "Come just as you are",
-        "What if you stopped waiting to feel ready?"
+        "What if you stopped waiting to feel ready?",
+        "New Styles. Big Purpose. \ud83d\udc55"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025315+00:00"
@@ -641,6 +696,19 @@
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269115+00:00"
     },
+    "vanessa.berry@edmondschools.net": {
+      "confidence": 0.91,
+      "display_name": "Vanessa Berry",
+      "first_seen": "2026-09-01T19:12:27.717552+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "Vanessa Berry is Edmond Public Schools staff writing you personally about KC Club, which is school logistics for the kids.",
+      "sample_subjects": [
+        "Re: KC Club"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-01T19:12:27.717554+00:00"
+    },
     "zak.degiulio@usmobile.com": {
       "confidence": 0.9,
       "display_name": "Zak from US Mobile",
@@ -655,6 +723,6 @@
       "updated_at": "2026-08-29T17:17:23.269035+00:00"
     }
   },
-  "updated_at": "2026-08-31T21:18:36.090921+00:00",
+  "updated_at": "2026-09-01T19:13:59.857651+00:00",
   "version": 1
 }

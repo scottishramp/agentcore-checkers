@@ -14,6 +14,9 @@ and Google Calendar; only distilled facts live here.
 - 2026-08-29: Brian has a recurring Capital One auto loan payment due around the first of each month, including September 1, 2026.
 - 2026-08-29: Brian has a Wells Fargo account ending in 6769.
 - 2026-08-31: On August 31, 2026, Brian requested a refund from Mozart after about one day of use because the product did not meet his expectations.
+- 2026-09-01: Brian Herbert has a recurring mortgage payment of about $1,120.09 serviced by Shellpoint Mortgage Servicing (Newrez LLC).
+- 2026-09-01: Brian Herbert scheduled a one-time Capital One VentureOne credit card payment of $7,945.89 for September 1, 2026, drawn from a BOKF, N.A. bank account.
+- 2026-09-01: The mobile number 215-601-0131 is no longer enrolled to receive Zelle payments through Wells Fargo.
 
 ## Health
 
@@ -37,6 +40,22 @@ and Google Calendar; only distilled facts live here.
 - 2026-08-29: Eda Herbert, Brian's mother, uses the email address edaherbert@gmail.com.
 - 2026-08-29: Patrick McCoyd forwarded the Valdoro Mountain Lodge pre-arrival information for the September 5, 2026 stay to Eda Herbert, Brian's mother.
 - 2026-08-30: Brian's family has a child at Cheyenne Middle School in Edmond Public Schools.
+- 2026-09-01: Silver Herbert is involved with KC Club at her Edmond school, and the first meeting is Thursday, September 3, 2026 at 8:15.
+- 2026-09-01: Vanessa Berry is a school counselor for grades 3rd through 5th at Edmond schools, works with Silver Herbert's KC Club, and can be reached at vanessa.berry@edmondschools.net or 405.726.4853.
+- 2026-09-01: Brian Herbert is a parent of a student involved with Edmond North Boys Basketball for the 2026-27 season.
+- 2026-09-01: Corbin Byford of Edmond schools communicates with parents about Edmond North Boys Basketball.
+- 2026-09-01: Madison Shafer is Ezra Herbert's teacher and told Brian and Kristin Herbert that Ezra is a great kid in a small, quiet class.
+- 2026-09-01: Ezra Herbert's teacher asked Brian and Kristin Herbert to remind him to share when called on, raise his hand, and write questions in his notebook to ask after instruction.
+- 2026-09-01: Madison Shafer is Ezra's teacher at Edmond Public Schools.
+- 2026-09-01: Madison Shafer asked Brian and Kristin Herbert to have Ezra raise his hand before sharing in class and write questions in his notebook to ask after instruction.
+- 2026-09-01: Ezra is in a small, quiet class with Madison Shafer.
+- 2026-09-01: Eda Herbert is Brian Herbert's mother.
+- 2026-09-01: Silver and Levi are picked up from Bird's Nest.
+- 2026-09-01: The Herbert family has a student at Edmond North High School.
+- 2026-09-01: Silver wanted to join KC Club around late August 2026 and believed she may have missed signup.
+- 2026-09-01: Brian Herbert asked Vanessa about KC Club signup for Silver.
+- 2026-09-01: Madison Shafer is Ezra's teacher, and Brian and Kristin Herbert asked her for help after Ezra said he had been talking too much in class.
+- 2026-09-01: A Herbert child attends Cheyenne Middle School.
 
 ## Travel
 
@@ -71,6 +90,11 @@ and Google Calendar; only distilled facts live here.
 - 2026-08-29: Edmond North High School parent-teacher conferences are on Thursday, October 8, 2026 and Monday, October 12, 2026 from 4:30 p.m. to 8:00 p.m. both days.
 - 2026-08-29: Edmond North High School is holding a Parent Playbook meeting at 5:30 p.m. in the auditorium on September 1, 2026 before Open House, repeating the August 5, 2026 presentation.
 - 2026-08-29: Silver Herbert's 4th-grade class at Frontier Elementary uses a snack calendar during the 2026-27 school year.
+- 2026-09-01: The 2026-27 Edmond North Boys Basketball parent meeting was scheduled for September 1, 2026 at 5:30 PM in the Media Center (library) at Edmond North.
+- 2026-09-01: Eda Herbert is scheduled to pick up Silver and Levi from Bird's Nest on Tuesday through Thursday, September 8–10, 2026.
+- 2026-09-01: Edmond North High School parent-teacher conferences are Thursday, October 8, 2026 and Monday, October 12, 2026, from 4:30pm to 8:00pm both days.
+- 2026-09-01: Silver believed KC Club's first meeting was Thursday, September 3, 2026.
+- 2026-09-01: Cheyenne Middle School picture day is September 1, 2026.
 
 ## Other
 

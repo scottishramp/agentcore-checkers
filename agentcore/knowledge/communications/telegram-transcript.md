@@ -377,3 +377,16 @@ User message:
 Fast router reply:
 
 > Image processing is currently powered by Gemini 3.6 Flash.
+## 2026-09-01T17:52:23.159Z | Brian Herbert | telegram:407016377
+
+- Conversation: `telegram:dm:8983527816`
+- Inbox record: `agentcore/inbox/telegram/telegram__telegram-407016377.md`
+- Fast-router route: `task`
+
+User message:
+
+> Why'd you send the digest twice today
+
+Fast router reply:
+
+> *DEFER* The slower, smarter agent might be able to help with this
