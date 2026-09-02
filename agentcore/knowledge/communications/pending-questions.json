@@ -218,6 +218,33 @@
       "status": "asked",
       "subject_key": "message@volunteer2mail.com"
     },
+    "sender_policy:michelyn.bright@life.church": {
+      "ask_count": 1,
+      "asked_at": "2026-09-02T19:13:32.244008+00:00",
+      "asked_batch": "ask-20260902-191331",
+      "asked_number": 1,
+      "context": {
+        "display_name": "Michelyn Bright",
+        "message_count": 1,
+        "model_confidence": 0.76,
+        "model_guess": "ignore",
+        "model_rationale": "Michelyn already sends LifeKids logistics from a team address we keep; this named-address message is a bulk parenting article, not schedule mail.",
+        "subjects": [
+          "Letting our kids grow through hard things"
+        ]
+      },
+      "created_at": "2026-09-02T19:13:12.687268+00:00",
+      "id": "sender_policy:michelyn.bright@life.church",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "Michelyn Bright <michelyn.bright@life.church> - 1 message, Life.Church kids ministry newsletter\n   Latest: \"Letting our kids grow through hard things\"",
+      "status": "asked",
+      "subject_key": "michelyn.bright@life.church"
+    },
     "sender_policy:no-reply@booksy.net": {
       "ask_count": 1,
       "asked_at": "2026-08-29T19:10:32.170409+00:00",
@@ -300,6 +327,6 @@
       "subject_key": "qualan.johnson@life.church"
     }
   },
-  "updated_at": "2026-09-01T19:14:00.460678+00:00",
+  "updated_at": "2026-09-02T19:13:32.244052+00:00",
   "version": 1
 }

@@ -17,6 +17,8 @@ and Google Calendar; only distilled facts live here.
 - 2026-09-01: Brian Herbert has a recurring mortgage payment of about $1,120.09 serviced by Shellpoint Mortgage Servicing (Newrez LLC).
 - 2026-09-01: Brian Herbert scheduled a one-time Capital One VentureOne credit card payment of $7,945.89 for September 1, 2026, drawn from a BOKF, N.A. bank account.
 - 2026-09-01: The mobile number 215-601-0131 is no longer enrolled to receive Zelle payments through Wells Fargo.
+- 2026-09-02: Brian paid $7,945.89 toward his Capital One VentureOne credit card, with the payment posted on September 1, 2026.
+- 2026-09-02: Brian has a Capital One auto loan with a payment of $375.60 dated September 1, 2026.
 
 ## Health
 
@@ -56,6 +58,7 @@ and Google Calendar; only distilled facts live here.
 - 2026-09-01: Brian Herbert asked Vanessa about KC Club signup for Silver.
 - 2026-09-01: Madison Shafer is Ezra's teacher, and Brian and Kristin Herbert asked her for help after Ezra said he had been talking too much in class.
 - 2026-09-01: A Herbert child attends Cheyenne Middle School.
+- 2026-09-02: Brian is opted in to receive GATE (Gifted and Talented Education) messages from Edmond Public Schools.
 
 ## Travel
 

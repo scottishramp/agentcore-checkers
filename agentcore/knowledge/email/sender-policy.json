@@ -1,6 +1,19 @@
 {
   "domains": {},
   "senders": {
+    "alert@bokf.com": {
+      "confidence": 0.94,
+      "display_name": "",
+      "first_seen": "2026-09-02T19:13:12.687205+00:00",
+      "message_count": 2,
+      "policy": "learn",
+      "rationale": "Bank of Oklahoma statement-ready notices are account mail for the BOKF checking account you already use.",
+      "sample_subjects": [
+        "Your Bank of Oklahoma online statement is ready."
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-02T19:13:12.687208+00:00"
+    },
     "alerts@notify.wellsfargo.com": {
       "confidence": 0.95,
       "display_name": "Wells Fargo",
@@ -62,14 +75,14 @@
       "confidence": 0.9,
       "display_name": "Capital One | VentureOne",
       "first_seen": "2026-08-29T16:19:56.025274+00:00",
-      "last_seen": "2026-09-01T19:11:38.497776+00:00",
-      "message_count": 3,
+      "last_seen": "2026-09-02T19:12:26.963018+00:00",
+      "message_count": 4,
       "policy": "learn",
       "rationale": "This is a Capital One VentureOne account alert about a possible double charge, not marketing.",
       "sample_subjects": [
-        "It looks like you were charged twice",
         "See your latest review from CreditWise",
-        "Your payment of $7,945.89 is scheduled for Sep. 1, 2026"
+        "Your payment of $7,945.89 is scheduled for Sep. 1, 2026",
+        "We've received your payment"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025276+00:00"
@@ -204,14 +217,14 @@
       "confidence": 0.93,
       "display_name": "Experiencia B\u00edblica para Ni\u00f1os (via Firebase App Distribution)",
       "first_seen": "2026-08-29T16:19:56.025284+00:00",
-      "last_seen": "2026-09-01T19:11:38.497725+00:00",
-      "message_count": 4,
+      "last_seen": "2026-09-02T19:12:26.963047+00:00",
+      "message_count": 5,
       "policy": "info",
       "rationale": "These are YouVersion Android test-build pings from work, useful to recognize but not lasting family facts.",
       "sample_subjects": [
-        "Experiencia B\u00edblica para Ni\u00f1os 1.0.8 (1016001) for Android is ready to test",
         "YouVersion Bible App + Audio 11.31.0-dev.circles-v1+7095778 (7095778) for Android is ready to test",
-        "YouVersion Bible App + Audio 11.32.0-dev+7095835 (7095835) for Android is ready to test"
+        "YouVersion Bible App + Audio 11.32.0-dev+7095835 (7095835) for Android is ready to test",
+        "YouVersion Bible App + Audio 11.32.0-dev.notification-permission-gating+7095880 (7095880) for Android is ready to test"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025286+00:00"
@@ -287,13 +300,14 @@
       "confidence": 0.86,
       "display_name": "Mozart AI Team",
       "first_seen": "2026-08-30T19:03:08.590793+00:00",
-      "last_seen": "2026-08-31T21:17:45.535061+00:00",
-      "message_count": 2,
+      "last_seen": "2026-09-02T19:12:26.963093+00:00",
+      "message_count": 3,
       "policy": "ignore",
       "rationale": "This is Mozart AI's welcome/product mail, not billing or account notices; those come from Stripe.",
       "sample_subjects": [
         "Welcome to Mozart AI",
-        "You made something! Now share it."
+        "You made something! Now share it.",
+        "You're about to lose your benefits"
       ],
       "source": "llm",
       "updated_at": "2026-08-30T19:03:08.590795+00:00"
@@ -412,13 +426,14 @@
       "confidence": 0.95,
       "display_name": "messenger@edmondschools.net",
       "first_seen": "2026-08-29T16:19:56.025294+00:00",
-      "last_seen": "2026-08-29T17:15:00.203450+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-02T19:12:26.963100+00:00",
+      "message_count": 2,
       "policy": "learn",
       "rationale": "This is the Edmond school messenger already used for Daniel's English quiz and assignment reminders.",
       "sample_subjects": [
         "Quiz Reminder",
-        "8th Grade Math Introduction"
+        "8th Grade Math Introduction",
+        "September GATE update"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025295+00:00"
@@ -506,6 +521,19 @@
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269054+00:00"
     },
+    "noreply@intouchpay.com": {
+      "confidence": 0.87,
+      "display_name": "noreply@intouchpay.com",
+      "first_seen": "2026-09-02T19:13:12.687160+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "This is a receipt from Edmond schools' InTouch payment portal, which you already use for fees like the PSAT, but each message is a one-off payment notice.",
+      "sample_subjects": [
+        "Receipt #1185606"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-02T19:13:12.687177+00:00"
+    },
     "noreply@life.church": {
       "confidence": 0.86,
       "display_name": "Life.Church",
@@ -550,13 +578,14 @@
       "confidence": 0.92,
       "display_name": "Robinhood",
       "first_seen": "2026-08-29T16:19:56.025226+00:00",
-      "last_seen": "2026-08-29T17:15:00.203372+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-02T19:12:26.963064+00:00",
+      "message_count": 2,
       "policy": "ignore",
       "rationale": "These are Robinhood bonus and APY promos, not statements or account notices.",
       "sample_subjects": [
         "Ending soon: claim an uncapped transfer bonus",
-        "Get margin rates as low as 3.95% for settled margin balances of $50M or more"
+        "Get margin rates as low as 3.95% for settled margin balances of $50M or more",
+        "Invite friends, get up to $15K of stock"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025253+00:00"
@@ -683,15 +712,43 @@
       "source": "llm",
       "updated_at": "2026-08-31T21:18:04.817316+00:00"
     },
+    "team@mail.cursor.com": {
+      "confidence": 0.93,
+      "display_name": "Cursor Team",
+      "first_seen": "2026-09-02T19:13:12.687220+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is Cursor product marketing about shipping code from your phone, not billing or account mail.",
+      "sample_subjects": [
+        "Ship code from your phone"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-02T19:13:12.687222+00:00"
+    },
+    "transactional@e.pnc.com": {
+      "confidence": 0.86,
+      "display_name": "PNC Bank",
+      "first_seen": "2026-09-02T19:13:12.687230+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "This is a PNC fraud-awareness alert for a bank you already use, not a statement or account notice.",
+      "sample_subjects": [
+        "Protect yourself from impersonation fraud"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-02T19:13:12.687232+00:00"
+    },
     "updates@email.grok.com": {
       "confidence": 0.93,
       "display_name": "Grok",
       "first_seen": "2026-08-29T17:17:23.269113+00:00",
-      "message_count": 2,
+      "last_seen": "2026-09-02T19:12:26.963086+00:00",
+      "message_count": 3,
       "policy": "ignore",
       "rationale": "This is SuperGrok upgrade marketing, not an account or billing notice.",
       "sample_subjects": [
-        "Your SuperGrok upgrade just got easier"
+        "Your SuperGrok upgrade just got easier",
+        "Try Grok Bot free for 3 days"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269115+00:00"
@@ -723,6 +780,6 @@
       "updated_at": "2026-08-29T17:17:23.269035+00:00"
     }
   },
-  "updated_at": "2026-09-01T19:13:59.857651+00:00",
+  "updated_at": "2026-09-02T19:13:31.610236+00:00",
   "version": 1
 }
