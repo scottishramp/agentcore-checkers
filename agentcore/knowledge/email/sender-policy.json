@@ -55,18 +55,31 @@
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269025+00:00"
     },
+    "bokf@info.bokf.com": {
+      "confidence": 0.9,
+      "display_name": "Bank of Oklahoma",
+      "first_seen": "2026-09-03T19:06:08.827331+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "A Bank of Oklahoma Zelle-limit change is account-terms mail for the BOKF checking account you already use.",
+      "sample_subjects": [
+        "Important Notice of Change: Update to Zelle\u00ae Limits for Sending Money"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827332+00:00"
+    },
     "briandherbert@gmail.com": {
       "confidence": 0.96,
       "display_name": "Brian Herbert",
       "first_seen": "2026-08-29T17:17:23.269218+00:00",
-      "last_seen": "2026-09-01T19:11:38.497768+00:00",
-      "message_count": 3,
+      "last_seen": "2026-09-03T19:05:03.043387+00:00",
+      "message_count": 4,
       "policy": "learn",
       "rationale": "This is you writing about school attendance details, which is durable family logistics.",
       "sample_subjects": [
-        "Attendance phone number info is wrong",
         "Billing help and refund please",
-        "Re: Ezra's talkativeness"
+        "Re: Ezra's talkativeness",
+        "My own song flagged"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269220+00:00"
@@ -128,15 +141,30 @@
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269181+00:00"
     },
+    "developer@insideapple.apple.com": {
+      "confidence": 0.95,
+      "display_name": "Apple Developer",
+      "first_seen": "2026-09-03T19:06:08.827350+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is an Apple Developer business-growth newsletter, not App Store billing or account mail.",
+      "sample_subjects": [
+        "Hello Developer: Grow your business."
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827351+00:00"
+    },
     "do-not-reply@notifications.seesaw.me": {
       "confidence": 0.93,
       "display_name": "Seesaw",
       "first_seen": "2026-08-29T17:17:23.269233+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-03T19:05:03.043379+00:00",
+      "message_count": 2,
       "policy": "info",
       "rationale": "Seesaw daily journal updates for Levi are a real classroom app you use, but each digest is a transient activity ping rather than lasting school facts.",
       "sample_subjects": [
-        "Your Seesaw updates for August 23rd, 2026"
+        "Your Seesaw updates for August 23rd, 2026",
+        "Your Seesaw updates for September 3rd, 2026"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269235+00:00"
@@ -145,14 +173,14 @@
       "confidence": 0.96,
       "display_name": "North High School",
       "first_seen": "2026-08-29T16:19:56.025289+00:00",
-      "last_seen": "2026-09-01T19:11:38.497794+00:00",
-      "message_count": 4,
+      "last_seen": "2026-09-03T19:05:03.043397+00:00",
+      "message_count": 5,
       "policy": "learn",
       "rationale": "Edmond Public Schools newsletters for the kids' schools regularly include dates, sports, and logistics.",
       "sample_subjects": [
-        "Cheyenne Lunch Applications",
         "Edmond Public Schools HIV/AIDS Prevention Education Program",
-        "Edmond North Open House Invitation"
+        "Edmond North Open House Invitation",
+        "Husky Football at Deer Creek \u2013 Fan Information"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025290+00:00"
@@ -169,6 +197,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269213+00:00"
+    },
+    "edelivery@netxinvestor.com": {
+      "confidence": 0.95,
+      "display_name": "edelivery@netxinvestor.com",
+      "first_seen": "2026-09-03T19:06:08.827318+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "NetXInvestor statement notices are brokerage-account mail for the Pershing investment account you already have.",
+      "sample_subjects": [
+        "Account Statement Notification"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827320+00:00"
     },
     "email@email.shopify.com": {
       "confidence": 0.93,
@@ -202,8 +243,8 @@
       "confidence": 0.88,
       "display_name": "Microsoft Family Safety",
       "first_seen": "2026-08-29T17:17:23.269077+00:00",
-      "last_seen": "2026-08-30T19:01:59.850848+00:00",
-      "message_count": 2,
+      "last_seen": "2026-09-03T19:05:03.043372+00:00",
+      "message_count": 3,
       "policy": "info",
       "rationale": "Weekly Family Safety activity reports are routine parental-control pings, not durable records.",
       "sample_subjects": [
@@ -217,17 +258,30 @@
       "confidence": 0.93,
       "display_name": "Experiencia B\u00edblica para Ni\u00f1os (via Firebase App Distribution)",
       "first_seen": "2026-08-29T16:19:56.025284+00:00",
-      "last_seen": "2026-09-02T19:12:26.963047+00:00",
-      "message_count": 5,
+      "last_seen": "2026-09-03T19:05:03.043296+00:00",
+      "message_count": 6,
       "policy": "info",
       "rationale": "These are YouVersion Android test-build pings from work, useful to recognize but not lasting family facts.",
       "sample_subjects": [
-        "YouVersion Bible App + Audio 11.31.0-dev.circles-v1+7095778 (7095778) for Android is ready to test",
         "YouVersion Bible App + Audio 11.32.0-dev+7095835 (7095835) for Android is ready to test",
-        "YouVersion Bible App + Audio 11.32.0-dev.notification-permission-gating+7095880 (7095880) for Android is ready to test"
+        "YouVersion Bible App + Audio 11.32.0-dev.notification-permission-gating+7095880 (7095880) for Android is ready to test",
+        "YouVersion Bible App + Audio 11.31.1+7095935 (7095935) for Android is ready to test"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025286+00:00"
+    },
+    "gitlab@mg.gitlab.com": {
+      "confidence": 0.88,
+      "display_name": "GitLab",
+      "first_seen": "2026-09-03T19:06:08.827337+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "A GitLab access grant to Russ Lancaster's Project_Ezra is real project-membership mail for an account you use.",
+      "sample_subjects": [
+        "Access to the Russ Lancaster / Project_Ezra project was granted"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827339+00:00"
     },
     "googledevelopers-noreply@google.com": {
       "confidence": 0.9,
@@ -300,14 +354,14 @@
       "confidence": 0.86,
       "display_name": "Mozart AI Team",
       "first_seen": "2026-08-30T19:03:08.590793+00:00",
-      "last_seen": "2026-09-02T19:12:26.963093+00:00",
-      "message_count": 3,
+      "last_seen": "2026-09-03T19:05:03.043400+00:00",
+      "message_count": 4,
       "policy": "ignore",
       "rationale": "This is Mozart AI's welcome/product mail, not billing or account notices; those come from Stripe.",
       "sample_subjects": [
-        "Welcome to Mozart AI",
         "You made something! Now share it.",
-        "You're about to lose your benefits"
+        "You're about to lose your benefits",
+        "Here's exactly what you lose"
       ],
       "source": "llm",
       "updated_at": "2026-08-30T19:03:08.590795+00:00"
@@ -353,6 +407,19 @@
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025319+00:00"
     },
+    "info@thenounproject.com": {
+      "confidence": 0.84,
+      "display_name": "Noun Project",
+      "first_seen": "2026-09-03T19:06:08.827306+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "A Noun Project terms-of-use update is legitimate service mail, but it does not add lasting personal facts.",
+      "sample_subjects": [
+        "Important Update to Noun Project\u2019s Terms of Use"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827307+00:00"
+    },
     "invoice+statements+acct_1rhf6bftxbxw4wb6@stripe.com": {
       "confidence": 0.92,
       "display_name": "Mozart AI",
@@ -380,6 +447,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269163+00:00"
+    },
+    "leadership@life.church": {
+      "confidence": 0.92,
+      "display_name": "Craig Groeschel",
+      "first_seen": "2026-09-03T19:06:08.827300+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is Craig Groeschel's bulk leadership newsletter, not Life.Church work, HR, or scheduling mail.",
+      "sample_subjects": [
+        "Are you the bottleneck?"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827301+00:00"
     },
     "list@ben-evans.com": {
       "confidence": 0.9,
@@ -422,18 +502,31 @@
       "source": "llm",
       "updated_at": "2026-09-01T19:12:27.717577+00:00"
     },
+    "mail@servicing.onepay.com": {
+      "confidence": 0.93,
+      "display_name": "OnePay",
+      "first_seen": "2026-09-03T19:06:08.827343+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "An OnePay monthly statement and terms update is financial-account mail worth remembering.",
+      "sample_subjects": [
+        "Your August 2026 statement and updated terms are ready"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827345+00:00"
+    },
     "messenger@edmondschools.net": {
       "confidence": 0.95,
       "display_name": "messenger@edmondschools.net",
       "first_seen": "2026-08-29T16:19:56.025294+00:00",
-      "last_seen": "2026-09-02T19:12:26.963100+00:00",
-      "message_count": 2,
+      "last_seen": "2026-09-03T19:05:03.043360+00:00",
+      "message_count": 3,
       "policy": "learn",
       "rationale": "This is the Edmond school messenger already used for Daniel's English quiz and assignment reminders.",
       "sample_subjects": [
-        "Quiz Reminder",
         "8th Grade Math Introduction",
-        "September GATE update"
+        "September GATE update",
+        "Cheyenne FCS Sewing Supplies Reminder"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025295+00:00"
@@ -452,17 +545,41 @@
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025269+00:00"
     },
+    "no-reply@accounts.google.com": {
+      "display_name": "Google",
+      "first_seen": "2026-09-03T19:05:03.043341+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "Automated system notification address.",
+      "sample_subjects": [],
+      "source": "seed",
+      "updated_at": "2026-09-03T19:05:03.043343+00:00"
+    },
+    "no-reply@email.github.com": {
+      "confidence": 0.95,
+      "display_name": "GitHub",
+      "first_seen": "2026-09-03T19:06:08.827273+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is GitHub Universe event marketing, not a security, billing, or repo notice.",
+      "sample_subjects": [
+        "Go beyond the sessions at GitHub Universe"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827275+00:00"
+    },
     "no-reply@github.com": {
       "confidence": 0.91,
       "display_name": "GitHub",
       "first_seen": "2026-08-29T16:19:56.025300+00:00",
-      "last_seen": "2026-08-29T17:15:00.203486+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-03T19:05:03.043351+00:00",
+      "message_count": 2,
       "policy": "ignore",
       "rationale": "This is GitHub product marketing for Secret Protection, not a security or account notice.",
       "sample_subjects": [
         "Secure your CI/CD with GitHub Secret Protection",
-        "Don\u2019t let speed compromise quality"
+        "Don\u2019t let speed compromise quality",
+        "Protect your code with risk-based Secret remediation"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025301+00:00"
@@ -520,6 +637,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269054+00:00"
+    },
+    "noreply@google.com": {
+      "confidence": 0.96,
+      "display_name": "Google",
+      "first_seen": "2026-09-03T19:06:08.827312+00:00",
+      "message_count": 2,
+      "policy": "info",
+      "rationale": "Google verification codes are real security alerts with no lasting facts to keep.",
+      "sample_subjects": [
+        "Google Verification Code"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827313+00:00"
     },
     "noreply@intouchpay.com": {
       "confidence": 0.87,
@@ -603,6 +733,19 @@
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025305+00:00"
     },
+    "notifications@github.com": {
+      "confidence": 0.93,
+      "display_name": "briandherbert",
+      "first_seen": "2026-09-03T19:06:08.827292+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "GitHub Actions failure notices for your paper_aggregator repo are real app alerts, but each run result is transient.",
+      "sample_subjects": [
+        "[briandherbert/paper_aggregator] Run failed: Research Digest Aggregator - main (d8783de)"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827294+00:00"
+    },
     "oklahomacitylifekidsteam@life.church": {
       "confidence": 0.88,
       "display_name": "Michelyn Bright",
@@ -616,18 +759,31 @@
       "source": "llm",
       "updated_at": "2026-08-30T19:03:08.590754+00:00"
     },
+    "oksde@public.govdelivery.com": {
+      "confidence": 0.86,
+      "display_name": "OK State Dept of Ed",
+      "first_seen": "2026-09-03T19:06:08.827284+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is a bulk Oklahoma State Department of Education newsletter, not Edmond school logistics or personal government mail.",
+      "sample_subjects": [
+        "Be Still!"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827286+00:00"
+    },
     "online@life.church": {
       "confidence": 0.93,
       "display_name": "Life.Church",
       "first_seen": "2026-08-29T16:19:56.025314+00:00",
-      "last_seen": "2026-09-01T19:11:38.497786+00:00",
-      "message_count": 2,
+      "last_seen": "2026-09-03T19:05:03.043392+00:00",
+      "message_count": 3,
       "policy": "ignore",
       "rationale": "This is a promotional church blast, not Life.Church work or HR mail.",
       "sample_subjects": [
-        "Come just as you are",
         "What if you stopped waiting to feel ready?",
-        "New Styles. Big Purpose. \ud83d\udc55"
+        "New Styles. Big Purpose. \ud83d\udc55",
+        "Who needs you right now?"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025315+00:00"
@@ -659,6 +815,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.268974+00:00"
+    },
+    "rewards@e-rewards.dominos.com": {
+      "confidence": 0.97,
+      "display_name": "Domino's Pizza",
+      "first_seen": "2026-09-03T19:06:08.827237+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is a Domino's rewards promo for free bread bites, not an order or account notice.",
+      "sample_subjects": [
+        "\ud83d\udce3 Your FREE 16-Piece Parmesan Bread Bites are waiting \u2705"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827251+00:00"
     },
     "sbocustomerservice@integrisok.com": {
       "confidence": 0.88,
@@ -711,6 +880,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-31T21:18:04.817316+00:00"
+    },
+    "support@suno.com": {
+      "confidence": 0.86,
+      "display_name": "support@suno.com",
+      "first_seen": "2026-09-03T19:06:08.827325+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "This is Suno support about a flagged song, so you use the service, but support tickets themselves are transient.",
+      "sample_subjects": [
+        "Re: [Support] My own song flagged"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-03T19:06:08.827326+00:00"
     },
     "team@mail.cursor.com": {
       "confidence": 0.93,
@@ -780,6 +962,6 @@
       "updated_at": "2026-08-29T17:17:23.269035+00:00"
     }
   },
-  "updated_at": "2026-09-02T19:13:31.610236+00:00",
+  "updated_at": "2026-09-03T19:07:17.278452+00:00",
   "version": 1
 }

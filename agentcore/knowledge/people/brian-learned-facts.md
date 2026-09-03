@@ -19,6 +19,8 @@ and Google Calendar; only distilled facts live here.
 - 2026-09-01: The mobile number 215-601-0131 is no longer enrolled to receive Zelle payments through Wells Fargo.
 - 2026-09-02: Brian paid $7,945.89 toward his Capital One VentureOne credit card, with the payment posted on September 1, 2026.
 - 2026-09-02: Brian has a Capital One auto loan with a payment of $375.60 dated September 1, 2026.
+- 2026-09-03: Brian Herbert has a BOK Financial Securities, Inc. investment account with paperless statements delivered through NetXInvestor on behalf of Pershing LLC.
+- 2026-09-03: Effective October 4, 2026, Bank of Oklahoma is adding a monthly Zelle sending limit on Brian Herbert's BOK accounts, while existing Zelle transaction and daily limits stay the same.
 
 ## Health
 
@@ -30,6 +32,8 @@ and Google Calendar; only distilled facts live here.
 ## Home
 
 ## Work
+
+- 2026-09-03: Brian was granted Developer access to Russ Lancaster's GitLab project Project_Ezra at gitlab.com/r_lancaster/project_ezra on September 2, 2026.
 
 ## Family
 
@@ -59,6 +63,7 @@ and Google Calendar; only distilled facts live here.
 - 2026-09-01: Madison Shafer is Ezra's teacher, and Brian and Kristin Herbert asked her for help after Ezra said he had been talking too much in class.
 - 2026-09-01: A Herbert child attends Cheyenne Middle School.
 - 2026-09-02: Brian is opted in to receive GATE (Gifted and Talented Education) messages from Edmond Public Schools.
+- 2026-09-03: Kendall Wildman is the Family and Consumer Science teacher and FCCLA advisor at Cheyenne Middle School in Edmond Public Schools and can be reached at kendall.wildman@edmondschools.net.
 
 ## Travel
 
@@ -98,6 +103,7 @@ and Google Calendar; only distilled facts live here.
 - 2026-09-01: Edmond North High School parent-teacher conferences are Thursday, October 8, 2026 and Monday, October 12, 2026, from 4:30pm to 8:00pm both days.
 - 2026-09-01: Silver believed KC Club's first meeting was Thursday, September 3, 2026.
 - 2026-09-01: Cheyenne Middle School picture day is September 1, 2026.
+- 2026-09-03: Cheyenne Middle School eighth-grade Family and Consumer Science students, a class Brian Herbert's family is notified about, need pajama-pants or apron fabric for a final sewing project or may use classroom scrap fabric for community-service projects.
 
 ## Other
 

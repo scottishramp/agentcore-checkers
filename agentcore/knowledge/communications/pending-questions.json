@@ -245,6 +245,33 @@
       "status": "asked",
       "subject_key": "michelyn.bright@life.church"
     },
+    "sender_policy:mymercy@mercy.net": {
+      "ask_count": 1,
+      "asked_at": "2026-09-03T19:07:17.926178+00:00",
+      "asked_batch": "ask-20260903-190717",
+      "asked_number": 1,
+      "context": {
+        "display_name": "",
+        "message_count": 1,
+        "model_confidence": 0.7,
+        "model_guess": "learn",
+        "model_rationale": "This looks like Mercy patient-portal account mail, which would be worth remembering if it is yours, but Mercy is not on your known provider list.",
+        "subjects": [
+          "MyMercy - New Account Information"
+        ]
+      },
+      "created_at": "2026-09-03T19:06:08.827370+00:00",
+      "id": "sender_policy:mymercy@mercy.net",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "mymercy@mercy.net <mymercy@mercy.net> - 1 message, Mercy Health patient portal\n   Latest: \"MyMercy - New Account Information\"",
+      "status": "asked",
+      "subject_key": "mymercy@mercy.net"
+    },
     "sender_policy:no-reply@booksy.net": {
       "ask_count": 1,
       "asked_at": "2026-08-29T19:10:32.170409+00:00",
@@ -327,6 +354,6 @@
       "subject_key": "qualan.johnson@life.church"
     }
   },
-  "updated_at": "2026-09-02T19:13:32.244052+00:00",
+  "updated_at": "2026-09-03T19:07:17.926218+00:00",
   "version": 1
 }
