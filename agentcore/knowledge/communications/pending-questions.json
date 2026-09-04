@@ -299,6 +299,33 @@
       "status": "asked",
       "subject_key": "no-reply@booksy.net"
     },
+    "sender_policy:noreply@townsq.io": {
+      "ask_count": 1,
+      "asked_at": "2026-09-04T18:49:51.263224+00:00",
+      "asked_batch": "ask-20260904-184950",
+      "asked_number": 1,
+      "context": {
+        "display_name": "Homestead Property Owners Assn via TownSq Community",
+        "message_count": 1,
+        "model_confidence": 0.78,
+        "model_guess": "info",
+        "model_rationale": "TownSq posts from Homestead POA look like community announcements, and I cannot confirm this is the association for your Edmond house.",
+        "subjects": [
+          "New announcement: \ud83c\udf89 We're Taking a Little Labor Day Break! \ud83c\uddfa\ud83c\uddf8"
+        ]
+      },
+      "created_at": "2026-09-04T18:49:12.756633+00:00",
+      "id": "sender_policy:noreply@townsq.io",
+      "kind": "sender_policy",
+      "options": [
+        "learn",
+        "info",
+        "ignore"
+      ],
+      "prompt": "Homestead Property Owners Assn via TownSq Community <noreply@townsq.io> - 1 message, HOA community portal\n   Latest: \"New announcement: \ud83c\udf89 We're Taking a Little Labor Day Break! \ud83c\uddfa\ud83c\uddf8\"",
+      "status": "asked",
+      "subject_key": "noreply@townsq.io"
+    },
     "sender_policy:notifications@okcyouthhockey.com": {
       "ask_count": 1,
       "asked_at": "2026-08-29T19:10:32.170435+00:00",
@@ -354,6 +381,6 @@
       "subject_key": "qualan.johnson@life.church"
     }
   },
-  "updated_at": "2026-09-03T19:07:17.926218+00:00",
+  "updated_at": "2026-09-04T18:49:51.263263+00:00",
   "version": 1
 }

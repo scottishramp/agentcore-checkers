@@ -21,6 +21,7 @@ and Google Calendar; only distilled facts live here.
 - 2026-09-02: Brian has a Capital One auto loan with a payment of $375.60 dated September 1, 2026.
 - 2026-09-03: Brian Herbert has a BOK Financial Securities, Inc. investment account with paperless statements delivered through NetXInvestor on behalf of Pershing LLC.
 - 2026-09-03: Effective October 4, 2026, Bank of Oklahoma is adding a monthly Zelle sending limit on Brian Herbert's BOK accounts, while existing Zelle transaction and daily limits stay the same.
+- 2026-09-04: Brian Herbert has a mortgage serviced by Shellpoint Mortgage Servicing (Newrez LLC) on an account ending in 3851.
 
 ## Health
 
@@ -64,6 +65,8 @@ and Google Calendar; only distilled facts live here.
 - 2026-09-01: A Herbert child attends Cheyenne Middle School.
 - 2026-09-02: Brian is opted in to receive GATE (Gifted and Talented Education) messages from Edmond Public Schools.
 - 2026-09-03: Kendall Wildman is the Family and Consumer Science teacher and FCCLA advisor at Cheyenne Middle School in Edmond Public Schools and can be reached at kendall.wildman@edmondschools.net.
+- 2026-09-04: Arabella Trofemuk is Silver Herbert's 4th-grade homeroom teacher at Frontier Elementary in Edmond Public Schools and can be reached at 405-726-4924.
+- 2026-09-04: Daniel Herbert plays boys basketball at Edmond North High School, where Corbin Byford is a coach.
 
 ## Travel
 
@@ -104,6 +107,8 @@ and Google Calendar; only distilled facts live here.
 - 2026-09-01: Silver believed KC Club's first meeting was Thursday, September 3, 2026.
 - 2026-09-01: Cheyenne Middle School picture day is September 1, 2026.
 - 2026-09-03: Cheyenne Middle School eighth-grade Family and Consumer Science students, a class Brian Herbert's family is notified about, need pajama-pants or apron fabric for a final sewing project or may use classroom scrap fabric for community-service projects.
+- 2026-09-04: Daniel Herbert's Edmond North boys basketball Vertical Raise fundraiser starts on September 16, 2026, and players are asked to provide 20 phone numbers and 15 emails.
+- 2026-09-04: Edmond North boys basketball has a Booster Club that collects annual dues for the 2026-27 season for families including Daniel Herbert's.
 
 ## Other
 

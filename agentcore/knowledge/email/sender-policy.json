@@ -33,11 +33,13 @@
       "confidence": 0.97,
       "display_name": "Arabella Trofemuk",
       "first_seen": "2026-08-29T17:17:23.269204+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-04T18:48:07.338543+00:00",
+      "message_count": 2,
       "policy": "learn",
       "rationale": "Arabella Trofemuk is Silver\u2019s confirmed 4th-grade teacher at Frontier, so her mail is school logistics worth keeping.",
       "sample_subjects": [
-        "WHOOPS!"
+        "WHOOPS!",
+        "NO THURSDAY FOLDERS!!"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269206+00:00"
@@ -130,13 +132,14 @@
       "confidence": 0.97,
       "display_name": "Corbin Byford",
       "first_seen": "2026-08-29T17:17:23.269179+00:00",
-      "last_seen": "2026-09-01T19:11:38.497757+00:00",
-      "message_count": 2,
+      "last_seen": "2026-09-04T18:48:07.338548+00:00",
+      "message_count": 3,
       "policy": "learn",
       "rationale": "Corbin Byford is Daniel\u2019s Edmond North basketball coach, and parent-meeting mail carries team dates and logistics.",
       "sample_subjects": [
         "Edmond North Boys Basketball Parent Meeting",
-        "Parent Meeting Tonight!"
+        "Parent Meeting Tonight!",
+        "North Boys Basketball Parent Meeting Follow-Up"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269181+00:00"
@@ -258,14 +261,14 @@
       "confidence": 0.93,
       "display_name": "Experiencia B\u00edblica para Ni\u00f1os (via Firebase App Distribution)",
       "first_seen": "2026-08-29T16:19:56.025284+00:00",
-      "last_seen": "2026-09-03T19:05:03.043296+00:00",
-      "message_count": 6,
+      "last_seen": "2026-09-04T18:48:07.338516+00:00",
+      "message_count": 7,
       "policy": "info",
       "rationale": "These are YouVersion Android test-build pings from work, useful to recognize but not lasting family facts.",
       "sample_subjects": [
-        "YouVersion Bible App + Audio 11.32.0-dev+7095835 (7095835) for Android is ready to test",
         "YouVersion Bible App + Audio 11.32.0-dev.notification-permission-gating+7095880 (7095880) for Android is ready to test",
-        "YouVersion Bible App + Audio 11.31.1+7095935 (7095935) for Android is ready to test"
+        "YouVersion Bible App + Audio 11.31.1+7095935 (7095935) for Android is ready to test",
+        "YouVersion Bible App + Audio 11.31.0-dev.circles-v1+7095998 (7095998) for Android is ready to test"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025286+00:00"
@@ -354,14 +357,14 @@
       "confidence": 0.86,
       "display_name": "Mozart AI Team",
       "first_seen": "2026-08-30T19:03:08.590793+00:00",
-      "last_seen": "2026-09-03T19:05:03.043400+00:00",
-      "message_count": 4,
+      "last_seen": "2026-09-04T18:48:07.338480+00:00",
+      "message_count": 5,
       "policy": "ignore",
       "rationale": "This is Mozart AI's welcome/product mail, not billing or account notices; those come from Stripe.",
       "sample_subjects": [
-        "You made something! Now share it.",
         "You're about to lose your benefits",
-        "Here's exactly what you lose"
+        "Here's exactly what you lose",
+        "Introducing Cover"
       ],
       "source": "llm",
       "updated_at": "2026-08-30T19:03:08.590795+00:00"
@@ -588,11 +591,13 @@
       "confidence": 0.95,
       "display_name": "Spotify",
       "first_seen": "2026-08-29T16:19:56.025309+00:00",
-      "message_count": 0,
+      "last_seen": "2026-09-04T18:48:07.338539+00:00",
+      "message_count": 1,
       "policy": "ignore",
       "rationale": "This is a Spotify Premium discount promo.",
       "sample_subjects": [
-        "Smooth out the transitions with Premium, $6.99 for 2 months."
+        "Smooth out the transitions with Premium, $6.99 for 2 months.",
+        "Get loud with 2 months of Premium for $6.99."
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025310+00:00"
@@ -637,6 +642,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269054+00:00"
+    },
+    "noreply@email.apple.com": {
+      "confidence": 0.93,
+      "display_name": "iCloud",
+      "first_seen": "2026-09-04T18:49:12.756601+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "iCloud storage-full alerts are real account notices with no lasting facts to keep.",
+      "sample_subjects": [
+        "You\u2019ve used all of your iCloud storage."
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-04T18:49:12.756603+00:00"
     },
     "noreply@google.com": {
       "confidence": 0.96,
@@ -695,11 +713,13 @@
       "confidence": 0.9,
       "display_name": "Shellpoint Mortgage Servicing",
       "first_seen": "2026-09-01T19:12:27.717511+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-04T18:48:07.338502+00:00",
+      "message_count": 2,
       "policy": "learn",
       "rationale": "This is a mortgage payment-draft notice from Shellpoint, so it is household loan-account mail worth remembering.",
       "sample_subjects": [
-        "Your recurring payment has been drafted."
+        "Your recurring payment has been drafted.",
+        "Your billing statement is now available online."
       ],
       "source": "llm",
       "updated_at": "2026-09-01T19:12:27.717528+00:00"
@@ -708,14 +728,14 @@
       "confidence": 0.92,
       "display_name": "Robinhood",
       "first_seen": "2026-08-29T16:19:56.025226+00:00",
-      "last_seen": "2026-09-02T19:12:26.963064+00:00",
-      "message_count": 2,
+      "last_seen": "2026-09-04T18:48:07.338521+00:00",
+      "message_count": 3,
       "policy": "ignore",
       "rationale": "These are Robinhood bonus and APY promos, not statements or account notices.",
       "sample_subjects": [
-        "Ending soon: claim an uncapped transfer bonus",
         "Get margin rates as low as 3.95% for settled margin balances of $50M or more",
-        "Invite friends, get up to $15K of stock"
+        "Invite friends, get up to $15K of stock",
+        "Now live: Agentic Trading for crypto"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025253+00:00"
@@ -776,14 +796,14 @@
       "confidence": 0.93,
       "display_name": "Life.Church",
       "first_seen": "2026-08-29T16:19:56.025314+00:00",
-      "last_seen": "2026-09-03T19:05:03.043392+00:00",
-      "message_count": 3,
+      "last_seen": "2026-09-04T18:48:07.338532+00:00",
+      "message_count": 4,
       "policy": "ignore",
       "rationale": "This is a promotional church blast, not Life.Church work or HR mail.",
       "sample_subjects": [
-        "What if you stopped waiting to feel ready?",
         "New Styles. Big Purpose. \ud83d\udc55",
-        "Who needs you right now?"
+        "Who needs you right now?",
+        "Jump-start your week!"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025315+00:00"
@@ -815,6 +835,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.268974+00:00"
+    },
+    "renewals@godaddy.com": {
+      "confidence": 0.94,
+      "display_name": "GoDaddy Renewals",
+      "first_seen": "2026-09-04T18:49:12.756556+00:00",
+      "message_count": 2,
+      "policy": "learn",
+      "rationale": "GoDaddy domain auto-renew notices are account mail for the domains you already keep there.",
+      "sample_subjects": [
+        "One or more of your domains will auto-renew soon."
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-04T18:49:12.756572+00:00"
     },
     "rewards@e-rewards.dominos.com": {
       "confidence": 0.97,
@@ -962,6 +995,6 @@
       "updated_at": "2026-08-29T17:17:23.269035+00:00"
     }
   },
-  "updated_at": "2026-09-03T19:07:17.278452+00:00",
+  "updated_at": "2026-09-04T18:49:50.503883+00:00",
   "version": 1
 }
