@@ -22,6 +22,7 @@ and Google Calendar; only distilled facts live here.
 - 2026-09-03: Brian Herbert has a BOK Financial Securities, Inc. investment account with paperless statements delivered through NetXInvestor on behalf of Pershing LLC.
 - 2026-09-03: Effective October 4, 2026, Bank of Oklahoma is adding a monthly Zelle sending limit on Brian Herbert's BOK accounts, while existing Zelle transaction and daily limits stay the same.
 - 2026-09-04: Brian Herbert has a mortgage serviced by Shellpoint Mortgage Servicing (Newrez LLC) on an account ending in 3851.
+- 2026-09-05: Eda Herbert, Brian Herbert's mother, paid Brian $500.00 via Venmo on September 5, 2026.
 
 ## Health
 
@@ -109,6 +110,7 @@ and Google Calendar; only distilled facts live here.
 - 2026-09-03: Cheyenne Middle School eighth-grade Family and Consumer Science students, a class Brian Herbert's family is notified about, need pajama-pants or apron fabric for a final sewing project or may use classroom scrap fabric for community-service projects.
 - 2026-09-04: Daniel Herbert's Edmond North boys basketball Vertical Raise fundraiser starts on September 16, 2026, and players are asked to provide 20 phone numbers and 15 emails.
 - 2026-09-04: Edmond North boys basketball has a Booster Club that collects annual dues for the 2026-27 season for families including Daniel Herbert's.
+- 2026-09-05: Cheyenne Middle School PTO is asking families of Nathan and Ezra Herbert to donate items or money for a staff Pasta and Salad Bar on September 10, 2026.
 
 ## Other
 

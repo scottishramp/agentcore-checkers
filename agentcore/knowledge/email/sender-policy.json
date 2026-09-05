@@ -176,14 +176,14 @@
       "confidence": 0.96,
       "display_name": "North High School",
       "first_seen": "2026-08-29T16:19:56.025289+00:00",
-      "last_seen": "2026-09-03T19:05:03.043397+00:00",
-      "message_count": 5,
+      "last_seen": "2026-09-05T17:54:30.906932+00:00",
+      "message_count": 6,
       "policy": "learn",
       "rationale": "Edmond Public Schools newsletters for the kids' schools regularly include dates, sports, and logistics.",
       "sample_subjects": [
-        "Edmond Public Schools HIV/AIDS Prevention Education Program",
         "Edmond North Open House Invitation",
-        "Husky Football at Deer Creek \u2013 Fan Information"
+        "Husky Football at Deer Creek \u2013 Fan Information",
+        "Husky Pride Newsletter 09.04.2026"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025290+00:00"
@@ -246,8 +246,8 @@
       "confidence": 0.88,
       "display_name": "Microsoft Family Safety",
       "first_seen": "2026-08-29T17:17:23.269077+00:00",
-      "last_seen": "2026-09-03T19:05:03.043372+00:00",
-      "message_count": 3,
+      "last_seen": "2026-09-05T17:54:30.906917+00:00",
+      "message_count": 4,
       "policy": "info",
       "rationale": "Weekly Family Safety activity reports are routine parental-control pings, not durable records.",
       "sample_subjects": [
@@ -257,18 +257,31 @@
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269079+00:00"
     },
+    "fantasy-football@sports.comms.yahoo.net": {
+      "confidence": 0.96,
+      "display_name": "Yahoo Sports Fantasy Football",
+      "first_seen": "2026-09-05T17:55:19.461134+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is a Yahoo Fantasy Football signup promo, not mail from a league you already play in.",
+      "sample_subjects": [
+        "\ud83c\udfc8 No league yet? There\u2019s still time"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-05T17:55:19.461166+00:00"
+    },
     "firebase-noreply@google.com": {
       "confidence": 0.93,
       "display_name": "Experiencia B\u00edblica para Ni\u00f1os (via Firebase App Distribution)",
       "first_seen": "2026-08-29T16:19:56.025284+00:00",
-      "last_seen": "2026-09-04T18:48:07.338516+00:00",
-      "message_count": 7,
+      "last_seen": "2026-09-05T17:54:30.906953+00:00",
+      "message_count": 8,
       "policy": "info",
       "rationale": "These are YouVersion Android test-build pings from work, useful to recognize but not lasting family facts.",
       "sample_subjects": [
-        "YouVersion Bible App + Audio 11.32.0-dev.notification-permission-gating+7095880 (7095880) for Android is ready to test",
         "YouVersion Bible App + Audio 11.31.1+7095935 (7095935) for Android is ready to test",
-        "YouVersion Bible App + Audio 11.31.0-dev.circles-v1+7095998 (7095998) for Android is ready to test"
+        "YouVersion Bible App + Audio 11.31.0-dev.circles-v1+7095998 (7095998) for Android is ready to test",
+        "YouVersion Bible App + Audio 11.32.0-dev+7096001 (7096001) for Android is ready to test"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T16:19:56.025286+00:00"
@@ -357,14 +370,14 @@
       "confidence": 0.86,
       "display_name": "Mozart AI Team",
       "first_seen": "2026-08-30T19:03:08.590793+00:00",
-      "last_seen": "2026-09-04T18:48:07.338480+00:00",
-      "message_count": 5,
+      "last_seen": "2026-09-05T17:54:30.906891+00:00",
+      "message_count": 6,
       "policy": "ignore",
       "rationale": "This is Mozart AI's welcome/product mail, not billing or account notices; those come from Stripe.",
       "sample_subjects": [
-        "You're about to lose your benefits",
         "Here's exactly what you lose",
-        "Introducing Cover"
+        "Introducing Cover",
+        "Hum it. Tap it. Jangle your keys."
       ],
       "source": "llm",
       "updated_at": "2026-08-30T19:03:08.590795+00:00"
@@ -656,6 +669,19 @@
       "source": "llm",
       "updated_at": "2026-09-04T18:49:12.756603+00:00"
     },
+    "noreply@github.com": {
+      "confidence": 0.9,
+      "display_name": "GitHub",
+      "first_seen": "2026-09-05T17:55:19.461081+00:00",
+      "message_count": 2,
+      "policy": "info",
+      "rationale": "GitHub Copilot and app-permission notices are real account mail, but they are transient alerts rather than lasting personal facts.",
+      "sample_subjects": [
+        "Your free Copilot access is ready"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-05T17:55:19.461096+00:00"
+    },
     "noreply@google.com": {
       "confidence": 0.96,
       "display_name": "Google",
@@ -700,11 +726,13 @@
       "confidence": 0.86,
       "display_name": "SiriusXM",
       "first_seen": "2026-08-29T17:17:23.269124+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-05T17:54:30.906959+00:00",
+      "message_count": 2,
       "policy": "ignore",
       "rationale": "A SiriusXM trial-ending reminder is a conversion promo, not a lasting account notice.",
       "sample_subjects": [
-        "Expiration Notice Reminder: Your Trial is Ending"
+        "Expiration Notice Reminder: Your Trial is Ending",
+        "\u23f3 Tick Tock! Keep SiriusXM after your trial ends!"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.269126+00:00"
@@ -827,11 +855,13 @@
       "confidence": 0.94,
       "display_name": "PNC Alerts",
       "first_seen": "2026-08-29T17:17:23.268937+00:00",
-      "message_count": 1,
+      "last_seen": "2026-09-05T17:54:30.906945+00:00",
+      "message_count": 2,
       "policy": "learn",
       "rationale": "This is a PNC mortgage escrow notice, which is account mail worth remembering.",
       "sample_subjects": [
-        "Your Mortgage escrow document is available to view online"
+        "Your Mortgage escrow document is available to view online",
+        "Your Mortgage statement is available to view online"
       ],
       "source": "llm",
       "updated_at": "2026-08-29T17:17:23.268974+00:00"
@@ -848,6 +878,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-09-04T18:49:12.756572+00:00"
+    },
+    "return@amazon.com": {
+      "confidence": 0.93,
+      "display_name": "return@amazon.com",
+      "first_seen": "2026-09-05T17:55:19.461187+00:00",
+      "message_count": 1,
+      "policy": "info",
+      "rationale": "Amazon return refund notices are routine order mail, like your other Amazon shipping updates, not lasting account facts.",
+      "sample_subjects": [
+        "Advance refund issued for Skechers womens Summers ...."
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-05T17:55:19.461192+00:00"
     },
     "rewards@e-rewards.dominos.com": {
       "confidence": 0.97,
@@ -913,6 +956,19 @@
       ],
       "source": "llm",
       "updated_at": "2026-08-31T21:18:04.817316+00:00"
+    },
+    "suno@creators.suno.com": {
+      "confidence": 0.91,
+      "display_name": "Suno",
+      "first_seen": "2026-09-05T17:55:19.461201+00:00",
+      "message_count": 1,
+      "policy": "ignore",
+      "rationale": "This is a Suno product-launch newsletter about retiring old models, not billing or support for the account you already use.",
+      "sample_subjects": [
+        "We\u2019re retiring our older models when we launch v6"
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-05T17:55:19.461203+00:00"
     },
     "support@suno.com": {
       "confidence": 0.86,
@@ -981,6 +1037,19 @@
       "source": "llm",
       "updated_at": "2026-09-01T19:12:27.717554+00:00"
     },
+    "venmo@venmo.com": {
+      "confidence": 0.87,
+      "display_name": "Venmo",
+      "first_seen": "2026-09-05T17:55:19.461119+00:00",
+      "message_count": 1,
+      "policy": "learn",
+      "rationale": "Eda sent you $500 on Venmo, so this is family payment mail from a financial account you actually use.",
+      "sample_subjects": [
+        "Eda Herbert paid $500.00 to your Venmo account. Leave it in Venmo or transfer it to your bank account."
+      ],
+      "source": "llm",
+      "updated_at": "2026-09-05T17:55:19.461122+00:00"
+    },
     "zak.degiulio@usmobile.com": {
       "confidence": 0.9,
       "display_name": "Zak from US Mobile",
@@ -995,6 +1064,6 @@
       "updated_at": "2026-08-29T17:17:23.269035+00:00"
     }
   },
-  "updated_at": "2026-09-04T18:49:50.503883+00:00",
+  "updated_at": "2026-09-05T17:56:05.394043+00:00",
   "version": 1
 }
